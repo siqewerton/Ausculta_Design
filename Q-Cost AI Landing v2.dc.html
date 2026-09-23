@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+    --c1:#EDEDED;--c2:#8E8E8E;--c3:#BE9550;--c4:#D06B5C;
+    --paf1:#4E93B8;--paf2:#3E9E8F;--paf3:#D19A45;--paf4:#C4737C;
+    --paf1Soft:rgba(78,147,184,0.16);--paf2Soft:rgba(62,158,143,0.16);--paf3Soft:rgba(209,154,69,0.16);--paf4Soft:rgba(196,115,124,0.16);
+    --paf1Line:rgba(78,147,184,0.34);--paf2Line:rgba(62,158,143,0.34);--paf3Line:rgba(209,154,69,0.34);--paf4Line:rgba(196,115,124,0.34);
+  }
+  [data-theme="light"]{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+    --c1:#0A0A0A;--c2:#8E8E8E;--c3:#8A6A25;--c4:#B04A3B;
+    --paf1:#265C7A;--paf2:#257266;--paf3:#AA7123;--paf4:#91363E;
+    --paf1Soft:rgba(38,92,122,0.12);--paf2Soft:rgba(37,114,102,0.12);--paf3Soft:rgba(170,113,35,0.14);--paf4Soft:rgba(145,54,62,0.14);
+    --paf1Line:rgba(38,92,122,0.28);--paf2Line:rgba(37,114,102,0.28);--paf3Line:rgba(170,113,35,0.32);--paf4Line:rgba(145,54,62,0.32);
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:3px}
+  *:focus-visible{outline:1px solid var(--acc);outline-offset:2px}
+  button{font-family:'Archivo',system-ui,sans-serif}
+  #passos svg{display:none}
+  @media (max-width:820px){ #objetivos{grid-template-columns:repeat(2,minmax(0,1fr)) !important} }
+  @media (max-width:520px){ #objetivos{grid-template-columns:minmax(0,1fr) !important} }
+  @media (max-width:1040px){
+    #faixa{display:none !important}
+    #passos svg{display:block}
+    #passos{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:32px 0 !important}
+  }
+  @media (max-width:560px){
+    #passos{grid-template-columns:minmax(0,1fr) !important;gap:26px 0 !important}
+  }
+  @media (max-width:680px){
+    header nav{flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header nav::-webkit-scrollbar{display:none}
+    header nav a{padding:9px 10px !important;min-height:0;white-space:nowrap;flex:none}
+    header button{height:38px !important}
+    header button[aria-label]{width:38px !important}
+    button{min-height:34px}
+    input,select{min-height:36px}
+    a{display:inline-flex;align-items:center;min-height:32px}
+    p a,span a{display:inline;min-height:0}
+    td button{min-height:34px}
+  }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"/>
+    <g stroke-linecap="square">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"/>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"/>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"/>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"/>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);box-sizing:border-box">
+
+  <header style="position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:11px clamp(16px,4vw,36px);display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <a href="#top" style="display:flex;align-items:center;gap:10px;flex:none" style-hover="text-decoration:none">
+        <svg width="24" height="24" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"/><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"/><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"/></svg>
+        <span style="font-size:17px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </a>
+      <nav style="flex:1 1 200px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center">
+        <a href="#produto" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navProduct }}</a>
+        <a href="#como" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navHow }}</a>
+        <a href="#dados" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navSec }}</a>
+        <a href="#integracoes" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navInt }}</a>
+        <a href="#planos" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navPlans }}</a>
+</nav>
+      <div style="display:flex;align-items:center;gap:10px;flex:none">
+        <div style="display:flex;gap:1px;background:var(--line)">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="Alternar tema" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+        <a href="Q-Cost AI Login v2.dc.html" style="font-size:12px;font-weight:400;color:var(--ink);padding:0 4px;white-space:nowrap" style-hover="text-decoration:underline;text-underline-offset:3px">{{ t.signIn }}</a>
+        <a href="Q-Cost AI Onboarding v2.dc.html" style="display:inline-flex;align-items:center;height:30px;padding:0 12px;background:var(--acc);color:var(--accInk);border-radius:2px;font-size:12px;font-weight:400;white-space:nowrap" style-hover="opacity:0.88;text-decoration:none">{{ t.ctaHeader }}</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="produto" style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(28px,4.5vw,60px) clamp(18px,4vw,44px) clamp(44px,6vw,78px);display:flex;flex-direction:column;gap:clamp(30px,4vw,52px)">
+      <div style="display:flex;flex-direction:column;gap:22px;max-width:62ch">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.heroKicker }}</span>
+        <h1 style="margin:0;font-size:clamp(34px,6.2vw,72px);font-weight:200;line-height:1.01;letter-spacing:-0.04em;text-wrap:balance">{{ t.heroTitle }}</h1>
+        <p style="margin:0;font-size:clamp(14px,1.5vw,16px);line-height:1.6;color:var(--ink2);max-width:54ch;text-wrap:pretty">{{ t.heroSub }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+          <a href="Q-Cost AI Onboarding v2.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);border-radius:2px;font-size:14px;font-weight:400" style-hover="opacity:0.88;text-decoration:none">{{ t.heroCta1 }}</a>
+          <a href="#como" style="display:inline-flex;align-items:center;height:40px;padding:0 18px;background:transparent;color:var(--ink);border:1px solid var(--line2);border-radius:2px;font-size:14px;font-weight:400" style-hover="background:var(--surf2);text-decoration:none">{{ t.heroCta2 }}</a>
+        </div>
+        <p style="margin:0;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ t.heroNote }}</p>
+      </div>
+
+      <div id="prova" style="display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:clamp(22px,3.4vw,38px)">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.proofKicker }}</span>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(56px,12vw,132px);font-weight:400;line-height:0.92;letter-spacing:-0.05em;font-variant-numeric:tabular-nums">31%</div>
+        <p style="margin:0;font-size:clamp(15px,1.9vw,22px);line-height:1.45;font-weight:300;letter-spacing:-0.01em;max-width:52ch;text-wrap:pretty">{{ t.proofStat }}</p>
+        <p style="margin:0;font-size:11px;line-height:1.6;color:var(--ink3);max-width:48ch;padding-top:14px;border-top:1px solid var(--line)">{{ t.proofSource }}</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.goalsLabel }}</span>
+        <div id="objetivos" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line)">
+          <sc-for list="{{ goals }}" as="g" hint-placeholder-count="6">
+            <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(18px,2.2vw,26px) clamp(16px,1.8vw,22px);display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:'DM Mono',monospace;font-size:clamp(26px,3.6vw,40px);font-weight:300;letter-spacing:-0.035em;line-height:1;font-variant-numeric:tabular-nums">{{ g.v }}</span>
+              <span style="font-size:12px;line-height:1.6;color:var(--ink2);max-width:28ch;text-wrap:pretty">{{ g.k }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--line);border-radius:2px;background:var(--surf);overflow:hidden">
+        <div style="padding:11px 15px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.flowTitle }}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,208px),1fr));gap:0">
+
+          <div style="padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">01</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 3h16v18H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+            </div>
+            <div style="font-size:14px;font-weight:400">{{ t.flow1Title }}</div>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.flow1Text }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px">
+              <sc-for list="{{ flow1Tags }}" as="tg" hint-placeholder-count="3">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border:1px solid var(--line2);color:var(--ink2)">{{ tg }}</span>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">02</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M3 3h18v18H3z"/><path d="M9 9h6v6H9z"/></svg>
+            </div>
+            <div style="font-size:14px;font-weight:400">{{ t.flow2Title }}</div>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.flow2Text }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px">
+              <span style="font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border:1px solid var(--line2);color:var(--ink2)">{{ t.tagP }}</span>
+              <span style="font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border:1px solid var(--line2);color:var(--ink2)">{{ t.tagA }}</span>
+              <span style="font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border:1px solid var(--line2);color:var(--ink2)">{{ t.tagF }}</span>
+            </div>
+          </div>
+
+          <div style="padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">03</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M3 3h18v18H3z"/><path d="M7 12l3.5 3.5L17 9"/></svg>
+            </div>
+            <div style="font-size:14px;font-weight:400">{{ t.flow3Title }}</div>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.flow3Text }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px">
+              <sc-for list="{{ flow3Tags }}" as="tg" hint-placeholder-count="3">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border:1px solid var(--line2);color:var(--ink2)">{{ tg }}</span>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="padding:18px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">04</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 9v12"/></svg>
+            </div>
+            <div style="font-size:14px;font-weight:400">{{ t.flow4Title }}</div>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.flow4Text }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px">
+              <sc-for list="{{ flow4Tags }}" as="tg" hint-placeholder-count="3">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border:1px solid var(--line2);color:var(--ink2)">{{ tg }}</span>
+              </sc-for>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como" style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:baseline">
+        <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:34ch">{{ t.howTitle }}</h2>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.howKicker }}</span>
+      </div>
+      <div id="faixa" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px 0 34px">
+        <svg viewBox="0 0 1200 190" width="100%" height="auto" fill="none" stroke="var(--ink3)" stroke-width="1.1" aria-hidden="true" style="display:block">
+          <path d="M0 150h1200" stroke="var(--line)"></path>
+          <rect x="46" y="34" width="104" height="96" stroke="var(--ink3)" opacity="0.45"></rect>
+          <rect x="56" y="44" width="104" height="96" stroke="var(--ink3)" opacity="0.7"></rect>
+          <rect x="66" y="54" width="104" height="96"></rect>
+          <path d="M82 76h72M82 90h72M82 104h48M82 118h60"></path>
+          <path d="M206 100h64M258 88l14 12-14 12" stroke="var(--ink)"></path>
+          <rect x="312" y="44" width="76" height="46" stroke="var(--ink)"></rect>
+          <rect x="312" y="102" width="76" height="46" stroke="var(--ink3)"></rect>
+          <rect x="398" y="44" width="76" height="46" stroke="var(--ink3)"></rect>
+          <rect x="398" y="102" width="76" height="46" stroke="var(--ink3)"></rect>
+          <path d="M326 60h34M326 74h48" stroke="var(--ink)"></path>
+          <path d="M326 118h34M326 132h48M412 60h34M412 74h24M412 118h34M412 132h40"></path>
+          <path d="M510 100h64M562 88l14 12-14 12" stroke="var(--ink)"></path>
+          <rect x="616" y="40" width="124" height="112" stroke="var(--ink3)"></rect>
+          <path d="M632 62h92M632 78h68M632 94h92M632 110h52" stroke="var(--ink3)" opacity="0.75"></path>
+          <path d="M632 128h46" stroke="var(--ink)"></path>
+          <circle cx="768" cy="96" r="26" fill="var(--bg)" stroke="var(--ink)"></circle>
+          <path d="M757 96l8 9 15-19" stroke="var(--ink)" stroke-width="1.4"></path>
+          <path d="M820 100h64M872 88l14 12-14 12" stroke="var(--ink)"></path>
+          <path d="M930 30v120h214" stroke="var(--ink3)"></path>
+          <rect x="948" y="112" width="22" height="38" stroke="var(--ink3)"></rect>
+          <rect x="984" y="92" width="22" height="58" stroke="var(--ink3)"></rect>
+          <rect x="1020" y="72" width="22" height="78" stroke="var(--ink)"></rect>
+          <rect x="1056" y="98" width="22" height="52" stroke="var(--ink3)"></rect>
+          <rect x="1092" y="54" width="22" height="96" stroke="var(--ink3)"></rect>
+          <path d="M959 98l36-20 36-22 36 18 36-32" stroke="var(--ink)" stroke-width="1.4"></path>
+          <circle cx="1031" cy="56" r="4" fill="var(--bg)" stroke="var(--ink)"></circle>
+        </svg>
+      </div>
+
+      <div id="passos" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0">
+        <div style="padding:0 clamp(18px,2vw,26px) 0 0;display:flex;flex-direction:column;gap:11px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ s1n }}</span>
+          <h3 style="margin:0;font-size:14px;font-weight:400;line-height:1.35">{{ s1title }}</h3>
+          <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);max-width:36ch">{{ s1text }}</p>
+          <svg viewBox="0 0 200 150" width="100%" height="auto" fill="none" stroke="var(--ink3)" stroke-width="1.1" aria-hidden="true" style="margin-top:auto;padding-top:18px;max-width:124px;width:100%;margin-right:auto">
+            <rect x="18" y="16" width="86" height="106" stroke="var(--ink3)" opacity="0.45"></rect>
+            <rect x="26" y="24" width="86" height="106" stroke="var(--ink3)" opacity="0.7"></rect>
+            <rect x="34" y="32" width="86" height="106"></rect>
+            <path d="M46 52h62M46 64h62M46 76h44M46 88h54M46 100h30"></path>
+            <path d="M132 84h38M158 72l12 12-12 12" stroke="var(--ink)"></path>
+          </svg>
+        </div>
+        <div style="padding:0 clamp(18px,2vw,26px) 0 0;display:flex;flex-direction:column;gap:11px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ s2n }}</span>
+          <h3 style="margin:0;font-size:14px;font-weight:400;line-height:1.35">{{ s2title }}</h3>
+          <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);max-width:36ch">{{ s2text }}</p>
+          <svg viewBox="0 0 200 150" width="100%" height="auto" fill="none" stroke="var(--ink3)" stroke-width="1.1" aria-hidden="true" style="margin-top:auto;padding-top:18px;max-width:124px;width:100%;margin-right:auto">
+            <rect x="16" y="20" width="74" height="46" stroke="var(--ink)"></rect>
+            <rect x="16" y="78" width="74" height="46" stroke="var(--ink3)"></rect>
+            <rect x="106" y="20" width="74" height="46" stroke="var(--ink3)"></rect>
+            <rect x="106" y="78" width="74" height="46" stroke="var(--ink3)"></rect>
+            <path d="M28 34h30M28 44h44" stroke="var(--ink)"></path>
+            <circle cx="98" cy="72" r="11" fill="var(--bg)" stroke="var(--ink)"></circle>
+            <path d="M93 72l4 4 7-8" stroke="var(--ink)"></path>
+          </svg>
+        </div>
+        <div style="padding:0 clamp(18px,2vw,26px) 0 0;display:flex;flex-direction:column;gap:11px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ s3n }}</span>
+          <h3 style="margin:0;font-size:14px;font-weight:400;line-height:1.35">{{ s3title }}</h3>
+          <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);max-width:36ch">{{ s3text }}</p>
+          <svg viewBox="0 0 200 150" width="100%" height="auto" fill="none" stroke="var(--ink3)" stroke-width="1.1" aria-hidden="true" style="margin-top:auto;padding-top:18px;max-width:124px;width:100%;margin-right:auto">
+            <rect x="16" y="18" width="118" height="112" stroke="var(--ink3)"></rect>
+            <path d="M30 40h90M30 56h68M30 72h90M30 88h52" stroke="var(--ink3)" opacity="0.75"></path>
+            <path d="M30 104h44" stroke="var(--ink)"></path>
+            <circle cx="150" cy="58" r="26" stroke="var(--ink)"></circle>
+            <path d="M139 58l8 9 15-19" stroke="var(--ink)" stroke-width="1.4"></path>
+          </svg>
+        </div>
+        <div style="padding:0;display:flex;flex-direction:column;gap:11px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ s4n }}</span>
+          <h3 style="margin:0;font-size:14px;font-weight:400;line-height:1.35">{{ s4title }}</h3>
+          <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);max-width:36ch">{{ s4text }}</p>
+          <svg viewBox="0 0 200 150" width="100%" height="auto" fill="none" stroke="var(--ink3)" stroke-width="1.1" aria-hidden="true" style="margin-top:auto;padding-top:18px;max-width:124px;width:100%;margin-right:auto">
+            <path d="M20 18v104h162" stroke="var(--ink3)"></path>
+            <rect x="34" y="88" width="18" height="34" stroke="var(--ink3)"></rect>
+            <rect x="62" y="70" width="18" height="52" stroke="var(--ink3)"></rect>
+            <rect x="90" y="54" width="18" height="68" stroke="var(--ink)"></rect>
+            <rect x="118" y="76" width="18" height="46" stroke="var(--ink3)"></rect>
+            <rect x="146" y="40" width="18" height="82" stroke="var(--ink3)"></rect>
+            <path d="M43 78l28-16 28-18 28 14 28-26" stroke="var(--ink)" stroke-width="1.4"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:26px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:baseline">
+        <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:34ch">{{ t.whoTitle }}</h2>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.whoKicker }}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);border-radius:2px;overflow:hidden">
+        <sc-for list="{{ personas }}" as="p" hint-placeholder-count="5">
+          <div style="flex:1 1 210px;min-width:0;padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex">{{ p.icon }}</span>
+            <h3 style="margin:0;font-size:14px;font-weight:400;line-height:1.35">{{ p.role }}</h3>
+            <p style="margin:0;font-size:11px;line-height:1.65;color:var(--ink2)">{{ p.benefit }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="paf" style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:26px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:baseline">
+        <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:36ch">{{ t.pafTitle }}</h2>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.pafKicker }}</span>
+      </div>
+      <p style="margin:0;font-size:clamp(13px,1.4vw,15px);line-height:1.7;color:var(--ink2);max-width:78ch;text-wrap:pretty">{{ t.pafLead }}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:0;border:1px solid var(--line);border-radius:2px;background:var(--surf);overflow:hidden">
+        <sc-for list="{{ pafCats }}" as="p" hint-placeholder-count="4">
+          <div style="padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="width:8px;height:8px;background:{{ p.color }};flex:none;display:block"></span>
+              <h3 style="margin:0;font-size:14px;font-weight:400">{{ p.name }}</h3>
+            </div>
+            <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink2)">{{ p.desc }}</p>
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:auto;padding-top:9px">{{ p.example }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,40px);align-items:flex-start;padding-top:6px">
+        <div style="flex:1 1 320px;min-width:270px;display:flex;flex-direction:column;gap:12px">
+          <h3 style="margin:0;font-size:15px;font-weight:400;line-height:1.4">{{ t.pafTemplatesTitle }}</h3>
+          <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2);max-width:56ch">{{ t.pafTemplatesText }}</p>
+        </div>
+        <div style="flex:1 1 300px;min-width:260px;display:flex;flex-direction:column;gap:11px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.pafSegmentsLabel }}</span>
+          <div style="display:flex;flex-wrap:wrap;gap:7px">
+            <sc-for list="{{ pafSegments }}" as="g" hint-placeholder-count="8">
+              <span style="font-size:11.5px;padding:5px 9px;border:1px solid var(--line2);color:var(--ink2)">{{ g }}</span>
+            </sc-for>
+          </div>
+          <p style="margin:6px 0 0;font-size:11px;line-height:1.6;color:var(--ink3)">{{ t.pafSegmentsNote }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ver" style="border-bottom:1px solid var(--line);background:var(--surf)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:clamp(24px,3vw,34px)">
+      <div style="display:flex;flex-wrap:wrap;gap:16px 28px;justify-content:space-between;align-items:flex-end">
+        <div style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.seeKicker }}</span>
+          <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:30ch">{{ t.seeTitle }}</h2>
+          <p style="margin:0;font-size:13.5px;line-height:1.75;color:var(--ink2);max-width:66ch;text-wrap:pretty">{{ t.seeLead }}</p>
+        </div>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);flex:none">{{ t.seeMeta }}</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,268px),1fr));gap:clamp(14px,1.8vw,20px)">
+        <sc-for list="{{ demos }}" as="d" hint-placeholder-count="3">
+          <div style="border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column">
+            <div style="aspect-ratio:16/9;background:var(--surf2);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative">
+              <span style="width:46px;height:46px;border:1px solid var(--line2);background:var(--bg);display:flex;align-items:center;justify-content:center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M7 4l12 8-12 8V4Z"></path></svg>
+              </span>
+              <span style="position:absolute;right:9px;bottom:9px;font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;background:var(--bg);border:1px solid var(--line2);color:var(--ink2)">{{ d.time }}</span>
+            </div>
+            <div style="padding:17px 18px;display:flex;flex-direction:column;gap:10px;flex:1 1 auto">
+              <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ d.doubt }}</span>
+              <span style="font-size:15px;line-height:1.35">{{ d.title }}</span>
+              <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2)">{{ d.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;border-top:1px solid var(--line);padding-top:clamp(20px,2.4vw,26px)">
+        <span style="font-size:13px;line-height:1.7;color:var(--ink2);flex:1 1 340px;max-width:70ch">{{ t.seeFoot }}</span>
+        <a href="#cadastro" style="display:inline-flex;align-items:center;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);font-size:13px;flex:none" style-hover="opacity:0.88;text-decoration:none">{{ t.seeCta }}</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="dados" style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:clamp(24px,3vw,34px)">
+      <div style="display:flex;flex-wrap:wrap;gap:16px 28px;justify-content:space-between;align-items:flex-end">
+        <div style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.dataKicker }}</span>
+          <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:32ch">{{ t.dataTitle }}</h2>
+          <p style="margin:0;font-size:13.5px;line-height:1.75;color:var(--ink2);max-width:66ch;text-wrap:pretty">{{ t.dataLead }}</p>
+        </div>
+        <a href="Q-Cost AI Confianca v2.dc.html" style="flex:none;font-size:12.5px;color:var(--ink);text-decoration:underline;text-underline-offset:4px">{{ t.dataTrustLink }}</a>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line)">
+        <sc-for list="{{ dataClaims }}" as="cl" hint-placeholder-count="3">
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(20px,2.4vw,28px) clamp(18px,2vw,24px);display:flex;flex-direction:column;gap:13px">
+            <span style="font-size:clamp(17px,2vw,21px);font-weight:300;line-height:1.3;letter-spacing:-0.02em">{{ cl.title }}</span>
+            <p style="margin:0;font-size:13px;line-height:1.7;color:var(--ink2);max-width:42ch;text-wrap:pretty">{{ cl.body }}</p>
+            <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px">
+              <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.dataHowLabel }}</span>
+              <span style="font-size:12px;line-height:1.65;color:var(--ink2)">{{ cl.how }}</span>
+              <a href="{{ cl.href }}" style="font-size:12px;color:var(--ink);text-decoration:underline;text-underline-offset:3px">{{ cl.link }}</a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div id="para-ti" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:0;border:1px solid var(--line)">
+        <div style="border-right:1px solid var(--line);padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">{{ t.itKicker }}</span>
+          <h3 style="margin:0;font-size:19px;font-weight:300;letter-spacing:-0.02em;line-height:1.25">{{ t.itTitle }}</h3>
+          <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2);max-width:52ch;text-wrap:pretty">{{ t.itLead }}</p>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);margin-top:4px">
+            <sc-for list="{{ itDocs }}" as="doc" hint-placeholder-count="5">
+              <a href="{{ doc.href }}" style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M5 3h9l5 5v13H5z"></path><path d="M14 3v5h5"></path></svg>
+                <span style="flex:1 1 auto;min-width:0">{{ doc.name }}</span>
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);flex:none">{{ doc.tag }}</span>
+              </a>
+            </sc-for>
+          </div>
+          <span style="font-size:11.5px;line-height:1.65;color:var(--ink3);max-width:52ch">{{ t.itNda }}</span>
+        </div>
+        <div style="padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">{{ t.itSendKicker }}</span>
+          <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2);max-width:46ch;text-wrap:pretty">{{ t.itSendBody }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:9px">
+            <input type="email" value="{{ itEmail }}" onChange="{{ onItEmail }}" placeholder="{{ t.itEmailPh }}" aria-label="{{ t.itEmailPh }}" style="flex:1 1 200px;min-width:0;font-size:13px;height:40px;padding:0 12px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);box-sizing:border-box">
+            <button type="button" onClick="{{ itSend }}" style="flex:none;font-size:13px;height:40px;padding:0 16px;border:1px solid var(--acc);background:{{ itBg }};color:{{ itFg }};cursor:pointer;white-space:nowrap">{{ itLabel }}</button>
+          </div>
+          <a href="Q-Cost AI Confianca v2.dc.html#ficha" style="font-size:12.5px;color:var(--ink);text-decoration:underline;text-underline-offset:3px">{{ t.itSheetLink }}</a>
+          <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--warn)">{{ t.itDraftTitle }}</span>
+            <span style="font-size:11.5px;line-height:1.65;color:var(--ink3);max-width:48ch">{{ t.itDraftBody }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="integracoes" style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:26px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:baseline">
+        <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:36ch">{{ t.intTitle }}</h2>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.intKicker }}</span>
+      </div>
+      <p style="margin:0;font-size:clamp(13px,1.4vw,15px);line-height:1.7;color:var(--ink2);max-width:80ch;text-wrap:pretty">{{ t.intLead }}</p>
+
+      <div style="border:1px solid var(--line);border-radius:2px;background:var(--surf);overflow:hidden">
+        <div style="padding:11px 15px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.intDiagramTitle }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">2 &rarr; 1</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap">
+          <div style="flex:1 1 260px;min-width:250px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:12px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.intEntryLabel }}</span>
+            <div style="border:1px dashed var(--line2);padding:13px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:13px;font-weight:400">{{ t.intEntry1 }}</span>
+              <span style="font-size:11.5px;line-height:1.6;color:var(--ink2)">{{ t.intEntry1Text }}</span>
+            </div>
+            <div style="border:1px solid var(--ink3);padding:13px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:13px;font-weight:400">{{ t.intEntry2 }}</span>
+              <span style="font-size:11.5px;line-height:1.6;color:var(--ink2)">{{ t.intEntry2Text }}</span>
+            </div>
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;line-height:1.6;color:var(--ink3);padding-top:5px">{{ t.intEntryNote }}</span>
+          </div>
+          <div style="flex:1 1 300px;min-width:260px;border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:12px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.intPipelineLabel }}</span>
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0">
+              <sc-for list="{{ intSteps }}" as="st" hint-placeholder-count="4">
+                <li style="display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)">
+                  <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);flex:none;padding-top:2px">{{ st.n }}</span>
+                  <span style="width:8px;height:8px;background:var(--ink);flex:none;margin-top:5px;display:block"></span>
+                  <span style="min-width:0">
+                    <span style="display:block;font-size:13px;font-weight:400;line-height:1.4">{{ st.title }}</span>
+                    <span style="display:block;font-size:11.5px;line-height:1.6;color:var(--ink2);margin-top:3px">{{ st.text }}</span>
+                  </span>
+                </li>
+              </sc-for>
+            </ol>
+          </div>
+        </div>
+        <div style="padding:15px;display:flex;gap:11px;align-items:flex-start;background:var(--surf2)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--pos)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+          <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2);max-width:82ch">{{ t.intSameFlow }}</p>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,40px);align-items:flex-start">
+        <div style="flex:1 1 300px;min-width:260px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.intSystemsLabel }}</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)">
+            <sc-for list="{{ intSystems }}" as="sy" hint-placeholder-count="6">
+              <div style="padding:12px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;justify-content:space-between">
+                <span style="min-width:0">
+                  <span style="font-size:13px;font-weight:400">{{ sy.name }}</span>
+                  <span style="display:block;font-size:11px;line-height:1.55;color:var(--ink2);margin-top:3px">{{ sy.note }}</span>
+                </span>
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;padding:2px 6px;border:1px solid {{ sy.border }};background:{{ sy.bg }};color:{{ sy.fg }};white-space:nowrap;flex:none">{{ sy.tag }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex:1 1 280px;min-width:260px;border:1px solid var(--line);border-left:2px solid var(--ink);border-radius:2px;padding:18px;display:flex;flex-direction:column;gap:11px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.intNoRipLabel }}</span>
+          <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2)">{{ t.intNoRipText }}</p>
+          <a href="#contato" style="font-size:12px;font-weight:400;color:var(--ink);margin-top:4px">{{ t.intCta }}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hoje" style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:clamp(24px,3vw,34px)">
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,44px);justify-content:space-between;align-items:flex-end">
+        <div style="flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.todayKicker }}</span>
+          <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:34ch;text-wrap:balance">{{ t.todayTitle }}</h2>
+        </div>
+        <p style="flex:1 1 300px;margin:0;font-size:13px;line-height:1.7;color:var(--ink2);max-width:44ch;text-wrap:pretty">{{ t.todayLead }}</p>
+      </div>
+
+      <div style="width:100%;overflow-x:auto;border-top:1px solid var(--line)">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:640px">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:14px 18px 14px 0;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:26%">{{ t.todayThAlt }}</th>
+              <th style="text-align:left;padding:14px 18px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:37%">{{ t.todayThHow }}</th>
+              <th style="text-align:left;padding:14px 0 14px 18px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:37%">{{ t.todayThGap }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ today }}" as="a" hint-placeholder-count="3">
+              <tr>
+                <td style="padding:20px 18px 20px 0;border-bottom:1px solid var(--line);vertical-align:top">
+                  <div style="font-size:14px;line-height:1.4">{{ a.alt }}</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:10.5px;line-height:1.6;color:var(--ink3);margin-top:6px">{{ a.ex }}</div>
+                </td>
+                <td style="padding:20px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.65;color:var(--ink2)">{{ a.how }}</td>
+                <td style="padding:20px 0 20px 18px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.65">{{ a.gap }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin:0;font-size:12px;line-height:1.7;color:var(--ink3);max-width:72ch;text-wrap:pretty">{{ t.todayNote }}</p>
+    </div>
+  </section>
+
+  <section id="planos" style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(48px,8vw,104px) clamp(18px,4vw,44px);display:flex;flex-direction:column;gap:26px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end">
+        <h2 style="margin:0;font-size:clamp(24px,3.8vw,40px);font-weight:200;letter-spacing:-0.03em;line-height:1.1;max-width:32ch">{{ t.plansTitle }}</h2>
+        <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);max-width:36ch">{{ t.plansNote }}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:0;border:1px solid var(--line);border-radius:2px;overflow:hidden">
+        <sc-for list="{{ plans }}" as="p" hint-placeholder-count="4">
+          <div style="padding:20px;border-right:1px solid var(--line);background:{{ p.bg }};display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+              <h3 style="margin:0;font-size:15px;font-weight:400">{{ p.name }}</h3>
+              <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;padding:2px 6px;border:1px solid {{ p.badgeBorder }};color:{{ p.badgeFg }};background:{{ p.badgeBg }}">{{ p.badge }}</span>
+            </div>
+            <div>
+              <div style="font-family:'DM Mono',monospace;font-size:19px;font-weight:400;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">{{ p.price }}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-top:4px">{{ p.priceNote }}</div>
+            </div>
+            <div style="padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+              <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.eventsLabel }}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:400;margin-top:4px;font-variant-numeric:tabular-nums">{{ p.events }}</div>
+            </div>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1">
+              <sc-for list="{{ p.features }}" as="f" hint-placeholder-count="4">
+                <li style="display:flex;gap:8px;font-size:11.5px;line-height:1.55;color:var(--ink2)">
+                  <span style="color:var(--ink3);flex:none;font-family:'DM Mono',monospace">&mdash;</span><span>{{ f }}</span>
+                </li>
+              </sc-for>
+            </ul>
+            <a href="{{ p.href }}" style="display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 12px;border-radius:2px;background:{{ p.btnBg }};color:{{ p.btnFg }};border:1px solid {{ p.btnBorder }};font-size:12px;font-weight:400" style-hover="opacity:0.88;text-decoration:none">{{ p.cta }}</a>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="cadastro" style="border-bottom:1px solid var(--line);background:var(--surf)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(52px,8vw,108px) clamp(18px,4vw,44px);display:flex;flex-wrap:wrap;gap:clamp(22px,4vw,48px);align-items:center;justify-content:space-between">
+      <div style="flex:1 1 340px;min-width:270px;display:flex;flex-direction:column;gap:14px">
+        <h2 style="margin:0;font-size:clamp(30px,4.6vw,50px);font-weight:200;line-height:1.04;letter-spacing:-0.035em;max-width:24ch;text-wrap:pretty">{{ t.finalTitle }}</h2>
+        <p style="margin:0;font-size:clamp(13px,1.4vw,15px);line-height:1.6;color:var(--ink2);max-width:48ch">{{ t.finalText }}</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <a href="Q-Cost AI Onboarding v2.dc.html" style="display:inline-flex;align-items:center;height:42px;padding:0 20px;background:var(--acc);color:var(--accInk);border-radius:2px;font-size:14px;font-weight:400" style-hover="opacity:0.88;text-decoration:none">{{ t.finalCta }}</a>
+        <a href="#contato" style="display:inline-flex;align-items:center;height:42px;padding:0 20px;background:transparent;color:var(--ink);border:1px solid var(--line2);border-radius:2px;font-size:14px;font-weight:400" style-hover="background:var(--surf2);text-decoration:none">{{ t.finalCta2 }}</a>
+        <a href="Q-Cost AI Login v2.dc.html" style="display:inline-flex;align-items:center;height:42px;padding:0 16px;color:var(--ink2);font-size:13px" style-hover="color:var(--ink);text-decoration:underline;text-underline-offset:3px">{{ t.signInNote }}</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contato">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(40px,5vw,64px) clamp(18px,4vw,44px);display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between">
+      <div style="flex:1 1 260px;min-width:230px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"/><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"/><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"/></svg>
+          <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+        </div>
+        <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);max-width:34ch">{{ t.footerTagline }}</p>
+        <p style="margin:0;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.footerBy }}</p>
+      </div>
+      <div style="flex:0 1 150px;min-width:140px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.footerColProduct }}</span>
+        <a href="#produto" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navProduct }}</a>
+        <a href="#como" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navHow }}</a>
+        <a href="#paf" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navPaf }}</a>
+        <a href="#integracoes" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navInt }}</a>
+        <a href="#planos" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.navPlans }}</a>
+      </div>
+      <div style="flex:0 1 150px;min-width:140px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.footerColLegal }}</span>
+        <a href="Q-Cost AI Politicas v2.dc.html#termos" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.footerTerms }}</a>
+        <a href="Q-Cost AI Politicas v2.dc.html#privacidade" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.footerPrivacy }}</a>
+        <a href="Q-Cost AI Politicas v2.dc.html#dpa" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.footerDpa }}</a>
+        <a href="Q-Cost AI Status v2.dc.html" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.footerStatus }}</a>
+        <a href="Q-Cost AI Confianca v2.dc.html" style="font-size:12px;color:var(--ink)" style-hover="color:var(--ink);text-decoration:underline;text-underline-offset:3px">{{ t.footerTrust }}</a>
+      </div>
+      <div style="flex:0 1 180px;min-width:160px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.footerColContact }}</span>
+        <a href="#contato" style="font-family:'DM Mono',monospace;font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">contato@qcost.ai</a>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--line)">
+      <div style="max-width:1240px;margin:0 auto;padding:14px clamp(16px,4vw,36px);font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ t.footerLegalLine }}</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;theme&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;light&quot;, &quot;dark&quot;], &quot;default&quot;: &quot;light&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Base&quot; },
+  &quot;language&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;pt-BR&quot;, &quot;en&quot;, &quot;es&quot;], &quot;default&quot;: &quot;pt-BR&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Conteúdo&quot; }
+}">
+const DICT = {
+  "pt-BR": {
+    navProduct:"Produto",navHow:"Como funciona",navSec:"Segurança",navPlans:"Planos",navResources:"Dados",
+    ctaHeader:"Criar conta",signIn:"Entrar",
+    heroKicker:"Custos da qualidade · COQ / COPQ",
+    heroTitle:"A maioria das empresas não mede seus custos da qualidade porque o processo manual é inviável.",
+    heroSub:"O Q-Cost AI automatiza essa identificação a partir dos eventos que sua equipe já registra: reclamações, refugos, retrabalhos, inspeções e auditorias viram custo classificado, calculado e rastreável.",
+    heroCta1:"Criar conta gratuita",heroCta2:"Ver como funciona",
+    heroNote:"Sem cartão de crédito · plano gratuito permanente",
+    flowTitle:"Do evento ao custo",
+    goalsLabel:"Objetivos da plataforma",
+    goals:[
+      {v:"−40%",k:"no esforço de apuração do COQ"},
+      {v:"2×",k:"de cobertura dos custos capturados, incluindo os ocultos"},
+      {v:"2–4",k:"semanas até o primeiro dashboard confiável"},
+      {v:"5 min",k:"para registrar um evento, da entrada à aprovação"},
+      {v:"80%",k:"de acerto na classificação PAF antes da revisão humana"},
+      {v:"100%",k:"dos lançamentos com premissa, responsável e log rastreável"}
+    ],
+    todayKicker:"O que existe hoje",
+    todayTitle:"Três formas de medir custo da qualidade. Nenhuma delas vira rotina.",
+    todayLead:"Não há concorrente dominante focado em inteligência de custo da qualidade. O que existe são alternativas que resolvem parte do problema e deixam o lançamento manual para a sua equipe.",
+    todayThAlt:"Alternativa", todayThHow:"Como trata o COQ hoje", todayThGap:"O que falta",
+    today:[
+      {alt:"QMS corporativo",ex:"ETQ, MasterControl, SAP QM, SoftExpert",how:"COQ como módulo secundário de relatório dentro de um QMS de compliance.",gap:"Sem IA que leia texto livre ou documento, classifique PAF e sugira custo — o lançamento segue manual."},
+      {alt:"Calculadora de COPQ",ex:"Ferramentas de cálculo pontual",how:"Cálculo isolado em estilo planilha ou formulário.",gap:"Sem captura contínua de evento e sem rotina: cada apuração recomeça do zero."},
+      {alt:"Planilha e “já fazemos assim”",ex:"O concorrente mais comum na prática",how:"Mede bem sucata e garantia; o resto do COPQ não é sistematizado.",gap:"Os custos ocultos, que são a maior parte, nunca entram na conta."}
+    ],
+    todayNote:"O Q-Cost AI não substitui o seu QMS. Ele lê o que esses sistemas já produzem e devolve a leitura financeira que falta.",
+    flow1Title:"Entrada do evento",flow1Text:"Texto livre, PDF, planilha ou formulário — como sua equipe já registra.",
+    flow2Title:"A IA classifica",flow2Text:"Extrai os dados, classifica na estrutura PAF, identifica os custos e pergunta o que falta.",
+    tagP:"Prevenção",tagA:"Avaliação",tagF:"Falha",
+    flow3Title:"Você revisa e aprova",flow3Text:"Ajuste valores e premissas. Nada entra na apuração sem aprovação humana.",
+    flow4Title:"Dashboard atualizado",flow4Text:"O custo entra na apuração com log rastreável de cada contabilização.",
+    flow1Tags:["PDF","Planilha","Texto livre"],
+    flow3Tags:["Valores","Premissas","Alçada"],
+    flow4Tags:["COQ","COPQ","Log"],
+    howKicker:"Como funciona",howTitle:"Quatro passos entre o evento no chão de fábrica e o número no relatório.",
+    whoKicker:"Para quem é",whoTitle:"Cada área olha o mesmo custo pela pergunta que precisa responder.",
+    proofKicker:"O tamanho do problema",
+    proofStat:"das organizações afirmam compreender plenamente o impacto dos custos da qualidade no seu desempenho financeiro.",
+    proofSource:"Fonte: American Society for Quality (ASQ), relatório de 2025. Para a maioria, boa parte do COPQ real permanece invisível.",
+    plansTitle:"Você paga pelo volume de eventos processados, não por usuário.",
+    plansNote:"A métrica de cobrança é o evento de custo da qualidade ingerido pela IA no mês. Convide quantas pessoas quiser em qualquer plano.",
+    eventsLabel:"Eventos por mês",
+    finalTitle:"Comece pela apuração deste mês.",
+    finalText:"Crie a conta, escolha o template PAF e importe os primeiros documentos. Um dashboard de COQ confiável em duas a quatro semanas.",
+    finalCta:"Criar conta gratuita",finalCta2:"Agendar demonstração",signInNote:"Já tenho conta",
+    footerTagline:"Motor de IA para gerenciar facilmente custos da qualidade.",footerBy:"por SIQ Systems",
+    footerColProduct:"Produto",footerColLegal:"Legal",footerColContact:"Contato",
+    dataKicker:"Seus dados",
+    dataTitle:"Você vai subir a reclamação do seu maior cliente. Três coisas ficam combinadas antes disso.",
+    dataLead:"Custo da qualidade mora nos documentos mais sensíveis da operação. Estas três garantias valem para todos os planos, inclusive o gratuito.",
+    dataTrustLink:"Ver a central de confiança",
+    dataHowLabel:"Como é garantido",
+    dataClaims:[
+      ["Seus documentos não treinam modelo nenhum","Nada do que você envia — evento, planilha, nota, anexo — é usado para treinar ou ajustar modelo de IA, nosso ou de terceiro. O documento é lido para aquele evento e para mais nada.","Compromisso contratual, com retenção zero acordada com o provedor de modelo.","Ver o compromisso"],
+      ["Você decide o que sobe","No modo de dados mínimos, o documento fica na sua máquina: só os campos que você confirma chegam à plataforma. Dá para avaliar a ferramenta sem expor uma linha de documento real.","Controle no produto, ligado ou desligado por conta, com a escolha registrada.","Ver como funciona"],
+      ["A saída é sua, sem multa","Exportação completa da apuração e da trilha a qualquer momento, e 12 meses de janela de exportação depois do cancelamento. Encerrar não tem multa nem taxa de saída.","Cláusula de encerramento nos termos de uso, com prazo declarado.","Ver a regra de retenção"]
+    ],
+    itKicker:"Leve para o seu TI",
+    itTitle:"O que a sua área técnica vai pedir, pronto para encaminhar",
+    itLead:"Você não precisa explicar a arquitetura da plataforma. Encaminhe estes documentos e a ficha técnica: a avaliação continua entre nós e o seu time de TI.",
+    itNda:"Relatório de teste de intrusão, questionário CAIQ preenchido e plano de continuidade saem mediante NDA, em até dois dias úteis.",
+    itSendKicker:"Enviar por e-mail",
+    itSendBody:"Um campo, um clique: o pacote com os links vai para quem vai avaliar. Não usamos esse endereço para prospecção.",
+    itEmailPh:"e-mail do seu time de TI", itCta:"Enviar o pacote", itDone:"Pacote enviado",
+    itSheetLink:"Abrir a ficha técnica de segurança",
+    itDraftTitle:"Rascunho em revisão jurídica",
+    itDraftBody:"Os documentos estão em revisão jurídica antes da publicação. A mesma ressalva aparece na central de confiança.",
+    itDocNames:["Política de privacidade","Termos de uso","Política de uso de dados e IA","Modelo de DPA","Política de segurança da informação"],
+    itTagPublic:"PÚBLICO",
+    seeKicker:"Veja funcionando", seeMeta:"4 vídeos · 11 min no total",
+    seeTitle:"Antes de assinar, veja o produto trabalhando",
+    seeLead:"Nada de tour de funcionalidade. Cada vídeo pega uma dúvida que todo gestor industrial tem sobre IA em número contábil e mostra a resposta na tela, com dado real de uma operação de três plantas.",
+    seeFoot:"Os vídeos abrem sem cadastro. Se depois disso fizer sentido, a conta leva cerca de dez minutos para sair do zero até o primeiro evento lançado.",
+    seeCta:"Começar agora",
+    demos:[
+      ["\u201CE se a IA errar?\u201D","Da nota fiscal ao custo aprovado","2:40","Um PDF de devolução vira classificação PAF, valor e centro de custo. A IA propõe, o analista corrige dois campos e aprova. Nada entra na apuração sem uma pessoa dizer sim."],
+      ["\u201CQuanto trabalho isso dá?\u201D","O ERP lançando sozinho","2:15","O sistema da fábrica cria o evento por API no momento em que a ordem fecha. A fila de revisão recebe pronto para aprovar — ninguém digitou nada."],
+      ["\u201CIsso muda alguma decisão?\u201D","A apuração que vai para a diretoria","3:05","Custo da qualidade aberto por categoria, planta e fornecedor, com a razão entre o que se investe em prevenção e o que se perde em falha."],
+      ["\u201CE se eu não puder subir esse documento?\u201D","Lançando sem enviar o documento","2:50","Modo de dados mínimos: a reclamação fica na máquina do analista, que confirma na tela só os campos do evento. O custo entra na apuração e nenhum anexo sai da fábrica."]
+    ],
+    footerTerms:"Termos de uso",footerPrivacy:"Privacidade",footerLgpd:"LGPD",footerTrust:"Central de confiança",footerDpa:"DPA",footerStatus:"Status da plataforma",
+    footerLegalLine:"© 2026 SIQ Systems · Q-Cost AI · todos os direitos reservados",
+    navPaf:"Estrutura PAF",navInt:"Integrações",
+    pafKicker:"Estrutura de custos",
+    pafTitle:"PAF é a linguagem que transforma evento de qualidade em custo comparável.",
+    pafLead:"PAF é a sigla de Prevenção, Avaliação e Falha — a classificação que a literatura da qualidade e as normas de auditoria usam para separar o que a má qualidade custa. Todo evento registrado no Q-Cost AI cai em uma destas quatro categorias, e é isso que permite comparar plantas, períodos e fornecedores pelo mesmo critério.",
+    pafCats:[
+      {name:"Prevenção",desc:"O que você investe para o problema não acontecer.",example:"Treinamento · manutenção preventiva · qualificação de fornecedor"},
+      {name:"Avaliação",desc:"O que você gasta para verificar se o problema existe.",example:"Inspeção · ensaio de laboratório · calibração"},
+      {name:"Falha interna",desc:"O que você perde quando a falha é detida dentro da fábrica.",example:"Refugo · retrabalho · parada de linha"},
+      {name:"Falha externa",desc:"O que você perde quando a falha chega ao cliente.",example:"Reclamação · devolução · recall · multa contratual"}
+    ],
+    pafTemplatesTitle:"Dezenas de templates prontos, por segmento — ou o seu.",
+    pafTemplatesText:"O PAF padrão é o ponto de partida, não a única opção. A plataforma traz dezenas de estruturas já ajustadas ao vocabulário e às exigências de cada segmento industrial. Você escolhe uma delas, edita categorias e subcategorias, ou começa do zero com o plano de contas da sua organização. A escolha acontece na criação da conta e pode ser trocada depois, sem perder nenhum evento já apurado.",
+    pafSegmentsLabel:"Alguns segmentos cobertos",
+    pafSegments:["Automotivo — IATF 16949","Defesa e aeroespacial — AS9100","Máquinas agrícolas","Farmacêutico — GMP e ANVISA","Dispositivos médicos — ISO 13485","Alimentos e bebidas — FSSC 22000","Químico e petroquímico","Metalurgia e usinagem","Autopeças, plásticos e borracha","Eletroeletrônico","Bens de consumo","Personalizado"],
+    pafSegmentsNote:"Não encontrou o seu? A estrutura personalizada aceita qualquer taxonomia, inclusive a do seu plano de contas.",
+    intKicker:"Integrações",
+    intTitle:"Se o evento já nasce no seu QMS, ERP ou MES, ele não precisa ser digitado de novo.",
+    intLead:"Boa parte dos eventos de custo da qualidade já existe em algum sistema da sua operação: a não conformidade no QMS, a nota de devolução no ERP, o refugo apontado no MES, a movimentação no WMS, a reclamação no CRM. Esses sistemas podem criar o evento no Q-Cost AI automaticamente, por API REST ou MCP, sem que ninguém precise abrir a plataforma.",
+    intDiagramTitle:"Duas entradas, um único fluxo",
+    intEntryLabel:"Como o evento entra",
+    intEntry1:"Upload ou texto livre",intEntry1Text:"Alguém anexa o documento ou descreve o que aconteceu.",
+    intEntry2:"API REST ou MCP",intEntry2Text:"O sistema de origem envia o evento sozinho, no momento em que ele acontece.",
+    intEntryNote:"A origem fica registrada em cada evento.",
+    intPipelineLabel:"O que acontece depois — igual nas duas",
+    intSteps:[
+      {n:"01",title:"Motor de IA analisa",text:"Extrai os dados, classifica na estrutura de custos e calcula o valor."},
+      {n:"02",title:"Workflow de ajustes",text:"A IA pergunta o que faltou; quem responde é a sua equipe."},
+      {n:"03",title:"Aprovação humana",text:"O responsável revisa, corrige e aprova — ou devolve para ajuste."},
+      {n:"04",title:"Contabilização",text:"Só então o custo entra na apuração, com log rastreável."}
+    ],
+    intSameFlow:"Nada é contabilizado automaticamente só porque veio de uma integração. O evento recebido por API ou MCP percorre exatamente o mesmo caminho de um upload manual: análise pelo motor de IA, pedido de esclarecimento quando falta dado, revisão e aprovação humana — e só então entra na apuração. A integração muda quem digita, não quem decide.",
+    intSystemsLabel:"Sistemas de origem",
+    intSystems:[
+      {name:"SIQ Systems — EQM",note:"Integração nativa, já pronta: não conformidades, ações corretivas e reclamações do EQM viram evento de custo sem configuração.",tag:"Nativa"},
+      {name:"Outros QMS e EQM",note:"Não conformidade, ação corretiva, auditoria e reclamação de cliente.",tag:"API · MCP"},
+      {name:"ERP",note:"Nota de devolução, custo de material, ordem de retrabalho, centro de custo.",tag:"API · MCP"},
+      {name:"MES e apontamento de produção",note:"Refugo, retrabalho, parada de linha e hora de máquina.",tag:"API · MCP"},
+      {name:"WMS e logística",note:"Avaria, movimentação de material bloqueado e frete de retorno.",tag:"API · MCP"},
+      {name:"CRM e atendimento",note:"Reclamação de cliente, chamado de garantia e devolução.",tag:"API · MCP"}
+    ],
+    intNoRipLabel:"Sem trocar de sistema",
+    intNoRipText:"O Q-Cost AI não substitui o seu QMS, ERP ou MES. Ele lê o que esses sistemas já produzem e devolve a leitura financeira que falta hoje. Ninguém muda de ferramenta nem de rotina.",
+    intCta:"Falar sobre a integração",
+    steps:[
+      {n:"01",title:"Importe seus documentos",text:"Reclamações de cliente, planilhas de refugo, notas de devolução, relatórios de inspeção."},
+      {n:"02",title:"A IA classifica e sugere",text:"Extração dos dados, classificação na estrutura PAF escolhida e cálculo do custo — com pergunta quando falta informação."},
+      {n:"03",title:"Você revisa e aprova",text:"Edite valores e premissas na tela de revisão. Nada entra na apuração sem aprovação humana."},
+      {n:"04",title:"O dashboard se atualiza",text:"COQ e COPQ por planta, categoria e período, com log rastreável de cada contabilização."}
+    ],
+    personas:[
+      {role:"Diretor Industrial e CFO",benefit:"Quanto a má qualidade custa em percentual da receita, por planta e por trimestre."},
+      {role:"Gerente da Qualidade",benefit:"Justificativa financeira para investir em prevenção em vez de apagar incêndio."},
+      {role:"Gerente de Produção",benefit:"Onde o retrabalho e o refugo concentram custo dentro do próprio processo."},
+      {role:"Controladoria",benefit:"Números auditáveis, com premissa registrada e rastro de quem aprovou o quê."},
+      {role:"Compras e Supply",benefit:"Custo de falha por fornecedor para sustentar negociação com dado, não com percepção."}
+    ],
+    plans:[
+      {name:"Free",badge:"Avaliação",price:"R$ 0",priceNote:"gratuito permanente",events:"até 25",cta:"Criar conta",
+       features:["Template PAF por segmento","Dashboard COQ e COPQ","Usuários ilimitados","Histórico de 6 meses"]},
+      {name:"Basic",badge:"Uma planta",price:"R$ 890",priceNote:"por mês",events:"até 150",cta:"Criar conta",
+       features:["Importação de PDF e planilhas","Exportação da apuração","Histórico completo","Suporte por e-mail"]},
+      {name:"Pro",badge:"Mais escolhido",price:"R$ 2.490",priceNote:"por mês",events:"até 600",cta:"Começar no Pro",
+       features:["Múltiplas plantas e centros de custo","Rastreabilidade e log de auditoria","Alertas por faixa de custo","Retenção do registro de invocações da IA","Suporte prioritário"]},
+      {name:"Enterprise",badge:"Corporativo",price:"Fale conosco",priceNote:"volume por contrato",events:"sob contrato",cta:"Falar com vendas",
+       features:["API REST e MCP para ERP e agentes","SSO com SAML e SCIM","Política de retenção própria","Plano de implantação dedicado"]}
+    ]
+  },
+  "en": {
+    navProduct:"Product",navHow:"How it works",navSec:"Security",navPlans:"Pricing",navResources:"Data",
+    ctaHeader:"Create account",signIn:"Sign in",
+    heroKicker:"Cost of quality · COQ / COPQ",
+    heroTitle:"Most companies never measure their cost of quality because doing it by hand is not viable.",
+    heroSub:"Q-Cost AI automates that identification from the events your team already records: complaints, scrap, rework, inspections and audits become classified, calculated and traceable cost.",
+    heroCta1:"Create free account",heroCta2:"See how it works",
+    heroNote:"No credit card · permanent free plan",
+    flowTitle:"From event to cost",
+    goalsLabel:"Platform objectives",
+    goals:[
+      {v:"−40%",k:"in the effort to close the COQ"},
+      {v:"2×",k:"coverage of captured costs, hidden ones included"},
+      {v:"2–4",k:"weeks to the first reliable dashboard"},
+      {v:"5 min",k:"to record an event, from intake to approval"},
+      {v:"80%",k:"PAF classification accuracy before human review"},
+      {v:"100%",k:"of entries with assumption, owner and traceable log"}
+    ],
+    todayKicker:"What exists today",
+    todayTitle:"Three ways to measure cost of quality. None of them becomes routine.",
+    todayLead:"There is no dominant competitor focused on quality cost intelligence. What exists are alternatives that solve part of the problem and leave the manual entry to your team.",
+    todayThAlt:"Alternative", todayThHow:"How it treats COQ today", todayThGap:"What is missing",
+    today:[
+      {alt:"Enterprise QMS",ex:"ETQ, MasterControl, SAP QM, SoftExpert",how:"COQ as a secondary reporting module inside a broader compliance QMS.",gap:"No AI to read free text or documents, classify PAF and suggest cost — entry stays manual."},
+      {alt:"COPQ calculator",ex:"One-off calculation tools",how:"Isolated spreadsheet- or form-style calculation.",gap:"No continuous event capture and no routine: every close starts from scratch."},
+      {alt:"Spreadsheets and “this is how we do it”",ex:"The most common competitor in practice",how:"Measures scrap and warranty well; the rest of COPQ is never systematised.",gap:"Hidden costs, which are the larger share, never make it into the number."}
+    ],
+    todayNote:"Q-Cost AI does not replace your QMS. It reads what those systems already produce and returns the financial reading that is missing.",
+    flow1Title:"Event intake",flow1Text:"Free text, PDF, spreadsheet or form — however your team already records it.",
+    flow2Title:"The AI classifies",flow2Text:"Extracts the data, classifies it under PAF, identifies costs and asks for what is missing.",
+    tagP:"Prevention",tagA:"Appraisal",tagF:"Failure",
+    flow3Title:"You review and approve",flow3Text:"Adjust values and assumptions. Nothing enters the close without human approval.",
+    flow4Title:"Dashboard updated",flow4Text:"The cost enters the close with a traceable log of every entry.",
+    flow1Tags:["PDF","Spreadsheet","Free text"],
+    flow3Tags:["Values","Assumptions","Approval"],
+    flow4Tags:["COQ","COPQ","Log"],
+    howKicker:"How it works",howTitle:"Four steps between the event on the shop floor and the figure in the report.",
+    whoKicker:"Who it is for",whoTitle:"Every function reads the same cost through the question it has to answer.",
+    proofKicker:"The size of the problem",
+    proofStat:"of organizations say they fully understand the impact of quality costs on their financial performance.",
+    proofSource:"Source: American Society for Quality (ASQ), 2025 report. For most, much of the real COPQ stays invisible.",
+    plansTitle:"You pay for the volume of events processed, not per user.",
+    plansNote:"Billing is metered on quality cost events ingested by the AI each month. Invite as many colleagues as you like on any plan.",
+    eventsLabel:"Events per month",
+    finalTitle:"Start with this month's close.",
+    finalText:"Create the account, pick the PAF template and import your first documents. A reliable COQ dashboard in two to four weeks.",
+    finalCta:"Create free account",finalCta2:"Book a demo",signInNote:"I already have an account",
+    footerTagline:"An AI engine to manage cost of quality with ease.",footerBy:"by SIQ Systems",
+    footerColProduct:"Product",footerColLegal:"Legal",footerColContact:"Contact",
+    dataKicker:"Your data",
+    dataTitle:"You are about to upload your biggest customer's complaint. Three things are settled first.",
+    dataLead:"Cost of quality lives in the most sensitive documents of the operation. These three guarantees hold on every plan, the free one included.",
+    dataTrustLink:"See the trust center",
+    dataHowLabel:"How it is guaranteed",
+    dataClaims:[
+      ["Your documents train no model","Nothing you upload — event, spreadsheet, invoice, attachment — is used to train or fine-tune an AI model, ours or a third party's. The document is read for that event and nothing else.","Contractual commitment, with zero retention agreed with the model provider.","See the commitment"],
+      ["You decide what goes up","In minimum-data mode the document stays on your machine: only the fields you confirm reach the platform. You can evaluate the tool without exposing a single line of a real document.","A product control, on or off per account, with the choice recorded.","See how it works"],
+      ["The way out is yours, with no penalty","Full export of the accounting history and the audit trail at any time, plus a 12-month export window after cancellation. Closing costs no penalty and no exit fee.","Termination clause in the terms of use, with a stated deadline.","See the retention rule"]
+    ],
+    itKicker:"Take it to your IT team",
+    itTitle:"What your technical team will ask for, ready to forward",
+    itLead:"You don't have to explain the platform's architecture. Forward these documents and the technical sheet: the assessment carries on between us and your IT team.",
+    itNda:"Penetration test report, completed CAIQ questionnaire and continuity plan are released under NDA, within two business days.",
+    itSendKicker:"Send by email",
+    itSendBody:"One field, one click: the pack of links goes to whoever will assess it. We don't use that address for prospecting.",
+    itEmailPh:"your IT team's email", itCta:"Send the pack", itDone:"Pack sent",
+    itSheetLink:"Open the security technical sheet",
+    itDraftTitle:"Draft under legal review",
+    itDraftBody:"The documents are under legal review before publication. The same caveat appears in the trust center.",
+    itDocNames:["Privacy policy","Terms of use","Data and AI use policy","DPA template","Information security policy"],
+    itTagPublic:"PUBLIC",
+    seeKicker:"See it working", seeMeta:"4 videos · 11 min total",
+    seeTitle:"Before subscribing, watch the product work",
+    seeLead:"No feature tour. Each video takes a doubt every industrial manager has about AI touching accounting figures and shows the answer on screen, with real data from a three-plant operation.",
+    seeFoot:"The videos open without signing up. If it makes sense afterwards, the account takes about ten minutes to go from zero to the first event posted.",
+    seeCta:"Start now",
+    demos:[
+      ["\u201CWhat if the AI gets it wrong?\u201D","From invoice to approved cost","2:40","A return PDF becomes a PAF classification, an amount and a cost center. The AI proposes, the analyst corrects two fields and approves. Nothing enters the accounting without a person saying yes."],
+      ["\u201CHow much work is this?\u201D","The ERP posting on its own","2:15","The plant system creates the event through the API the moment the order closes. The review queue receives it ready to approve — nobody typed anything."],
+      ["\u201CDoes this change any decision?\u201D","The accounting that goes to the board","3:05","Cost of quality broken down by category, plant and supplier, with the ratio between what is invested in prevention and what is lost to failure."],
+      ["\u201CWhat if I'm not allowed to upload that document?\u201D","Posting without sending the document","2:50","Minimum-data mode: the complaint stays on the analyst's machine, who confirms only the event fields on screen. The cost enters the accounting and no attachment leaves the plant."]
+    ],
+    footerTerms:"Terms of use",footerPrivacy:"Privacy",footerLgpd:"Data processing",footerTrust:"Trust center",footerDpa:"DPA",footerStatus:"Platform status",
+    footerLegalLine:"© 2026 SIQ Systems · Q-Cost AI · all rights reserved",
+    navPaf:"PAF structure",navInt:"Integrations",
+    pafKicker:"Cost structure",
+    pafTitle:"PAF is the language that turns a quality event into comparable cost.",
+    pafLead:"PAF stands for Prevention, Appraisal and Failure — the classification quality literature and audit standards use to separate what poor quality costs. Every event recorded in Q-Cost AI lands in one of these four categories, and that is what makes plants, periods and suppliers comparable on the same basis.",
+    pafCats:[
+      {name:"Prevention",desc:"What you invest so the problem never happens.",example:"Training · preventive maintenance · supplier qualification"},
+      {name:"Appraisal",desc:"What you spend to check whether the problem exists.",example:"Inspection · lab testing · calibration"},
+      {name:"Internal failure",desc:"What you lose when the failure is caught inside the plant.",example:"Scrap · rework · line stoppage"},
+      {name:"External failure",desc:"What you lose when the failure reaches the customer.",example:"Complaint · return · recall · contractual penalty"}
+    ],
+    pafTemplatesTitle:"Dozens of ready templates, by industry — or your own.",
+    pafTemplatesText:"Standard PAF is the starting point, not the only option. The platform ships dozens of structures already tuned to the vocabulary and requirements of each industrial segment. Pick one, edit categories and subcategories, or start from scratch with your own chart of accounts. You choose at sign-up and can switch later without losing any event already closed.",
+    pafSegmentsLabel:"Some covered segments",
+    pafSegments:["Automotive — IATF 16949","Defence and aerospace — AS9100","Agricultural machinery","Pharmaceutical — GMP","Medical devices — ISO 13485","Food and beverage — FSSC 22000","Chemical and petrochemical","Metalworking and machining","Auto parts, plastics and rubber","Electronics","Consumer goods","Custom"],
+    pafSegmentsNote:"Not there? The custom structure accepts any taxonomy, including your own chart of accounts.",
+    intKicker:"Integrations",
+    intTitle:"If the event already originates in your QMS, ERP or MES, nobody should type it twice.",
+    intLead:"Most quality cost events already live in some system of your operation: the nonconformity in the QMS, the return note in the ERP, scrap reported in the MES, movement in the WMS, the complaint in the CRM. Those systems can create the event in Q-Cost AI automatically, over REST API or MCP, without anyone opening the platform.",
+    intDiagramTitle:"Two entry points, one flow",
+    intEntryLabel:"How the event arrives",
+    intEntry1:"Upload or free text",intEntry1Text:"Someone attaches the document or describes what happened.",
+    intEntry2:"REST API or MCP",intEntry2Text:"The source system posts the event on its own, the moment it happens.",
+    intEntryNote:"The origin is recorded on every event.",
+    intPipelineLabel:"What happens next — identical either way",
+    intSteps:[
+      {n:"01",title:"The AI engine analyses",text:"Extracts the data, classifies it in your cost structure and computes the value."},
+      {n:"02",title:"Clarification workflow",text:"The AI asks what was missing; your team answers."},
+      {n:"03",title:"Human approval",text:"The owner reviews, corrects and approves — or sends it back for adjustment."},
+      {n:"04",title:"Accounted",text:"Only then does the cost enter the close, with a traceable log."}
+    ],
+    intSameFlow:"Nothing is accounted automatically just because it came from an integration. An event received over API or MCP follows exactly the same path as a manual upload: AI analysis, clarification requests when data is missing, human review and approval — and only then the close. Integration changes who types, not who decides.",
+    intSystemsLabel:"Source systems",
+    intSystems:[
+      {name:"SIQ Systems — EQM",note:"Native integration, ready out of the box: nonconformities, corrective actions and complaints from the EQM become cost events with no setup.",tag:"Native"},
+      {name:"Other QMS and EQM",note:"Nonconformity, corrective action, audit and customer complaint.",tag:"API · MCP"},
+      {name:"ERP",note:"Return note, material cost, rework order, cost center.",tag:"API · MCP"},
+      {name:"MES and shop-floor reporting",note:"Scrap, rework, line stoppage and machine hours.",tag:"API · MCP"},
+      {name:"WMS and logistics",note:"Damage, blocked-stock movement and return freight.",tag:"API · MCP"},
+      {name:"CRM and service desk",note:"Customer complaint, warranty ticket and return.",tag:"API · MCP"}
+    ],
+    intNoRipLabel:"No system replacement",
+    intNoRipText:"Q-Cost AI does not replace your QMS, ERP or MES. It reads what those systems already produce and returns the financial reading that is missing today. Nobody changes tools or routines.",
+    intCta:"Talk about the integration",
+    steps:[
+      {n:"01",title:"Import your documents",text:"Customer complaints, scrap spreadsheets, return notes, inspection reports."},
+      {n:"02",title:"The AI classifies and suggests",text:"Data extraction, PAF classification and cost calculation — asking whenever information is missing."},
+      {n:"03",title:"You review and approve",text:"Edit values and assumptions on the review screen. Nothing enters the close without human approval."},
+      {n:"04",title:"The dashboard updates",text:"COQ and COPQ by plant, category and period, with a traceable log of every entry."}
+    ],
+    personas:[
+      {role:"Industrial Director and CFO",benefit:"What poor quality costs as a share of revenue, by plant and by quarter."},
+      {role:"Quality Manager",benefit:"A financial case for investing in prevention instead of firefighting."},
+      {role:"Production Manager",benefit:"Where rework and scrap concentrate cost inside the process itself."},
+      {role:"Controllership",benefit:"Auditable figures, with recorded assumptions and a trail of who approved what."},
+      {role:"Procurement and Supply",benefit:"Failure cost per supplier, to negotiate on data rather than perception."}
+    ],
+    plans:[
+      {name:"Free",badge:"Trial",price:"R$ 0",priceNote:"free forever",events:"up to 25",cta:"Create account",
+       features:["PAF template by industry","COQ and COPQ dashboard","Unlimited users","6-month history"]},
+      {name:"Basic",badge:"One plant",price:"R$ 890",priceNote:"per month",events:"up to 150",cta:"Create account",
+       features:["PDF and spreadsheet import","Period export","Full history","Email support"]},
+      {name:"Pro",badge:"Most chosen",price:"R$ 2,490",priceNote:"per month",events:"up to 600",cta:"Start on Pro",
+       features:["Multiple plants and cost centers","Traceability and audit log","Cost threshold alerts","AI invocation log retention","Priority support"]},
+      {name:"Enterprise",badge:"Corporate",price:"Talk to us",priceNote:"contracted volume",events:"by contract",cta:"Talk to sales",
+       features:["REST API and MCP for ERP and agents","SSO with SAML and SCIM","Your own retention policy","Dedicated rollout plan"]}
+    ]
+  },
+  "es": {
+    navProduct:"Producto",navHow:"Cómo funciona",navSec:"Seguridad",navPlans:"Planes",navResources:"Datos",
+    ctaHeader:"Crear cuenta",signIn:"Entrar",
+    heroKicker:"Costos de la calidad · COQ / COPQ",
+    heroTitle:"La mayoría de las empresas no mide sus costos de la calidad porque el proceso manual es inviable.",
+    heroSub:"Q-Cost AI automatiza esa identificación a partir de los eventos que su equipo ya registra: reclamos, desperdicio, reprocesos, inspecciones y auditorías se convierten en costo clasificado, calculado y trazable.",
+    heroCta1:"Crear cuenta gratuita",heroCta2:"Ver cómo funciona",
+    heroNote:"Sin tarjeta de crédito · plan gratuito permanente",
+    flowTitle:"Del evento al costo",
+    goalsLabel:"Objetivos de la plataforma",
+    goals:[
+      {v:"−40%",k:"en el esfuerzo de cierre del COQ"},
+      {v:"2×",k:"de cobertura de los costos capturados, incluidos los ocultos"},
+      {v:"2–4",k:"semanas hasta el primer panel confiable"},
+      {v:"5 min",k:"para registrar un evento, del ingreso a la aprobación"},
+      {v:"80%",k:"de acierto en la clasificación PAF antes de la revisión humana"},
+      {v:"100%",k:"de los asientos con premisa, responsable y log trazable"}
+    ],
+    todayKicker:"Lo que existe hoy",
+    todayTitle:"Tres formas de medir el costo de la calidad. Ninguna se vuelve rutina.",
+    todayLead:"No hay un competidor dominante enfocado en inteligencia de costo de la calidad. Lo que existe son alternativas que resuelven parte del problema y dejan la carga manual a su equipo.",
+    todayThAlt:"Alternativa", todayThHow:"Cómo trata el COQ hoy", todayThGap:"Lo que falta",
+    today:[
+      {alt:"QMS corporativo",ex:"ETQ, MasterControl, SAP QM, SoftExpert",how:"COQ como módulo secundario de reporte dentro de un QMS de compliance.",gap:"Sin IA que lea texto libre o documentos, clasifique PAF y sugiera costo — la carga sigue manual."},
+      {alt:"Calculadora de COPQ",ex:"Herramientas de cálculo puntual",how:"Cálculo aislado en estilo hoja de cálculo o formulario.",gap:"Sin captura continua de eventos ni rutina: cada cierre empieza de cero."},
+      {alt:"Hoja de cálculo y “así lo hacemos”",ex:"El competidor más común en la práctica",how:"Mide bien scrap y garantía; el resto del COPQ no se sistematiza.",gap:"Los costos ocultos, que son la mayor parte, nunca entran en la cuenta."}
+    ],
+    todayNote:"Q-Cost AI no reemplaza su QMS. Lee lo que esos sistemas ya producen y devuelve la lectura financiera que falta.",
+    flow1Title:"Entrada del evento",flow1Text:"Texto libre, PDF, planilla o formulario — como su equipo ya registra.",
+    flow2Title:"La IA clasifica",flow2Text:"Extrae los datos, clasifica en PAF, identifica los costos y pregunta lo que falta.",
+    tagP:"Prevención",tagA:"Evaluación",tagF:"Fallo",
+    flow3Title:"Usted revisa y aprueba",flow3Text:"Ajuste valores y premisas. Nada entra en el cierre sin aprobación humana.",
+    flow4Title:"Panel actualizado",flow4Text:"El costo entra en el cierre con registro trazable de cada contabilización.",
+    flow1Tags:["PDF","Planilla","Texto libre"],
+    flow3Tags:["Valores","Premisas","Aprobación"],
+    flow4Tags:["COQ","COPQ","Log"],
+    howKicker:"Cómo funciona",howTitle:"Cuatro pasos entre el evento en planta y la cifra en el informe.",
+    whoKicker:"Para quién es",whoTitle:"Cada área lee el mismo costo según la pregunta que debe responder.",
+    proofKicker:"El tamaño del problema",
+    proofStat:"de las organizaciones afirma comprender plenamente el impacto de los costos de la calidad en su desempeño financiero.",
+    proofSource:"Fuente: American Society for Quality (ASQ), informe de 2025. Para la mayoría, buena parte del COPQ real sigue siendo invisible.",
+    plansTitle:"Usted paga por el volumen de eventos procesados, no por usuario.",
+    plansNote:"La métrica de cobro es el evento de costo de la calidad ingerido por la IA en el mes. Invite a cuantas personas quiera en cualquier plan.",
+    eventsLabel:"Eventos por mes",
+    finalTitle:"Empiece por el cierre de este mes.",
+    finalText:"Cree la cuenta, elija la plantilla PAF e importe los primeros documentos. Un panel de COQ confiable en dos a cuatro semanas.",
+    finalCta:"Crear cuenta gratuita",finalCta2:"Agendar demostración",signInNote:"Ya tengo cuenta",
+    footerTagline:"Motor de IA para gestionar fácilmente los costos de la calidad.",footerBy:"por SIQ Systems",
+    footerColProduct:"Producto",footerColLegal:"Legal",footerColContact:"Contacto",
+    dataKicker:"Sus datos",
+    dataTitle:"Va a subir el reclamo de su mayor cliente. Tres cosas quedan acordadas antes.",
+    dataLead:"El costo de la calidad vive en los documentos más sensibles de la operación. Estas tres garantías valen en todos los planes, incluido el gratuito.",
+    dataTrustLink:"Ver el centro de confianza",
+    dataHowLabel:"Cómo se garantiza",
+    dataClaims:[
+      ["Sus documentos no entrenan ningún modelo","Nada de lo que usted envía — evento, planilla, factura, adjunto — se usa para entrenar ni ajustar modelo de IA, nuestro ni de terceros. El documento se lee para ese evento y para nada más.","Compromiso contractual, con retención cero acordada con el proveedor de modelo.","Ver el compromiso"],
+      ["Usted decide qué sube","En el modo de datos mínimos el documento se queda en su máquina: solo los campos que usted confirma llegan a la plataforma. Puede evaluar la herramienta sin exponer una línea de documento real.","Control en el producto, activable por cuenta, con la elección registrada.","Ver cómo funciona"],
+      ["La salida es suya, sin multa","Exportación completa del cierre y de la trazabilidad en cualquier momento, y 12 meses de ventana de exportación tras la cancelación. Cerrar no tiene multa ni tasa de salida.","Cláusula de terminación en los términos de uso, con plazo declarado.","Ver la regla de retención"]
+    ],
+    itKicker:"Llévelo a su área de TI",
+    itTitle:"Lo que su equipo técnico va a pedir, listo para reenviar",
+    itLead:"No hace falta que explique la arquitectura de la plataforma. Reenvíe estos documentos y la ficha técnica: la evaluación sigue entre nosotros y su equipo de TI.",
+    itNda:"Informe de prueba de intrusión, cuestionario CAIQ completo y plan de continuidad se liberan mediante NDA, en hasta dos días hábiles.",
+    itSendKicker:"Enviar por correo",
+    itSendBody:"Un campo, un clic: el paquete con los enlaces va a quien vaya a evaluarlo. No usamos esa dirección para prospección.",
+    itEmailPh:"correo de su equipo de TI", itCta:"Enviar el paquete", itDone:"Paquete enviado",
+    itSheetLink:"Abrir la ficha técnica de seguridad",
+    itDraftTitle:"Borrador en revisión jurídica",
+    itDraftBody:"Los documentos están en revisión jurídica antes de la publicación. La misma advertencia aparece en el centro de confianza.",
+    itDocNames:["Política de privacidad","Términos de uso","Política de uso de datos e IA","Modelo de DPA","Política de seguridad de la información"],
+    itTagPublic:"PÚBLICO",
+    seeKicker:"Véalo funcionando", seeMeta:"4 videos · 11 min en total",
+    seeTitle:"Antes de suscribirse, vea el producto trabajando",
+    seeLead:"Nada de recorrido de funcionalidades. Cada video toma una duda que todo gestor industrial tiene sobre IA en cifras contables y muestra la respuesta en pantalla, con datos reales de una operación de tres plantas.",
+    seeFoot:"Los videos abren sin registro. Si después tiene sentido, la cuenta lleva unos diez minutos desde cero hasta el primer evento registrado.",
+    seeCta:"Empezar ahora",
+    demos:[
+      ["\u201C¿Y si la IA se equivoca?\u201D","De la factura al costo aprobado","2:40","Un PDF de devolución se vuelve clasificación PAF, valor y centro de costo. La IA propone, el analista corrige dos campos y aprueba. Nada entra en el cierre sin que una persona diga que sí."],
+      ["\u201C¿Cuánto trabajo da esto?\u201D","El ERP registrando solo","2:15","El sistema de la planta crea el evento por API en el momento en que cierra la orden. La cola de revisión lo recibe listo para aprobar — nadie escribió nada."],
+      ["\u201C¿Esto cambia alguna decisión?\u201D","El cierre que va a la dirección","3:05","Costo de la calidad abierto por categoría, planta y proveedor, con la razón entre lo que se invierte en prevención y lo que se pierde por fallo."],
+      ["\u201C¿Y si no puedo subir ese documento?\u201D","Registrando sin enviar el documento","2:50","Modo de datos mínimos: el reclamo se queda en la máquina del analista, que confirma en pantalla solo los campos del evento. El costo entra en el cierre y ningún adjunto sale de la planta."]
+    ],
+    footerTerms:"Términos de uso",footerPrivacy:"Privacidad",footerLgpd:"LGPD",footerTrust:"Centro de confianza",footerDpa:"DPA",footerStatus:"Estado de la plataforma",
+    footerLegalLine:"© 2026 SIQ Systems · Q-Cost AI · todos los derechos reservados",
+    navPaf:"Estructura PAF",navInt:"Integraciones",
+    pafKicker:"Estructura de costos",
+    pafTitle:"PAF es el lenguaje que convierte un evento de calidad en costo comparable.",
+    pafLead:"PAF son las siglas de Prevención, Evaluación y Fallo — la clasificación que la literatura de la calidad y las normas de auditoría usan para separar lo que cuesta la mala calidad. Todo evento registrado en Q-Cost AI cae en una de estas cuatro categorías, y eso permite comparar plantas, periodos y proveedores con el mismo criterio.",
+    pafCats:[
+      {name:"Prevención",desc:"Lo que invierte para que el problema no ocurra.",example:"Capacitación · mantenimiento preventivo · calificación de proveedor"},
+      {name:"Evaluación",desc:"Lo que gasta para verificar si el problema existe.",example:"Inspección · ensayo de laboratorio · calibración"},
+      {name:"Fallo interno",desc:"Lo que pierde cuando el fallo se detiene dentro de la planta.",example:"Desperdicio · reproceso · parada de línea"},
+      {name:"Fallo externo",desc:"Lo que pierde cuando el fallo llega al cliente.",example:"Reclamo · devolución · recall · multa contractual"}
+    ],
+    pafTemplatesTitle:"Decenas de plantillas listas, por segmento — o la suya.",
+    pafTemplatesText:"El PAF estándar es el punto de partida, no la única opción. La plataforma trae decenas de estructuras ya ajustadas al vocabulario y a las exigencias de cada segmento industrial. Elija una, edite categorías y subcategorías, o empiece de cero con el plan de cuentas de su organización. La elección ocurre al crear la cuenta y puede cambiarse después, sin perder ningún evento ya cerrado.",
+    pafSegmentsLabel:"Algunos segmentos cubiertos",
+    pafSegments:["Automotriz — IATF 16949","Defensa y aeroespacial — AS9100","Maquinaria agrícola","Farmacéutico — GMP","Dispositivos médicos — ISO 13485","Alimentos y bebidas — FSSC 22000","Químico y petroquímico","Metalurgia y mecanizado","Autopartes, plásticos y caucho","Electrónica","Bienes de consumo","Personalizado"],
+    pafSegmentsNote:"¿No encontró el suyo? La estructura personalizada acepta cualquier taxonomía, incluso la de su plan de cuentas.",
+    intKicker:"Integraciones",
+    intTitle:"Si el evento ya nace en su QMS, ERP o MES, nadie debería escribirlo otra vez.",
+    intLead:"Gran parte de los eventos de costo de la calidad ya existe en algún sistema de su operación: la no conformidad en el QMS, la nota de devolución en el ERP, el desperdicio reportado en el MES, el movimiento en el WMS, el reclamo en el CRM. Esos sistemas pueden crear el evento en Q-Cost AI automáticamente, por API REST o MCP, sin que nadie abra la plataforma.",
+    intDiagramTitle:"Dos entradas, un solo flujo",
+    intEntryLabel:"Cómo entra el evento",
+    intEntry1:"Carga o texto libre",intEntry1Text:"Alguien adjunta el documento o describe lo que pasó.",
+    intEntry2:"API REST o MCP",intEntry2Text:"El sistema de origen envía el evento por su cuenta, en el momento en que ocurre.",
+    intEntryNote:"El origen queda registrado en cada evento.",
+    intPipelineLabel:"Lo que pasa después — igual en ambas",
+    intSteps:[
+      {n:"01",title:"El motor de IA analiza",text:"Extrae los datos, clasifica en su estructura de costos y calcula el valor."},
+      {n:"02",title:"Flujo de ajustes",text:"La IA pregunta lo que faltó; su equipo responde."},
+      {n:"03",title:"Aprobación humana",text:"El responsable revisa, corrige y aprueba — o lo devuelve para ajuste."},
+      {n:"04",title:"Contabilización",text:"Solo entonces el costo entra en el cierre, con registro trazable."}
+    ],
+    intSameFlow:"Nada se contabiliza automáticamente solo porque vino de una integración. El evento recibido por API o MCP recorre exactamente el mismo camino que una carga manual: análisis del motor de IA, pedido de aclaración cuando falta un dato, revisión y aprobación humana — y solo entonces el cierre. La integración cambia quién escribe, no quién decide.",
+    intSystemsLabel:"Sistemas de origen",
+    intSystems:[
+      {name:"SIQ Systems — EQM",note:"Integración nativa, ya lista: no conformidades, acciones correctivas y reclamos del EQM se convierten en evento de costo sin configuración.",tag:"Nativa"},
+      {name:"Otros QMS y EQM",note:"No conformidad, acción correctiva, auditoría y reclamo de cliente.",tag:"API · MCP"},
+      {name:"ERP",note:"Nota de devolución, costo de material, orden de reproceso, centro de costo.",tag:"API · MCP"},
+      {name:"MES y reporte de producción",note:"Desperdicio, reproceso, parada de línea y hora de máquina.",tag:"API · MCP"},
+      {name:"WMS y logística",note:"Avería, movimiento de stock bloqueado y flete de retorno.",tag:"API · MCP"},
+      {name:"CRM y atención",note:"Reclamo de cliente, ticket de garantía y devolución.",tag:"API · MCP"}
+    ],
+    intNoRipLabel:"Sin cambiar de sistema",
+    intNoRipText:"Q-Cost AI no reemplaza su QMS, ERP o MES. Lee lo que esos sistemas ya producen y devuelve la lectura financiera que hoy falta. Nadie cambia de herramienta ni de rutina.",
+    intCta:"Hablar sobre la integración",
+    steps:[
+      {n:"01",title:"Importe sus documentos",text:"Reclamos de cliente, planillas de desperdicio, notas de devolución, informes de inspección."},
+      {n:"02",title:"La IA clasifica y sugiere",text:"Extracción de datos, clasificación PAF y cálculo del costo — preguntando cuando falta información."},
+      {n:"03",title:"Usted revisa y aprueba",text:"Edite valores y premisas en la pantalla de revisión. Nada entra al cierre sin aprobación humana."},
+      {n:"04",title:"El panel se actualiza",text:"COQ y COPQ por planta, categoría y periodo, con registro trazable de cada contabilización."}
+    ],
+    personas:[
+      {role:"Director Industrial y CFO",benefit:"Cuánto cuesta la mala calidad como porcentaje de los ingresos, por planta y trimestre."},
+      {role:"Gerente de Calidad",benefit:"Justificación financiera para invertir en prevención en lugar de apagar incendios."},
+      {role:"Gerente de Producción",benefit:"Dónde el reproceso y el desperdicio concentran costo dentro del propio proceso."},
+      {role:"Contraloría",benefit:"Cifras auditables, con premisas registradas y rastro de quién aprobó qué."},
+      {role:"Compras y Supply",benefit:"Costo de fallo por proveedor, para negociar con dato y no con percepción."}
+    ],
+    plans:[
+      {name:"Free",badge:"Prueba",price:"R$ 0",priceNote:"gratuito permanente",events:"hasta 25",cta:"Crear cuenta",
+       features:["Plantilla PAF por segmento","Panel COQ y COPQ","Usuarios ilimitados","Historial de 6 meses"]},
+      {name:"Basic",badge:"Una planta",price:"R$ 890",priceNote:"por mes",events:"hasta 150",cta:"Crear cuenta",
+       features:["Importación de PDF y planillas","Exportación del cierre","Historial completo","Soporte por correo"]},
+      {name:"Pro",badge:"Más elegido",price:"R$ 2.490",priceNote:"por mes",events:"hasta 600",cta:"Empezar en Pro",
+       features:["Múltiples plantas y centros de costo","Trazabilidad y registro de auditoría","Alertas por rango de costo","Retención del registro de invocaciones de la IA","Soporte prioritario"]},
+      {name:"Enterprise",badge:"Corporativo",price:"Hablemos",priceNote:"volumen por contrato",events:"por contrato",cta:"Hablar con ventas",
+       features:["API REST y MCP para ERP y agentes","SSO con SAML y SCIM","Política de retención propia","Plan de implantación dedicado"]}
+    ]
+  }
+};
+
+const PAF_COLORS = ["var(--paf1)", "var(--paf2)", "var(--paf3)", "var(--paf4)"];
+
+const STEP_ICONS = [
+  ["M4 3h16v18H4z", "M8 8h8M8 12h8M8 16h5"],
+  ["M3 3h18v18H3z", "M9 9h6v6H9z"],
+  ["M3.5 3.5h17v17h-17z", "M7.5 12.5 11 16l5.5-8"],
+  ["M3 3h18v18H3z", "M3 9h18M9 9v12"]
+];
+const PERSONA_ICONS = [
+  ["M4 21V8l8-5 8 5v13", "M9 21v-7h6v7"],
+  ["M3.5 3.5h17v17h-17z", "M7.5 12.5 11 16l5.5-8"],
+  ["M3 20h18M6 20V11m5 9V5m5 15v-6"],
+  ["M4 3h16v18H4z", "M8 8h8M8 12h8M8 16h5"],
+  ["M3 10h18v11H3z", "M7 10V6h10v4", "M12 14v3"]
+];
+
+function icon(paths, color, size) {
+  return React.createElement("svg", {
+    width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color,
+    strokeWidth: 1.6, strokeLinecap: "square", strokeLinejoin: "miter", "aria-hidden": "true"
+  }, paths.map((d, i) => React.createElement("path", { key: i, d })));
+}
+
+const LANG_KEY = "qcost-lang-v2";
+function readLang() { try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; } }
+function writeLang(v) { try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {} }
+
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() {
+  try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; }
+}
+function writeTheme(v) {
+  try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {}
+}
+
+class Component extends DCLogic {
+  state = { lang: null, theme: readTheme(), projOpen: false, itEmail: "", itSent: false };
+
+  renderVals() {
+    const lang = this.state.lang || readLang() || this.props.language || "pt-BR";
+    const theme = this.state.theme || this.props.theme || "light";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const on = (k) => () => { writeLang(k); this.setState({ lang: k }); };
+    const abg = (v) => (v ? "var(--acc)" : "var(--bg)");
+    const afg = (v) => (v ? "var(--accInk)" : "var(--ink2)");
+
+    return {
+      t, theme,
+      demos: t.demos.map((d) => ({ doubt: d[0], title: d[1], time: d[2], desc: d[3] })),
+
+      // a landing resume compromissos que já existem na central de confiança; o link leva ao domínio de origem
+      dataClaims: t.dataClaims.map((c, i) => ({
+        title: c[0], body: c[1], how: c[2], link: c[3],
+        href: ["Q-Cost AI Confianca v2.dc.html#ia","Q-Cost AI Confianca v2.dc.html#anexos","Q-Cost AI Confianca v2.dc.html#retencao"][i]
+      })),
+      itDocs: t.itDocNames.map((name, i) => ({
+        name: name, tag: t.itTagPublic,
+        href: ["Q-Cost AI Politicas v2.dc.html#privacidade","Q-Cost AI Politicas v2.dc.html#termos","Q-Cost AI Politicas v2.dc.html#privacidade","Q-Cost AI Politicas v2.dc.html#dpa","Q-Cost AI Confianca v2.dc.html#seguranca"][i]
+      })),
+      itEmail: this.state.itEmail,
+      onItEmail: (e) => this.setState({ itEmail: e.target.value, itSent: false }),
+      itSend: () => { if (this.state.itEmail) this.setState({ itSent: true }); },
+      itLabel: this.state.itSent ? t.itDone : t.itCta,
+      itBg: this.state.itSent ? "var(--surf2)" : "var(--acc)",
+      itFg: this.state.itSent ? "var(--ink)" : "var(--accInk)",
+
+      projOpen: this.state.projOpen,
+      projBg: this.state.projOpen ? "var(--surf2)" : "transparent",
+      toggleProj: () => this.setState((st) => ({ projOpen: !st.projOpen })),
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+      setPt: on("pt-BR"), setEn: on("en"), setEs: on("es"),
+      ptBg: abg(lang === "pt-BR"), ptFg: afg(lang === "pt-BR"),
+      enBg: abg(lang === "en"), enFg: afg(lang === "en"),
+      esBg: abg(lang === "es"), esFg: afg(lang === "es"),
+
+      pafCats: t.pafCats.map((p, i) => ({ ...p, color: PAF_COLORS[i] })),
+      pafSegments: t.pafSegments,
+      goals: t.goals,
+      flow1Tags: t.flow1Tags,
+      flow3Tags: t.flow3Tags,
+      flow4Tags: t.flow4Tags,
+      today: t.today,
+      intSteps: t.intSteps,
+      intSystems: t.intSystems.map((sy, i) => ({
+        name: sy.name, note: sy.note, tag: sy.tag,
+        border: i === 0 ? "var(--acc)" : "var(--line2)",
+        bg: i === 0 ? "var(--acc)" : "transparent",
+        fg: i === 0 ? "var(--accInk)" : "var(--ink3)"
+      })),
+      steps: t.steps.map((s, i) => ({ ...s, icon: icon(STEP_ICONS[i], "var(--ink2)", 17) })),
+      s1n: t.steps[0].n, s1title: t.steps[0].title, s1text: t.steps[0].text,
+      s2n: t.steps[1].n, s2title: t.steps[1].title, s2text: t.steps[1].text,
+      s3n: t.steps[2].n, s3title: t.steps[2].title, s3text: t.steps[2].text,
+      s4n: t.steps[3].n, s4title: t.steps[3].title, s4text: t.steps[3].text,
+      personas: t.personas.map((p, i) => ({ ...p, icon: icon(PERSONA_ICONS[i], "var(--ink2)", 19) })),
+
+      plans: t.plans.map((p, i) => {
+        const pro = i === 2;
+        return {
+          name: p.name, badge: p.badge, price: p.price, priceNote: p.priceNote,
+          events: p.events, features: p.features, cta: p.cta,
+          href: i === 3 ? "#contato" : "Q-Cost AI Onboarding v2.dc.html",
+          bg: pro ? "var(--surf2)" : "var(--surf)",
+          badgeBorder: pro ? "var(--ink)" : "var(--line2)",
+          badgeFg: pro ? "var(--accInk)" : "var(--ink3)",
+          badgeBg: pro ? "var(--acc)" : "transparent",
+          btnBg: pro ? "var(--acc)" : "transparent",
+          btnFg: pro ? "var(--accInk)" : "var(--ink)",
+          btnBorder: pro ? "var(--acc)" : "var(--line2)"
+        };
+      })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

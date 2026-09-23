@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+    --c1:#131313;--c2:#535353;--c3:#8F8F8D;--c4:#C6C6C3;
+    --paf1:#265C7A;--paf2:#257266;--paf3:#AA7123;--paf4:#91363E;
+    --paf1Soft:rgba(38,92,122,0.12);--paf2Soft:rgba(37,114,102,0.12);--paf3Soft:rgba(170,113,35,0.14);--paf4Soft:rgba(145,54,62,0.14);
+    --paf1Line:rgba(38,92,122,0.28);--paf2Line:rgba(37,114,102,0.28);--paf3Line:rgba(170,113,35,0.32);--paf4Line:rgba(145,54,62,0.32);
+  }
+  [data-theme="dark"]{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+    --c1:#F0F0F0;--c2:#B0B0B0;--c3:#787878;--c4:#4A4A4A;
+    --paf1:#4E93B8;--paf2:#3E9E8F;--paf3:#D19A45;--paf4:#C4737C;
+    --paf1Soft:rgba(78,147,184,0.16);--paf2Soft:rgba(62,158,143,0.16);--paf3Soft:rgba(209,154,69,0.16);--paf4Soft:rgba(196,115,124,0.16);
+    --paf1Line:rgba(78,147,184,0.34);--paf2Line:rgba(62,158,143,0.34);--paf3Line:rgba(209,154,69,0.34);--paf4Line:rgba(196,115,124,0.34);
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,select,button{font-family:'Archivo',system-ui,sans-serif}
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"></rect>
+    <g stroke-linecap="square">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"></path>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"></path>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"></path>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"></path>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box">
+
+  <header style="border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20">
+    <div style="max-width:1320px;margin:0 auto;padding:16px clamp(18px,3vw,40px);display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:11px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-linecap="square" aria-hidden="true">
+          <path d="M5 7h13" stroke="var(--ink)" stroke-width="2.6"></path>
+          <path d="M5 12h9" stroke="var(--ink)" stroke-width="2.6"></path>
+          <path d="M5 17h5" stroke="var(--sig)" stroke-width="2.6"></path>
+          <path d="M14 15l5 5" stroke="var(--sig)" stroke-width="2.6"></path>
+        </svg>
+        <span style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Q&#8209;Cost&nbsp;<span style="color:var(--sig)">AI</span></span>
+      </div>
+      <button type="button" onClick="{{ toggleTheme }}" aria-label="Alternar tema" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+      </button>
+    </div>
+  </header>
+
+  <main style="max-width:1320px;margin:0 auto;padding:clamp(28px,4vw,56px) clamp(18px,3vw,40px) 96px;display:flex;flex-direction:column;gap:clamp(40px,5vw,68px)">
+
+    <section style="display:flex;flex-wrap:wrap;gap:clamp(22px,3vw,40px);align-items:flex-end;justify-content:space-between">
+      <div style="flex:1 1 320px;min-width:260px;display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">Design system &middot; versão 2</span>
+        <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">Fundamentos visuais</h1>
+        <p style="margin:0;font-size:13px;line-height:1.65;color:var(--ink2);max-width:70ch;text-wrap:pretty">Papel off&#8209;white quente, tinta quase preta, hairlines de 1px e um único dourado de assinatura. A estrutura vem da linha, não da sombra. Tema claro e escuro, multilíngue, WCAG 2.1 AA.</p>
+      </div>
+      <dl style="margin:0;display:grid;grid-template-columns:auto auto;gap:8px 24px;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">
+        <dt style="margin:0">Tipografia</dt><dd style="margin:0;color:var(--ink)">Archivo / DM Mono</dd>
+        <dt style="margin:0">Raio máximo</dt><dd style="margin:0;color:var(--ink)">2px</dd>
+        <dt style="margin:0">Acento</dt><dd style="margin:0;color:var(--ink)">Tinta &middot; dourado de assinatura</dd>
+        <dt style="margin:0">Tema exibido</dt><dd style="margin:0;color:var(--ink)">{{ themeName }}</dd>
+      </dl>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <h2 style="margin:0;font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Paleta</h2>
+        <span style="font-size:11.5px;color:var(--ink3)">Todo layout referencia <span style="font-family:'DM Mono',monospace">var(--*)</span>, nunca hex direto &middot; valores do tema {{ themeName }}</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,148px),1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)">
+        <sc-for list="{{ baseSwatches }}" as="s" hint-placeholder-count="10">
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line)">
+            <div style="height:54px;background:{{ s.value }};border-bottom:1px solid var(--line)"></div>
+            <div style="padding:11px 13px 13px">
+              <div style="font-size:12px;line-height:1.4">{{ s.name }}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:5px">{{ s.token }}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ s.value }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,215px),1fr));border:1px solid var(--line)">
+        <sc-for list="{{ statusSwatches }}" as="s" hint-placeholder-count="4">
+          <div style="border-right:1px solid var(--line);padding:16px 18px;display:flex;flex-direction:column;gap:11px">
+            <span style="display:inline-flex;align-items:center;gap:7px;height:23px;padding:0 9px;border:1px solid {{ s.value }};background:{{ s.bgValue }};color:{{ s.value }};font-family:'DM Mono',monospace;font-size:10.5px;align-self:flex-start">
+              <span style="width:5px;height:5px;background:{{ s.value }};display:block"></span>{{ s.name }}
+            </span>
+            <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);line-height:1.7">{{ s.pair }}</div>
+            <div style="font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">{{ s.note }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="border:1px solid var(--line)">
+        <div style="padding:13px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Categorias PAF &mdash; ordem fixa</span>
+          <span style="font-size:11.5px;color:var(--ink3)">Cor indica categoria, nunca estado. Cinza só para item sem classificação.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,205px),1fr))">
+          <sc-for list="{{ pafSwatches }}" as="p" hint-placeholder-count="4">
+            <div style="border-right:1px solid var(--line);padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)">{{ p.index }}</span>
+                <span style="flex:1;height:3px;background:{{ p.value }};display:block"></span>
+              </div>
+              <span style="display:inline-flex;align-items:center;height:23px;padding:0 9px;border:1px solid {{ p.line }};background:{{ p.soft }};color:{{ p.value }};font-family:'DM Mono',monospace;font-size:10.5px;align-self:flex-start">{{ p.name }}</span>
+              <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);line-height:1.7">{{ p.pair }}</div>
+              <div style="font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">{{ p.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:center;padding:14px 16px;border:1px solid var(--line);background:var(--surf2)">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);flex:none">Séries neutras</span>
+        <div style="display:flex;gap:1px;flex:1 1 200px;min-width:180px">
+          <div style="flex:1;height:26px;background:var(--c1)"></div>
+          <div style="flex:1;height:26px;background:var(--c2)"></div>
+          <div style="flex:1;height:26px;background:var(--c3)"></div>
+          <div style="flex:1;height:26px;background:var(--c4)"></div>
+        </div>
+        <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);flex:1 1 240px">Séries sem eixo PAF &mdash; canais de entrada, plantas, fornecedores &mdash; usam <span style="font-family:'DM Mono',monospace">--c1…--c4</span>.</span>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <h2 style="margin:0;font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Cor de negócio e cor de sistema</h2>
+        <span style="font-size:11.5px;color:var(--ink3)">Dois vocabulários distintos sobre os mesmos tokens</span>
+      </div>
+      <p style="margin:0;font-size:13px;line-height:1.65;color:var(--ink2);max-width:80ch;text-wrap:pretty">A mesma variável significa coisas diferentes conforme o que ela colore. Em um dado de negócio, <span style="font-family:'DM Mono',monospace">--pos</span> e <span style="font-family:'DM Mono',monospace">--neg</span> dizem se o número caminha na direção desejada pela métrica. Em um elemento de sistema, dizem em que ponto do fluxo a ação está ou se a operação deu certo. Nunca misture os dois papéis no mesmo componente.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));border:1px solid var(--line)">
+
+        <div style="border-right:1px solid var(--line);display:flex;flex-direction:column">
+          <div style="padding:13px 18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:10px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Elementos de negócio</span>
+            <span style="font-size:11.5px;color:var(--ink3)">custo, variação, categoria</span>
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:18px">
+
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <span style="font-size:12.5px">Valor monetário é tinta</span>
+              <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:baseline">
+                <span style="font-family:'DM Mono',monospace;font-size:24px;font-weight:300;letter-spacing:-0.025em;font-variant-numeric:{{ figures }}">R$ 4.812.930</span>
+                <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">--ink</span>
+              </div>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Dinheiro não é colorido por ser dinheiro. A exceção é o KPI de perda, que assume <span style="font-family:'DM Mono',monospace">--neg</span> por ser sempre indesejado.</p>
+            </div>
+
+            <div style="border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:11px">
+              <span style="font-size:12.5px">Variação segue a direção desejada, não o sinal</span>
+              <table style="width:100%;border-collapse:collapse">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:0 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Categoria</th>
+                    <th style="text-align:right;padding:0 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Variação</th>
+                    <th style="text-align:right;padding:0 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Token</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ deltaRows }}" as="d" hint-placeholder-count="4">
+                    <tr>
+                      <td style="padding:10px 0;border-bottom:1px solid var(--line);font-size:12px;color:var(--ink2)">{{ d.cat }}</td>
+                      <td style="padding:10px 0;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums;color:{{ d.color }}">{{ d.delta }}</td>
+                      <td style="padding:10px 0;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ d.token }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Prevenção e avaliação subindo é investimento &mdash; verde. Falha subindo é perda &mdash; vinho. Um <span style="font-family:'DM Mono',monospace">+</span> nunca é verde por si só.</p>
+            </div>
+
+            <div style="border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:11px">
+              <span style="font-size:12.5px">Estado do evento &mdash; conjunto canônico</span>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Sete estados, conjunto fechado. Toda tela do produto nomeia o evento com uma destas sete palavras, em caixa de frase e em DM Mono. Nenhuma tela introduz um oitavo rótulo.</p>
+              <table style="width:100%;border-collapse:collapse">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:4px 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Em tabela densa</th>
+                    <th style="text-align:left;padding:4px 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Fora da tabela</th>
+                    <th style="text-align:right;padding:4px 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Token</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ eventStates }}" as="s" hint-placeholder-count="7">
+                    <tr>
+                      <td style="padding:9px 0;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:11.5px;color:{{ s.color }}">{{ s.label }}</td>
+                      <td style="padding:9px 0;border-bottom:1px solid var(--line)">
+                        <span style="display:inline-flex;align-items:center;gap:7px;height:23px;padding:0 9px;border:1px solid {{ s.color }};background:{{ s.bg }};color:{{ s.color }};font-family:'DM Mono',monospace;font-size:10.5px">
+                          <span style="width:5px;height:5px;background:{{ s.color }};display:block;flex:none"></span>{{ s.label }}
+                        </span>
+                      </td>
+                      <td style="padding:9px 0;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ s.token }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <sc-for list="{{ eventStates }}" as="s" hint-placeholder-count="7">
+                  <div style="display:flex;gap:10px;font-size:11.5px;line-height:1.6;color:var(--ink3)">
+                    <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink2);flex:none;width:88px">{{ s.label }}</span>
+                    <span>{{ s.note }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Em linha de tabela o estado dispensa fundo e borda &mdash; só a cor do texto. Fora dela, badge com borda, fundo tonal e rótulo. Rascunho, Pendente e Provisório dividem <span style="font-family:'DM Mono',monospace">--warn</span> de propósito: cor nunca é o único indicador, e o rótulo textual está sempre presente nas duas formas. Item sem classificação ou agrupado em <span style="font-family:'DM Mono',monospace">--ink3</span>.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div style="padding:13px 18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:baseline;gap:10px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Elementos de sistema</span>
+            <span style="font-size:11.5px;color:var(--ink3)">ação, status de fluxo, validação, IA</span>
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:18px">
+
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <span style="font-size:12.5px">Ação é tinta, não cor de marca</span>
+              <div style="display:flex;flex-wrap:wrap;gap:10px">
+                <button type="button" style="height:34px;padding:0 14px;border:none;background:var(--acc);color:var(--accInk);font-size:13px;cursor:pointer">Confirmar apuração</button>
+                <button type="button" style="height:34px;padding:0 14px;border:1px solid var(--line2);background:transparent;color:var(--ink);font-size:13px;cursor:pointer">Exportar</button>
+                <button type="button" style="height:34px;padding:0 14px;border:1px solid var(--neg);background:transparent;color:var(--neg);font-size:13px;cursor:pointer">Excluir evento</button>
+              </div>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Primária <span style="font-family:'DM Mono',monospace">--acc / --accInk</span>, secundária contornada em <span style="font-family:'DM Mono',monospace">--line2</span>, destrutiva em <span style="font-family:'DM Mono',monospace">--neg</span>. Nenhuma ação usa cor de categoria nem o dourado.</p>
+            </div>
+
+            <div style="border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-size:12.5px">Status de ação e de fluxo</span>
+              <div style="display:flex;flex-wrap:wrap;gap:9px">
+                <sc-for list="{{ flowStates }}" as="f" hint-placeholder-count="10">
+                  <span style="display:inline-flex;align-items:center;gap:7px;height:23px;padding:0 9px;border:1px solid {{ f.line }};background:{{ f.bg }};color:{{ f.color }};font-family:'DM Mono',monospace;font-size:10.5px">
+                    <span style="width:5px;height:5px;background:{{ f.color }};display:block;flex:none"></span>{{ f.label }}
+                  </span>
+                </sc-for>
+              </div>
+              <table style="width:100%;border-collapse:collapse">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:4px 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Família de status</th>
+                    <th style="text-align:right;padding:4px 0 8px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Token</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ statusFamilies }}" as="fam" hint-placeholder-count="5">
+                    <tr>
+                      <td style="padding:9px 0;border-bottom:1px solid var(--line);font-size:11.5px;line-height:1.55;color:var(--ink2)">{{ fam.labels }}</td>
+                      <td style="padding:9px 0;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:10.5px;color:{{ fam.color }};white-space:nowrap">{{ fam.token }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Status de fluxo sempre em badge completo &mdash; borda, fundo tonal, marcador e rótulo textual. A cor nunca é o único indicador, e o rótulo cresce na horizontal sem alterar a altura de 23px.</p>
+            </div>
+
+            <div style="border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:11px">
+              <span style="font-size:12.5px">Validação de campo</span>
+              <div style="display:flex;flex-direction:column;gap:7px;max-width:290px">
+                <label for="ds-fld" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Centro de custo</label>
+                <input id="ds-fld" type="text" value="CC-00" readonly="readonly" style="font-family:'DM Mono',monospace;font-size:13px;height:34px;padding:0 10px;border:1px solid var(--neg);background:var(--negBg);color:var(--ink);width:100%;box-sizing:border-box">
+                <span style="font-size:11.5px;line-height:1.5;color:var(--neg)">Centro de custo não encontrado no plano vigente</span>
+              </div>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Aqui <span style="font-family:'DM Mono',monospace">--neg</span> significa operação inválida, não valor ruim. Sucesso de operação usa <span style="font-family:'DM Mono',monospace">--pos</span> com a mesma gramática.</p>
+            </div>
+
+            <div style="border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:11px">
+              <span style="font-size:12.5px">Leitura da IA e assinatura</span>
+              <div style="border:1px solid var(--line);border-left:2px solid var(--warn);background:var(--surf);padding:14px 16px;display:flex;flex-direction:column;gap:8px">
+                <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--warn)">Leitura do período</span>
+                <p style="margin:0;font-size:12.5px;line-height:1.65;color:var(--ink2)">Falha externa concentrou 38% do custo apurado, puxada por três eventos de garantia na planta de Betim.</p>
+              </div>
+              <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Todo bloco gerado por IA leva borda esquerda de 2px em <span style="font-family:'DM Mono',monospace">--warn</span> e rótulo mono na mesma cor. O dourado <span style="font-family:'DM Mono',monospace">--sig</span> fica reservado à marca e ao contorno de foco.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding-top:6px">
+                <span style="display:inline-flex;align-items:center;height:34px;padding:0 14px;border:1px solid var(--line2);font-size:13px;outline:1px solid var(--sig);outline-offset:3px">Foco de teclado</span>
+                <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);flex:1 1 170px">1px sólido <span style="font-family:'DM Mono',monospace">--sig</span>, offset 3px, em todo controle.</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--line);background:var(--surf2);padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:16px 28px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Nunca</span>
+          <span style="font-size:11.5px;line-height:1.6;color:var(--ink2)">Colorir um valor apenas por ser monetário; usar cor de categoria em botão ou em status de fluxo; usar <span style="font-family:'DM Mono',monospace">--sig</span> em série de gráfico.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Sempre</span>
+          <span style="font-size:11.5px;line-height:1.6;color:var(--ink2)">Acompanhar cor de estado com rótulo textual; manter a ordem PAF fixa; decidir a cor do delta pela métrica, não pelo sinal.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Cinza</span>
+          <span style="font-size:11.5px;line-height:1.6;color:var(--ink2)">Só para item arquivado, inativo, agrupado, sem classificação ou desabilitado. Nunca para uma categoria PAF.</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <h2 style="margin:0;font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Tipografia</h2>
+        <span style="font-size:11.5px;color:var(--ink3)">Archivo 200&ndash;500 &middot; DM Mono em todo dado, código e microlabel</span>
+      </div>
+      <div style="border:1px solid var(--line)">
+        <div style="padding:22px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;align-items:baseline">
+          <span style="flex:1 1 280px;min-width:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">Custos da qualidade</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);white-space:nowrap">clamp(30,4.4vw,46) / 1.1 / 200</span>
+          <span style="font-size:11.5px;color:var(--ink3);flex:0 0 124px">Título de página</span>
+        </div>
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;align-items:baseline">
+          <span style="flex:1 1 280px;min-width:0;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">Apuração &middot; estrutura PAF</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);white-space:nowrap">mono 11 &middot; 0.05em &middot; caixa alta</span>
+          <span style="font-size:11.5px;color:var(--ink3);flex:0 0 124px">Kicker</span>
+        </div>
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;align-items:baseline">
+          <span style="flex:1 1 280px;min-width:0;font-size:16px;font-weight:400;line-height:1.3">Não conformidades por planta</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);white-space:nowrap">16 / 21 &middot; 400</span>
+          <span style="font-size:11.5px;color:var(--ink3);flex:0 0 124px">Título de seção</span>
+        </div>
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;align-items:baseline">
+          <span style="flex:1 1 280px;min-width:0;font-size:13px;line-height:1.65;color:var(--ink2)">A apuração de março consolidou 1.284 apontamentos de retrabalho, distribuídos entre três unidades produtivas.</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);white-space:nowrap">13 / 21 &middot; 400 &middot; 70ch</span>
+          <span style="font-size:11.5px;color:var(--ink3);flex:0 0 124px">Corpo</span>
+        </div>
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:20px;align-items:baseline">
+          <span style="flex:1 1 280px;min-width:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">Atualizado em 08/09/2026 às 18:42 &middot; fonte SAP QM</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);white-space:nowrap">11.5 / 18 &middot; 400</span>
+          <span style="font-size:11.5px;color:var(--ink3);flex:0 0 124px">Auxiliar</span>
+        </div>
+        <div style="padding:22px 20px;display:flex;flex-wrap:wrap;gap:20px;align-items:baseline">
+          <span style="flex:1 1 280px;min-width:0;font-family:'DM Mono',monospace;font-size:clamp(24px,2.1vw,34px);font-weight:300;letter-spacing:-0.025em;line-height:1;font-variant-numeric:{{ figures }}">R$ 4.812.930</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);white-space:nowrap">mono clamp(24,2.1vw,34) / 1 / 300</span>
+          <span style="font-size:11.5px;color:var(--ink3);flex:0 0 124px">Número de KPI</span>
+        </div>
+      </div>
+      <p style="margin:0;font-size:11.5px;line-height:1.7;color:var(--ink3)">Acentuação latina completa para pt&#8209;BR e es: <span style="color:var(--ink)">Aprovação, Não&nbsp;Conformidade, Análise, Ação Corretiva, Inspección, Máquina, Añadir, Corrección.</span> Moeda, percentual e contadores sempre em figuras tabulares.</p>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <h2 style="margin:0;font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Componentes</h2>
+        <span style="font-size:11.5px;color:var(--ink3)">Altura 34px &middot; raio 0&ndash;2px &middot; nenhuma pílula</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));border:1px solid var(--line)">
+        <div style="border-right:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Campos</span>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label for="ds-ok" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Centro de custo</label>
+            <input id="ds-ok" type="text" value="CC-4820 · Usinagem" readonly="readonly" style="font-family:'DM Mono',monospace;font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label for="ds-sel" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Planta</label>
+            <select id="ds-sel" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+              <option>Todas as plantas</option>
+              <option>Curitiba (PR)</option>
+            </select>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Rótulo em DM Mono 10px caixa alta, <span style="font-family:'DM Mono',monospace">gap:7px</span>. Fundo transparente, borda <span style="font-family:'DM Mono',monospace">--line2</span>.</p>
+        </div>
+
+        <div style="border-right:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Grupo segmentado</span>
+          <div style="display:flex;flex-wrap:wrap;gap:1px;background:var(--line)">
+            <sc-for list="{{ segments }}" as="g" hint-placeholder-count="4">
+              <button type="button" onClick="{{ g.pick }}" style="font-size:13px;height:34px;padding:0 14px;border:none;cursor:pointer;background:{{ g.bg }};color:{{ g.fg }};white-space:nowrap">{{ g.label }}</button>
+            </sc-for>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Botões sem borda com <span style="font-family:'DM Mono',monospace">gap:1px</span> sobre <span style="font-family:'DM Mono',monospace">--line</span> &mdash; a linha vira o separador. O ativo inverte para <span style="font-family:'DM Mono',monospace">--acc</span>.</p>
+        </div>
+
+        <div style="padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Ícones</span>
+          <div style="display:flex;flex-wrap:wrap;gap:16px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect><path d="M3 9h18M9 9v12"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M3 20h18M6 20V11m5 9V5m5 15v-6"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="4" y="3" width="16" height="18"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="4" width="18" height="16"></rect><path d="M3 9h18M8 4V2M16 4V2"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="3" width="18" height="18"></rect><path d="M8 14l3-4 3 3 3-5"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 4h16v5H4zM4 15h16v5H4z"></path><path d="M12 9v6"></path></svg>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Outline, traço 1.8, <span style="font-family:'DM Mono',monospace">square</span> e <span style="font-family:'DM Mono',monospace">miter</span>, em <span style="font-family:'DM Mono',monospace">currentColor</span>. 13px em botão, 22px isolado. Nunca preenchidos.</p>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--line)">
+        <div style="padding:13px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Faixa de KPI &mdash; bordas compartilhadas</span>
+          <span style="font-size:11.5px;color:var(--ink3)">grid auto-fit &middot; gap 0 &middot; border-right entre células</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,162px),1fr))">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+            <div style="border-right:1px solid var(--line);padding:clamp(20px,2.4vw,28px) clamp(16px,1.8vw,22px);display:flex;flex-direction:column;gap:14px">
+              <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);line-height:1.5;min-height:30px">{{ k.label }}</span>
+              <span style="font-family:'DM Mono',monospace;font-size:clamp(17px,2.1vw,34px);font-weight:300;letter-spacing:-0.025em;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums;color:{{ k.color }}">{{ k.value }}</span>
+              <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">{{ k.note }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--line);overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;min-width:520px">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:9px 14px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Categoria</th>
+              <th style="text-align:right;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Custo</th>
+              <th style="text-align:right;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Part.</th>
+              <th style="text-align:right;padding:9px 14px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">Variação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ tableRows }}" as="t" hint-placeholder-count="4">
+              <tr>
+                <td style="padding:13px 14px;border-bottom:1px solid var(--line)">
+                  <span style="display:inline-flex;align-items:center;gap:9px">
+                    <span style="width:3px;height:14px;background:{{ t.catColor }};display:block;flex:none"></span>
+                    <span style="font-size:12.5px">{{ t.cat }}</span>
+                  </span>
+                </td>
+                <td style="padding:13px 10px;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap">{{ t.cost }}</td>
+                <td style="padding:13px 10px;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums">{{ t.share }}</td>
+                <td style="padding:13px 14px;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap;color:{{ t.deltaColor }}">{{ t.delta }}</td>
+              </tr>
+            </sc-for>
+            <tr>
+              <td style="padding:12px 14px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">Total</td>
+              <td style="padding:12px 10px;text-align:right;font-family:'DM Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap">R$ 4.812.930</td>
+              <td style="padding:12px 10px;text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;color:var(--ink2);font-variant-numeric:tabular-nums">100,0%</td>
+              <td style="padding:12px 14px;text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--neg)">+6,2%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin:0;font-size:11.5px;line-height:1.7;color:var(--ink3)">Tabela sem borda vertical. Categoria indicada por marcador lateral de 3px, nunca por linha preenchida. Colunas numéricas em DM Mono tabular à direita. Linha de total sem borda inferior, rótulo em mono caixa alta.</p>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <h2 style="margin:0;font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Princípios</h2>
+        <span style="font-size:11.5px;color:var(--ink3)">O que sustenta as decisões acima</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:20px 28px">
+        <sc-for list="{{ principles }}" as="pr" hint-placeholder-count="6">
+          <div style="border-left:1px solid var(--line2);padding-left:14px;display:flex;flex-direction:column;gap:7px">
+            <span style="font-size:12.5px">{{ pr.title }}</span>
+            <p style="margin:0;font-size:11.5px;line-height:1.7;color:var(--ink3)">{{ pr.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320}}">
+class Component extends DCLogic {
+  state = { theme: "light", seg: 1 };
+
+  renderVals() {
+    const dark = this.state.theme === "dark";
+    const P = dark
+      ? { bg:"#0A0A0A", surf:"#0F0F0F", surf2:"#151515", line:"#1F1F1F", line2:"#2B2B2B",
+          ink:"#F0F0F0", ink2:"#9A9A9A", ink3:"#8E8E8E", acc:"#F0F0F0", sig:"#C3A653",
+          pos:"#5E9B98", neg:"#C2848D", warn:"#C3A653", info:"#8B9DBE",
+          posBg:"#141B1B", negBg:"#20191A", warnBg:"#201D13", infoBg:"#1A1C20",
+          paf:["#4E93B8","#3E9E8F","#D19A45","#C4737C"],
+          pafSoft:["rgba(78,147,184,0.16)","rgba(62,158,143,0.16)","rgba(209,154,69,0.16)","rgba(196,115,124,0.16)"],
+          pafLine:["rgba(78,147,184,0.34)","rgba(62,158,143,0.34)","rgba(209,154,69,0.34)","rgba(196,115,124,0.34)"] }
+      : { bg:"#FBFBFA", surf:"#FFFFFF", surf2:"#F3F3F2", line:"#E6E6E4", line2:"#D4D4D1",
+          ink:"#131313", ink2:"#5E5E5C", ink3:"#6F6F6D", acc:"#131313", sig:"#79621F",
+          pos:"#2F6260", neg:"#7E3F4A", warn:"#79621F", info:"#46597A",
+          posBg:"#F0F4F4", negBg:"#F6F2F2", warnBg:"#F6F4EF", infoBg:"#F2F3F6",
+          paf:["#265C7A","#257266","#AA7123","#91363E"],
+          pafSoft:["rgba(38,92,122,0.12)","rgba(37,114,102,0.12)","rgba(170,113,35,0.14)","rgba(145,54,62,0.14)"],
+          pafLine:["rgba(38,92,122,0.28)","rgba(37,114,102,0.28)","rgba(170,113,35,0.32)","rgba(145,54,62,0.32)"] };
+
+    const segLabels = ["30 dias", "Trimestre", "Ano", "Personalizado"];
+
+    return {
+      theme: this.state.theme,
+      themeName: dark ? "escuro" : "claro",
+      figures: "tabular-nums",
+      isDark: this.state.theme === "dark", isLight: this.state.theme !== "dark",
+      toggleTheme: () => this.setState(s => ({ theme: s.theme === "dark" ? "light" : "dark" })),
+
+      baseSwatches: [
+        { name:"Papel", token:"--bg", value:P.bg },
+        { name:"Superfície", token:"--surf", value:P.surf },
+        { name:"Superfície 2", token:"--surf2", value:P.surf2 },
+        { name:"Linha", token:"--line", value:P.line },
+        { name:"Linha forte", token:"--line2", value:P.line2 },
+        { name:"Tinta", token:"--ink", value:P.ink },
+        { name:"Tinta 2", token:"--ink2", value:P.ink2 },
+        { name:"Tinta 3", token:"--ink3", value:P.ink3 },
+        { name:"Ação", token:"--acc", value:P.acc },
+        { name:"Assinatura", token:"--sig", value:P.sig }
+      ],
+
+      statusSwatches: [
+        { name:"Positivo", value:P.pos, bgValue:P.posBg, pair:"--pos " + P.pos + " / --posBg " + P.posBg, note:"Métrica na direção desejada; operação concluída; estado confirmado." },
+        { name:"Atenção", value:P.warn, bgValue:P.warnBg, pair:"--warn " + P.warn + " / --warnBg " + P.warnBg, note:"Pendência, rascunho, prazo se esgotando, leitura da IA." },
+        { name:"Negativo", value:P.neg, bgValue:P.negBg, pair:"--neg " + P.neg + " / --negBg " + P.negBg, note:"Perda, métrica indesejada, operação inválida, rejeição." },
+        { name:"Informativo", value:P.info, bgValue:P.infoBg, pair:"--info " + P.info + " / --infoBg " + P.infoBg, note:"Em análise, agendado, ajuste registrado, nota de contexto." }
+      ],
+
+      pafSwatches: [
+        { index:"01", name:"Prevenção", value:P.paf[0], soft:P.pafSoft[0], line:P.pafLine[0], pair:"--paf1 " + P.paf[0], note:"Azul petróleo — planejamento, antecipação, controle." },
+        { index:"02", name:"Avaliação", value:P.paf[1], soft:P.pafSoft[1], line:P.pafLine[1], pair:"--paf2 " + P.paf[1], note:"Verde-azulado — verificação, inspeção, evidência." },
+        { index:"03", name:"Falha interna", value:P.paf[2], soft:P.pafSoft[2], line:P.pafLine[2], pair:"--paf3 " + P.paf[2], note:"Âmbar queimado — perda contida internamente." },
+        { index:"04", name:"Falha externa", value:P.paf[3], soft:P.pafSoft[3], line:P.pafLine[3], pair:"--paf4 " + P.paf[3], note:"Vinho profundo — impacto no cliente, severidade." }
+      ],
+
+      deltaRows: [
+        { cat:"Prevenção", delta:"+8,4%", color:P.pos, token:"--pos" },
+        { cat:"Avaliação", delta:"−2,1%", color:P.neg, token:"--neg" },
+        { cat:"Falha interna", delta:"+11,3%", color:P.neg, token:"--neg" },
+        { cat:"Falha externa", delta:"−5,7%", color:P.pos, token:"--pos" }
+      ],
+
+      eventStates: [
+        { label:"Rascunho",   token:"--warn", color:P.warn, bg:P.warnBg, note:"Criado, ainda não submetido." },
+        { label:"Em revisão", token:"--info", color:P.info, bg:P.infoBg, note:"Sob conferência de um revisor." },
+        { label:"Pendente",   token:"--warn", color:P.warn, bg:P.warnBg, note:"Submetido, aguarda decisão." },
+        { label:"Provisório", token:"--warn", color:P.warn, bg:P.warnBg, note:"Aprovado com valor estimado." },
+        { label:"Confirmado", token:"--pos",  color:P.pos,  bg:P.posBg,  note:"Valor final, entra na apuração." },
+        { label:"Ajustado",   token:"--info", color:P.info, bg:P.infoBg, note:"Reaberto e corrigido após confirmar." },
+        { label:"Cancelado",  token:"--neg",  color:P.neg,  bg:P.negBg,  note:"Rejeitado ou anulado; sai da apuração." }
+      ],
+
+      flowStates: [
+        { label:"Concluído", color:P.pos, bg:P.posBg, line:P.pos },
+        { label:"Ativo", color:P.pos, bg:P.posBg, line:P.pos },
+        { label:"Sincronizado", color:P.pos, bg:P.posBg, line:P.pos },
+        { label:"Expirando", color:P.warn, bg:P.warnBg, line:P.warn },
+        { label:"Agendado", color:P.info, bg:P.infoBg, line:P.info },
+        { label:"Falhou", color:P.neg, bg:P.negBg, line:P.neg },
+        { label:"Expirado", color:P.neg, bg:P.negBg, line:P.neg },
+        { label:"Bloqueado", color:P.neg, bg:P.negBg, line:P.neg },
+        { label:"Arquivado", color:P.ink3, bg:P.surf2, line:P.line2 }
+      ],
+
+      statusFamilies: [
+        { labels:"Concluído · ativo · sincronizado", token:"--pos / --posBg", color:P.pos },
+        { labels:"Expirando · limite próximo", token:"--warn / --warnBg", color:P.warn },
+        { labels:"Falhou · expirado · bloqueado", token:"--neg / --negBg", color:P.neg },
+        { labels:"Agendado · em processamento", token:"--info / --infoBg", color:P.info },
+        { labels:"Arquivado · inativo · desabilitado", token:"--ink3 / --surf2", color:P.ink3 }
+      ],
+
+      segments: segLabels.map((label, i) => ({
+        label,
+        bg: this.state.seg === i ? P.acc : P.bg,
+        fg: this.state.seg === i ? (dark ? "#0A0A0A" : "#FFFFFF") : P.ink2,
+        pick: () => this.setState({ seg: i })
+      })),
+
+      kpis: [
+        { label:"Total apurado", value:"R$ 4.812.930", color:P.ink, note:"Março de 2026 · três plantas" },
+        { label:"Investimento · prevenção e avaliação", value:"R$ 1.704.110", color:P.ink, note:"35,4% do total apurado" },
+        { label:"Perda · falha interna e externa", value:"R$ 3.108.820", color:P.neg, note:"64,6% do total apurado" },
+        { label:"Eventos que sustentam a apuração", value:"1.284", color:P.ink, note:"Custo médio R$ 3.748 por evento" }
+      ],
+
+      tableRows: [
+        { cat:"Prevenção", catColor:P.paf[0], cost:"R$ 742.180", share:"15,4%", delta:"+8,4%", deltaColor:P.pos },
+        { cat:"Avaliação", catColor:P.paf[1], cost:"R$ 961.930", share:"20,0%", delta:"−2,1%", deltaColor:P.neg },
+        { cat:"Falha interna", catColor:P.paf[2], cost:"R$ 1.281.400", share:"26,6%", delta:"+11,3%", deltaColor:P.neg },
+        { cat:"Falha externa", catColor:P.paf[3], cost:"R$ 1.827.420", share:"38,0%", delta:"−5,7%", deltaColor:P.pos }
+      ],
+
+      principles: [
+        { title:"A linha carrega a estrutura", body:"Bordas de 1px e divisores no lugar de sombra. Sombra só em elemento flutuante: 0 10px 30px rgba(0,0,0,0.14)." },
+        { title:"Geometria quadrada", body:"Raio de 0 a 2px em tudo. Nenhum formato pílula, nenhum avatar circular. A única exceção é o marcador do seletor de tema." },
+        { title:"Peso leve", body:"Quanto maior o texto, mais leve. Título de página em 200, número de KPI em 300, interface em 400. Peso 500 é ênfase pontual." },
+        { title:"Números em mono", body:"DM Mono com figuras tabulares para moeda, percentual, data, código e contador. Alinhamento à direita em coluna de valor." },
+        { title:"Multilíngue por conteúdo", body:"Rótulo nunca tem largura fixa. Botão e badge crescem na horizontal e truncam com reticências, sem alterar altura. Prever 30–40% de expansão em pt-BR e es." },
+        { title:"Fora do sistema", body:"Gradiente, neon, saturação alta, azul de link, ícone preenchido, emoji, ilustração, canto acima de 2px, sombra em conteúdo estático, peso acima de 500." }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

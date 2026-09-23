@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--accSoft:#171717;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+    --c1:#F0F0F0;--c2:#B0B0B0;--c3:#787878;--c4:#4A4A4A;
+    --paf1:#4E93B8;--paf2:#3E9E8F;--paf3:#D19A45;--paf4:#C4737C;
+    --paf1Soft:rgba(78,147,184,0.16);--paf2Soft:rgba(62,158,143,0.16);--paf3Soft:rgba(209,154,69,0.16);--paf4Soft:rgba(196,115,124,0.16);
+    --paf1Line:rgba(78,147,184,0.34);--paf2Line:rgba(62,158,143,0.34);--paf3Line:rgba(209,154,69,0.34);--paf4Line:rgba(196,115,124,0.34);
+  }
+  [data-theme="light"]{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--accSoft:#F3F3F2;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+    --c1:#131313;--c2:#535353;--c3:#8F8F8D;--c4:#C6C6C3;
+    --paf1:#265C7A;--paf2:#257266;--paf3:#AA7123;--paf4:#91363E;
+    --paf1Soft:rgba(38,92,122,0.12);--paf2Soft:rgba(37,114,102,0.12);--paf3Soft:rgba(170,113,35,0.14);--paf4Soft:rgba(145,54,62,0.14);
+    --paf1Line:rgba(38,92,122,0.28);--paf2Line:rgba(37,114,102,0.28);--paf3Line:rgba(170,113,35,0.32);--paf4Line:rgba(145,54,62,0.32);
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,select,textarea,button{font-family:'Archivo',system-ui,sans-serif}
+  @media (max-width:680px){
+    header nav{flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header nav::-webkit-scrollbar{display:none}
+    header nav a{padding:9px 10px !important;min-height:0;white-space:nowrap;flex:none}
+    header button{height:38px !important}
+    header button[aria-label]{width:38px !important}
+    button{min-height:34px}
+    input,select{min-height:36px}
+    a{display:inline-flex;align-items:center;min-height:32px}
+    p a,span a{display:inline;min-height:0}
+    td button{min-height:34px}
+  }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"/>
+    <g stroke-linecap="square">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"/>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"/>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"/>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"/>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box;padding-bottom:40px">
+
+  <header style="border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:20">
+    <div style="max-width:1560px;margin:0 auto;padding:14px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px">
+      <a href="Q-Cost AI Dashboard v2.dc.html" style="display:flex;align-items:center;gap:11px;flex:none" style-hover="text-decoration:none">
+        <svg width="23" height="23" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"/><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"/><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"/></svg>
+        <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </a>
+      <nav style="flex:1 1 200px;display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center">
+        <a href="Q-Cost AI Dashboard v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav1 }}</a>
+        <a href="Q-Cost AI Novo Evento v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav2 }}</a>
+        <a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a>
+        <a href="Q-Cost AI Auditoria v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav4 }}</a>
+        <a href="Q-Cost AI Regras de Alerta v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav6 }}</a>
+        <a href="Q-Cost AI Relatorios v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav5 }}</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px;flex:none">
+        <div style="display:flex;gap:1px;background:var(--line)">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="Alternar tema" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+        <div style="position:relative;flex:none">
+          <button type="button" onClick="{{ toggleUser }}" aria-label="Menu da conta" style="width:28px;height:28px;padding:0;background:transparent;border:1px solid var(--line2);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer" style-hover="border-color:var(--ink3)">AC</button>
+          <sc-if value="{{ userOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:36px;right:0;z-index:40;min-width:244px;border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:8px 0">
+              <div style="padding:11px 15px 13px;border-bottom:1px solid var(--line)">
+                <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Metalúrgica Paranaense S.A.</div>
+                <div style="font-size:13px">Ana Ribeiro Camargo</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">ana.camargo@empresa.com.br</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:6px">{{ c.role }}</div>
+              </div>
+              <a href="Q-Cost AI Perfil v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuProfile }}</a>
+              <a href="Q-Cost AI Organizacao v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuOrg }}</a>
+              <span style="display:block;padding:7px 12px;font-size:12px;font-weight:400;background:var(--surf2)">{{ c.menuTeam }}</span>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Integracoes v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.nav7 }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Ajuda v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuHelp }}</a>
+              <a href="Q-Cost AI Confianca v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuTrust }}</a>
+              <a href="Q-Cost AI Assinatura v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuBilling }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Login v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuSignOut }}</a>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:1360px;margin:0 auto;padding:clamp(30px,4.4vw,60px) clamp(16px,4vw,44px) 96px;display:flex;flex-direction:column;gap:clamp(34px,4.8vw,58px)">
+
+    <section style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between">
+      <div style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">Metalúrgica Paranaense S.A.</span>
+        <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.pageTitle }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.65;color:var(--ink2);max-width:74ch;text-wrap:pretty">{{ t.pageLead }}</p>
+      </div>
+      <div style="display:flex;gap:0;flex:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-left:1px solid var(--line)">
+        <div style="padding:16px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);line-height:1.5">{{ t.statActive }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:27px;font-weight:300;letter-spacing:-0.025em;line-height:1;font-variant-numeric:tabular-nums">{{ countActive }}</span>
+        </div>
+        <div style="padding:16px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);line-height:1.5">{{ t.statPending }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:27px;font-weight:300;letter-spacing:-0.025em;line-height:1;font-variant-numeric:tabular-nums">{{ countPending }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="border:1px solid var(--line);border-radius:2px;background:var(--surf);padding:22px 24px;display:flex;flex-direction:column;gap:13px">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:baseline">
+        <h2 style="margin:0;font-size:16px;font-weight:300;letter-spacing:-0.015em">{{ t.inviteTitle }}</h2>
+        <span style="font-size:12px;color:var(--ink3)">{{ t.inviteNote }}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+        <div style="flex:1 1 260px;min-width:220px;display:flex;flex-direction:column;gap:6px">
+          <label for="tm-email" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.fieldEmail }}</label>
+          <input id="tm-email" type="email" value="{{ inviteEmail }}" onChange="{{ onInviteEmail }}" placeholder="nome@empresa.com.br" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);border-radius:2px;background:var(--bg);color:var(--ink);box-sizing:border-box;width:100%">
+        </div>
+        <div style="flex:0 1 200px;min-width:180px;display:flex;flex-direction:column;gap:6px">
+          <label for="tm-role" style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.fieldRole }}</label>
+          <select id="tm-role" value="{{ inviteRole }}" onChange="{{ onInviteRole }}" style="font-size:13px;height:34px;padding:0 8px;border:1px solid var(--line2);border-radius:2px;background:var(--bg);color:var(--ink);box-sizing:border-box;width:100%">
+            <sc-for list="{{ roleOptions }}" as="ro" hint-placeholder-count="4">
+              <option value="{{ ro.id }}">{{ ro.label }}</option>
+            </sc-for>
+          </select>
+        </div>
+        <button type="button" onClick="{{ sendInvite }}" style="font-size:12px;font-weight:400;height:34px;padding:0 15px;border-radius:2px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer;flex:none" style-hover="opacity:0.88">{{ t.inviteCta }}</button>
+      </div>
+      <p style="margin:0;font-size:12px;line-height:1.65;color:{{ inviteMsgColor }}">{{ inviteMsg }}</p>
+    </section>
+
+    <section style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+
+      <div style="flex:1 1 560px;min-width:300px;border:1px solid var(--line);border-radius:2px;background:var(--surf)">
+        <header style="padding:17px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:baseline">
+          <h2 style="margin:0;font-size:16px;font-weight:300;letter-spacing:-0.015em">{{ t.membersTitle }}</h2>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ t.membersHint }}</span>
+        </header>
+        <div style="width:100%;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:560px">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:13px 18px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);font-weight:400">{{ t.thPerson }}</th>
+                <th style="text-align:left;padding:13px 18px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);font-weight:400">{{ t.thRole }}</th>
+                <th style="text-align:left;padding:13px 18px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);font-weight:400">{{ t.thScope }}</th>
+                <th style="text-align:right;padding:13px 18px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);font-weight:400">{{ t.thStatus }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ members }}" as="m" hint-placeholder-count="6">
+                <tr onClick="{{ m.select }}" style="cursor:pointer;background:{{ m.rowBg }}" style-hover="background:var(--surf2)">
+                  <td style="padding:16px 18px;border-bottom:1px solid var(--line);border-left:2px solid {{ m.mark }}">
+                    <span style="display:block;font-weight:400">{{ m.name }}</span>
+                    <span style="display:block;font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:3px">{{ m.email }}</span>
+                  </td>
+                  <td style="padding:16px 18px;border-bottom:1px solid var(--line);color:var(--ink2);white-space:nowrap">{{ m.role }}</td>
+                  <td style="padding:16px 18px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:11px;color:var(--ink2);white-space:nowrap">{{ m.scope }}</td>
+                  <td style="padding:16px 18px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap">
+                    <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;padding:2px 7px;border:1px solid {{ m.stColor }};background:{{ m.stBg }};color:{{ m.stColor }}">{{ m.status }}</span>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="flex:1 1 420px;min-width:300px;border:1px solid var(--line);border-radius:2px;background:var(--surf);display:flex;flex-direction:column">
+        <header style="padding:17px 20px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.permTitle }}</span>
+          <span style="font-size:13px;font-weight:400">{{ sel.name }}</span>
+          <span style="font-size:11.5px;color:var(--ink2)">{{ sel.role }}</span>
+        </header>
+
+        <sc-if value="{{ sel.locked }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:16px;display:flex;gap:10px;align-items:flex-start;background:var(--surf2);border-bottom:1px solid var(--line)">
+            <span style="width:8px;height:8px;background:var(--ink);flex:none;display:block;margin-top:5px"></span>
+            <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2)">{{ t.ownerNote }}</p>
+          </div>
+        </sc-if>
+
+        <div style="padding:20px 22px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:11px">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:baseline">
+            <span style="font-size:12.5px;font-weight:400">{{ t.plantsTitle }}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ plantsCount }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)">
+            <sc-for list="{{ plantRows }}" as="p" hint-placeholder-count="4">
+              <button type="button" onClick="{{ p.toggle }}" style="padding:10px 0;border:none;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);cursor:{{ p.cursor }};display:flex;gap:10px;align-items:center;text-align:left;width:100%" style-hover="background:var(--surf2)">
+                <span style="width:13px;height:13px;border:1px solid {{ p.boxLine }};background:{{ p.box }};flex:none;display:block"></span>
+                <span style="font-size:12px;color:{{ p.fg }};min-width:0">{{ p.name }}</span>
+                <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-left:auto;flex:none">{{ p.meta }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:20px 22px;display:flex;flex-direction:column;gap:13px">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:baseline">
+            <span style="font-size:12.5px;font-weight:400">{{ t.subsTitle }}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ subsCount }}</span>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink2);max-width:56ch">{{ t.subsNote }}</p>
+          <sc-for list="{{ subGroups }}" as="g" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:0">
+              <div style="display:flex;gap:9px;align-items:center;padding-bottom:7px;border-bottom:1px solid var(--line)">
+                <span style="width:8px;height:8px;background:{{ g.color }};flex:none;display:block"></span>
+                <span style="font-size:12px;font-weight:400">{{ g.name }}</span>
+                <button type="button" onClick="{{ g.toggleAll }}" style="margin-left:auto;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--line2);border-radius:2px;background:transparent;color:var(--ink2);cursor:{{ g.cursor }};flex:none" style-hover="background:var(--surf2);color:var(--ink)">{{ g.allLabel }}</button>
+              </div>
+              <sc-for list="{{ g.items }}" as="s" hint-placeholder-count="3">
+                <button type="button" onClick="{{ s.toggle }}" style="padding:9px 0 9px 17px;border:none;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);cursor:{{ s.cursor }};display:flex;gap:10px;align-items:center;text-align:left;width:100%" style-hover="background:var(--surf2)">
+                  <span style="width:13px;height:13px;border:1px solid {{ s.boxLine }};background:{{ s.box }};flex:none;display:block"></span>
+                  <span style="font-size:12px;color:{{ s.fg }};min-width:0">{{ s.name }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:auto;padding:14px 16px;border-top:1px solid var(--line);background:var(--surf2);display:flex;flex-wrap:wrap;gap:11px;align-items:center;justify-content:space-between">
+          <span style="font-size:11.5px;line-height:1.6;color:var(--ink2);max-width:46ch">{{ permSummary }}</span>
+          <button type="button" onClick="{{ savePerms }}" disabled="{{ sel.locked }}" style="font-size:12px;font-weight:400;height:32px;padding:0 14px;border-radius:2px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:{{ saveCursor }};opacity:{{ saveOpacity }};flex:none" style-hover="opacity:0.88">{{ saveLabel }}</button>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;theme&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;light&quot;, &quot;dark&quot;], &quot;default&quot;: &quot;light&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Aparência&quot; },
+  &quot;language&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;pt-BR&quot;, &quot;en&quot;, &quot;es&quot;], &quot;default&quot;: &quot;pt-BR&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Aparência&quot; }
+}">
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() { try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; } }
+function writeTheme(v) { try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {} }
+const LANG_KEY = "qcost-lang-v2";
+function readLang() { try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; } }
+function writeLang(v) { try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {} }
+
+const CHROME = {
+  "pt-BR": { nav1:"Painel", nav2:"Eventos", nav3:"Custos", nav4:"Auditoria", nav5:"Relatórios", nav6:"Alertas", nav7:"Integrações",
+    menuProfile:"Meu perfil", menuOrg:"Organização e plantas", menuTeam:"Equipe e permissões",
+    menuBilling:"Assinatura e faturas", menuHelp:"Central de Ajuda e Treinamento", menuTrust:"Central de Confiança", menuSignOut:"Sair", role:"Administradora · Pro" },
+  "en": { nav1:"Dashboard", nav2:"Events", nav3:"Costs", nav4:"Audit trail", nav5:"Reports", nav6:"Alerts", nav7:"Integrations",
+    menuProfile:"My profile", menuOrg:"Organization and plants", menuTeam:"Team and permissions",
+    menuBilling:"Subscription and invoices", menuHelp:"Help and Training Center", menuTrust:"Trust Center", menuSignOut:"Sign out", role:"Administrator · Pro" },
+  "es": { nav1:"Panel", nav2:"Eventos", nav3:"Costos", nav4:"Auditoría", nav5:"Informes", nav6:"Alertas", nav7:"Integraciones",
+    menuProfile:"Mi perfil", menuOrg:"Organización y plantas", menuTeam:"Equipo y permisos",
+    menuBilling:"Suscripción y facturas", menuHelp:"Central de Ayuda y Capacitación", menuTrust:"Centro de Confianza", menuSignOut:"Salir", role:"Administradora · Pro" }
+};
+
+const PLANTS = ["Curitiba (PR)", "Joinville (SC)", "Betim (MG)", "Consolidado"];
+const PLANT_META = {
+  "pt-BR": ["Matriz", "Unidade", "Unidade", "Grupo"],
+  "en": ["HQ", "Site", "Site", "Group"],
+  "es": ["Matriz", "Unidad", "Unidad", "Grupo"]
+};
+const CAT_COLORS = ["var(--paf1)", "var(--paf2)", "var(--paf3)", "var(--paf4)"];
+const CATS = {
+  "pt-BR": [
+    { name: "Prevenção", subs: ["Treinamento da qualidade", "Manutenção preventiva", "Qualificação de fornecedor"] },
+    { name: "Avaliação", subs: ["Inspeção de recebimento", "Ensaios de laboratório", "Calibração e auditoria interna"] },
+    { name: "Falha interna", subs: ["Refugo e sucata", "Retrabalho", "Reinspeção e parada de linha"] },
+    { name: "Falha externa", subs: ["Reclamação de cliente", "Devolução e garantia", "Recall e multa contratual"] }
+  ],
+  "en": [
+    { name: "Prevention", subs: ["Quality training", "Preventive maintenance", "Supplier qualification"] },
+    { name: "Appraisal", subs: ["Incoming inspection", "Lab testing", "Calibration and internal audit"] },
+    { name: "Internal failure", subs: ["Scrap", "Rework", "Reinspection and line stoppage"] },
+    { name: "External failure", subs: ["Customer complaint", "Returns and warranty", "Recall and contractual penalty"] }
+  ],
+  "es": [
+    { name: "Prevención", subs: ["Capacitación de calidad", "Mantenimiento preventivo", "Calificación de proveedor"] },
+    { name: "Evaluación", subs: ["Inspección de recepción", "Ensayos de laboratorio", "Calibración y auditoría interna"] },
+    { name: "Fallo interno", subs: ["Desperdicio y chatarra", "Retrabajo", "Reinspección y paro de línea"] },
+    { name: "Fallo externo", subs: ["Reclamo de cliente", "Devolución y garantía", "Recall y multa contractual"] }
+  ]
+};
+
+const ROLES = {
+  "pt-BR": { owner:"Dono da conta", admin:"Administrador", analyst:"Analista da qualidade", approver:"Aprovador", viewer:"Leitor" },
+  "en": { owner:"Account owner", admin:"Administrator", analyst:"Quality analyst", approver:"Approver", viewer:"Viewer" },
+  "es": { owner:"Propietario de la cuenta", admin:"Administrador", analyst:"Analista de calidad", approver:"Aprobador", viewer:"Lector" }
+};
+const INVITABLE = ["admin", "analyst", "approver", "viewer"];
+
+const MEMBERS = [
+  { name:"Ana Ribeiro Camargo", email:"ana.camargo@empresa.com.br", role:"owner", st:"active",
+    plants:[true,true,true,true], subs:[true,true,true,true,true,true,true,true,true,true,true,true] },
+  { name:"Cristina Vilela", email:"cristina.vilela@empresa.com.br", role:"admin", st:"active",
+    plants:[true,true,true,true], subs:[true,true,true,true,true,true,true,true,true,true,true,true] },
+  { name:"Paulo Grimaldi", email:"paulo.grimaldi@empresa.com.br", role:"analyst", st:"active",
+    plants:[true,false,false,false], subs:[false,true,false,true,true,true,true,true,true,false,false,false] },
+  { name:"Rafael Doi", email:"rafael.doi@empresa.com.br", role:"analyst", st:"active",
+    plants:[false,true,false,false], subs:[false,false,false,true,true,false,true,true,true,true,true,false] },
+  { name:"Marina Esteves", email:"marina.esteves@empresa.com.br", role:"approver", st:"pending",
+    plants:[true,true,true,false], subs:[false,false,false,false,false,false,true,true,true,true,true,true] },
+  { name:"Luís Otávio Prado", email:"luis.prado@controladoria.com.br", role:"viewer", st:"pending",
+    plants:[false,false,false,true], subs:[false,false,false,false,false,false,false,false,false,false,false,false] }
+];
+
+const DICT = {
+  "pt-BR": {
+    pageTitle:"Equipe e permissões",
+    pageLead:"O dono da conta convida as pessoas e define, para cada uma, em quais plantas e em quais subcategorias do PAF ela pode registrar eventos de custo. Usuários são ilimitados em qualquer plano.",
+    statActive:"Ativos", statPending:"Convites pendentes",
+    inviteTitle:"Convidar pessoa", inviteNote:"O convite expira em 7 dias.",
+    fieldEmail:"E-mail corporativo", fieldRole:"Papel", inviteCta:"Enviar convite",
+    inviteIdle:"Depois de enviar, ajuste as plantas e subcategorias do convidado no painel de permissões.",
+    inviteBad:"Informe um e-mail corporativo válido.",
+    inviteOk:(e,r)=>"Convite enviado para "+e+" como "+r+". As permissões começam sem nenhuma planta liberada.",
+    membersTitle:"Pessoas da organização", membersHint:"Selecione para editar permissões",
+    thPerson:"Pessoa", thRole:"Papel", thScope:"Escopo", thStatus:"Status",
+    stActive:"Ativo", stPending:"Convite pendente",
+    scope:(p,s)=>p+" plantas · "+s+" subcat.", scopeAll:"Acesso total",
+    permTitle:"Permissões de registro",
+    ownerNote:"O dono da conta tem acesso a todas as plantas e subcategorias. Esse escopo não pode ser reduzido — transfira a titularidade para alterá-lo.",
+    plantsTitle:"Plantas liberadas", subsTitle:"Subcategorias do PAF",
+    subsNote:"A pessoa só pode criar eventos nas subcategorias marcadas. As demais ficam indisponíveis no formulário de novo evento.",
+    all:"Todas", none:"Nenhuma",
+    count:(n,total)=>n+" de "+total,
+    summary:(p,s)=>"Pode registrar eventos em "+p+" planta(s) e "+s+" subcategoria(s).",
+    summaryNone:"Sem permissão para registrar eventos. A pessoa só consulta o que já foi apurado.",
+    save:"Salvar permissões", saved:"Permissões salvas"
+  },
+  "en": {
+    pageTitle:"Team and permissions",
+    pageLead:"The account owner invites people and defines, for each one, which plants and which PAF subcategories they may record cost events in. Users are unlimited on every plan.",
+    statActive:"Active", statPending:"Pending invites",
+    inviteTitle:"Invite someone", inviteNote:"The invite expires in 7 days.",
+    fieldEmail:"Work email", fieldRole:"Role", inviteCta:"Send invite",
+    inviteIdle:"After sending, set the invitee's plants and subcategories in the permissions panel.",
+    inviteBad:"Enter a valid work email.",
+    inviteOk:(e,r)=>"Invite sent to "+e+" as "+r+". Permissions start with no plant enabled.",
+    membersTitle:"People in the organization", membersHint:"Select to edit permissions",
+    thPerson:"Person", thRole:"Role", thScope:"Scope", thStatus:"Status",
+    stActive:"Active", stPending:"Pending invite",
+    scope:(p,s)=>p+" plants · "+s+" subcat.", scopeAll:"Full access",
+    permTitle:"Recording permissions",
+    ownerNote:"The account owner has access to every plant and subcategory. That scope cannot be reduced — transfer ownership to change it.",
+    plantsTitle:"Enabled plants", subsTitle:"PAF subcategories",
+    subsNote:"The person can only create events in the checked subcategories. The rest are unavailable in the new event form.",
+    all:"All", none:"None",
+    count:(n,total)=>n+" of "+total,
+    summary:(p,s)=>"Can record events in "+p+" plant(s) and "+s+" subcategory(ies).",
+    summaryNone:"No permission to record events. This person only reads what has been accounted.",
+    save:"Save permissions", saved:"Permissions saved"
+  },
+  "es": {
+    pageTitle:"Equipo y permisos",
+    pageLead:"El propietario de la cuenta invita a las personas y define, para cada una, en qué plantas y en qué subcategorías del PAF puede registrar eventos de costo. Los usuarios son ilimitados en cualquier plan.",
+    statActive:"Activos", statPending:"Invitaciones pendientes",
+    inviteTitle:"Invitar persona", inviteNote:"La invitación expira en 7 días.",
+    fieldEmail:"Correo corporativo", fieldRole:"Rol", inviteCta:"Enviar invitación",
+    inviteIdle:"Después de enviar, ajuste las plantas y subcategorías del invitado en el panel de permisos.",
+    inviteBad:"Indique un correo corporativo válido.",
+    inviteOk:(e,r)=>"Invitación enviada a "+e+" como "+r+". Los permisos comienzan sin ninguna planta habilitada.",
+    membersTitle:"Personas de la organización", membersHint:"Seleccione para editar permisos",
+    thPerson:"Persona", thRole:"Rol", thScope:"Alcance", thStatus:"Estado",
+    stActive:"Activo", stPending:"Invitación pendiente",
+    scope:(p,s)=>p+" plantas · "+s+" subcat.", scopeAll:"Acceso total",
+    permTitle:"Permisos de registro",
+    ownerNote:"El propietario de la cuenta tiene acceso a todas las plantas y subcategorías. Ese alcance no puede reducirse — transfiera la titularidad para cambiarlo.",
+    plantsTitle:"Plantas habilitadas", subsTitle:"Subcategorías del PAF",
+    subsNote:"La persona solo puede crear eventos en las subcategorías marcadas. Las demás quedan indisponibles en el formulario de nuevo evento.",
+    all:"Todas", none:"Ninguna",
+    count:(n,total)=>n+" de "+total,
+    summary:(p,s)=>"Puede registrar eventos en "+p+" planta(s) y "+s+" subcategoría(s).",
+    summaryNone:"Sin permiso para registrar eventos. La persona solo consulta lo ya contabilizado.",
+    save:"Guardar permisos", saved:"Permisos guardados"
+  }
+};
+
+class Component extends DCLogic {
+  state = {
+    lang: null, theme: readTheme(), userOpen: false,
+    sel: 2, saved: false,
+    people: MEMBERS.map((m) => ({ ...m, plants: m.plants.slice(), subs: m.subs.slice() })),
+    inviteEmail: "", inviteRole: "analyst", inviteState: "idle", inviteLast: ""
+  };
+
+  setPeople(fn) {
+    this.setState((s) => {
+      const people = s.people.map((p, i) => (i === s.sel ? fn(p) : p));
+      return { people, saved: false };
+    });
+  }
+
+  renderVals() {
+    const lang = this.state.lang || readLang() || this.props.language || "pt-BR";
+    const theme = this.state.theme || this.props.theme || "light";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const roles = ROLES[lang] || ROLES["pt-BR"];
+    const cats = CATS[lang] || CATS["pt-BR"];
+    const meta = PLANT_META[lang] || PLANT_META["pt-BR"];
+    const people = this.state.people;
+    const si = this.state.sel;
+    const cur = people[si];
+    const locked = cur.role === "owner";
+    const onL = (k) => () => { writeLang(k); this.setState({ lang: k }); };
+    const abg = (on) => (on ? "var(--acc)" : "var(--bg)");
+    const afg = (on) => (on ? "var(--accInk)" : "var(--ink2)");
+
+    const plantsOn = cur.plants.filter(Boolean).length;
+    const subsOn = cur.subs.filter(Boolean).length;
+
+    const box = (on) => (on ? "var(--ink)" : "transparent");
+    const boxLine = (on) => (on ? "var(--ink)" : "var(--line2)");
+
+    const inv = this.state.inviteState;
+    const inviteMsg = inv === "sent"
+      ? t.inviteOk(this.state.inviteLast, roles[this.state.inviteRole])
+      : inv === "bad" ? t.inviteBad : t.inviteIdle;
+
+    return {
+      t, theme,
+      c: CHROME[lang] || CHROME["pt-BR"],
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+      userOpen: this.state.userOpen,
+      toggleUser: () => this.setState((st) => ({ userOpen: !st.userOpen })),
+      setPt: onL("pt-BR"), setEn: onL("en"), setEs: onL("es"),
+      ptBg: abg(lang === "pt-BR"), ptFg: afg(lang === "pt-BR"),
+      enBg: abg(lang === "en"), enFg: afg(lang === "en"),
+      esBg: abg(lang === "es"), esFg: afg(lang === "es"),
+
+      countActive: people.filter((p) => p.st === "active").length,
+      countPending: people.filter((p) => p.st === "pending").length,
+
+      roleOptions: INVITABLE.map((id) => ({ id, label: roles[id] })),
+      inviteEmail: this.state.inviteEmail,
+      inviteRole: this.state.inviteRole,
+      onInviteEmail: (e) => this.setState({ inviteEmail: e.target.value, inviteState: "idle" }),
+      onInviteRole: (e) => this.setState({ inviteRole: e.target.value, inviteState: "idle" }),
+      sendInvite: () => {
+        const em = this.state.inviteEmail.trim();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(em)) { this.setState({ inviteState: "bad" }); return; }
+        this.setState((s) => ({
+          inviteState: "sent", inviteLast: em, inviteEmail: "",
+          people: s.people.concat([{
+            name: em.split("@")[0].split(/[._]/).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+            email: em, role: s.inviteRole, st: "pending",
+            plants: [false, false, false, false], subs: new Array(12).fill(false)
+          }]),
+          sel: s.people.length
+        }));
+      },
+      inviteMsg,
+      inviteMsgColor: inv === "bad" ? "var(--neg)" : inv === "sent" ? "var(--pos)" : "var(--ink3)",
+
+      members: people.map((p, i) => {
+        const pc = p.plants.filter(Boolean).length, sc = p.subs.filter(Boolean).length;
+        return {
+          name: p.name, email: p.email, role: roles[p.role],
+          scope: p.role === "owner" ? t.scopeAll : t.scope(pc, sc),
+          status: p.st === "active" ? t.stActive : t.stPending,
+          stColor: p.st === "active" ? "var(--pos)" : "var(--warn)",
+          stBg: p.st === "active" ? "var(--posBg)" : "var(--warnBg)",
+          rowBg: i === si ? "var(--surf2)" : "transparent",
+          mark: i === si ? "var(--ink)" : "transparent",
+          select: () => this.setState({ sel: i, saved: false })
+        };
+      }),
+
+      sel: { name: cur.name, role: roles[cur.role], locked },
+
+      plantsCount: t.count(plantsOn, PLANTS.length),
+      subsCount: t.count(subsOn, 12),
+      plantRows: PLANTS.map((name, i) => ({
+        name, meta: meta[i],
+        box: box(cur.plants[i]), boxLine: boxLine(cur.plants[i]),
+        fg: cur.plants[i] ? "var(--ink)" : "var(--ink2)",
+        cursor: locked ? "not-allowed" : "pointer",
+        toggle: locked ? () => {} : () => this.setPeople((p) => {
+          const plants = p.plants.slice(); plants[i] = !plants[i]; return { ...p, plants };
+        })
+      })),
+
+      subGroups: cats.map((cat, ci) => {
+        const idx = [0, 1, 2].map((k) => ci * 3 + k);
+        const allOn = idx.every((k) => cur.subs[k]);
+        return {
+          name: cat.name, color: CAT_COLORS[ci],
+          allLabel: allOn ? t.none : t.all,
+          cursor: locked ? "not-allowed" : "pointer",
+          toggleAll: locked ? () => {} : () => this.setPeople((p) => {
+            const subs = p.subs.slice(); idx.forEach((k) => { subs[k] = !allOn; }); return { ...p, subs };
+          }),
+          items: cat.subs.map((name, k) => {
+            const gi = ci * 3 + k;
+            return {
+              name,
+              box: box(cur.subs[gi]), boxLine: boxLine(cur.subs[gi]),
+              fg: cur.subs[gi] ? "var(--ink)" : "var(--ink2)",
+              cursor: locked ? "not-allowed" : "pointer",
+              toggle: locked ? () => {} : () => this.setPeople((p) => {
+                const subs = p.subs.slice(); subs[gi] = !subs[gi]; return { ...p, subs };
+              })
+            };
+          })
+        };
+      }),
+
+      permSummary: plantsOn === 0 || subsOn === 0 ? t.summaryNone : t.summary(plantsOn, subsOn),
+      saveLabel: this.state.saved ? t.saved : t.save,
+      saveCursor: locked ? "not-allowed" : "pointer",
+      saveOpacity: locked ? 0.45 : 1,
+      savePerms: () => { if (!locked) this.setState({ saved: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

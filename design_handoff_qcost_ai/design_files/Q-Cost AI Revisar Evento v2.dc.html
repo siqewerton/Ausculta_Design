@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+    --paf1:#265C7A;--paf2:#257266;--paf3:#AA7123;--paf4:#91363E;
+    --paf1Soft:rgba(38,92,122,0.12);--paf2Soft:rgba(37,114,102,0.12);--paf3Soft:rgba(170,113,35,0.14);--paf4Soft:rgba(145,54,62,0.14);
+    --paf1Line:rgba(38,92,122,0.28);--paf2Line:rgba(37,114,102,0.28);--paf3Line:rgba(170,113,35,0.32);--paf4Line:rgba(145,54,62,0.32);
+  }
+  [data-theme="dark"]{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+    --paf1:#4E93B8;--paf2:#3E9E8F;--paf3:#D19A45;--paf4:#C4737C;
+    --paf1Soft:rgba(78,147,184,0.16);--paf2Soft:rgba(62,158,143,0.16);--paf3Soft:rgba(209,154,69,0.16);--paf4Soft:rgba(196,115,124,0.16);
+    --paf1Line:rgba(78,147,184,0.34);--paf2Line:rgba(62,158,143,0.34);--paf3Line:rgba(209,154,69,0.34);--paf4Line:rgba(196,115,124,0.34);
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,select,button,textarea{font-family:'Archivo',system-ui,sans-serif}
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"></rect>
+    <g stroke-linecap="square" fill="none">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"></path>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"></path>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"></path>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"></path>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box;padding-bottom:96px">
+
+  <header style="border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:20">
+    <div style="max-width:1400px;margin:0 auto;padding:14px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px">
+      <a href="Q-Cost AI Dashboard v2.dc.html" style="display:flex;align-items:center;gap:11px;flex:none" style-hover="text-decoration:none">
+        <svg width="23" height="23" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"></path><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"></path><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"></path><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"></path></svg>
+        <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </a>
+      <nav style="flex:1 1 200px;display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center">
+        <a href="Q-Cost AI Dashboard v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav1 }}</a>
+        <span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav2 }}</span>
+        <a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a>
+        <a href="Q-Cost AI Auditoria v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav4 }}</a>
+        <a href="Q-Cost AI Regras de Alerta v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav6 }}</a>
+        <a href="Q-Cost AI Relatorios v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav5 }}</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px;flex:none">
+        <div style="display:flex;gap:1px;background:var(--line)">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ t.themeAria }}" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+        <div style="position:relative;flex:none">
+          <button type="button" onClick="{{ toggleUser }}" aria-label="{{ c.userAria }}" style="width:28px;height:28px;padding:0;background:transparent;border:1px solid var(--line2);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer" style-hover="border-color:var(--ink3)">AC</button>
+          <sc-if value="{{ userOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:36px;right:0;z-index:40;min-width:244px;border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:8px 0">
+              <div style="padding:11px 15px 13px;border-bottom:1px solid var(--line)">
+                <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Metalúrgica Paranaense S.A.</div>
+                <div style="font-size:13px">Ana Ribeiro Camargo</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">ana.camargo@empresa.com.br</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:6px">{{ c.role }}</div>
+              </div>
+              <a href="Q-Cost AI Perfil v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuProfile }}</a>
+              <a href="Q-Cost AI Organizacao v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuOrg }}</a>
+              <a href="Q-Cost AI Equipe v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuTeam }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Integracoes v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.nav7 }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Ajuda v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuHelp }}</a>
+              <a href="Q-Cost AI Confianca v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuTrust }}</a>
+              <a href="Q-Cost AI Assinatura v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuBilling }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Login v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuSignOut }}</a>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width:1400px;margin:0 auto;padding:clamp(24px,3.4vw,44px) clamp(16px,4vw,44px);display:flex;flex-direction:column;gap:clamp(22px,3vw,34px)">
+
+    <div style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between">
+      <div style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:11px">
+        <a href="Q-Cost AI Dashboard v2.dc.html" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)" style-hover="color:var(--ink)">&larr; {{ t.backQueue }}</a>
+        <h1 style="margin:0;font-size:clamp(26px,3.6vw,40px);font-weight:200;line-height:1.14;letter-spacing:-0.03em">{{ ev.title }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.7;color:var(--ink2);max-width:74ch;text-wrap:pretty">{{ ev.lead }}</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:9px;flex:none;align-items:center">
+        <sc-for list="{{ queueNav }}" as="q" hint-placeholder-count="3">
+          <button type="button" onClick="{{ q.pick }}" style="font-family:'DM Mono',monospace;font-size:10.5px;height:30px;padding:0 11px;border:1px solid {{ q.border }};background:{{ q.bg }};color:{{ q.fg }};cursor:pointer;white-space:nowrap">{{ q.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <section aria-label="{{ t.provTitle }}" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;justify-content:space-between">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.provTitle }}</span>
+        <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);max-width:76ch">{{ t.provNote }}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,178px),1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-left:1px solid var(--line);background:var(--surf2)">
+        <sc-for list="{{ reg }}" as="r" hint-placeholder-count="6">
+          <div style="border-right:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0">
+            <span style="font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ r.k }}</span>
+            <sc-if value="{{ r.isBadge }}" hint-placeholder-val="{{ false }}">
+              <span style="display:inline-flex;align-items:center;gap:7px;height:23px;padding:0 9px;border:1px solid {{ r.line }};background:{{ r.bg }};color:{{ r.fg }};font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.04em;align-self:flex-start;white-space:nowrap">
+                <span style="width:5px;height:5px;background:{{ r.fg }};display:block;flex:none"></span>{{ r.v }}
+              </span>
+            </sc-if>
+            <sc-if value="{{ r.isPlain }}" hint-placeholder-val="{{ true }}">
+              <span style="font-size:12.5px;line-height:1.4;word-break:break-word">{{ r.v }}</span>
+            </sc-if>
+            <span style="font-family:'DM Mono',monospace;font-size:10px;line-height:1.5;color:var(--ink3);margin-top:auto;word-break:break-word">{{ r.sub }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <a href="{{ ev.traceHref }}" style="align-self:flex-start;font-size:11.5px;color:var(--ink);text-decoration:underline;text-underline-offset:3px">{{ ev.traceLabel }}</a>
+    </section>
+
+    <section style="border:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column">
+      <div style="padding:13px 17px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ ev.payloadTitle }}</span>
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ ev.payloadMeta }}</span>
+      </div>
+      <div style="padding:clamp(15px,2vw,19px);display:flex;flex-direction:column;gap:15px">
+        <pre style="margin:0;font-family:'DM Mono',monospace;font-size:11.5px;line-height:1.7;color:var(--ink2);background:var(--surf2);border:1px solid var(--line);padding:14px 15px;overflow-x:auto;white-space:pre">{{ ev.payload }}</pre>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.attachments }}</span>
+          <sc-for list="{{ ev.files }}" as="fl" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid var(--line);background:var(--bg)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M5 3h9l5 5v13H5z"></path><path d="M14 3v5h5"></path></svg>
+              <span style="flex:1 1 auto;min-width:0;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ fl.name }}</span>
+              <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);flex:none">{{ fl.size }}</span>
+            </div>
+          </sc-for>
+          <span style="font-size:11.5px;line-height:1.65;color:var(--ink3)">{{ ev.payloadNote }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="border:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column">
+      <div style="padding:13px 17px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.acctTitle }}</span>
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;color:{{ acctPendColor }}">{{ acctPendLabel }}</span>
+      </div>
+
+      <div style="padding:clamp(16px,2vw,20px);display:flex;flex-direction:column;gap:17px">
+        <div style="display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line)">
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.totalProposed }}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:clamp(22px,2.6vw,32px);font-weight:300;letter-spacing:-0.025em;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums">{{ total }}</span>
+            <span style="font-size:11.5px;line-height:1.55;color:var(--ink3)">{{ totalNote }}</span>
+          </div>
+          <span style="display:inline-flex;align-items:center;gap:8px;height:26px;padding:0 10px;border:1px solid {{ catLine }};background:{{ catSoft }};color:{{ catColor }};font-family:'DM Mono',monospace;font-size:10.5px;white-space:nowrap;flex:none">
+            <span style="width:5px;height:5px;background:{{ catColor }};display:block;flex:none"></span>{{ catLabel }}
+          </span>
+        </div>
+
+        <p style="margin:0;font-size:11.5px;line-height:1.65;color:var(--ink3)">{{ t.acctNote }}</p>
+
+        <div style="width:100%;overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;min-width:560px">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:0 14px 10px 0;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:200px">{{ t.thField }}</th>
+                <th style="text-align:left;padding:0 12px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:220px">{{ t.thValue }}</th>
+                <th style="text-align:left;padding:0 0 10px 12px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">{{ t.thBasis }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ acctFields }}" as="f" hint-placeholder-count="9">
+                <tr>
+                  <td style="padding:12px 14px 12px 0;border-bottom:1px solid var(--line);vertical-align:middle">
+                    <span style="display:flex;flex-direction:column;gap:4px">
+                      <span style="font-size:12.5px;line-height:1.4">{{ f.label }}</span>
+                      <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.05em;color:{{ f.color }}">{{ f.tag }}</span>
+                    </span>
+                  </td>
+                  <td style="padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle">
+                    <sc-if value="{{ f.isSelect }}" hint-placeholder-val="{{ false }}">
+                      <select value="{{ f.value }}" onChange="{{ f.onChange }}" style="font-size:12.5px;height:34px;padding:0 8px;border:1px solid {{ f.inputBorder }};background:{{ f.inputBg }};color:var(--ink);width:100%;box-sizing:border-box">
+                        <sc-for list="{{ f.options }}" as="o" hint-placeholder-count="4"><option value="{{ o }}">{{ o }}</option></sc-for>
+                      </select>
+                    </sc-if>
+                    <sc-if value="{{ f.isText }}" hint-placeholder-val="{{ true }}">
+                      <input type="text" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" style="font-family:'DM Mono',monospace;font-size:12.5px;height:34px;padding:0 10px;border:1px solid {{ f.inputBorder }};background:{{ f.inputBg }};color:var(--ink);width:100%;box-sizing:border-box">
+                    </sc-if>
+                    <sc-if value="{{ f.isFixed }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:flex;align-items:center;font-family:'DM Mono',monospace;font-size:12.5px;height:34px;padding:0 10px;border:1px solid var(--line);background:var(--surf2);color:var(--ink2);box-sizing:border-box">{{ f.value }}</span>
+                    </sc-if>
+                  </td>
+                  <td style="padding:12px 0 12px 12px;border-bottom:1px solid var(--line);vertical-align:middle">
+                    <span style="font-size:11.5px;line-height:1.55;color:{{ f.hintColor }}">{{ f.hint }}</span>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section style="border:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column">
+      <div style="padding:13px 17px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.specTitle }}</span>
+        <span style="font-size:11.5px;color:var(--ink3);max-width:70ch">{{ t.specNote }}</span>
+      </div>
+      <div style="width:100%;overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;min-width:640px">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 17px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:220px">{{ t.thField }}</th>
+              <th style="text-align:left;padding:10px 12px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:210px">{{ t.thValue }}</th>
+              <th style="text-align:left;padding:10px 12px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">{{ t.thBasis }}</th>
+              <th style="text-align:right;padding:10px 17px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);width:150px">{{ t.thFeeds }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ specFields }}" as="f" hint-placeholder-count="4">
+              <tr>
+                <td style="padding:12px 17px;border-bottom:1px solid var(--line);vertical-align:middle">
+                  <span style="display:flex;flex-direction:column;gap:4px">
+                    <span style="font-size:12.5px;line-height:1.4">{{ f.label }}</span>
+                    <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.05em;color:{{ f.color }}">{{ f.tag }}</span>
+                  </span>
+                </td>
+                <td style="padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle">
+                  <input type="text" value="{{ f.value }}" onChange="{{ f.onChange }}" style="font-family:'DM Mono',monospace;font-size:12.5px;height:34px;padding:0 10px;border:1px solid {{ f.inputBorder }};background:{{ f.inputBg }};color:var(--ink);width:100%;box-sizing:border-box">
+                </td>
+                <td style="padding:12px 12px;border-bottom:1px solid var(--line);vertical-align:middle">
+                  <span style="font-size:11.5px;line-height:1.55;color:{{ f.hintColor }}">{{ f.hint }}</span>
+                </td>
+                <td style="padding:12px 17px;border-bottom:1px solid var(--line);text-align:right;vertical-align:middle">
+                  <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;color:{{ f.feedsColor }};white-space:nowrap">{{ f.feedsLabel }}</span>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <sc-if value="{{ fx.on }}" hint-placeholder-val="{{ false }}">
+      <section style="border:1px solid var(--line);border-left:2px solid var(--info);background:var(--infoBg);padding:clamp(16px,2vw,20px);display:flex;flex-direction:column;gap:13px">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--info)">{{ t.fxTitle }}</span>
+        <p style="margin:0;font-size:12.5px;line-height:1.65;color:var(--ink2);max-width:82ch">{{ fx.lead }}</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));border-top:1px solid var(--line);border-left:1px solid var(--line);background:var(--surf)">
+          <sc-for list="{{ fx.stats }}" as="x" hint-placeholder-count="3">
+            <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ x.k }}</span>
+              <span style="font-family:'DM Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap">{{ x.v }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end">
+          <div style="display:flex;flex-direction:column;gap:7px;flex:0 1 200px">
+            <label for="fx-r" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ fx.rateLabel }}</label>
+            <input id="fx-r" type="text" value="{{ fx.rate }}" onChange="{{ fx.onRate }}" style="font-family:'DM Mono',monospace;font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);width:100%;box-sizing:border-box">
+          </div>
+          <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);flex:1 1 240px">{{ fx.note }}</span>
+        </div>
+      </section>
+    </sc-if>
+
+    <section aria-label="{{ t.occTitle }}" style="border:1px solid var(--line);background:var(--surf)">
+      <button type="button" onClick="{{ occ.toggle }}" style="width:100%;text-align:left;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:15px clamp(14px,2vw,20px);border:none;background:transparent;color:var(--ink);cursor:pointer" style-hover="background:var(--surf2)">
+        <span style="display:flex;flex-wrap:wrap;gap:9px 14px;align-items:baseline">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.occTitle }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11.5px;color:var(--ink2)">{{ occ.countLabel }}</span>
+        </span>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ occ.caret }}</span>
+      </button>
+
+      <sc-if value="{{ occ.open }}" hint-placeholder-val="{{ false }}">
+        <div style="border-top:1px solid var(--line);display:flex;flex-direction:column">
+
+          <div style="padding:14px clamp(14px,2vw,20px);display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--line)">
+            <p style="margin:0;font-size:11.5px;line-height:1.65;color:var(--ink3);max-width:82ch;text-wrap:pretty">{{ t.occNote }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+              <input type="search" value="{{ occ.query }}" onChange="{{ occ.onQuery }}" placeholder="{{ t.occSearch }}" aria-label="{{ t.occSearch }}" style="flex:1 1 220px;min-width:0;font-size:12.5px;height:32px;padding:0 10px;border:1px solid var(--line2);background:var(--bg);color:var(--ink)">
+              <label style="display:flex;align-items:center;gap:7px;flex:none">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">{{ t.occSort }}</span>
+                <select value="{{ occ.sort }}" onChange="{{ occ.onSort }}" style="font-size:12.5px;height:32px;padding:0 8px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);cursor:pointer">
+                  <sc-for list="{{ occ.sortOptions }}" as="so" hint-placeholder-count="3">
+                    <option value="{{ so.v }}">{{ so.l }}</option>
+                  </sc-for>
+                </select>
+              </label>
+            </div>
+            <sc-if value="{{ occ.hasSelection }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;border:1px solid var(--line2);background:var(--surf2);padding:10px 13px">
+                <span style="font-family:'DM Mono',monospace;font-size:11.5px;color:var(--ink);flex:1 1 200px">{{ occ.selectionLabel }}</span>
+                <button type="button" onClick="{{ occ.bulkFix }}" style="flex:none;font-size:12.5px;height:31px;padding:0 12px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer" style-hover="border-color:var(--ink3)">{{ t.occBulkFix }}</button>
+                <button type="button" onClick="{{ occ.bulkDrop }}" style="flex:none;font-size:12.5px;height:31px;padding:0 12px;border:1px solid var(--warn);background:transparent;color:var(--warn);cursor:pointer" style-hover="background:var(--warnBg)">{{ t.occBulkDrop }}</button>
+                <button type="button" onClick="{{ occ.clearSel }}" style="flex:none;font-size:12.5px;height:31px;padding:0 10px;border:none;background:transparent;color:var(--ink3);cursor:pointer" style-hover="color:var(--ink)">{{ t.occClear }}</button>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;min-width:640px">
+              <thead>
+                <tr>
+                  <th style="width:36px;padding:10px 0 10px clamp(14px,2vw,20px);border-bottom:1px solid var(--line2)">
+                    <input type="checkbox" checked="{{ occ.allChecked }}" onChange="{{ occ.toggleAll }}" aria-label="{{ t.occSelectAll }}" style="cursor:pointer">
+                  </th>
+                  <sc-for list="{{ occ.columns }}" as="col" hint-placeholder-count="4">
+                    <th style="padding:10px 12px;border-bottom:1px solid var(--line2);text-align:{{ col.align }};font-family:'DM Mono',monospace;font-size:9.5px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);white-space:nowrap">{{ col.label }}</th>
+                  </sc-for>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ occ.rows }}" as="r" hint-placeholder-count="8">
+                  <tr style="background:{{ r.bg }}">
+                    <td style="padding:9px 0 9px clamp(14px,2vw,20px);border-bottom:1px solid var(--line)">
+                      <input type="checkbox" checked="{{ r.checked }}" onChange="{{ r.toggle }}" aria-label="{{ r.selectLabel }}" style="cursor:pointer">
+                    </td>
+                    <sc-for list="{{ r.cells }}" as="cell" hint-placeholder-count="4">
+                      <td style="padding:9px 12px;border-bottom:1px solid var(--line);text-align:{{ cell.align }};font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;font-size:11.5px;color:{{ cell.color }};white-space:nowrap">{{ cell.v }}</td>
+                    </sc-for>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="padding:13px clamp(14px,2vw,20px);display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;border-top:1px solid var(--line)">
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ occ.pageLabel }}</span>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button type="button" onClick="{{ occ.prev }}" disabled="{{ occ.atFirst }}" style="font-size:12.5px;height:31px;padding:0 12px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:{{ occ.prevCursor }};opacity:{{ occ.prevOpacity }}" style-hover="border-color:var(--ink3)">{{ t.occPrev }}</button>
+              <button type="button" onClick="{{ occ.next }}" disabled="{{ occ.atLast }}" style="font-size:12.5px;height:31px;padding:0 12px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:{{ occ.nextCursor }};opacity:{{ occ.nextOpacity }}" style-hover="border-color:var(--ink3)">{{ t.occNext }}</button>
+            </div>
+          </div>
+
+        </div>
+      </sc-if>
+    </section>
+
+    <section style="border:1px solid var(--line);border-left:2px solid var(--warn);background:var(--warnBg);padding:clamp(16px,2vw,20px);display:flex;flex-direction:column;gap:12px">
+      <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--warn)">{{ t.clarifyTitle }}</span>
+      <p style="margin:0;font-size:13px;line-height:1.65;color:var(--ink2);max-width:82ch">{{ ev.question }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:9px">
+        <sc-for list="{{ answers }}" as="a" hint-placeholder-count="3">
+          <button type="button" onClick="{{ a.pick }}" style="font-size:12.5px;height:32px;padding:0 13px;border:1px solid {{ a.border }};background:{{ a.bg }};color:{{ a.fg }};cursor:pointer;white-space:nowrap">{{ a.label }}</button>
+        </sc-for>
+      </div>
+      <span style="font-size:11.5px;line-height:1.65;color:var(--ink3);max-width:82ch">{{ ev.clarifyNote }}</span>
+    </section>
+
+    <section style="border:1px solid var(--line);background:var(--surf);padding:clamp(16px,2vw,20px);display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <button type="button" onClick="{{ approve }}" disabled="{{ approveDisabled }}" style="font-size:13px;height:38px;padding:0 18px;border:none;background:{{ approveBg }};color:{{ approveFg }};cursor:{{ approveCursor }};white-space:nowrap">{{ approveLabel }}</button>
+      <button type="button" onClick="{{ reject }}" style="font-size:13px;height:38px;padding:0 15px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;white-space:nowrap" style-hover="border-color:var(--neg);color:var(--neg)">{{ t.reject }}</button>
+      <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);flex:1 1 260px">{{ footNote }}</span>
+    </section>
+
+    <sc-if value="{{ preview }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;background:rgba(0,0,0,0.42);display:flex;align-items:center;justify-content:center;padding:24px;z-index:80">
+        <div role="dialog" aria-modal="true" style="width:min(500px,100%);border:1px solid var(--line2);background:var(--surf);padding:22px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:{{ preview.kickerColor }}">{{ preview.kicker }}</span>
+          <p style="margin:0;font-size:14.5px;line-height:1.5;color:var(--ink)">{{ preview.title }}</p>
+
+          <sc-if value="{{ preview.needsDim }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <label style="flex:1 1 160px;min-width:0;display:flex;flex-direction:column;gap:6px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">{{ t.dimLabel }}</span>
+                <select value="{{ preview.dim }}" onChange="{{ preview.onDim }}" style="font-size:12.5px;height:33px;padding:0 9px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);cursor:pointer">
+                  <sc-for list="{{ preview.dimOptions }}" as="dm" hint-placeholder-count="4">
+                    <option value="{{ dm.v }}">{{ dm.l }}</option>
+                  </sc-for>
+                </select>
+              </label>
+              <label style="flex:1 1 160px;min-width:0;display:flex;flex-direction:column;gap:6px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">{{ t.dimNewValue }}</span>
+                <sc-if value="{{ preview.valueIsSelect }}" hint-placeholder-val="{{ true }}">
+                  <select value="{{ preview.value }}" onChange="{{ preview.onValue }}" style="font-size:12.5px;height:33px;padding:0 9px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);cursor:pointer">
+                    <sc-for list="{{ preview.valueOptions }}" as="vo" hint-placeholder-count="3">
+                      <option value="{{ vo.v }}">{{ vo.l }}</option>
+                    </sc-for>
+                  </select>
+                </sc-if>
+                <sc-if value="{{ preview.valueIsText }}" hint-placeholder-val="{{ false }}">
+                  <input type="text" value="{{ preview.value }}" onChange="{{ preview.onValue }}" placeholder="{{ preview.valuePh }}" style="font-size:12.5px;height:33px;padding:0 9px;border:1px solid var(--line2);background:var(--bg);color:var(--ink)">
+                </sc-if>
+              </label>
+            </div>
+            <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);text-wrap:pretty">{{ preview.scopeNote }}</p>
+          </sc-if>
+
+          <div style="border:1px solid var(--line);background:var(--surf2);padding:13px 15px;display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ preview.lines }}" as="pl" hint-placeholder-count="2">
+              <div style="display:flex;gap:12px;justify-content:space-between;align-items:baseline">
+                <span style="font-size:12.5px;line-height:1.5;color:var(--ink2);text-wrap:pretty">{{ pl.label }}</span>
+                <span style="font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;font-size:12px;color:{{ pl.color }};flex:none">{{ pl.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ preview.needsReason }}" hint-placeholder-val="{{ false }}">
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">{{ t.occReason }}</span>
+              <select value="{{ preview.reason }}" onChange="{{ preview.onReason }}" style="font-size:12.5px;height:33px;padding:0 9px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);cursor:pointer">
+                <sc-for list="{{ preview.reasons }}" as="rs" hint-placeholder-count="3">
+                  <option value="{{ rs.v }}">{{ rs.l }}</option>
+                </sc-for>
+              </select>
+            </label>
+          </sc-if>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);text-wrap:pretty">{{ preview.note }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end">
+            <button type="button" onClick="{{ closePreview }}" style="font-size:13px;height:36px;padding:0 15px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer" style-hover="border-color:var(--ink3);color:var(--ink)">{{ t.rejectBack }}</button>
+            <button type="button" onClick="{{ confirmPreview }}" style="font-size:13px;height:36px;padding:0 15px;border:1px solid {{ preview.kickerColor }};background:transparent;color:{{ preview.kickerColor }};cursor:pointer">{{ preview.confirm }}</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;background:rgba(0,0,0,0.42);display:flex;align-items:center;justify-content:center;padding:24px;z-index:80">
+        <div role="dialog" aria-modal="true" style="width:min(420px,100%);border:1px solid var(--line2);background:var(--surf);padding:22px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--neg)">{{ t.rejectKicker }}</span>
+          <p style="margin:0;font-size:14px;line-height:1.55;color:var(--ink)">{{ t.rejectConfirm }}</p>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3)">{{ t.rejectConfirmNote }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;padding-top:4px">
+            <button type="button" onClick="{{ cancelReject }}" style="font-size:13px;height:36px;padding:0 15px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer">{{ t.rejectBack }}</button>
+            <button type="button" onClick="{{ confirmReject }}" style="font-size:13px;height:36px;padding:0 15px;border:1px solid var(--neg);background:transparent;color:var(--neg);cursor:pointer">{{ t.rejectConfirmBtn }}</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;},&quot;language&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pt-BR&quot;,&quot;en&quot;,&quot;es&quot;],&quot;default&quot;:&quot;pt-BR&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;}}">
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() { try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; } }
+function writeTheme(v) { try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {} }
+const LANG_KEY = "qcost-lang-v2";
+function readLang() { try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; } }
+function writeLang(v) { try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {} }
+
+const CHROME = {
+  "pt-BR": { nav1:"Painel", nav2:"Eventos", nav3:"Custos", nav4:"Auditoria", nav5:"Relatórios", nav6:"Alertas", nav7:"Integrações",
+    userAria:"Menu da conta", menuProfile:"Meu perfil", menuOrg:"Organização e plantas", menuTeam:"Equipe e permissões",
+    menuBilling:"Assinatura e faturas", menuHelp:"Central de Ajuda e Treinamento", menuTrust:"Central de Confiança", menuSignOut:"Sair", role:"Administradora · Pro" },
+  en: { nav1:"Dashboard", nav2:"Events", nav3:"Costs", nav4:"Audit trail", nav5:"Reports", nav6:"Alerts", nav7:"Integrations",
+    userAria:"Account menu", menuProfile:"My profile", menuOrg:"Organization and plants", menuTeam:"Team and permissions",
+    menuBilling:"Subscription and invoices", menuHelp:"Help and Training Center", menuTrust:"Trust Center", menuSignOut:"Sign out", role:"Administrator · Pro" },
+  es: { nav1:"Panel", nav2:"Eventos", nav3:"Costos", nav4:"Auditoría", nav5:"Informes", nav6:"Alertas", nav7:"Integraciones",
+    userAria:"Menú de la cuenta", menuProfile:"Mi perfil", menuOrg:"Organización y plantas", menuTeam:"Equipo y permisos",
+    menuBilling:"Suscripción y facturas", menuHelp:"Central de Ayuda y Capacitación", menuTrust:"Centro de Confianza", menuSignOut:"Salir", role:"Administradora · Pro" }
+};
+
+const CH_TONE = {
+  upload: { color: "var(--ink2)", bg: "var(--surf2)", line: "var(--line2)" },
+  system: { color: "var(--neg)", bg: "var(--negBg)", line: "var(--neg)" },
+  api:    { color: "var(--info)", bg: "var(--infoBg)", line: "var(--info)" },
+  mcp:    { color: "var(--warn)", bg: "var(--warnBg)", line: "var(--warn)" }
+};
+const CONF = {
+  high:      { key: "tagHigh",      c: "var(--pos)",  border: "var(--line2)", bg: "var(--surf)",  hint: "var(--ink3)" },
+  suggested: { key: "tagSuggested", c: "var(--warn)", border: "var(--warn)",  bg: "var(--warnBg)", hint: "var(--warn)" },
+  missing:   { key: "tagMissing",   c: "var(--neg)",  border: "var(--neg)",   bg: "var(--negBg)",  hint: "var(--neg)" },
+  user:      { key: "tagUser",      c: "var(--ink)",  border: "var(--ink3)",  bg: "var(--surf)",  hint: "var(--ink3)" },
+  registry:  { key: "tagRegistry",  c: "var(--info)", border: "var(--info)",  bg: "var(--infoBg)", hint: "var(--info)" }
+};
+const COST_CENTERS = ["CC-4820", "CC-5110", "CC-6300", "CC-1000"];
+const CAT_COLOR = ["var(--paf1)", "var(--paf2)", "var(--paf3)", "var(--paf4)"];
+const CAT_SOFT = ["var(--paf1Soft)", "var(--paf2Soft)", "var(--paf3Soft)", "var(--paf4Soft)"];
+const CAT_LINE = ["var(--paf1Line)", "var(--paf2Line)", "var(--paf3Line)", "var(--paf4Line)"];
+
+const PAF = {
+  "pt-BR": {
+    cats: ["Prevenção", "Avaliação", "Falha interna", "Falha externa"],
+    subs: [
+      ["Planejamento da qualidade","Controle de processo","Auditorias da qualidade","Manutenção preventiva","Avaliação de fornecedor","Treinamento","Análise crítica de projeto","Avaliação de riscos","FMEA"],
+      ["Inspeção","Teste de aceitação em fábrica (FAT)","Análise de documentação","Auditorias da qualidade","Calibração","Materiais de ensaio","Ensaio de produto"],
+      ["Refugo e sucata","Retrabalho","Documentação ausente","Solução de problemas","Reensaio","Reprojeto","Desclassificação de produto","Variação de processo","Parada de linha"],
+      ["Custos de garantia","Reclamações de cliente","Materiais devolvidos","Multa por atraso na entrega","Retrabalho após instalação","Oportunidades perdidas"]
+    ],
+    supType: ["Externo", "Interno"]
+  },
+  en: {
+    cats: ["Prevention", "Appraisal", "Internal failure", "External failure"],
+    subs: [
+      ["Planning","Process control","Quality audits","Maintenance","Supplier evaluation","Training","Design review","Risk assessment","FMEA"],
+      ["Inspection","Factory acceptance test (FAT)","Document review","Quality audits","Calibration","Test materials","Test product"],
+      ["Scrap","Rework","Missing documents","Problem solving","Retest","Redesign","Downgrading","Process variation","Downtime"],
+      ["Warranty charges","Complaints","Returned materials","Late delivery penalties","Rework after installation","Lost opportunities"]
+    ],
+    supType: ["External", "Internal"]
+  },
+  es: {
+    cats: ["Prevención", "Evaluación", "Fallo interno", "Fallo externo"],
+    subs: [
+      ["Planificación de la calidad","Control de proceso","Auditorías de calidad","Mantenimiento preventivo","Evaluación de proveedor","Capacitación","Revisión de diseño","Evaluación de riesgos","AMFE"],
+      ["Inspección","Prueba de aceptación en fábrica (FAT)","Revisión documental","Auditorías de calidad","Calibración","Materiales de ensayo","Ensayo de producto"],
+      ["Chatarra y desecho","Retrabajo","Documentación faltante","Solución de problemas","Reensayo","Rediseño","Desclasificación de producto","Variación de proceso","Parada de línea"],
+      ["Costos de garantía","Reclamos de cliente","Materiales devueltos","Multa por retraso en la entrega","Retrabajo tras instalación","Oportunidades perdidas"]
+    ],
+    supType: ["Externo", "Interno"]
+  }
+};
+
+// os três caminhos de entrada do evento, um exemplo de cada
+const EVENTS = [
+  {
+    id: "EV-2026-0912", ch: "api", min: 3, at: "2026-09-19T14:41", src: null,
+    cat: 2, sub: 0, supType: 0, plant: 2,
+    op: "POST /v1/events:analyze",
+    amounts: [96400, 32000],
+    fields: [
+      { id: "tipo", conf: "high" },
+      { id: "data", conf: "high" },
+      { id: "lote", conf: "high" },
+      { id: "qtd", conf: "high" },
+      { id: "fornecedor", conf: "suggested" },
+      { id: "centro", conf: "registry" }
+    ]
+  },
+  {
+    id: "EV-2026-0911", ch: "mcp", min: 47, at: "2026-09-19T13:57",
+    cat: 2, sub: 1, supType: 1, plant: 1,
+    op: "event.create_draft",
+    amounts: [28600, 12650],
+    fields: [
+      { id: "tipo", conf: "high" },
+      { id: "data", conf: "high" },
+      { id: "lote", conf: "high" },
+      { id: "qtd", conf: "suggested" },
+      { id: "fornecedor", conf: "high" },
+      { id: "centro", conf: "registry" }
+    ]
+  },
+  {
+    id: "EV-2026-0905", ch: "api", min: 2870, at: "2026-09-17T14:50", src: { code: "USD", sym: "US$", rate: 5.41 },
+    cat: 3, sub: 2, supType: 0, plant: 2,
+    op: "POST /v1/events:analyze",
+    amounts: [48200, 15600],
+    fields: [
+      { id: "tipo", conf: "high" },
+      { id: "data", conf: "high" },
+      { id: "lote", conf: "high" },
+      { id: "qtd", conf: "high" },
+      { id: "fornecedor", conf: "high" },
+      { id: "centro", conf: "registry" }
+    ]
+  },
+  {
+    id: "EV-2026-0901", ch: "mcp", min: 4310, at: "2026-09-16T15:11", src: { code: "EUR", sym: "€", rate: 5.82 },
+    cat: 0, sub: 4, supType: 0, plant: 3,
+    op: "event.create_draft",
+    amounts: [18400, 4000],
+    fields: [
+      { id: "tipo", conf: "high" },
+      { id: "data", conf: "high" },
+      { id: "lote", conf: "high" },
+      { id: "qtd", conf: "suggested" },
+      { id: "fornecedor", conf: "high" },
+      { id: "centro", conf: "registry" }
+    ]
+  },
+  {
+    id: "EV-2026-0910", ch: "upload", min: 1580, at: "2026-09-18T12:21",
+    cat: 1, sub: 4, supType: 1, plant: 0,
+    op: "—",
+    amounts: [14900, 3500],
+    fields: [
+      { id: "tipo", conf: "high" },
+      { id: "data", conf: "high" },
+      { id: "lote", conf: "high" },
+      { id: "qtd", conf: "high" },
+      { id: "fornecedor", conf: "suggested" },
+      { id: "centro", conf: "registry" }
+    ]
+  }
+];
+
+// Uma contabilização agrupa N ocorrências. Chave = competência · categoria · subcategoria ·
+// planta · centro de custo · moeda · tipo de fornecedor · fornecedor · cliente.
+const GROUPS = [
+  { ship:"ENV-2026-0418", occ:312, kind:"scrap",
+    key:["09/2026","Falha interna","Refugo","Betim (MG)","CC-2870","BRL","Fornecedor externo","Fundição Meridional","—"],
+    comp:[["compMaterial",286400],["compLabor",118900],["compOverhead",77010]], seed:21 },
+  { ship:"ENV-2026-0415", occ:86, kind:"rework",
+    key:["09/2026","Falha interna","Retrabalho","Joinville (SC)","CC-3210","BRL","—","—","—"],
+    comp:[["compLabor",96200],["compOverhead",31400]], seed:37 },
+  { ship:"ENV-2026-0417", occ:1, kind:"return",
+    key:["09/2026","Falha externa","Devolução e garantia","Curitiba (PR)","CC-4100","BRL","—","—","Volk do Brasil"],
+    comp:[["compMaterial",74300],["compFreight",12800],["compLabor",9200]], seed:5 },
+  { ship:"ENV-2026-0414", occ:12, kind:"audit",
+    key:["09/2026","Avaliação","Auditoria de fornecedor","Sorocaba (SP)","CC-1120","BRL","Fornecedor externo","Aços Tamoio","—"],
+    comp:[["compLabor",38400],["compTravel",14600]], seed:11 },
+  { ship:"ENV-2026-0409", occ:47, kind:"return",
+    key:["09/2026","Falha externa","Garantia","Todas as plantas","CC-4100","BRL","—","—","Diversos"],
+    comp:[["compMaterial",312500],["compFreight",84300],["compLabor",75130]], seed:53 },
+  { ship:"ENV-2026-0408", occ:14, kind:"calib",
+    key:["09/2026","Avaliação","Calibração","Curitiba (PR)","CC-1140","BRL","Fornecedor externo","Metrolab","—"],
+    comp:[["compService",28700],["compLabor",7400]], seed:29 }
+];
+
+// contabilizações irmãs do mesmo envio — permitem que a edição de chave resulte em fusão
+const SIBLINGS = [
+  [ { dim:3, value:"Joinville (SC)", id:"EV-2026-0932", occ:286, v:291450 },
+    { dim:3, value:"Curitiba (PR)", id:"EV-2026-0931", occ:312, v:482310 } ],
+  [ { dim:3, value:"Betim (MG)", id:"EV-2026-0921", occ:31, v:54120 } ],
+  [], [], [], []
+];
+
+const KEY_LABELS = ["keyPeriod","keyCat","keySub","keyPlant","keyCC","keyCurrency","keySupplierType","keySupplier","keyCustomer"];
+const OCC_COLS = {
+  scrap:  ["colRef","colBatch","colQty","colValue"],
+  rework: ["colRef","colOrder","colHours","colValue"],
+  return: ["colRef","colInvoice","colQty","colValue"],
+  audit:  ["colRef","colSupplier","colHours","colValue"],
+  calib:  ["colRef","colInstrument","colQty","colValue"]
+};
+const OCC_PAGE = 25;
+
+function occRows(g) {
+  const out = [];
+  let x = g.seed;
+  const rnd = () => { x = (x * 1103515245 + 12345) % 2147483648; return x / 2147483648; };
+  const tot = g.comp.reduce((a, c) => a + c[1], 0);
+  for (let i = 0; i < g.occ; i++) {
+    out.push({ i,
+      ref: "OC-" + (10000 + i * 7 + g.seed),
+      b: String(2200 + ((i * 13 + g.seed) % 780)),
+      q: 4 + ((i * 3 + g.seed) % 46),
+      v: Math.round((tot / g.occ) * (0.55 + rnd() * 0.9)) });
+  }
+  return out;
+}
+
+const DICT = {
+  "pt-BR": {
+    keyTitle:"Chave de agrupamento", compTitle:"Composição do total", compTotal:"Total da contabilização",
+    keyNote:"Esta contabilização existe porque estas ocorrências compartilham exatamente estes valores. Alterar qualquer dimensão aqui move ou divide o conjunto.",
+    keyPeriod:"Competência", keyCat:"Categoria PAF", keySub:"Subcategoria", keyPlant:"Planta", keyCC:"Centro de custo",
+    keyCurrency:"Moeda", keySupplierType:"Tipo de fornecedor", keySupplier:"Fornecedor", keyCustomer:"Cliente",
+    compMaterial:"Material perdido", compLabor:"Mão de obra", compOverhead:"Overhead de produção",
+    compFreight:"Frete de retorno", compTravel:"Viagem e diárias", compService:"Serviço contratado",
+    shipLabel:(id,n)=>"Envio "+id+" · "+n+" contabilizações",
+    derivedNote:(n)=>"Total derivado da soma de "+n+" ocorrências. Não é digitado.",
+    occTitle:"Ocorrências agrupadas", occCount:(n)=>n==="1"?"1 ocorrência":n+" ocorrências",
+    occNote:"Aqui se consulta e se corrige. A aprovação é sempre da contabilização inteira — não existe aprovar ocorrência isolada.",
+    occSearch:"Buscar por referência, lote ou valor", occSort:"Ordenar",
+    occSortRef:"Referência", occSortValueDesc:"Maior valor", occSortValueAsc:"Menor valor",
+    colRef:"Referência", colBatch:"Lote", colOrder:"Ordem", colInvoice:"Nota", colSupplier:"Fornecedor",
+    colInstrument:"Instrumento", colQty:"Quantidade", colHours:"Horas", colDue:"Vencimento", colValue:"Valor",
+    occSelectAll:"Selecionar todas as ocorrências da página", occSelectOne:(r)=>"Selecionar "+r,
+    occSelection:(n,v)=>(n==="1"?"1 selecionada":n+" selecionadas")+" · "+v,
+    occBulkFix:"Corrigir em massa", occBulkDrop:"Excluir da contabilização", occClear:"Limpar seleção",
+    occPage:(a,b,t)=>a+"–"+b+" de "+t, occPrev:"Anterior", occNext:"Próxima",
+    occReason:"Motivo da exclusão",
+    reasonWrongPlant:"Planta incorreta na leitura", reasonWrongSupplier:"Fornecedor incorreto", reasonDuplicate:"Ocorrência duplicada", reasonOther:"Outro — descrever na auditoria",
+    splitKicker:"Divisão da contabilização", mergeKicker:"Fusão de contabilizações", moveKicker:"Movimento da contabilização", dropKicker:"Envio para triagem",
+    dimLabel:"Dimensão da chave", dimNewValue:"Novo valor",
+    scopeSelection:(n)=>n==="1"?"Alteração aplicada a 1 ocorrência selecionada: o conjunto se separa numa nova contabilização.":"Alteração aplicada às "+n+" ocorrências selecionadas: o conjunto se separa numa nova contabilização.",
+    scopeEntry:(n)=>"Alteração aplicada à contabilização inteira — as "+n+" ocorrências vão juntas.",
+    moveTitle:(dim,val)=>"Mudar "+dim+" para "+val+"?",
+    mergeTitle:(n,id)=>(n==="1"?"Juntar 1 ocorrência":"Juntar "+n+" ocorrências")+" à contabilização "+id+"?",
+    prevMoved:"Mudam de contabilização", prevTarget:(id)=>"Total de "+id, prevEmptied:"Novo total desta contabilização", prevUnchanged:"Total desta contabilização (inalterado)",
+    moveNote:"A contabilização inteira se desloca: as mesmas ocorrências, o mesmo total, com a chave nova. Não existe outra contabilização com essa chave neste envio, então nada é fundido. O movimento fica registrado na trilha de auditoria.",
+    absorbedNote:"Esta contabilização foi absorvida por outra do mesmo envio. Não há mais ocorrências aqui e não há o que aprovar.",
+    mergeNote:"Já existe uma contabilização com essa chave no mesmo envio. As ocorrências entram nela e os dois totais passam a ser um só; a fusão fica registrada na trilha de auditoria.",
+    splitTitle:(n)=>n==="1"?"Separar 1 ocorrência em uma nova contabilização?":"Separar "+n+" ocorrências em uma nova contabilização?",
+    dropTitle:(n)=>n==="1"?"Enviar 1 ocorrência para a triagem?":"Enviar "+n+" ocorrências para a triagem?",
+    prevOut:"Saem desta contabilização", prevStay:"Permanecem aqui", prevNewTotal:"Novo total desta contabilização",
+    splitNote:"A nova contabilização nasce com a mesma chave, exceto a dimensão alterada, e entra na fila como Pendente. A divisão fica registrada na trilha de auditoria.",
+    dropNote:"As ocorrências saem do total desta contabilização e voltam à triagem do envio de origem, agrupadas pelo motivo. Nenhuma ocorrência é apagada.",
+    prevConfirm:"Confirmar",
+    themeAria: "Alternar tema", backQueue: "Fila de revisão",
+    provTitle: "Envio", provNote: "Dados estruturais gravados pela plataforma no momento da entrada. Não são editáveis e não dependem da leitura da IA.",
+    regId: "Identificador", regOrg: "Metalúrgica Paranaense S.A.",
+    regStatus: "Situação", regStatusSub: "Muda ao aprovar ou cancelar",
+    stPending: "Pendente", stApproved: "Confirmado", stCancelled: "Cancelado",
+    rejectKicker: "Cancelar evento", rejectConfirm: "Levar este evento para Cancelado?",
+    rejectConfirmNote: "O evento sai da apuração e a transição fica registrada na trilha de auditoria. A ação não é desfeita nesta tela.",
+    rejectBack: "Voltar", rejectConfirmBtn: "Cancelar evento",
+    cancelledNote: "Evento cancelado. Sai da apuração de setembro de 2026; a transição Pendente → Cancelado está na trilha de auditoria.",
+    acctTitle: "Contabilização do evento", acctOk: "TUDO CONFIRMADO",
+    acctNote: "Contrato fixo de contabilização: todo evento carrega estes campos, sempre os mesmos. É o que entra na apuração e no razão.",
+    specTitle: "Dados do evento",
+    specNote: "Variam conforme a subcategoria. Sustentam o valor contabilizado e ficam no log para rastreio.",
+    thField: "Campo", thValue: "Valor", thBasis: "De onde veio", thFeeds: "Efeito",
+    feedsTotal: "→ soma no total", tagNa: "NÃO SE APLICA", tagConverted: "CONVERTIDO",
+    provOrigin: "Origem da entrada", provWhen: "Recebido",
+    provWho: "Quem enviou", provTrace: "Chamada de origem",
+    traceLabel: "Ver no registro de invocações", traceLabelUpload: "Ver na trilha de auditoria", traceLabelRule: "Ver a regra que disparou",
+    attachments: "Anexos recebidos", resultTitle: "Resultado da análise",
+    pafCategory: "Classificação PAF", totalProposed: "Custo total proposto",
+    clarifyTitle: "Esclarecimento solicitado", reject: "Rejeitar evento",
+    approve: "Aprovar e contabilizar", approved: "Evento aprovado",
+    tagHigh: "EXTRAÍDO", tagSuggested: "SUGERIDO", tagMissing: "FALTANDO", tagUser: "REVISADO",
+    noPending: "NENHUM PENDENTE", onePend: " CAMPO PARA REVISAR", manyPend: " CAMPOS PARA REVISAR",
+    totalNoteRevised: "Valores revisados por você", totalNoteSuggested: "Estimado pela IA — revise antes de aprovar",
+    totalNoteFx: "Convertido para a moeda da organização",
+    fxTitle: "Conversão de moeda",
+    fxLead: "O documento está em {SRC} e a organização contabiliza em {ORG}. A IA converteu pela taxa do dia do evento; confirme ou ajuste a taxa antes de aprovar.",
+    fxStatSrc: "Valor no documento", fxStatRate: "Taxa aplicada", fxStatOrg: "Valor contabilizado",
+    fxRateLabel: "Taxa {SRC} → {ORG}",
+    fxNote: "A taxa e o valor original ficam registrados no evento e na trilha de auditoria.",
+    blockNote: "Preencha o centro de custo para poder aprovar. Nada é lançado com campo obrigatório em branco.",
+    okNote: "Ao aprovar, o evento entra na apuração de setembro de 2026 com registro de quem aprovou e de qual sistema o originou.",
+    doneNote: "Evento confirmado. O registro completo está na trilha de auditoria, vinculado à chamada de origem.",
+    labels: { moeda: "Moeda", cliente: "Cliente", tipo: "Tipo de evento", data: "Data do evento", lote: "Documento", qtd: "Quantidade", fornecedor: "Fornecedor", centro: "Centro de custo",
+      categoria: "Categoria PAF", subcategoria: "Subcategoria", fornTipo: "Tipo de fornecedor", planta: "Planta" },
+    tagRegistry: "DO CADASTRO",
+    ccSuffix: ["Qualidade Curitiba", "Qualidade Joinville", "Qualidade Betim", "Qualidade corporativa"],
+    ccHint: "Trazido da estrutura PAF da organização, pelo centro de custo da planta.",
+    costLines: [
+      [["Custo do material refugado", "Custo médio da peça × 318 unidades, pela tabela de setembro."],
+       ["Hora-máquina perdida", "Estimado pelo tempo de forno parado no apontamento."]],
+      [["Mão de obra de retrabalho", "42 h × custo-hora padrão da célula de solda."],
+       ["Consumíveis e energia", "Estimado pelo consumo médio da célula por hora."]],
+      [["Custo dos conjuntos devolvidos", "Custo médio do conjunto × 46 unidades."],
+       ["Frete de retorno", "Estimado pela tabela da rota Betim–Sorocaba."]],
+      [["Diárias dos auditores", "2 auditores × 3 dias, pela tabela interna."],
+       ["Viagem e hospedagem", "Estimado pela média das auditorias do trimestre."]],
+      [["Serviço de recalibração", "Valor da nota do laboratório externo."],
+       ["Transporte dos instrumentos", "Estimado pela coleta e devolução dos 14 itens."]]
+    ],
+    plants: ["Curitiba (PR)", "Joinville (SC)", "Betim (MG)", "Consolidado"],
+    centroPh: "CC-0000",
+    channels: { upload: "UPLOAD", api: "API REST", mcp: "FERRAMENTA MCP", system: "REGRA DE ALERTA" },
+    minsAgo: " min atrás", hoursAgo: " h atrás", daysAgo: " d atrás",
+    evs: [
+      {
+        title: "Refugo de fundição — lote 2214",
+        lead: "O ERP corporativo enviou o apontamento de refugo pela API assim que a ordem foi encerrada. A IA classificou e estimou o custo; falta a sua revisão para entrar na apuração.",
+        channelNote: "Criado por sistema corporativo, sem passar pela interface.",
+        sender: "ERP corporativo", senderMeta: "Integração ERP — produção · ****4A7F",
+        payloadTitle: "Conteúdo recebido na chamada",
+        payloadMeta: "application/json · 1,4 KB",
+        payload: '{\n  "plant": "bet",\n  "source_doc": "OP-2214",\n  "description": "Refugo de fundição\\n  no fechamento da ordem 2214.",\n  "quantity": 318,\n  "unit": "peças",\n  "occurred_at": "2026-09-19T14:38:00-03:00",\n  "attachments": [\n    "relatorio_refugo_2214.pdf",\n    "apontamento_forno.csv"\n  ]\n}',
+        payloadNote: "Os anexos vieram por URL assinada na mesma chamada. O conteúdo original fica retido enquanto o evento estiver em revisão.",
+        files: [["relatorio_refugo_2214.pdf", "196 KB"], ["apontamento_forno.csv", "38 KB"]],
+        question: "O ERP não informou o centro de custo da ordem 2214. Confirma que o rateio segue o padrão da planta de Betim?",
+        answers: ["Sim, padrão da planta", "Não, informar outro", "Consultar controladoria"],
+        clarifyNote: "Sistemas corporativos não respondem esclarecimentos. A pergunta aguarda decisão humana desde a criação do evento.",
+        customer: "", fieldValues: { tipo: "Refugo de produção", data: "19/09/2026", lote: "OP-2214", qtd: "318 peças", fornecedor: "Fundição Meridional", centro: "" },
+        fieldHints: { tipo: "Classificado pelo tipo de apontamento do ERP.", data: "Data de encerramento da ordem 2214.", lote: "Ordem de produção enviada no campo source_doc.", qtd: "Quantidade explícita no payload.",
+          fornecedor: "Inferido pelo certificado de matéria-prima do lote.", centro: "Não veio na chamada. Informe para lançar na contabilidade." }
+      },
+      {
+        title: "Retrabalho de solda — linha 3",
+        lead: "O assistente de qualidade da empresa abriu o rascunho pelo conector MCP a partir do relatório de turno. A IA classificou e estimou o custo; falta a sua revisão.",
+        channelNote: "Criado por agente de IA do cliente, via ferramenta MCP.",
+        sender: "Agente de qualidade", senderMeta: "Conector MCP · ****4A7F",
+        payloadTitle: "Argumentos da ferramenta",
+        payloadMeta: "event.create_draft · 0,9 KB",
+        payload: '{\n  "plant": "joi",\n  "description": "Retrabalho de solda na\\n  linha 3, turno da noite.",\n  "hours": 42,\n  "operators": 6,\n  "occurred_at": "2026-09-19T13:50:00-03:00",\n  "attachments": [\n    "relatorio_turno_noite.pdf"\n  ]\n}',
+        payloadNote: "O agente anexou o relatório de turno que leu. A ferramenta devolveu o rascunho e o número do evento ao assistente.",
+        files: [["relatorio_turno_noite.pdf", "112 KB"]],
+        question: "O agente informou 42 horas de retrabalho, mas não o custo-hora da célula. Usar o custo-hora padrão da linha 3?",
+        answers: ["Sim, custo padrão", "Não, informar valor", "Consultar produção"],
+        clarifyNote: "O agente de IA não pode responder por conta própria: a premissa de valorização exige decisão humana registrada.",
+        customer: "", fieldValues: { tipo: "Retrabalho de processo", data: "19/09/2026", lote: "Linha 3 · turno noite", qtd: "42 h · 6 operadores", fornecedor: "Solda e montagem — Curitiba", centro: "" },
+        fieldHints: { tipo: "Classificado pela descrição enviada pelo agente.", data: "Data do relatório de turno.", lote: "Identificação enviada na descrição da ferramenta.", qtd: "Horas informadas; operadores estimados pela escala do turno.",
+          fornecedor: "Unidade interna responsável pela operação.", centro: "Não veio na chamada. Informe para lançar na contabilidade." }
+      },
+      {
+        title: "Devolução parcial — pedido 77.412",
+        lead: "O ERP registrou a devolução parcial assim que a nota de retorno foi emitida. A IA classificou e estimou o custo; falta a sua revisão.",
+        channelNote: "Criado por sistema corporativo, sem passar pela interface.",
+        sender: "ERP corporativo", senderMeta: "Integração ERP — faturamento · ****4A7F",
+        payloadTitle: "Conteúdo recebido na chamada",
+        payloadMeta: "application/json · 1,1 KB",
+        payload: '{\n  "plant": "bet",\n  "source_doc": "PED-77412",\n  "description": "Devolução parcial de 46 de\\n  180 conjuntos faturados.",\n  "quantity": 46,\n  "unit": "conjuntos",\n  "occurred_at": "2026-09-17T14:47:00-03:00",\n  "attachments": [\n    "nf_retorno_77412.pdf"\n  ]\n}',
+        payloadNote: "A nota de retorno veio por URL assinada na mesma chamada, junto com o vínculo ao pedido original.",
+        files: [["nf_retorno_77412.pdf", "142 KB"]],
+        question: "O pedido 77.412 tem frete CIF. Incluir o frete de retorno no custo do evento?",
+        answers: ["Sim, incluir frete", "Não, só produto", "Consultar logística"],
+        clarifyNote: "Sistemas corporativos não respondem esclarecimentos. A pergunta aguarda decisão humana desde a criação do evento.",
+        customer: "Autopeças Vetor Ltda.", fieldValues: { tipo: "Devolução de cliente", data: "17/09/2026", lote: "PED-77412", qtd: "46 conjuntos", fornecedor: "Montagem — Betim", centro: "" },
+        fieldHints: { tipo: "Identificado pela nota de retorno 77.412.", data: "Data de emissão da nota de retorno.", lote: "Pedido enviado no campo source_doc.", qtd: "Quantidade explícita no payload.",
+          fornecedor: "Unidade que faturou o pedido.", centro: "Não veio na chamada. Informe para lançar na contabilidade." }
+      },
+      {
+        title: "Auditoria de fornecedor — aço SAE 1045",
+        lead: "O assistente de suprimentos abriu o rascunho pelo conector MCP a partir do relatório de auditoria. A IA classificou e estimou o custo; falta a sua revisão.",
+        channelNote: "Criado por agente de IA do cliente, via ferramenta MCP.",
+        sender: "Agente de suprimentos", senderMeta: "Conector MCP · ****4A7F",
+        payloadTitle: "Argumentos da ferramenta",
+        payloadMeta: "event.create_draft · 0,8 KB",
+        payload: '{\n  "plant": "all",\n  "description": "Auditoria de segunda parte\\n  na Aciaria Sul, aço SAE 1045.",\n  "auditors": 2,\n  "days": 3,\n  "occurred_at": "2026-09-16T15:05:00-03:00",\n  "attachments": [\n    "relatorio_auditoria_aciaria.pdf"\n  ]\n}',
+        payloadNote: "O agente anexou o relatório que leu. A ferramenta devolveu o rascunho e o número do evento ao assistente.",
+        files: [["relatorio_auditoria_aciaria.pdf", "268 KB"]],
+        question: "A auditoria cobriu três plantas. Ratear o custo entre elas ou lançar no consolidado?",
+        answers: ["Ratear entre plantas", "Lançar no consolidado", "Consultar controladoria"],
+        clarifyNote: "O agente de IA não pode responder por conta própria: o critério de rateio exige decisão humana registrada.",
+        customer: "", fieldValues: { tipo: "Auditoria de fornecedor", data: "16/09/2026", lote: "AUD-FOR-0912", qtd: "2 auditores · 3 dias", fornecedor: "Aciaria Sul", centro: "" },
+        fieldHints: { tipo: "Classificado pelo relatório de segunda parte.", data: "Último dia da auditoria na Aciaria Sul.", lote: "Código da auditoria citado na descrição.", qtd: "Dias informados; diária estimada pela tabela interna.",
+          fornecedor: "Fornecedor auditado, nomeado na chamada.", centro: "Não veio na chamada. Informe para lançar na contabilidade." }
+      },
+      {
+        title: "Calibração fora do prazo — 14 instrumentos",
+        lead: "Registrado pela interface com o relatório do laboratório em anexo. A IA classificou e estimou o custo; falta a sua revisão.",
+        channelNote: "Registrado por pessoa, pela tela de eventos.",
+        sender: "Rafael Doi", senderMeta: "Analista da qualidade · Joinville",
+        payloadTitle: "Descrição enviada",
+        payloadMeta: "texto livre · 2 anexos",
+        payload: 'Auditoria interna encontrou 14 instrumentos\ncom calibração vencida na célula de usinagem.\nLaboratório externo recalibrou tudo na\nsemana passada, nota em anexo.',
+        payloadNote: "Anexos enviados pelo próprio analista no momento do registro.",
+        files: [["nf_laboratorio_8841.pdf", "84 KB"], ["lista_instrumentos.xlsx", "26 KB"]],
+        question: "A nota do laboratório cobre 14 instrumentos, mas a lista traz 16. Lançar pelos 14 cobrados?",
+        answers: ["Sim, 14 cobrados", "Não, 16 da lista", "Verificar com o lab"],
+        clarifyNote: "Esclarecimento aberto no registro. Responder aqui grava a premissa junto ao evento.",
+        customer: "", fieldValues: { tipo: "Calibração de instrumentos", data: "18/09/2026", lote: "AUD-2026-09", qtd: "14 instrumentos", fornecedor: "Metrologia Paraná", centro: "" },
+        fieldHints: { tipo: "Identificado pela nota do laboratório externo.", data: "Data de emissão da nota do laboratório.", lote: "Código da auditoria interna citado no texto.", qtd: "Conforme a nota do laboratório.",
+          fornecedor: "Laboratório externo na nota fiscal.", centro: "Não identificado. Informe para lançar na contabilidade." }
+      }
+    ]
+  },
+  en: {
+    keyTitle:"Grouping key", compTitle:"Total composition", compTotal:"Entry total",
+    keyNote:"This entry exists because these occurrences share exactly these values. Changing any dimension here moves or splits the set.",
+    keyPeriod:"Period", keyCat:"PAF category", keySub:"Subcategory", keyPlant:"Plant", keyCC:"Cost center",
+    keyCurrency:"Currency", keySupplierType:"Supplier type", keySupplier:"Supplier", keyCustomer:"Customer",
+    compMaterial:"Material lost", compLabor:"Labor", compOverhead:"Production overhead",
+    compFreight:"Return freight", compTravel:"Travel and per diem", compService:"Contracted service",
+    shipLabel:(id,n)=>"Submission "+id+" · "+n+" entries",
+    derivedNote:(n)=>"Total derived from the sum of "+n+" occurrences. It is not typed in.",
+    occTitle:"Grouped occurrences", occCount:(n)=>n==="1"?"1 occurrence":n+" occurrences",
+    occNote:"This is where you inspect and correct. Approval is always of the whole entry — there is no approving a single occurrence.",
+    occSearch:"Search by reference, batch or amount", occSort:"Sort",
+    occSortRef:"Reference", occSortValueDesc:"Highest amount", occSortValueAsc:"Lowest amount",
+    colRef:"Reference", colBatch:"Batch", colOrder:"Order", colInvoice:"Invoice", colSupplier:"Supplier",
+    colInstrument:"Instrument", colQty:"Quantity", colHours:"Hours", colDue:"Due", colValue:"Amount",
+    occSelectAll:"Select all occurrences on this page", occSelectOne:(r)=>"Select "+r,
+    occSelection:(n,v)=>n+" selected · "+v,
+    occBulkFix:"Correct in bulk", occBulkDrop:"Remove from entry", occClear:"Clear selection",
+    occPage:(a,b,t)=>a+"–"+b+" of "+t, occPrev:"Previous", occNext:"Next",
+    occReason:"Reason for removal",
+    reasonWrongPlant:"Wrong plant in the reading", reasonWrongSupplier:"Wrong supplier", reasonDuplicate:"Duplicate occurrence", reasonOther:"Other — describe in the audit trail",
+    splitKicker:"Entry split", mergeKicker:"Entry merge", moveKicker:"Entry move", dropKicker:"Send to triage",
+    dimLabel:"Key dimension", dimNewValue:"New value",
+    scopeSelection:(n)=>n==="1"?"Change applied to 1 selected occurrence: the set separates into a new entry.":"Change applied to the "+n+" selected occurrences: the set separates into a new entry.",
+    scopeEntry:(n)=>"Change applied to the whole entry — all "+n+" occurrences move together.",
+    moveTitle:(dim,val)=>"Change "+dim+" to "+val+"?",
+    mergeTitle:(n,id)=>(n==="1"?"Merge 1 occurrence":"Merge "+n+" occurrences")+" into entry "+id+"?",
+    prevMoved:"Change entry", prevTarget:(id)=>"Total of "+id, prevEmptied:"New total for this entry", prevUnchanged:"Total of this entry (unchanged)",
+    moveNote:"The whole entry moves: the same occurrences, the same total, with the new key. No other entry in this submission has that key, so nothing is merged. The move is recorded in the audit trail.",
+    absorbedNote:"This entry was absorbed by another one in the same submission. There are no occurrences left here and nothing to approve.",
+    mergeNote:"An entry with that key already exists in the same submission. The occurrences join it and the two totals become one; the merge is recorded in the audit trail.",
+    splitTitle:(n)=>n==="1"?"Separate 1 occurrence into a new entry?":"Separate "+n+" occurrences into a new entry?",
+    dropTitle:(n)=>n==="1"?"Send 1 occurrence to triage?":"Send "+n+" occurrences to triage?",
+    prevOut:"Leave this entry", prevStay:"Stay here", prevNewTotal:"New total for this entry",
+    splitNote:"The new entry is born with the same key except the changed dimension, and enters the queue as Pending. The split is recorded in the audit trail.",
+    dropNote:"The occurrences leave this entry's total and return to the source submission's triage, grouped by reason. No occurrence is deleted.",
+    prevConfirm:"Confirm",
+    themeAria: "Toggle theme", backQueue: "Review queue",
+    provTitle: "Submission", provNote: "Structural data written by the platform at entry. Not editable and not dependent on the AI reading.",
+    regId: "Identifier", regOrg: "Metalúrgica Paranaense S.A.",
+    regStatus: "Status", regStatusSub: "Changes on approval or cancellation",
+    stPending: "Pending", stApproved: "Confirmed", stCancelled: "Cancelled",
+    rejectKicker: "Cancel event", rejectConfirm: "Move this event to Cancelled?",
+    rejectConfirmNote: "The event leaves the accounting period and the transition is recorded in the audit trail. This cannot be undone on this screen.",
+    rejectBack: "Back", rejectConfirmBtn: "Cancel event",
+    cancelledNote: "Event cancelled. It leaves the September 2026 accounting; the Pending → Cancelled transition is in the audit trail.",
+    acctTitle: "Event accounting", acctOk: "ALL CONFIRMED",
+    acctNote: "Fixed accounting contract: every event carries these fields, always the same ones. This is what posts to the period and to the ledger.",
+    specTitle: "Event data",
+    specNote: "Varies by subcategory. Supports the accounted amount and stays in the log for traceability.",
+    thField: "Field", thValue: "Value", thBasis: "Where it came from", thFeeds: "Effect",
+    feedsTotal: "→ adds to total", tagNa: "NOT APPLICABLE", tagConverted: "CONVERTED",
+    provOrigin: "Entry channel", provWhen: "Received",
+    provWho: "Sent by", provTrace: "Originating call",
+    traceLabel: "See in the invocation log", traceLabelUpload: "See in the audit trail", traceLabelRule: "See the rule that fired",
+    attachments: "Attachments received", resultTitle: "Analysis result",
+    pafCategory: "PAF classification", totalProposed: "Total proposed cost",
+    clarifyTitle: "Clarification requested", reject: "Reject event",
+    approve: "Approve and account", approved: "Event approved",
+    tagHigh: "EXTRACTED", tagSuggested: "SUGGESTED", tagMissing: "MISSING", tagUser: "REVIEWED",
+    noPending: "NOTHING PENDING", onePend: " FIELD TO REVIEW", manyPend: " FIELDS TO REVIEW",
+    totalNoteRevised: "Amounts reviewed by you", totalNoteSuggested: "Estimated by the AI — review before approving",
+    totalNoteFx: "Converted to the organization currency",
+    fxTitle: "Currency conversion",
+    fxLead: "The document is in {SRC} and the organization accounts in {ORG}. The AI converted it at the rate of the event date; confirm or adjust the rate before approving.",
+    fxStatSrc: "Amount on the document", fxStatRate: "Rate applied", fxStatOrg: "Amount accounted",
+    fxRateLabel: "Rate {SRC} → {ORG}",
+    fxNote: "The rate and the original amount are recorded on the event and in the audit trail.",
+    blockNote: "Fill in the cost center to approve. Nothing is posted with a required field blank.",
+    okNote: "On approval, the event enters the September 2026 accounting with a record of who approved it and which system originated it.",
+    doneNote: "Approved and posted. The full record is in the audit trail, linked to the originating call.",
+    labels: { moeda: "Currency", cliente: "Customer", tipo: "Event type", data: "Event date", lote: "Document", qtd: "Quantity", fornecedor: "Supplier", centro: "Cost center",
+      categoria: "PAF category", subcategoria: "Subcategory", fornTipo: "Supplier type", planta: "Plant" },
+    tagRegistry: "FROM REGISTRY",
+    ccSuffix: ["Quality Curitiba", "Quality Joinville", "Quality Betim", "Corporate quality"],
+    ccHint: "Pulled from the organization's PAF structure, by the plant's cost center.",
+    costLines: [
+      [["Cost of scrapped material", "Average part cost × 318 units, per the September table."],
+       ["Machine hours lost", "Estimated from the furnace downtime in the entry."]],
+      [["Rework labor", "42 h × standard hourly rate of the welding cell."],
+       ["Consumables and energy", "Estimated from the cell's average hourly consumption."]],
+      [["Cost of returned assemblies", "Average assembly cost × 46 units."],
+       ["Return freight", "Estimated from the Betim–Sorocaba route table."]],
+      [["Auditor day rates", "2 auditors × 3 days, per the internal table."],
+       ["Travel and lodging", "Estimated from the quarter's audit average."]],
+      [["Recalibration service", "Amount on the external laboratory invoice."],
+       ["Instrument transport", "Estimated from pickup and return of the 14 items."]]
+    ],
+    plants: ["Curitiba (PR)", "Joinville (SC)", "Betim (MG)", "Consolidated"],
+    centroPh: "CC-0000",
+    channels: { upload: "UPLOAD", api: "REST API", mcp: "MCP TOOL", system: "ALERT RULE" },
+    minsAgo: " min ago", hoursAgo: " h ago", daysAgo: " d ago",
+    evs: [
+      {
+        title: "Foundry scrap — batch 2214",
+        lead: "The corporate ERP sent the scrap entry through the API as soon as the order was closed. The AI classified it and estimated the cost; it needs your review to enter the accounting.",
+        channelNote: "Created by a corporate system, without going through the interface.",
+        sender: "Corporate ERP", senderMeta: "ERP integration — production · ****4A7F",
+        payloadTitle: "Payload received in the call",
+        payloadMeta: "application/json · 1.4 KB",
+        payload: '{\n  "plant": "bet",\n  "source_doc": "OP-2214",\n  "description": "Foundry scrap at the\\n  close of order 2214.",\n  "quantity": 318,\n  "unit": "parts",\n  "occurred_at": "2026-09-19T14:38:00-03:00",\n  "attachments": [\n    "scrap_report_2214.pdf",\n    "furnace_log.csv"\n  ]\n}',
+        payloadNote: "Attachments arrived as signed URLs in the same call. The original content is retained while the event is under review.",
+        files: [["scrap_report_2214.pdf", "196 KB"], ["furnace_log.csv", "38 KB"]],
+        question: "The ERP did not provide the cost center for order 2214. Confirm the allocation follows the Betim plant default?",
+        answers: ["Yes, plant default", "No, enter another", "Ask controlling"],
+        clarifyNote: "Corporate systems do not answer clarifications. The question has been waiting for a human decision since the event was created.",
+        customer: "", fieldValues: { tipo: "Production scrap", data: "Sep 19, 2026", lote: "OP-2214", qtd: "318 parts", fornecedor: "Fundição Meridional", centro: "" },
+        fieldHints: { tipo: "Classified from the ERP entry type.", data: "Closing date of order 2214.", lote: "Production order sent in the source_doc field.", qtd: "Quantity explicit in the payload.",
+          fornecedor: "Inferred from the batch raw material certificate.", centro: "Not in the call. Provide it to post to accounting." }
+      },
+      {
+        title: "Weld rework — line 3",
+        lead: "The company's quality assistant opened the draft through the MCP connector from the shift report. The AI classified it and estimated the cost; it needs your review.",
+        channelNote: "Created by the client's AI agent, via MCP tool.",
+        sender: "Quality agent", senderMeta: "MCP connector · ****4A7F",
+        payloadTitle: "Tool arguments",
+        payloadMeta: "event.create_draft · 0.9 KB",
+        payload: '{\n  "plant": "joi",\n  "description": "Weld rework on line 3,\\n  night shift.",\n  "hours": 42,\n  "operators": 6,\n  "occurred_at": "2026-09-19T13:50:00-03:00",\n  "attachments": [\n    "night_shift_report.pdf"\n  ]\n}',
+        payloadNote: "The agent attached the shift report it read. The tool returned the draft and the event number to the assistant.",
+        files: [["night_shift_report.pdf", "112 KB"]],
+        question: "The agent reported 42 rework hours but not the cell's hourly rate. Use the standard hourly rate for line 3?",
+        answers: ["Yes, standard rate", "No, enter a value", "Ask production"],
+        clarifyNote: "The AI agent cannot answer on its own: the valuation assumption requires a recorded human decision.",
+        customer: "", fieldValues: { tipo: "Process rework", data: "Sep 19, 2026", lote: "Line 3 · night shift", qtd: "42 h · 6 operators", fornecedor: "Welding and assembly — Curitiba", centro: "" },
+        fieldHints: { tipo: "Classified from the description sent by the agent.", data: "Date of the shift report.", lote: "Identification sent in the tool description.", qtd: "Hours reported; operators estimated from the shift roster.",
+          fornecedor: "Internal unit responsible for the operation.", centro: "Not in the call. Provide it to post to accounting." }
+      },
+      {
+        title: "Partial return — order 77,412",
+        lead: "The ERP recorded the partial return as soon as the return invoice was issued. The AI classified it and estimated the cost; it needs your review.",
+        channelNote: "Created by a corporate system, without going through the interface.",
+        sender: "Corporate ERP", senderMeta: "ERP integration — billing · ****4A7F",
+        payloadTitle: "Payload received in the call",
+        payloadMeta: "application/json · 1.1 KB",
+        payload: '{\n  "plant": "bet",\n  "source_doc": "PED-77412",\n  "description": "Partial return of 46 of\\n  180 assemblies invoiced.",\n  "quantity": 46,\n  "unit": "assemblies",\n  "occurred_at": "2026-09-17T14:47:00-03:00",\n  "attachments": [\n    "return_invoice_77412.pdf"\n  ]\n}',
+        payloadNote: "The return invoice arrived as a signed URL in the same call, along with the link to the original order.",
+        files: [["return_invoice_77412.pdf", "142 KB"]],
+        question: "Order 77,412 is CIF. Include the return freight in the event cost?",
+        answers: ["Yes, include freight", "No, product only", "Ask logistics"],
+        clarifyNote: "Corporate systems do not answer clarifications. The question has been waiting for a human decision since the event was created.",
+        customer: "Autopeças Vetor Ltda.", fieldValues: { tipo: "Customer return", data: "Sep 17, 2026", lote: "PED-77412", qtd: "46 assemblies", fornecedor: "Assembly — Betim", centro: "" },
+        fieldHints: { tipo: "Identified from return invoice 77,412.", data: "Issue date of the return invoice.", lote: "Order sent in the source_doc field.", qtd: "Quantity explicit in the payload.",
+          fornecedor: "Unit that invoiced the order.", centro: "Not in the call. Provide it to post to accounting." }
+      },
+      {
+        title: "Supplier audit — SAE 1045 steel",
+        lead: "The procurement assistant opened the draft through the MCP connector from the audit report. The AI classified it and estimated the cost; it needs your review.",
+        channelNote: "Created by the client's AI agent, via MCP tool.",
+        sender: "Procurement agent", senderMeta: "MCP connector · ****4A7F",
+        payloadTitle: "Tool arguments",
+        payloadMeta: "event.create_draft · 0.8 KB",
+        payload: '{\n  "plant": "all",\n  "description": "Second-party audit at\\n  Aciaria Sul, SAE 1045 steel.",\n  "auditors": 2,\n  "days": 3,\n  "occurred_at": "2026-09-16T15:05:00-03:00",\n  "attachments": [\n    "aciaria_audit_report.pdf"\n  ]\n}',
+        payloadNote: "The agent attached the report it read. The tool returned the draft and the event number to the assistant.",
+        files: [["aciaria_audit_report.pdf", "268 KB"]],
+        question: "The audit covered three plants. Allocate the cost across them or post to consolidated?",
+        answers: ["Allocate across plants", "Post to consolidated", "Ask controlling"],
+        clarifyNote: "The AI agent cannot answer on its own: the allocation criterion requires a recorded human decision.",
+        customer: "", fieldValues: { tipo: "Supplier audit", data: "Sep 16, 2026", lote: "AUD-FOR-0912", qtd: "2 auditors · 3 days", fornecedor: "Aciaria Sul", centro: "" },
+        fieldHints: { tipo: "Classified from the second-party report.", data: "Last day of the audit at Aciaria Sul.", lote: "Audit code cited in the description.", qtd: "Days reported; daily rate estimated from the internal table.",
+          fornecedor: "Audited supplier, named in the call.", centro: "Not in the call. Provide it to post to accounting." }
+      },
+      {
+        title: "Calibration overdue — 14 instruments",
+        lead: "Recorded through the interface with the laboratory report attached. The AI classified it and estimated the cost; it needs your review.",
+        channelNote: "Recorded by a person, through the events screen.",
+        sender: "Rafael Doi", senderMeta: "Quality analyst · Joinville",
+        payloadTitle: "Description submitted",
+        payloadMeta: "free text · 2 attachments",
+        payload: 'Internal audit found 14 instruments with\nexpired calibration in the machining cell.\nAn external lab recalibrated all of them\nlast week, invoice attached.',
+        payloadNote: "Attachments uploaded by the analyst at the moment of recording.",
+        files: [["lab_invoice_8841.pdf", "84 KB"], ["instrument_list.xlsx", "26 KB"]],
+        question: "The lab invoice covers 14 instruments, but the list has 16. Post the 14 that were charged?",
+        answers: ["Yes, 14 charged", "No, 16 on the list", "Check with the lab"],
+        clarifyNote: "Clarification opened at recording. Answering here saves the assumption alongside the event.",
+        customer: "", fieldValues: { tipo: "Instrument calibration", data: "Sep 18, 2026", lote: "AUD-2026-09", qtd: "14 instruments", fornecedor: "Metrologia Paraná", centro: "" },
+        fieldHints: { tipo: "Identified from the external laboratory invoice.", data: "Issue date of the laboratory invoice.", lote: "Internal audit code cited in the text.", qtd: "Per the laboratory invoice.",
+          fornecedor: "External laboratory on the invoice.", centro: "Not identified. Provide it to post to accounting." }
+      }
+    ]
+  },
+  es: {
+    keyTitle:"Clave de agrupación", compTitle:"Composición del total", compTotal:"Total de la contabilización",
+    keyNote:"Esta contabilización existe porque estas ocurrencias comparten exactamente estos valores. Cambiar cualquier dimensión aquí mueve o divide el conjunto.",
+    keyPeriod:"Período", keyCat:"Categoría PAF", keySub:"Subcategoría", keyPlant:"Planta", keyCC:"Centro de costo",
+    keyCurrency:"Moneda", keySupplierType:"Tipo de proveedor", keySupplier:"Proveedor", keyCustomer:"Cliente",
+    compMaterial:"Material perdido", compLabor:"Mano de obra", compOverhead:"Overhead de producción",
+    compFreight:"Flete de retorno", compTravel:"Viaje y viáticos", compService:"Servicio contratado",
+    shipLabel:(id,n)=>"Envío "+id+" · "+n+" contabilizaciones",
+    derivedNote:(n)=>"Total derivado de la suma de "+n+" ocurrencias. No se digita.",
+    occTitle:"Ocurrencias agrupadas", occCount:(n)=>n==="1"?"1 ocurrencia":n+" ocurrencias",
+    occNote:"Aquí se consulta y se corrige. La aprobación es siempre de la contabilización entera — no existe aprobar una ocurrencia aislada.",
+    occSearch:"Buscar por referencia, lote o valor", occSort:"Ordenar",
+    occSortRef:"Referencia", occSortValueDesc:"Mayor valor", occSortValueAsc:"Menor valor",
+    colRef:"Referencia", colBatch:"Lote", colOrder:"Orden", colInvoice:"Nota", colSupplier:"Proveedor",
+    colInstrument:"Instrumento", colQty:"Cantidad", colHours:"Horas", colDue:"Vencimiento", colValue:"Valor",
+    occSelectAll:"Seleccionar todas las ocurrencias de la página", occSelectOne:(r)=>"Seleccionar "+r,
+    occSelection:(n,v)=>(n==="1"?"1 seleccionada":n+" seleccionadas")+" · "+v,
+    occBulkFix:"Corregir en masa", occBulkDrop:"Excluir de la contabilización", occClear:"Limpiar selección",
+    occPage:(a,b,t)=>a+"–"+b+" de "+t, occPrev:"Anterior", occNext:"Siguiente",
+    occReason:"Motivo de la exclusión",
+    reasonWrongPlant:"Planta incorrecta en la lectura", reasonWrongSupplier:"Proveedor incorrecto", reasonDuplicate:"Ocurrencia duplicada", reasonOther:"Otro — describir en la auditoría",
+    splitKicker:"División de la contabilización", mergeKicker:"Fusión de contabilizaciones", moveKicker:"Movimiento de la contabilización", dropKicker:"Envío a triaje",
+    dimLabel:"Dimensión de la clave", dimNewValue:"Nuevo valor",
+    scopeSelection:(n)=>n==="1"?"Cambio aplicado a 1 ocurrencia seleccionada: el conjunto se separa en una nueva contabilización.":"Cambio aplicado a las "+n+" ocurrencias seleccionadas: el conjunto se separa en una nueva contabilización.",
+    scopeEntry:(n)=>"Cambio aplicado a la contabilización entera — las "+n+" ocurrencias van juntas.",
+    moveTitle:(dim,val)=>"¿Cambiar "+dim+" a "+val+"?",
+    mergeTitle:(n,id)=>(n==="1"?"¿Juntar 1 ocurrencia":"¿Juntar "+n+" ocurrencias")+" a la contabilización "+id+"?",
+    prevMoved:"Cambian de contabilización", prevTarget:(id)=>"Total de "+id, prevEmptied:"Nuevo total de esta contabilización", prevUnchanged:"Total de esta contabilización (sin cambio)",
+    moveNote:"La contabilización entera se desplaza: las mismas ocurrencias, el mismo total, con la clave nueva. No existe otra contabilización con esa clave en este envío, así que nada se fusiona. El movimiento queda registrado en la pista de auditoría.",
+    absorbedNote:"Esta contabilización fue absorbida por otra del mismo envío. Ya no hay ocurrencias aquí ni nada que aprobar.",
+    mergeNote:"Ya existe una contabilización con esa clave en el mismo envío. Las ocurrencias entran en ella y los dos totales pasan a ser uno solo; la fusión queda registrada en la pista de auditoría.",
+    splitTitle:(n)=>n==="1"?"¿Separar 1 ocurrencia en una nueva contabilización?":"¿Separar "+n+" ocurrencias en una nueva contabilización?",
+    dropTitle:(n)=>n==="1"?"¿Enviar 1 ocurrencia al triaje?":"¿Enviar "+n+" ocurrencias al triaje?",
+    prevOut:"Salen de esta contabilización", prevStay:"Permanecen aquí", prevNewTotal:"Nuevo total de esta contabilización",
+    splitNote:"La nueva contabilización nace con la misma clave, excepto la dimensión alterada, y entra en la cola como Pendiente. La división queda registrada en la pista de auditoría.",
+    dropNote:"Las ocurrencias salen del total de esta contabilización y vuelven al triaje del envío de origen, agrupadas por el motivo. Ninguna ocurrencia se borra.",
+    prevConfirm:"Confirmar",
+    themeAria: "Alternar tema", backQueue: "Cola de revisión",
+    provTitle: "Envío", provNote: "Datos estructurales grabados por la plataforma al momento de la entrada. No son editables ni dependen de la lectura de la IA.",
+    regId: "Identificador", regOrg: "Metalúrgica Paranaense S.A.",
+    regStatus: "Situación", regStatusSub: "Cambia al aprobar o cancelar",
+    stPending: "Pendiente", stApproved: "Confirmado", stCancelled: "Cancelado",
+    rejectKicker: "Cancelar evento", rejectConfirm: "¿Llevar este evento a Cancelado?",
+    rejectConfirmNote: "El evento sale del cierre y la transición queda registrada en la pista de auditoría. No se deshace en esta pantalla.",
+    rejectBack: "Volver", rejectConfirmBtn: "Cancelar evento",
+    cancelledNote: "Evento cancelado. Sale del cierre de septiembre de 2026; la transición Pendiente → Cancelado está en la pista de auditoría.",
+    acctTitle: "Contabilización del evento", acctOk: "TODO CONFIRMADO",
+    acctNote: "Contrato fijo de contabilización: todo evento lleva estos campos, siempre los mismos. Es lo que entra en el cierre y en el mayor.",
+    specTitle: "Datos del evento",
+    specNote: "Varían según la subcategoría. Sustentan el valor contabilizado y quedan en el log para trazabilidad.",
+    thField: "Campo", thValue: "Valor", thBasis: "De dónde vino", thFeeds: "Efecto",
+    feedsTotal: "→ suma al total", tagNa: "NO APLICA", tagConverted: "CONVERTIDO",
+    provOrigin: "Origen de la entrada", provWhen: "Recibido",
+    provWho: "Quién envió", provTrace: "Llamada de origen",
+    traceLabel: "Ver en el registro de invocaciones", traceLabelUpload: "Ver en la trazabilidad", traceLabelRule: "Ver la regla que disparó",
+    attachments: "Adjuntos recibidos", resultTitle: "Resultado del análisis",
+    pafCategory: "Clasificación PAF", totalProposed: "Costo total propuesto",
+    clarifyTitle: "Aclaración solicitada", reject: "Rechazar evento",
+    approve: "Aprobar y contabilizar", approved: "Evento aprobado",
+    tagHigh: "EXTRAÍDO", tagSuggested: "SUGERIDO", tagMissing: "FALTANTE", tagUser: "REVISADO",
+    noPending: "NINGUNO PENDIENTE", onePend: " CAMPO POR REVISAR", manyPend: " CAMPOS POR REVISAR",
+    totalNoteRevised: "Valores revisados por usted", totalNoteSuggested: "Estimado por la IA — revise antes de aprobar",
+    totalNoteFx: "Convertido a la moneda de la organización",
+    fxTitle: "Conversión de moneda",
+    fxLead: "El documento está en {SRC} y la organización contabiliza en {ORG}. La IA convirtió por la tasa del día del evento; confirme o ajuste la tasa antes de aprobar.",
+    fxStatSrc: "Valor en el documento", fxStatRate: "Tasa aplicada", fxStatOrg: "Valor contabilizado",
+    fxRateLabel: "Tasa {SRC} → {ORG}",
+    fxNote: "La tasa y el valor original quedan registrados en el evento y en la trazabilidad.",
+    blockNote: "Complete el centro de costo para poder aprobar. Nada se registra con un campo obligatorio en blanco.",
+    okNote: "Al aprobar, el evento entra en el cierre de septiembre de 2026 con registro de quién aprobó y de qué sistema lo originó.",
+    doneNote: "Aprobado y registrado. La constancia completa está en la trazabilidad, vinculada a la llamada de origen.",
+    labels: { moeda: "Moneda", cliente: "Cliente", tipo: "Tipo de evento", data: "Fecha del evento", lote: "Documento", qtd: "Cantidad", fornecedor: "Proveedor", centro: "Centro de costo",
+      categoria: "Categoría PAF", subcategoria: "Subcategoría", fornTipo: "Tipo de proveedor", planta: "Planta" },
+    tagRegistry: "DEL REGISTRO",
+    ccSuffix: ["Calidad Curitiba", "Calidad Joinville", "Calidad Betim", "Calidad corporativa"],
+    ccHint: "Traído de la estructura PAF de la organización, por el centro de costo de la planta.",
+    costLines: [
+      [["Costo del material desechado", "Costo medio de la pieza × 318 unidades, por la tabla de septiembre."],
+       ["Hora-máquina perdida", "Estimado por el tiempo de horno detenido en el registro."]],
+      [["Mano de obra de retrabajo", "42 h × costo-hora estándar de la celda de soldadura."],
+       ["Consumibles y energía", "Estimado por el consumo medio de la celda por hora."]],
+      [["Costo de los conjuntos devueltos", "Costo medio del conjunto × 46 unidades."],
+       ["Flete de retorno", "Estimado por la tabla de la ruta Betim–Sorocaba."]],
+      [["Diarias de los auditores", "2 auditores × 3 días, por la tabla interna."],
+       ["Viaje y hospedaje", "Estimado por el promedio de las auditorías del trimestre."]],
+      [["Servicio de recalibración", "Importe de la factura del laboratorio externo."],
+       ["Transporte de los instrumentos", "Estimado por la recogida y devolución de los 14 ítems."]]
+    ],
+    plants: ["Curitiba (PR)", "Joinville (SC)", "Betim (MG)", "Consolidado"],
+    centroPh: "CC-0000",
+    channels: { upload: "CARGA", api: "API REST", mcp: "HERRAMIENTA MCP", system: "REGLA DE ALERTA" },
+    minsAgo: " min atrás", hoursAgo: " h atrás", daysAgo: " d atrás",
+    evs: [
+      {
+        title: "Chatarra de fundición — lote 2214",
+        lead: "El ERP corporativo envió el registro de chatarra por la API apenas se cerró la orden. La IA clasificó y estimó el costo; falta su revisión para entrar en el cierre.",
+        channelNote: "Creado por sistema corporativo, sin pasar por la interfaz.",
+        sender: "ERP corporativo", senderMeta: "Integración ERP — producción · ****4A7F",
+        payloadTitle: "Contenido recibido en la llamada",
+        payloadMeta: "application/json · 1,4 KB",
+        payload: '{\n  "plant": "bet",\n  "source_doc": "OP-2214",\n  "description": "Chatarra de fundición al\\n  cierre de la orden 2214.",\n  "quantity": 318,\n  "unit": "piezas",\n  "occurred_at": "2026-09-19T14:38:00-03:00",\n  "attachments": [\n    "informe_chatarra_2214.pdf",\n    "registro_horno.csv"\n  ]\n}',
+        payloadNote: "Los adjuntos llegaron por URL firmada en la misma llamada. El contenido original queda retenido mientras el evento esté en revisión.",
+        files: [["informe_chatarra_2214.pdf", "196 KB"], ["registro_horno.csv", "38 KB"]],
+        question: "El ERP no informó el centro de costo de la orden 2214. ¿Confirma que el prorrateo sigue el estándar de la planta de Betim?",
+        answers: ["Sí, estándar de planta", "No, informar otro", "Consultar controlaría"],
+        clarifyNote: "Los sistemas corporativos no responden aclaraciones. La pregunta espera decisión humana desde la creación del evento.",
+        customer: "", fieldValues: { tipo: "Chatarra de producción", data: "19/09/2026", lote: "OP-2214", qtd: "318 piezas", fornecedor: "Fundição Meridional", centro: "" },
+        fieldHints: { tipo: "Clasificado por el tipo de registro del ERP.", data: "Fecha de cierre de la orden 2214.", lote: "Orden de producción enviada en el campo source_doc.", qtd: "Cantidad explícita en el payload.",
+          fornecedor: "Inferido por el certificado de materia prima del lote.", centro: "No vino en la llamada. Infórmelo para registrar en contabilidad." }
+      },
+      {
+        title: "Retrabajo de soldadura — línea 3",
+        lead: "El asistente de calidad de la empresa abrió el borrador por el conector MCP a partir del informe de turno. La IA clasificó y estimó el costo; falta su revisión.",
+        channelNote: "Creado por agente de IA del cliente, vía herramienta MCP.",
+        sender: "Agente de calidad", senderMeta: "Conector MCP · ****4A7F",
+        payloadTitle: "Argumentos de la herramienta",
+        payloadMeta: "event.create_draft · 0,9 KB",
+        payload: '{\n  "plant": "joi",\n  "description": "Retrabajo de soldadura en\\n  la línea 3, turno noche.",\n  "hours": 42,\n  "operators": 6,\n  "occurred_at": "2026-09-19T13:50:00-03:00",\n  "attachments": [\n    "informe_turno_noche.pdf"\n  ]\n}',
+        payloadNote: "El agente adjuntó el informe de turno que leyó. La herramienta devolvió el borrador y el número del evento al asistente.",
+        files: [["informe_turno_noche.pdf", "112 KB"]],
+        question: "El agente informó 42 horas de retrabajo, pero no el costo-hora de la celda. ¿Usar el costo-hora estándar de la línea 3?",
+        answers: ["Sí, costo estándar", "No, informar valor", "Consultar producción"],
+        clarifyNote: "El agente de IA no puede responder por su cuenta: la premisa de valorización exige decisión humana registrada.",
+        customer: "", fieldValues: { tipo: "Retrabajo de proceso", data: "19/09/2026", lote: "Línea 3 · turno noche", qtd: "42 h · 6 operadores", fornecedor: "Soldadura y montaje — Curitiba", centro: "" },
+        fieldHints: { tipo: "Clasificado por la descripción enviada por el agente.", data: "Fecha del informe de turno.", lote: "Identificación enviada en la descripción de la herramienta.", qtd: "Horas informadas; operadores estimados por la planilla del turno.",
+          fornecedor: "Unidad interna responsable de la operación.", centro: "No vino en la llamada. Infórmelo para registrar en contabilidad." }
+      },
+      {
+        title: "Devolución parcial — pedido 77.412",
+        lead: "El ERP registró la devolución parcial apenas se emitió la nota de retorno. La IA clasificó y estimó el costo; falta su revisión.",
+        channelNote: "Creado por sistema corporativo, sin pasar por la interfaz.",
+        sender: "ERP corporativo", senderMeta: "Integración ERP — facturación · ****4A7F",
+        payloadTitle: "Contenido recibido en la llamada",
+        payloadMeta: "application/json · 1,1 KB",
+        payload: '{\n  "plant": "bet",\n  "source_doc": "PED-77412",\n  "description": "Devolución parcial de 46 de\\n  180 conjuntos facturados.",\n  "quantity": 46,\n  "unit": "conjuntos",\n  "occurred_at": "2026-09-17T14:47:00-03:00",\n  "attachments": [\n    "nf_retorno_77412.pdf"\n  ]\n}',
+        payloadNote: "La nota de retorno llegó por URL firmada en la misma llamada, junto con el vínculo al pedido original.",
+        files: [["nf_retorno_77412.pdf", "142 KB"]],
+        question: "El pedido 77.412 tiene flete CIF. ¿Incluir el flete de retorno en el costo del evento?",
+        answers: ["Sí, incluir flete", "No, solo producto", "Consultar logística"],
+        clarifyNote: "Los sistemas corporativos no responden aclaraciones. La pregunta espera decisión humana desde la creación del evento.",
+        customer: "Autopeças Vetor Ltda.", fieldValues: { tipo: "Devolución de cliente", data: "17/09/2026", lote: "PED-77412", qtd: "46 conjuntos", fornecedor: "Montaje — Betim", centro: "" },
+        fieldHints: { tipo: "Identificado por la nota de retorno 77.412.", data: "Fecha de emisión de la nota de retorno.", lote: "Pedido enviado en el campo source_doc.", qtd: "Cantidad explícita en el payload.",
+          fornecedor: "Unidad que facturó el pedido.", centro: "No vino en la llamada. Infórmelo para registrar en contabilidad." }
+      },
+      {
+        title: "Auditoría de proveedor — acero SAE 1045",
+        lead: "El asistente de suministros abrió el borrador por el conector MCP a partir del informe de auditoría. La IA clasificó y estimó el costo; falta su revisión.",
+        channelNote: "Creado por agente de IA del cliente, vía herramienta MCP.",
+        sender: "Agente de suministros", senderMeta: "Conector MCP · ****4A7F",
+        payloadTitle: "Argumentos de la herramienta",
+        payloadMeta: "event.create_draft · 0,8 KB",
+        payload: '{\n  "plant": "all",\n  "description": "Auditoría de segunda parte\\n  en Aciaria Sul, acero SAE 1045.",\n  "auditors": 2,\n  "days": 3,\n  "occurred_at": "2026-09-16T15:05:00-03:00",\n  "attachments": [\n    "informe_auditoria_aciaria.pdf"\n  ]\n}',
+        payloadNote: "El agente adjuntó el informe que leyó. La herramienta devolvió el borrador y el número del evento al asistente.",
+        files: [["informe_auditoria_aciaria.pdf", "268 KB"]],
+        question: "La auditoría cubrió tres plantas. ¿Prorratear el costo entre ellas o registrar en el consolidado?",
+        answers: ["Prorratear entre plantas", "Registrar en consolidado", "Consultar controlaría"],
+        clarifyNote: "El agente de IA no puede responder por su cuenta: el criterio de prorrateo exige decisión humana registrada.",
+        customer: "", fieldValues: { tipo: "Auditoría de proveedor", data: "16/09/2026", lote: "AUD-FOR-0912", qtd: "2 auditores · 3 días", fornecedor: "Aciaria Sul", centro: "" },
+        fieldHints: { tipo: "Clasificado por el informe de segunda parte.", data: "Último día de la auditoría en Aciaria Sul.", lote: "Código de la auditoría citado en la descripción.", qtd: "Días informados; diaria estimada por la tabla interna.",
+          fornecedor: "Proveedor auditado, nombrado en la llamada.", centro: "No vino en la llamada. Infórmelo para registrar en contabilidad." }
+      },
+      {
+        title: "Calibración fuera de plazo — 14 instrumentos",
+        lead: "Registrado por la interfaz con el informe del laboratorio adjunto. La IA clasificó y estimó el costo; falta su revisión.",
+        channelNote: "Registrado por una persona, desde la pantalla de eventos.",
+        sender: "Rafael Doi", senderMeta: "Analista de calidad · Joinville",
+        payloadTitle: "Descripción enviada",
+        payloadMeta: "texto libre · 2 adjuntos",
+        payload: 'La auditoría interna encontró 14 instrumentos\ncon calibración vencida en la celda de\nmecanizado. Un laboratorio externo los\nrecalibró la semana pasada, factura adjunta.',
+        payloadNote: "Adjuntos enviados por el propio analista al momento del registro.",
+        files: [["factura_laboratorio_8841.pdf", "84 KB"], ["lista_instrumentos.xlsx", "26 KB"]],
+        question: "La factura del laboratorio cubre 14 instrumentos, pero la lista trae 16. ¿Registrar por los 14 cobrados?",
+        answers: ["Sí, 14 cobrados", "No, 16 de la lista", "Verificar con el lab"],
+        clarifyNote: "Aclaración abierta en el registro. Responder aquí guarda la premisa junto al evento.",
+        customer: "", fieldValues: { tipo: "Calibración de instrumentos", data: "18/09/2026", lote: "AUD-2026-09", qtd: "14 instrumentos", fornecedor: "Metrologia Paraná", centro: "" },
+        fieldHints: { tipo: "Identificado por la factura del laboratorio externo.", data: "Fecha de emisión de la factura del laboratorio.", lote: "Código de la auditoría interna citado en el texto.", qtd: "Según la factura del laboratorio.",
+          fornecedor: "Laboratorio externo en la factura.", centro: "No identificado. Infórmelo para registrar en contabilidad." }
+      }
+    ]
+  }
+};
+
+function sub3(s, map) {
+  let out = String(s || "");
+  Object.keys(map).forEach((k) => { out = out.split("{" + k + "}").join(map[k]); });
+  return out;
+}
+
+function evIndexFromUrl() {
+  try {
+    const q = new URLSearchParams(window.location.search).get("ev");
+    if (!q) return 0;
+    const i = EVENTS.findIndex((e) => e.id === q);
+    return i < 0 ? 0 : i;
+  } catch (e) { return 0; }
+}
+
+class Component extends DCLogic {
+  state = { theme: readTheme(), lang: null, userOpen: false, fxRate: null, idx: evIndexFromUrl(), values: {}, amounts: {}, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: false, cancelled: false, confirmOpen: false };
+
+  renderVals() {
+    const s = this.state;
+    const theme = s.theme || this.props.theme || "light";
+    const lang = s.lang || readLang() || this.props.language || "pt-BR";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const P = PAF[lang] || PAF["pt-BR"];
+    const loc = lang === "en" ? "en-US" : lang === "es" ? "es-ES" : "pt-BR";
+    const money = (n) => "R$ " + new Intl.NumberFormat(loc, { maximumFractionDigits: 0 }).format(n);
+    const dtf = new Intl.DateTimeFormat(loc, { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    const stampOf = (iso) => dtf.format(new Date(iso));
+    const onL = (k) => () => { writeLang(k); this.setState({ lang: k }); };
+    const abg = (on) => (on ? "var(--acc)" : "var(--bg)");
+    const afg = (on) => (on ? "var(--accInk)" : "var(--ink2)");
+
+    const E = EVENTS[s.idx];
+    const TE = t.evs[s.idx];
+    const tone = CH_TONE[E.ch];
+    const ago = E.min < 60 ? E.min + t.minsAgo
+      : E.min < 1440 ? Math.round(E.min / 60) + t.hoursAgo
+      : Math.round(E.min / 1440) + t.daysAgo;
+
+    const pick = (id, def) => (typeof s.values[id] === "number" ? s.values[id] : def);
+    const catIdx = Math.min(pick("categoria", E.cat), P.cats.length - 1);
+    const subList = P.subs[catIdx];
+    const subIdx = Math.min(pick("subcategoria", s.values.categoria === undefined ? E.sub : 0), subList.length - 1);
+    const supIdx = Math.min(pick("fornTipo", E.supType), P.supType.length - 1);
+    const plantIdx = Math.min(pick("planta", E.plant), t.plants.length - 1);
+
+    const selDefs = [
+      { id: "categoria", list: P.cats, idx: catIdx, conf: "suggested", hint: null },
+      { id: "subcategoria", list: subList, idx: subIdx, conf: "suggested", hint: null },
+      { id: "fornTipo", list: P.supType, idx: supIdx, conf: "suggested", hint: null },
+      { id: "planta", list: t.plants, idx: plantIdx, conf: "high", hint: null }
+    ];
+
+    const onSel = (id) => (e) => {
+      const v = e.target.selectedIndex;
+      this.setState((st) => {
+        const values = Object.assign({}, st.values, { [id]: v });
+        const edited = Object.assign({}, st.edited, { [id]: true });
+        if (id === "categoria") { values.subcategoria = 0; delete edited.subcategoria; }
+        return { values: values, edited: edited, approved: false };
+      });
+    };
+    const onText = (id) => (e) => {
+      const v = e.target.value;
+      this.setState((st) => ({
+        values: Object.assign({}, st.values, { [id]: v }),
+        edited: Object.assign({}, st.edited, { [id]: true }),
+        approved: false
+      }));
+    };
+
+    const mk = (id, conf, value, hint, isSelect, options) => {
+      const c = CONF[s.edited[id] ? "user" : conf];
+      return {
+        label: t.labels[id], value: value, placeholder: id === "centro" ? t.centroPh : "",
+        isSelect: !!isSelect, isText: !isSelect, options: options || [],
+        tag: t[c.key], color: c.c, inputBorder: c.border, inputBg: c.bg, hintColor: c.hint,
+        hint: hint || "", hasHint: !!hint,
+        onChange: isSelect ? onSel(id) : onText(id)
+      };
+    };
+
+    const selFields = selDefs.map((d) => mk(d.id, d.conf, d.list[d.idx], "", true, d.list));
+
+    const parts = new Intl.NumberFormat(loc).formatToParts(12345.6);
+    const GRP = (parts.find((p) => p.type === "group") || {}).value || ",";
+    const DEC = (parts.find((p) => p.type === "decimal") || {}).value || ".";
+    const num = (raw) => {
+      let x = String(raw).replace(/[^\d.,\u00A0\u202F-]/g, "").split(GRP).join("");
+      if (DEC !== ".") x = x.split(DEC).join(".");
+      const n = parseFloat(x);
+      return isNaN(n) ? 0 : n;
+    };
+
+    const ccDefault = COST_CENTERS[plantIdx] + " · " + t.ccSuffix[plantIdx];
+    const txtFields = E.fields.map((fd) => {
+      const fallback = fd.id === "centro" ? ccDefault : (fd.value !== undefined ? fd.value : TE.fieldValues[fd.id]);
+      const raw = s.values[fd.id] !== undefined ? s.values[fd.id] : fallback;
+      const hint = fd.id === "centro" ? t.ccHint : TE.fieldHints[fd.id];
+      return mk(fd.id, fd.conf, raw, hint, false, null);
+    });
+
+    const fxRate = s.fxRate !== null && s.fxRate !== undefined
+      ? (parseFloat(String(s.fxRate).replace(",", ".")) || (E.src ? E.src.rate : 1))
+      : (E.src ? E.src.rate : 1);
+    // amounts ficam na moeda de origem do documento; o sistema contabiliza na moeda da organização
+    const toOrg = (v) => (E.src ? Math.round(v * fxRate) : v);
+    const amtOf = (li) => {
+      const rec = s.amounts["amt" + li];
+      return toOrg(rec ? rec.n : E.amounts[li]);
+    };
+    const srcMoney = (n) => (E.src ? E.src.sym + " " : "R$ ") + new Intl.NumberFormat(loc, { maximumFractionDigits: 0 }).format(n);
+    const lines = t.costLines[s.idx].map((cl, li) => {
+      const id = "amt" + li;
+      const rec = s.amounts[id];
+      // texto cru só enquanto o idioma for o mesmo da digitação; senão reformata do número
+      const raw = rec ? (rec.loc === loc ? rec.raw : srcMoney(rec.n)) : srcMoney(E.amounts[li]);
+      const fd = mk(id, li === 0 ? "high" : "suggested", raw, cl[1], false, null);
+      fd.label = cl[0] + (E.src ? " · " + E.src.code : "");
+      fd.onChange = (ev) => {
+        const v = ev.target.value;
+        this.setState((st) => ({
+          amounts: Object.assign({}, st.amounts, { [id]: { raw: v, n: num(v), loc: loc } }),
+          edited: Object.assign({}, st.edited, { [id]: true }),
+          approved: false
+        }));
+      };
+      return fd;
+    });
+
+    const byId = {};
+    selFields.forEach((x, i) => { byId[selDefs[i].id] = x; });
+    E.fields.forEach((fd, i) => { byId[fd.id] = txtFields[i]; });
+
+    // classe 2 — contrato de contabilização: sempre os mesmos campos, na mesma ordem
+    const moedaField = {
+      label: t.labels.moeda, value: E.src ? E.src.code + " → BRL" : "BRL",
+      isSelect: false, isText: false, isFixed: true, options: [],
+      tag: E.src ? t.tagConverted : t.tagRegistry,
+      color: E.src ? "var(--info)" : "var(--info)"
+    };
+    const clienteField = TE.customer
+      ? mk("cliente", "high", s.values.cliente !== undefined ? s.values.cliente : TE.customer, "", false, null)
+      : {
+          label: t.labels.cliente, value: "—",
+          isSelect: false, isText: false, isFixed: true, options: [],
+          tag: t.tagNa, color: "var(--ink3)",
+          inputBorder: "var(--line)", inputBg: "var(--surf2)", hintColor: "var(--ink3)",
+          hint: "", hasHint: false, placeholder: "",
+          onChange: () => {}
+        };
+    // centro de custo vem do cadastro PAF — leitura apenas, como a moeda
+    const centroField = byId.centro
+      ? Object.assign({}, byId.centro, {
+          value: ccDefault, isSelect: false, isText: false, isFixed: true,
+          tag: t.tagRegistry, color: "var(--info)", hint: t.ccHint,
+          inputBorder: "var(--line)", inputBg: "var(--surf2)", onChange: () => {}
+        })
+      : null;
+    const acctFields = [
+      byId.data, byId.categoria, byId.subcategoria, byId.planta,
+      moedaField, centroField, byId.fornTipo, byId.fornecedor, clienteField
+    ].filter(Boolean);
+    const ACCT_IDS = ["data", "categoria", "subcategoria", "planta", null, "centro", "fornTipo", "fornecedor", "cliente"];
+    const SELECT_IDS = ["categoria", "subcategoria", "planta", "fornTipo"];
+
+    // classe 3 — extraído do documento, varia por evento e subcategoria
+    const specFields = [byId.lote, byId.qtd].filter(Boolean).map((x) => Object.assign({}, x, {
+      feedsLabel: "—", feedsColor: "var(--ink3)"
+    })).concat(lines.map((x) => Object.assign({}, x, {
+      feedsLabel: t.feedsTotal, feedsColor: "var(--ink)"
+    })));
+
+    const acctPend = acctFields.filter((x) => x && (x.tag === t.tagSuggested || x.tag === t.tagMissing)).length;
+
+    const centro = s.values.centro !== undefined ? s.values.centro : ccDefault;
+    const blocked = !String(centro).trim();
+
+    const sum = E.amounts.reduce((acc, v, li) => acc + amtOf(li), 0);
+    const moneyRevised = E.amounts.some((v, li) => s.edited["amt" + li]);
+
+    const pend = E.fields.filter((fd) => fd.conf !== "high" && fd.conf !== "registry" && !s.edited[fd.id]).length
+      + selDefs.filter((d) => d.conf !== "high" && !s.edited[d.id]).length
+      + (s.edited.amt1 ? 0 : 1);
+
+    const G = GROUPS[s.idx % GROUPS.length];
+    const occNf = new Intl.NumberFormat(lang === "en" ? "en-US" : lang === "es" ? "es-MX" : "pt-BR", { maximumFractionDigits: 0 });
+    const occMoney = (x) => "R$ " + occNf.format(x);
+    const allRows = occRows(G).filter((r) => !s.dropped[r.i]);
+    const liveTotal = allRows.reduce((a, r) => a + r.v, 0);
+
+    const grp = {
+      shipLabel: t.shipLabel(G.ship, GROUPS.length > 3 ? 4 : 1),
+      // a chave É o contrato de contabilização (classe 2), lido dos mesmos campos do formulário
+      key: acctFields.map((fd, di) => {
+        const isDate = fd.label === t.labels.data;
+        const raw = String(fd.value === undefined || fd.value === "" ? "—" : fd.value);
+        const val = isDate ? (raw.indexOf("/") > 0 ? raw.split("/").slice(1).join("/") : raw) : raw;
+        return { label: isDate ? t.keyPeriod : fd.label, value: val,
+          color: val === "—" ? "var(--ink3)" : "var(--ink)", editMark: "↻",
+          edit: () => this.setState({ preview: "key", previewDim: di, previewValue: null }) };
+      }),
+      // os componentes somam exatamente o total exibido — a conta tem de fechar na tela
+      comp: (function () {
+        const base = G.comp.reduce((a, cp) => a + cp[1], 0) || 1;
+        let acc = 0;
+        return G.comp.map((cp, i) => {
+          const v = i === G.comp.length - 1 ? liveTotal - acc : Math.round(liveTotal * (cp[1] / base));
+          acc += v;
+          return { label: t[cp[0]], value: occMoney(v) };
+        });
+      })(),
+      total: occMoney(liveTotal),
+      derivedNote: t.derivedNote(occNf.format(allRows.length))
+    };
+
+    const q = (s.occQuery || "").trim().toLowerCase();
+    let filtered = q ? allRows.filter((r) => (r.ref + " " + r.b + " " + r.v).toLowerCase().indexOf(q) >= 0) : allRows;
+    filtered = filtered.slice().sort((a, b) =>
+      s.occSort === "valueDesc" ? b.v - a.v : s.occSort === "valueAsc" ? a.v - b.v : a.i - b.i);
+    const pages = Math.max(1, Math.ceil(filtered.length / OCC_PAGE));
+    const page = Math.min(s.occPage, pages - 1);
+    const pageRows = filtered.slice(page * OCC_PAGE, page * OCC_PAGE + OCC_PAGE);
+    const selIds = Object.keys(s.occSel).filter((k) => s.occSel[k]).map(Number);
+    const selRows = allRows.filter((r) => s.occSel[r.i]);
+    const selValue = selRows.reduce((a, r) => a + r.v, 0);
+    const cols = OCC_COLS[G.kind];
+    const setPrev = (kind) => () => this.setState({ preview: kind });
+
+    const occ = {
+      open: s.occOpen, caret: s.occOpen ? "–" : "+",
+      toggle: () => this.setState((st) => ({ occOpen: !st.occOpen })),
+      countLabel: t.occCount(occNf.format(allRows.length)),
+      query: s.occQuery,
+      onQuery: (e) => this.setState({ occQuery: e.target.value, occPage: 0 }),
+      sort: s.occSort,
+      onSort: (e) => this.setState({ occSort: e.target.value, occPage: 0 }),
+      sortOptions: [{ v:"ref", l:t.occSortRef }, { v:"valueDesc", l:t.occSortValueDesc }, { v:"valueAsc", l:t.occSortValueAsc }],
+      columns: cols.map((c, i) => ({ label: t[c], align: i === cols.length - 1 ? "right" : "left" })),
+      rows: pageRows.map((r) => ({
+        checked: !!s.occSel[r.i], bg: s.occSel[r.i] ? "var(--surf2)" : "transparent",
+        selectLabel: t.occSelectOne(r.ref),
+        toggle: () => this.setState((st) => ({ occSel: Object.assign({}, st.occSel, { [r.i]: !st.occSel[r.i] }) })),
+        cells: [
+          { v: r.ref, align:"left", color:"var(--ink2)" },
+          { v: r.b, align:"left", color:"var(--ink2)" },
+          { v: occNf.format(r.q), align:"left", color:"var(--ink2)" },
+          { v: occMoney(r.v), align:"right", color:"var(--ink)" }
+        ]
+      })),
+      allChecked: pageRows.length > 0 && pageRows.every((r) => s.occSel[r.i]),
+      toggleAll: () => this.setState((st) => {
+        const on = !pageRows.every((r) => st.occSel[r.i]);
+        const next = Object.assign({}, st.occSel);
+        pageRows.forEach((r) => { next[r.i] = on; });
+        return { occSel: next };
+      }),
+      hasSelection: selIds.length > 0,
+      selectionLabel: t.occSelection(occNf.format(selIds.length), occMoney(selValue)),
+      bulkFix: setPrev("split"), bulkDrop: setPrev("drop"),
+      clearSel: () => this.setState({ occSel: {} }),
+      pageLabel: t.occPage(occNf.format(filtered.length ? page * OCC_PAGE + 1 : 0),
+        occNf.format(Math.min((page + 1) * OCC_PAGE, filtered.length)), occNf.format(filtered.length)),
+      atFirst: page === 0, atLast: page >= pages - 1,
+      prevCursor: page === 0 ? "not-allowed" : "pointer", prevOpacity: page === 0 ? 0.45 : 1,
+      nextCursor: page >= pages - 1 ? "not-allowed" : "pointer", nextOpacity: page >= pages - 1 ? 0.45 : 1,
+      prev: () => this.setState((st) => ({ occPage: Math.max(0, st.occPage - 1) })),
+      next: () => this.setState((st) => ({ occPage: Math.min(pages - 1, st.occPage + 1) }))
+    };
+
+    let preview = null;
+    if (s.preview) {
+      const isDrop = s.preview === "drop";
+      const isKey = s.preview === "key";
+      const scopeN = isKey ? allRows.length : selIds.length;
+      const scopeV = isKey ? liveTotal : selValue;
+      const dimIdx = Math.min(s.previewDim, acctFields.length - 1);
+      const dimField = acctFields[dimIdx] || {};
+      const dimOpts = (dimField.options || []).filter((o) => o !== dimField.value);
+      const newValue = s.previewValue !== null ? s.previewValue : (dimOpts[0] || "");
+      const sib = (SIBLINGS[s.idx % SIBLINGS.length] || [])
+        .filter((x) => x.dim === dimIdx && x.value === newValue)[0];
+      const isMerge = !isDrop && !!sib;
+
+      const lines = isDrop
+        ? [ { label: t.prevOut, value: occNf.format(scopeN) + " · " + occMoney(scopeV), color: "var(--warn)" },
+            { label: t.prevStay, value: occNf.format(allRows.length - scopeN) + " · " + occMoney(liveTotal - scopeV), color: "var(--ink2)" },
+            { label: t.prevNewTotal, value: occMoney(liveTotal - scopeV), color: "var(--ink)" } ]
+        : isMerge
+        ? [ { label: t.prevMoved, value: occNf.format(scopeN) + " · " + occMoney(scopeV), color: "var(--info)" },
+            { label: t.prevTarget(sib.id), value: occMoney(sib.v) + " → " + occMoney(sib.v + scopeV), color: "var(--info)" },
+            { label: isKey ? t.prevEmptied : t.prevNewTotal, value: isKey ? occMoney(0) : occMoney(liveTotal - scopeV), color: "var(--ink)" } ]
+        : isKey
+        ? [ { label: t.prevMoved, value: occNf.format(scopeN) + " · " + occMoney(scopeV), color: "var(--info)" },
+            { label: dimField.label, value: String(dimField.value) + " → " + newValue, color: "var(--info)" },
+            { label: t.prevUnchanged, value: occMoney(liveTotal), color: "var(--ink)" } ]
+        : [ { label: t.prevOut, value: occNf.format(scopeN) + " · " + occMoney(scopeV), color: "var(--info)" },
+            { label: t.prevStay, value: occNf.format(allRows.length - scopeN) + " · " + occMoney(liveTotal - scopeV), color: "var(--ink2)" },
+            { label: t.prevNewTotal, value: occMoney(liveTotal - scopeV), color: "var(--ink)" } ];
+
+      preview = {
+        kicker: isDrop ? t.dropKicker : isMerge ? t.mergeKicker : isKey ? t.moveKicker : t.splitKicker,
+        kickerColor: isDrop ? "var(--warn)" : "var(--info)",
+        title: isDrop ? t.dropTitle(occNf.format(scopeN))
+          : isMerge ? t.mergeTitle(occNf.format(scopeN), sib.id)
+          : isKey ? t.moveTitle(dimField.label, newValue)
+          : t.splitTitle(occNf.format(scopeN)),
+        lines,
+        note: isDrop ? t.dropNote : isMerge ? t.mergeNote : isKey ? t.moveNote : t.splitNote,
+        confirm: t.prevConfirm,
+        needsReason: isDrop,
+        needsDim: !isDrop,
+        scopeNote: isKey ? t.scopeEntry(occNf.format(allRows.length)) : t.scopeSelection(occNf.format(scopeN)),
+        dim: String(dimIdx),
+        dimOptions: acctFields.map((fd, i) => ({ v: String(i), l: fd.label === t.labels.data ? t.keyPeriod : fd.label })),
+        onDim: (e) => this.setState({ previewDim: Number(e.target.value), previewValue: null }),
+        value: newValue,
+        valueIsSelect: dimOpts.length > 0, valueIsText: dimOpts.length === 0,
+        valuePh: dimField.value || "",
+        valueOptions: dimOpts.map((o) => ({ v: o, l: o })),
+        onValue: (e) => this.setState({ previewValue: e.target.value }),
+        reason: s.previewReason,
+        onReason: (e) => this.setState({ previewReason: e.target.value }),
+        reasons: ["reasonWrongPlant","reasonWrongSupplier","reasonDuplicate","reasonOther"].map((k) => ({ v: k, l: t[k] })),
+        _apply: { isKey, isMerge, isDrop, dimIdx, newValue,
+          id: ACCT_IDS[dimIdx], isSelect: SELECT_IDS.indexOf(ACCT_IDS[dimIdx]) >= 0,
+          optIdx: (dimField.options || []).indexOf(newValue) }
+      };
+    }
+
+    return {
+      grp, occ, preview,
+      closePreview: () => this.setState({ preview: null }),
+      confirmPreview: () => this.setState((st) => {
+        const ap = preview && preview._apply;
+        if (!ap) return { preview: null };
+        // movimento: a contabilização se desloca intacta — só a chave muda
+        if (ap.isKey && !ap.isMerge) {
+          const values = Object.assign({}, st.values);
+          if (ap.id) {
+            values[ap.id] = ap.isSelect ? Math.max(0, ap.optIdx) : ap.newValue;
+            if (ap.id === "categoria") delete values.subcategoria;
+          }
+          const edited = Object.assign({}, st.edited);
+          if (ap.id) edited[ap.id] = true;
+          return { values: values, edited: edited, preview: null, approved: false };
+        }
+        // fusão ou exclusão: as ocorrências saem desta contabilização
+        const next = Object.assign({}, st.dropped);
+        if (ap.isKey) { allRows.forEach((r) => { next[r.i] = true; }); }
+        else { Object.keys(st.occSel).forEach((k) => { if (st.occSel[k]) next[k] = true; }); }
+        return { dropped: next, occSel: {}, preview: null, approved: false, absorbed: ap.isMerge };
+      }),
+      t, theme,
+      c: CHROME[lang] || CHROME["pt-BR"],
+      userOpen: s.userOpen,
+      toggleUser: () => this.setState((st) => ({ userOpen: !st.userOpen })),
+      setPt: onL("pt-BR"), setEn: onL("en"), setEs: onL("es"),
+      ptBg: abg(lang === "pt-BR"), ptFg: afg(lang === "pt-BR"),
+      enBg: abg(lang === "en"), enFg: afg(lang === "en"),
+      esBg: abg(lang === "es"), esFg: afg(lang === "es"),
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+
+      queueNav: EVENTS.map((x, i) => ({ x: x, i: i })).sort((a, b) => a.x.min - b.x.min).map((r) => ({
+        label: r.x.id, i: r.i,
+        bg: r.i === s.idx ? "var(--acc)" : "transparent",
+        fg: r.i === s.idx ? "var(--accInk)" : "var(--ink2)",
+        border: r.i === s.idx ? "var(--acc)" : "var(--line2)",
+        pick: () => this.setState({ idx: r.i, values: {}, amounts: {}, fxRate: null, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: false, cancelled: false, confirmOpen: false })
+      })),
+
+      reg: [
+        { k: t.regId, v: E.id, sub: t.regOrg, isPlain: true },
+        { k: t.provOrigin, v: t.channels[E.ch], sub: TE.channelNote, isBadge: true, fg: tone.color, bg: tone.bg, line: tone.line },
+        { k: t.provWho, v: TE.sender, sub: TE.senderMeta, isPlain: true },
+        { k: t.provWhen, v: ago, sub: stampOf(E.at), isPlain: true },
+        { k: t.labels.tipo, v: TE.fieldValues.tipo, sub: TE.fieldHints.tipo, isPlain: true },
+        { k: t.regStatus, v: s.cancelled ? t.stCancelled : s.approved ? t.stApproved : t.stPending, sub: t.regStatusSub, isBadge: true,
+          fg: s.cancelled ? "var(--neg)" : s.approved ? "var(--pos)" : "var(--warn)", bg: s.cancelled ? "var(--negBg)" : s.approved ? "var(--posBg)" : "var(--warnBg)", line: s.cancelled ? "var(--neg)" : s.approved ? "var(--pos)" : "var(--warn)" },
+        { k: t.provTrace, v: E.op, sub: TE.payloadMeta, isPlain: true }
+      ],
+
+      ev: {
+        title: TE.title, lead: TE.lead,
+        channel: t.channels[E.ch], channelNote: TE.channelNote,
+        chColor: tone.color, chBg: tone.bg, chLine: tone.line,
+        ago: ago, stamp: stampOf(E.at),
+        sender: TE.sender, senderMeta: TE.senderMeta,
+        op: E.op,
+        traceHref: E.ch === "upload" ? "Q-Cost AI Auditoria v2.dc.html" : E.ch === "system" ? "Q-Cost AI Regras de Alerta v2.dc.html" : "Q-Cost AI Integracoes v2.dc.html",
+        traceLabel: E.ch === "upload" ? t.traceLabelUpload : E.ch === "system" ? t.traceLabelRule : t.traceLabel,
+        payloadTitle: TE.payloadTitle, payloadMeta: TE.payloadMeta,
+        payload: TE.payload, payloadNote: TE.payloadNote,
+        files: TE.files.map((f) => ({ name: f[0], size: f[1] })),
+        question: TE.question, clarifyNote: TE.clarifyNote
+      },
+
+      catLabel: P.cats[catIdx] + " · " + subList[subIdx], subLabel: subList[subIdx],
+      catColor: CAT_COLOR[catIdx], catSoft: CAT_SOFT[catIdx], catLine: CAT_LINE[catIdx],
+      total: money(sum),
+      fx: {
+        on: !!E.src,
+        lead: E.src ? sub3(t.fxLead, { SRC: E.src.code, ORG: "BRL" }) : "",
+        stats: E.src ? [
+          { k: t.fxStatSrc, v: srcMoney(E.amounts.reduce((a, v, li) => a + (s.amounts["amt" + li] ? s.amounts["amt" + li].n : v), 0)) },
+          { k: t.fxStatRate, v: "1 " + E.src.code + " = " + String(fxRate).replace(".", loc === "en" ? "." : ",") + " BRL" },
+          { k: t.fxStatOrg, v: money(sum) }
+        ] : [],
+        rateLabel: E.src ? sub3(t.fxRateLabel, { SRC: E.src.code, ORG: "BRL" }) : "",
+        rate: s.fxRate !== null && s.fxRate !== undefined ? s.fxRate : (E.src ? String(E.src.rate).replace(".", loc === "en" ? "." : ",") : ""),
+        onRate: (ev) => this.setState({ fxRate: ev.target.value, approved: false }),
+        note: t.fxNote
+      },
+      totalNote: E.src ? t.totalNoteFx : moneyRevised ? t.totalNoteRevised : t.totalNoteSuggested,
+      pendLabel: pend === 0 ? t.noPending : pend + (pend === 1 ? t.onePend : t.manyPend),
+      pendColor: pend === 0 ? "var(--pos)" : "var(--warn)",
+
+      acctFields: acctFields,
+      specFields: specFields,
+      acctPendLabel: acctPend === 0 ? t.acctOk : acctPend + (acctPend === 1 ? t.onePend : t.manyPend),
+      acctPendColor: acctPend === 0 ? "var(--pos)" : "var(--warn)",
+
+      answers: TE.answers.map((label) => ({
+        label,
+        bg: s.answer === label ? "var(--acc)" : "transparent",
+        fg: s.answer === label ? "var(--accInk)" : "var(--ink2)",
+        border: s.answer === label ? "var(--acc)" : "var(--line2)",
+        pick: () => this.setState({ answer: label })
+      })),
+
+      approveLabel: s.approved ? t.approved : t.approve,
+      approveDisabled: s.cancelled || allRows.length === 0,
+      approveBg: (s.cancelled || allRows.length === 0) ? "var(--surf2)" : s.approved ? "var(--posBg)" : blocked ? "var(--surf2)" : "var(--acc)",
+      approveFg: (s.cancelled || allRows.length === 0) ? "var(--ink3)" : s.approved ? "var(--pos)" : blocked ? "var(--ink3)" : "var(--accInk)",
+      approveCursor: s.cancelled || allRows.length === 0 || (blocked && !s.approved) ? "not-allowed" : "pointer",
+      approve: () => { if (!blocked && !s.cancelled && allRows.length > 0) this.setState({ approved: true }); },
+      reject: () => { if (!s.cancelled) this.setState({ confirmOpen: true }); },
+      confirmOpen: s.confirmOpen,
+      cancelReject: () => this.setState({ confirmOpen: false }),
+      confirmReject: () => this.setState({ confirmOpen: false, cancelled: true, approved: false }),
+      footNote: allRows.length === 0 ? t.absorbedNote : s.cancelled ? t.cancelledNote : s.approved ? t.doneNote : blocked ? t.blockNote : t.okNote
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  body { margin: 0; background: #F4F5F7; -webkit-font-smoothing: antialiased; }
+  a { color: #2E74B5; text-decoration: none; }
+  a:hover { color: #24608F; text-decoration: underline; text-underline-offset: 2px; }
+  *:focus-visible { outline: 2px solid #2E74B5; outline-offset: 2px; }
+  input, select, textarea { font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+  @keyframes qc-sweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',system-ui,sans-serif;color:#1A1A1A;background:#F4F5F7;min-height:100vh;box-sizing:border-box">
+
+  <header style="background:#FFFFFF;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1320px;margin:0 auto;padding:10px clamp(14px,3vw,28px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px">
+      <div style="display:flex;align-items:center;gap:9px;min-width:0">
+        <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="#1F3864" stroke-width="3.5"/><path d="M6 22H30" stroke="#1F3864" stroke-width="3.5"/><path d="M6 32.5H20" stroke="#2E74B5" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="#2E74B5" stroke-width="3.5"/></svg>
+        <span style="font-size:14px;font-weight:600;color:#1F3864;white-space:nowrap">Q&#8209;Cost<span style="color:#2E74B5"> AI</span></span>
+        <span style="width:1px;height:18px;background:#D8DBE0;flex:none;margin:0 4px"></span>
+        <span style="font-size:12px;color:#3D4351;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Metalúrgica Paranaense &mdash; Curitiba (PR)</span>
+      </div>
+      <a href="#painel" style="font-size:12px;font-weight:500">Voltar ao painel</a>
+    </div>
+  </header>
+
+  <div style="max-width:1320px;margin:0 auto;padding:clamp(18px,3vw,30px) clamp(14px,3vw,28px) 64px;display:flex;flex-direction:column;gap:20px">
+
+    <header style="display:flex;flex-direction:column;gap:8px">
+      <h1 style="margin:0;font-size:clamp(21px,2.8vw,28px);font-weight:600;line-height:1.2;letter-spacing:-0.015em">Registrar novo evento de qualidade</h1>
+      <p style="margin:0;font-size:13px;line-height:1.65;color:#3D4351;max-width:82ch;text-wrap:pretty">Anexe o documento que você já tem ou descreva o que aconteceu. A plataforma extrai os dados, classifica na estrutura PAF e propõe o custo. Nada entra na apuração sem a sua aprovação.</p>
+    </header>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+
+      <section style="flex:1 1 340px;min-width:290px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px">
+        <header style="padding:13px 18px;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Entrada</h2>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280">Etapa 1</span>
+        </header>
+        <div style="padding:18px;display:flex;flex-direction:column;gap:18px">
+
+          <div>
+            <span style="display:block;font-size:11px;font-weight:600;color:#3D4351;margin-bottom:7px">Documentos</span>
+            <div style="border:1px dashed #9CA3AF;background:#F4F5F7;padding:22px 18px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 15v5h16v-5"/><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/></svg>
+              <span style="font-size:12px;line-height:1.55;color:#3D4351">Arraste e solte aqui, ou <a href="#selecionar">selecione os arquivos</a></span>
+              <span style="font-size:11px;color:#6B7280">PDF, XLS, XLSX, CSV, DOCX, PNG &middot; até 25 MB por arquivo</span>
+            </div>
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+              <div style="border:1px solid #D8DBE0;background:#FFFFFF;padding:9px 11px;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2E74B5" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+                <span style="font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">devolucoes_lote_2214.xlsx</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280;flex:none">84 KB</span>
+              </div>
+              <div style="border:1px solid #D8DBE0;background:#FFFFFF;padding:9px 11px;display:flex;align-items:center;gap:10px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2E74B5" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+                <span style="font-size:12px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">nota_devolucao_77412.pdf</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280;flex:none">212 KB</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="height:1px;background:#E5E7EB"></div>
+
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label for="ne-prompt" style="font-size:11px;font-weight:600;color:#3D4351">O que você quer registrar</label>
+            <textarea id="ne-prompt" rows="5" value="{{ prompt }}" onChange="{{ onPrompt }}" placeholder="Ex.: Recebemos 3 devoluções do lote 2214 esta semana, planilha em anexo. O cliente cobrou o frete de retorno." style="font-size:13px;line-height:1.6;padding:10px;border:1px solid #D8DBE0;border-radius:2px;background:#FFFFFF;color:#1A1A1A;width:100%;box-sizing:border-box;resize:vertical"></textarea>
+            <span style="font-size:11px;line-height:1.55;color:#6B7280">Escreva como falaria com um colega. Quantidades, lote, cliente e datas ajudam a classificação.</span>
+          </div>
+
+          <button type="button" onClick="{{ process }}" disabled="{{ busy }}" style="font-family:inherit;font-size:14px;font-weight:500;height:44px;padding:0 18px;border-radius:2px;background:{{ btnBg }};color:{{ btnFg }};border:1px solid {{ btnBorder }};cursor:{{ btnCursor }};display:flex;align-items:center;justify-content:center;gap:9px">
+            <span style="display:flex">{{ btnIcon }}</span>
+            <span>{{ btnLabel }}</span>
+          </button>
+
+          <p style="margin:0;font-size:11px;line-height:1.6;color:#6B7280;padding-top:14px;border-top:1px solid #E5E7EB">O processamento costuma levar de 10 a 30 segundos, conforme o tamanho dos anexos. Você pode sair da tela: o evento fica salvo como rascunho.</p>
+
+        </div>
+      </section>
+
+      <section style="flex:1 1 520px;min-width:290px;display:flex;flex-direction:column;gap:20px">
+
+        <sc-if value="{{ isIdle }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;padding:clamp(24px,4vw,40px);display:flex;flex-direction:column;gap:14px">
+            <h2 style="margin:0;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280">Resultado da análise</h2>
+            <p style="margin:0;font-size:13px;line-height:1.7;color:#3D4351;max-width:64ch">O resultado aparece aqui: categoria PAF sugerida, subcategoria, valor do custo e a lista de campos que precisam da sua revisão. Os dados extraídos com confiança vêm marcados em verde; o que for estimado vem marcado em âmbar.</p>
+            <div style="display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px solid #E5E7EB">
+              <div style="display:flex;align-items:flex-start;gap:10px">
+                <span style="width:10px;height:10px;background:#2F6B4F;flex:none;margin-top:4px"></span>
+                <span style="font-size:12px;line-height:1.6;color:#3D4351"><strong style="font-weight:600">Extraído com confiança</strong> — o dado está explícito no documento ou no seu texto.</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px">
+                <span style="width:10px;height:10px;background:#8A5E12;flex:none;margin-top:4px"></span>
+                <span style="font-size:12px;line-height:1.6;color:#3D4351"><strong style="font-weight:600">Sugerido pela plataforma</strong> — calculado a partir de regras e histórico. Revise antes de aprovar.</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px">
+                <span style="width:10px;height:10px;background:#A3402E;flex:none;margin-top:4px"></span>
+                <span style="font-size:12px;line-height:1.6;color:#3D4351"><strong style="font-weight:600">Não identificado</strong> — precisa ser preenchido por você.</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isBusy }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-top:2px solid #2E74B5;border-radius:2px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:18px">
+            <div>
+              <h2 style="margin:0 0 6px;font-size:15px;font-weight:600">Analisando documento e classificando custos&hellip;</h2>
+              <p style="margin:0;font-size:12px;line-height:1.6;color:#3D4351">Dois anexos e 1 descrição em análise. Isso costuma levar de 10 a 30 segundos — não feche a janela.</p>
+            </div>
+            <div style="height:6px;background:#E5E7EB;overflow:hidden;position:relative">
+              <span style="position:absolute;top:0;left:0;height:6px;width:33%;background:#2E74B5;animation:qc-sweep 1.4s linear infinite"></span>
+            </div>
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px">
+              <sc-for list="{{ progress }}" as="p" hint-placeholder-count="4">
+                <li style="display:flex;align-items:center;gap:11px">
+                  <span style="width:11px;height:11px;flex:none;background:{{ p.bg }};border:1px solid {{ p.border }}"></span>
+                  <span style="font-size:12px;font-weight:{{ p.weight }};color:{{ p.color }}">{{ p.label }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280;margin-left:auto">{{ p.state }}</span>
+                </li>
+              </sc-for>
+            </ol>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+
+            <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-top:2px solid #1F3864;border-radius:2px">
+              <header style="padding:13px 18px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+                <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Resultado da análise</h2>
+                <span style="display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 7px;border:1px solid #8A5E12;background:#FBF3E3;color:#6E4A0D;font-size:10px;font-weight:600;white-space:nowrap">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#6E4A0D" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+                  {{ reviewCount }}
+                </span>
+              </header>
+              <div style="padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px">
+                <div>
+                  <span style="display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280;margin-bottom:5px">Categoria PAF sugerida</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600">
+                    <span style="width:10px;height:10px;background:#A3402E;flex:none"></span>Falha externa
+                  </span>
+                  <span style="display:block;font-size:12px;color:#3D4351;margin-top:4px">Devolução e garantia</span>
+                </div>
+                <div>
+                  <span style="display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280;margin-bottom:5px">Custo total proposto</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1.15">{{ totalProposed }}</span>
+                  <span style="display:block;font-size:11px;color:#8A5E12;margin-top:4px">{{ totalNote }}</span>
+                </div>
+                <div>
+                  <span style="display:block;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280;margin-bottom:5px">Origem dos dados</span>
+                  <span style="font-size:12px;line-height:1.6;color:#3D4351">2 anexos e a descrição em texto. Extração concluída às 14:38.</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px">
+              <header style="padding:13px 18px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+                <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Esclarecimentos solicitados</h2>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280">{{ answeredCount }}</span>
+              </header>
+              <div style="padding:6px 18px 18px;display:flex;flex-direction:column">
+
+                <div style="padding:16px 0;border-bottom:1px solid #E5E7EB;display:flex;flex-direction:column;gap:11px">
+                  <div style="display:flex;align-items:flex-start;gap:10px">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#2E74B5;flex:none;padding-top:2px">P1</span>
+                    <p style="margin:0;font-size:13px;line-height:1.6;color:#1A1A1A">O frete de retorno das 420 peças foi pago pela sua empresa ou pelo cliente?</p>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;padding-left:28px">
+                    <sc-for list="{{ q1Options }}" as="o" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ o.pick }}" style="font-family:inherit;font-size:12px;font-weight:500;height:34px;padding:0 13px;border-radius:2px;background:{{ o.bg }};color:{{ o.fg }};border:1px solid {{ o.border }};cursor:pointer">{{ o.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div style="padding:16px 0;display:flex;flex-direction:column;gap:11px">
+                  <div style="display:flex;align-items:flex-start;gap:10px">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#2E74B5;flex:none;padding-top:2px">P2</span>
+                    <p style="margin:0;font-size:13px;line-height:1.6;color:#1A1A1A">Das 420 peças devolvidas, 180 aparecem como recuperáveis na planilha. O retrabalho dessas peças deve entrar neste mesmo evento?</p>
+                  </div>
+                  <div style="padding-left:28px;display:flex;flex-direction:column;gap:9px">
+                    <div style="display:flex;flex-wrap:wrap;gap:8px">
+                      <sc-for list="{{ q2Options }}" as="o" hint-placeholder-count="3">
+                        <button type="button" onClick="{{ o.pick }}" style="font-family:inherit;font-size:12px;font-weight:500;height:34px;padding:0 13px;border-radius:2px;background:{{ o.bg }};color:{{ o.fg }};border:1px solid {{ o.border }};cursor:pointer">{{ o.label }}</button>
+                      </sc-for>
+                    </div>
+                    <input type="text" value="{{ q2Note }}" onChange="{{ onQ2Note }}" placeholder="Observação opcional para o auditor" style="font-size:12px;height:34px;padding:0 10px;border:1px solid #D8DBE0;border-radius:2px;background:#FFFFFF;color:#1A1A1A;width:100%;box-sizing:border-box">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px">
+              <header style="padding:13px 18px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+                <div style="min-width:0">
+                  <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Campos do evento</h2>
+                  <p style="margin:3px 0 0;font-size:11px;color:#6B7280">Tudo é editável. Ao corrigir um campo, ele passa a constar como revisado por você.</p>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:10px 14px;flex:none">
+                  <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:#3D4351"><span style="width:9px;height:9px;background:#2F6B4F;flex:none"></span>Extraído</span>
+                  <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:#3D4351"><span style="width:9px;height:9px;background:#8A5E12;flex:none"></span>Sugerido</span>
+                  <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:#3D4351"><span style="width:9px;height:9px;background:#A3402E;flex:none"></span>Faltando</span>
+                </div>
+              </header>
+              <div style="padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+                <sc-for list="{{ fields }}" as="f" hint-placeholder-count="10">
+                  <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                    <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;justify-content:space-between">
+                      <label style="font-size:11px;font-weight:600;color:#3D4351">{{ f.label }}</label>
+                      <span style="display:inline-flex;align-items:center;gap:5px;height:19px;padding:0 6px;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.fg }};font-size:9.5px;font-weight:600;white-space:nowrap">
+                        <span style="display:flex">{{ f.icon }}</span>{{ f.tag }}
+                      </span>
+                    </div>
+                    <input type="text" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ f.inputBorder }};border-radius:2px;background:{{ f.inputBg }};color:#1A1A1A;width:100%;box-sizing:border-box">
+                    <span style="font-size:11px;line-height:1.5;color:{{ f.hintColor }}">{{ f.hint }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="padding:0 18px 18px">
+                <div style="border:1px solid #8A5E12;background:#FBF3E3;padding:12px 14px;display:flex;gap:10px;align-items:flex-start">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6E4A0D" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:1px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+                  <span style="font-size:12px;line-height:1.6;color:#6E4A0D">O valor de R$ 38.400 não está explícito nos documentos: foi calculado com o custo médio da peça do lote 2214 e a quantidade devolvida. Faixa plausível entre R$ 32.000 e R$ 44.000. Revise antes de aprovar.</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;padding:16px 18px">
+              <p style="margin:0;font-size:12px;line-height:1.6;color:#3D4351;max-width:52ch">Ao confirmar, o evento entra na apuração de setembro de 2026 com registro de quem aprovou, quando e com quais premissas.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:10px">
+                <button type="button" onClick="{{ discard }}" style="font-family:inherit;font-size:13px;font-weight:500;height:44px;padding:0 16px;border-radius:2px;background:#FFFFFF;color:#A3402E;border:1px solid #A3402E;cursor:pointer" style-hover="background:#A3402E;color:#FFFFFF">Descartar</button>
+                <button type="button" onClick="{{ save }}" style="font-family:inherit;font-size:14px;font-weight:500;height:44px;padding:0 18px;border-radius:2px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;cursor:pointer" style-hover="background:#16294A;border-color:#16294A">Confirmar e salvar no Dashboard</button>
+              </div>
+            </div>
+
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isSaved }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-top:3px solid #2F6B4F;border-radius:2px;padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;gap:14px">
+            <span style="display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 8px;border:1px solid #2F6B4F;background:#EAF2ED;color:#215039;font-size:11px;font-weight:600;align-self:flex-start">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#215039" stroke-width="2.25" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Evento salvo
+            </span>
+            <h2 style="margin:0;font-size:18px;font-weight:600;line-height:1.3">EV&#8209;2026&#8209;0913 registrado em Falha externa &mdash; Devolução e garantia.</h2>
+            <p style="margin:0;font-size:13px;line-height:1.65;color:#3D4351;max-width:60ch">{{ savedSummary }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+              <a href="#painel" style="display:inline-flex;align-items:center;height:42px;padding:0 18px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;border-radius:2px;font-size:13px;font-weight:500" style-hover="background:#16294A;border-color:#16294A;color:#FFFFFF;text-decoration:none">Ver no dashboard</a>
+              <button type="button" onClick="{{ reset }}" style="font-family:inherit;font-size:13px;font-weight:500;height:42px;padding:0 14px;border-radius:2px;background:transparent;color:#2E74B5;border:1px solid transparent;cursor:pointer" style-hover="background:#EAF2FA;color:#24608F">Registrar outro evento</button>
+            </div>
+          </div>
+        </sc-if>
+
+      </section>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1320, &quot;height&quot;: 1000 }
+}">
+const FIELDS = [
+  { id: "tipo", label: "Tipo de evento", value: "Devolução de cliente", conf: "high", hint: "Identificado na nota de devolução 77.412." },
+  { id: "categoria", label: "Categoria PAF", value: "Falha externa", conf: "high", hint: "Falha detectada após a entrega ao cliente." },
+  { id: "subcategoria", label: "Subcategoria", value: "Devolução e garantia", conf: "high", hint: "Conforme template PAF Essencial." },
+  { id: "lote", label: "Lote / ordem", value: "2214", conf: "high", hint: "Citado na planilha e no seu texto." },
+  { id: "cliente", label: "Cliente", value: "Autopeças Vetor Ltda.", conf: "high", hint: "Razão social na nota de devolução." },
+  { id: "qtd", label: "Quantidade devolvida", value: "420 peças em 3 remessas", conf: "high", hint: "Somatório das linhas da planilha." },
+  { id: "data", label: "Data do evento", value: "04/09/2026", conf: "high", hint: "Data de emissão da nota de devolução." },
+  { id: "planta", label: "Planta", value: "Curitiba (PR)", conf: "high", hint: "Planta de origem do lote 2214." },
+  { id: "valor", label: "Custo do produto devolvido", value: "R$ 38.400", conf: "suggested", hint: "Estimado pelo custo médio da peça × quantidade. Faixa: R$ 32.000 a R$ 44.000." },
+  { id: "frete", label: "Frete de retorno", value: "R$ 2.150", conf: "suggested", hint: "Estimado pela tabela de frete da rota Curitiba–Sorocaba." },
+  { id: "centro", label: "Centro de custo", value: "", conf: "missing", placeholder: "CC-0000", hint: "Não identificado nos documentos. Informe para lançar na contabilidade." },
+  { id: "responsavel", label: "Responsável pela análise", value: "", conf: "missing", placeholder: "Nome do analista", hint: "Obrigatório para o log de auditoria." }
+];
+
+const CONF = {
+  high: { tag: "Extraído", bg: "#EAF2ED", fg: "#215039", border: "#2F6B4F", inputBorder: "#D8DBE0", inputBg: "#FFFFFF", hintColor: "#6B7280",
+    paths: ["M4 12.5 9.5 18 20 6.5"], weight: 2.25 },
+  suggested: { tag: "Sugerido", bg: "#FBF3E3", fg: "#6E4A0D", border: "#8A5E12", inputBorder: "#8A5E12", inputBg: "#FFFDF7", hintColor: "#6E4A0D",
+    paths: ["M12 3 22 20H2L12 3Z", "M12 9.5v4.5", "M12 17h.01"], weight: 2 },
+  missing: { tag: "Faltando", bg: "#F9EBE8", fg: "#8A3526", border: "#A3402E", inputBorder: "#A3402E", inputBg: "#FDF7F6", hintColor: "#8A3526",
+    paths: ["M12 3 22 20H2L12 3Z", "M12 9.5v4.5", "M12 17h.01"], weight: 2 },
+  user: { tag: "Revisado", bg: "#E8EDF5", fg: "#1F3864", border: "#1F3864", inputBorder: "#1F3864", inputBg: "#FFFFFF", hintColor: "#3D4351",
+    paths: ["M4 12.5 9.5 18 20 6.5"], weight: 2.25 }
+};
+
+const STEPS = [
+  "Lendo anexos e extraindo texto",
+  "Estruturando dados do evento",
+  "Classificando na estrutura PAF",
+  "Calculando e valorizando custos"
+];
+
+const Q1 = ["Nossa empresa", "O cliente", "Dividido"];
+const Q2 = ["Sim, incluir", "Não, evento separado", "Não sei ainda"];
+
+function svgIcon(paths, color, size, weight) {
+  return React.createElement("svg", {
+    width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color,
+    strokeWidth: weight || 2, strokeLinecap: "square", strokeLinejoin: "miter", "aria-hidden": "true"
+  }, paths.map((d, i) => React.createElement("path", { key: i, d })));
+}
+
+class Component extends DCLogic {
+  state = {
+    phase: "idle", step: 0,
+    prompt: "Recebemos 3 devoluções do lote 2214 esta semana, planilha e nota em anexo. Preciso lançar o custo dessas devoluções na apuração de setembro.",
+    values: {}, edited: {}, q1: null, q2: null, q2Note: ""
+  };
+
+  componentWillUnmount() { this.clear(); }
+
+  clear() {
+    if (this.tick) { clearInterval(this.tick); this.tick = null; }
+    if (this.done) { clearTimeout(this.done); this.done = null; }
+  }
+
+  process = () => {
+    if (this.state.phase === "processing") return;
+    this.clear();
+    this.setState({ phase: "processing", step: 0 });
+    this.tick = setInterval(() => {
+      this.setState((s) => ({ step: Math.min(s.step + 1, STEPS.length - 1) }));
+    }, 700);
+    this.done = setTimeout(() => {
+      this.clear();
+      this.setState({ phase: "result" });
+    }, 3000);
+  };
+
+  reset = () => {
+    this.clear();
+    this.setState({ phase: "idle", step: 0, values: {}, edited: {}, q1: null, q2: null, q2Note: "" });
+  };
+
+  renderVals() {
+    const s = this.state;
+    const phase = s.phase;
+
+    const fields = FIELDS.map((f) => {
+      const val = s.values[f.id] !== undefined ? s.values[f.id] : f.value;
+      const conf = s.edited[f.id] ? "user" : f.conf;
+      const c = CONF[conf];
+      return {
+        label: f.label, value: val, placeholder: f.placeholder || "",
+        tag: c.tag, bg: c.bg, fg: c.fg, border: c.border,
+        inputBorder: c.inputBorder, inputBg: c.inputBg, hintColor: c.hintColor,
+        icon: svgIcon(c.paths, c.fg, 10, c.weight),
+        hint: s.edited[f.id] ? "Ajustado por você — o valor original da análise fica no log." : f.hint,
+        onChange: (e) => this.setState((st) => ({
+          values: Object.assign({}, st.values, { [f.id]: e.target.value }),
+          edited: Object.assign({}, st.edited, { [f.id]: true })
+        }))
+      };
+    });
+
+    const pending = FIELDS.filter((f) => !s.edited[f.id] && f.conf !== "high").length;
+
+    const cur = (id) => {
+      const f = FIELDS.find((x) => x.id === id);
+      const raw = s.values[id] !== undefined ? s.values[id] : f.value;
+      const n = parseFloat(String(raw).replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."));
+      return isNaN(n) ? 0 : n;
+    };
+    const totalNum = cur("valor") + cur("frete");
+    const totalFmt = "R$ " + new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 }).format(totalNum);
+    const moneyRevised = ["valor", "frete"].filter((id) => s.edited[id]).length;
+    const totalNote = moneyRevised === 2
+      ? "Ambos os valores foram revisados por você"
+      : moneyRevised === 1
+        ? "Um valor revisado por você, um ainda sugerido"
+        : "Soma de dois valores sugeridos — revise";
+    const answered = (s.q1 ? 1 : 0) + (s.q2 ? 1 : 0);
+
+    const opt = (list, key) => list.map((label) => {
+      const sel = s[key] === label;
+      return {
+        label,
+        bg: sel ? "#1F3864" : "#FFFFFF",
+        fg: sel ? "#FFFFFF" : "#3D4351",
+        border: sel ? "#1F3864" : "#D8DBE0",
+        pick: () => this.setState({ [key]: label })
+      };
+    });
+
+    const busy = phase === "processing";
+
+    return {
+      isIdle: phase === "idle", isBusy: busy, isResult: phase === "result", isSaved: phase === "saved",
+
+      prompt: s.prompt,
+      onPrompt: (e) => this.setState({ prompt: e.target.value }),
+      process: this.process,
+      busy,
+      btnLabel: busy ? "Processando…" : "Processar com IA",
+      btnBg: busy ? "#E5E7EB" : "#1F3864",
+      btnFg: busy ? "#6B7280" : "#FFFFFF",
+      btnBorder: busy ? "#D8DBE0" : "#1F3864",
+      btnCursor: busy ? "wait" : "pointer",
+      btnIcon: svgIcon(busy ? ["M3.5 3.5h17v17h-17z", "M12 7.5V12l3.5 2.5"] : ["M3 3h18v18H3z", "M9 9h6v6H9z"], busy ? "#6B7280" : "#FFFFFF", 16, 1.9),
+
+      progress: STEPS.map((label, i) => ({
+        label,
+        bg: i < s.step ? "#2E74B5" : i === s.step ? "#1F3864" : "#FFFFFF",
+        border: i <= s.step ? "#1F3864" : "#9CA3AF",
+        color: i <= s.step ? "#1A1A1A" : "#9CA3AF",
+        weight: i === s.step ? "600" : "400",
+        state: i < s.step ? "concluído" : i === s.step ? "em curso" : "aguardando"
+      })),
+
+      reviewCount: pending === 0 ? "Nenhum campo pendente" : pending + (pending === 1 ? " campo para revisar" : " campos para revisar"),
+      totalProposed: "R$ 40.550",
+      totalNote: "Soma de dois valores sugeridos — revise",
+      answeredCount: answered + " de 2 respondidos",
+
+      q1Options: opt(Q1, "q1"),
+      q2Options: opt(Q2, "q2"),
+      q2Note: s.q2Note,
+      onQ2Note: (e) => this.setState({ q2Note: e.target.value }),
+
+      fields,
+      save: () => this.setState({ phase: "saved" }),
+      discard: this.reset,
+      reset: this.reset,
+      savedSummary: "Custo de R$ 40.550 lançado na apuração de setembro de 2026, planta Curitiba (PR). "
+        + (answered === 2 ? "Os dois esclarecimentos foram registrados como premissa." : "Esclarecimentos pendentes ficaram anotados no log para o auditor.")
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  body { margin: 0; background: #F4F5F7; -webkit-font-smoothing: antialiased; }
+  a { color: #2E74B5; text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: #24608F; }
+  *:focus-visible { outline: 2px solid #2E74B5; outline-offset: 1px; }
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',system-ui,sans-serif;color:#1A1A1A;background:#F4F5F7;padding:40px 40px 64px;box-sizing:border-box">
+<div style="max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+
+  <header style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;border-bottom:2px solid #1F3864;padding-bottom:20px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:22px;height:22px;border:2px solid #1F3864;border-radius:2px;display:flex;align-items:center;justify-content:center">
+          <div style="width:8px;height:8px;background:#2E74B5"></div>
+        </div>
+        <span style="font-size:15px;font-weight:600;letter-spacing:0.14em;color:#1F3864">Q&#8209;COST&nbsp;AI</span>
+      </div>
+      <h1 style="margin:0;font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-0.01em">Design System corporativo &mdash; prancha de estilo</h1>
+      <p style="margin:0;font-size:13px;line-height:1.6;color:#3D4351;max-width:62ch;text-wrap:pretty">Gestão de custos da qualidade assistida por IA. Fundamentos visuais para uso diário por diretores industriais, gerentes e analistas da qualidade. Desktop&#8209;first, multilíngue, WCAG&nbsp;2.1&nbsp;AA.</p>
+    </div>
+    <dl style="margin:0;display:grid;grid-template-columns:auto auto;gap:6px 20px;font-size:11px;color:#6B7280">
+      <dt style="margin:0">Versão</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace;color:#1A1A1A">1.0</dd>
+      <dt style="margin:0">Tipografia</dt><dd style="margin:0;color:#1A1A1A">IBM Plex Sans / Mono</dd>
+      <dt style="margin:0">Raio máximo</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace;color:#1A1A1A">2px</dd>
+      <dt style="margin:0">Idioma da amostra</dt><dd style="margin:0;color:#1A1A1A">{{ t.langName }}</dd>
+    </dl>
+  </header>
+
+  <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+    <section style="flex:1 1 100%;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Paleta de cores</h2>
+        <span style="font-size:11px;color:#6B7280">Cor nunca é o único indicador de estado &mdash; sempre acompanhada de ícone e texto</span>
+      </header>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:22px">
+
+        <div>
+          <h3 style="margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280">Marca e acento</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px">
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:64px;background:#1F3864"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Navy corporativo</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351;letter-spacing:0.02em">#1F3864</div>
+                <div style="font-size:10px;line-height:1.5;color:#6B7280;margin-top:4px">Botão primário, cabeçalho, navegação ativa</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:64px;background:#16294A"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Navy pressionado</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351;letter-spacing:0.02em">#16294A</div>
+                <div style="font-size:10px;line-height:1.5;color:#6B7280;margin-top:4px">Hover e estado pressionado do primário</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:64px;background:#2E74B5"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Azul de acento</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351;letter-spacing:0.02em">#2E74B5</div>
+                <div style="font-size:10px;line-height:1.5;color:#6B7280;margin-top:4px">Links, ícones interativos, contorno de foco</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:64px;background:#EAF2FA"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Acento &mdash; fundo</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351;letter-spacing:0.02em">#EAF2FA</div>
+                <div style="font-size:10px;line-height:1.5;color:#6B7280;margin-top:4px">Realce de linha, hover de item terciário</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:64px;background:#E8EDF5"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Navy &mdash; fundo</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351;letter-spacing:0.02em">#E8EDF5</div>
+                <div style="font-size:10px;line-height:1.5;color:#6B7280;margin-top:4px">Navegação ativa, hover do secundário</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280">Neutros grafite</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px">
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#1A1A1A"></div>
+              <div style="padding:8px 10px;border-top:1px solid #E5E7EB">
+                <div style="font-size:11px;font-weight:600">Texto principal</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#1A1A1A</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#3D4351"></div>
+              <div style="padding:8px 10px;border-top:1px solid #E5E7EB">
+                <div style="font-size:11px;font-weight:600">Texto secundário</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#3D4351</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#6B7280"></div>
+              <div style="padding:8px 10px;border-top:1px solid #E5E7EB">
+                <div style="font-size:11px;font-weight:600">Texto auxiliar</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#6B7280</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#9CA3AF"></div>
+              <div style="padding:8px 10px;border-top:1px solid #E5E7EB">
+                <div style="font-size:11px;font-weight:600">Desabilitado</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#9CA3AF</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#D8DBE0"></div>
+              <div style="padding:8px 10px;border-top:1px solid #E5E7EB">
+                <div style="font-size:11px;font-weight:600">Borda</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#D8DBE0</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#E5E7EB"></div>
+              <div style="padding:8px 10px;border-top:1px solid #E5E7EB">
+                <div style="font-size:11px;font-weight:600">Divisor</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#E5E7EB</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#F4F5F7"></div>
+              <div style="padding:8px 10px;border-top:1px solid #E5E7EB">
+                <div style="font-size:11px;font-weight:600">Fundo de página</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#F4F5F7</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#FFFFFF;border-bottom:1px solid #E5E7EB"></div>
+              <div style="padding:8px 10px">
+                <div style="font-size:11px;font-weight:600">Superfície</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#FFFFFF</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin:0 0 10px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280">Semânticas de status</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#2F6B4F"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Sucesso / aprovado</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#2F6B4F &middot; fundo #EAF2ED</div>
+                <div style="font-size:10px;color:#6B7280;margin-top:4px">Contraste 5.6:1 sobre o fundo tonal</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#8A5E12"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Atenção / pendente</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#8A5E12 &middot; fundo #FBF3E3</div>
+                <div style="font-size:10px;color:#6B7280;margin-top:4px">Âmbar&#8209;ocre dessaturado</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#A3402E"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Crítico / custo alto</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#A3402E &middot; fundo #F9EBE8</div>
+                <div style="font-size:10px;color:#6B7280;margin-top:4px">Vermelho&#8209;terracota, não vermelho puro</div>
+              </div>
+            </div>
+            <div style="border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+              <div style="height:52px;background:#2E74B5"></div>
+              <div style="padding:9px 11px;border-top:1px solid #E5E7EB">
+                <div style="font-size:12px;font-weight:600">Informativo</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#3D4351">#2E74B5 &middot; fundo #EAF2FA</div>
+                <div style="font-size:10px;color:#6B7280;margin-top:4px">Reutiliza o azul de acento</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section style="flex:1 1 620px;min-width:320px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Escala tipográfica</h2>
+        <span style="font-size:11px;color:#6B7280">Seis tamanhos &middot; IBM Plex Sans</span>
+      </header>
+      <div style="padding:4px 20px 20px">
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #E5E7EB">
+            <div style="flex:1 1 240px;min-width:0"><span style="font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-0.01em">Custos da Qualidade</span></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280;white-space:nowrap">28 / 34 &middot; 600</div>
+            <div style="font-size:11px;color:#6B7280;flex:0 0 108px">Título de página</div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #E5E7EB">
+            <div style="flex:1 1 240px;min-width:0"><span style="font-size:20px;font-weight:600;line-height:1.3">Não conformidades por planta</span></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280;white-space:nowrap">20 / 26 &middot; 600</div>
+            <div style="font-size:11px;color:#6B7280;flex:0 0 108px">Título de seção</div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #E5E7EB">
+            <div style="flex:1 1 240px;min-width:0"><span style="font-size:15px;font-weight:600;line-height:1.4">Índice de falhas internas</span></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280;white-space:nowrap">15 / 21 &middot; 600</div>
+            <div style="font-size:11px;color:#6B7280;flex:0 0 108px">Título de card</div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #E5E7EB">
+            <div style="flex:1 1 240px;min-width:0"><span style="font-size:13px;font-weight:400;line-height:1.6;color:#1A1A1A">A apuração de março consolidou 1.284 apontamentos de retrabalho, distribuídos entre três unidades produtivas.</span></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280;white-space:nowrap">13 / 21 &middot; 400</div>
+            <div style="font-size:11px;color:#6B7280;flex:0 0 108px">Corpo de texto</div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid #E5E7EB">
+            <div style="flex:1 1 240px;min-width:0"><span style="font-size:11px;font-weight:400;line-height:1.5;color:#6B7280">Atualizado em 08/09/2026 às 18:42 &middot; fonte: SAP QM</span></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280;white-space:nowrap">11 / 17 &middot; 400</div>
+            <div style="font-size:11px;color:#6B7280;flex:0 0 108px">Auxiliar / legenda</div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:16px 0">
+            <div style="flex:1 1 240px;min-width:0"><span style="font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-0.02em;font-variant-numeric:{{ figures }}">R$ 4.812.930</span></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280;white-space:nowrap">32 / 35 &middot; 600</div>
+            <div style="font-size:11px;color:#6B7280;flex:0 0 108px">Dado numérico (mono, tabular)</div>
+          </div>
+        </div>
+        <p style="margin:16px 0 0;padding-top:16px;border-top:1px solid #E5E7EB;font-size:11px;line-height:1.6;color:#6B7280">Acentuação latina completa para pt&#8209;BR e es: <span style="color:#1A1A1A">Aprovação, Não&nbsp;Conformidade, Análise, Ação Corretiva, Inspección, Máquina, Añadir, Corrección.</span> Valores monetários e percentuais sempre em figuras tabulares.</p>
+      </div>
+    </section>
+
+    <section style="flex:1 1 380px;min-width:300px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Grid, espaçamento e breakpoints</h2>
+      </header>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:20px">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+            <span style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280">12 colunas</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B7280">gutter 24 &middot; margem 40</span>
+          </div>
+          <div style="border:1px solid #D8DBE0;background:#F4F5F7;padding:10px">
+            <div style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;height:{{ gridHeight }}">
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+              <div style="background:#E8EDF5;border-top:2px solid #1F3864"></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span style="display:block;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">Escala de espaçamento</span>
+          <div style="display:flex;align-items:flex-end;gap:8px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:4px;height:4px;background:#1F3864"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280">4</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:8px;height:8px;background:#1F3864"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280">8</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:12px;height:12px;background:#1F3864"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280">12</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:16px;height:16px;background:#1F3864"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280">16</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:24px;height:24px;background:#1F3864"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280">24</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:32px;height:32px;background:#1F3864"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280">32</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:48px;height:48px;background:#1F3864"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6B7280">48</span></div>
+          </div>
+        </div>
+        <div>
+          <span style="display:block;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">Breakpoints</span>
+          <table style="width:100%;border-collapse:collapse;font-size:11px">
+            <tbody>
+              <tr style="border-top:1px solid #E5E7EB"><td style="padding:7px 0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;width:80px">1440+</td><td style="padding:7px 0;color:#3D4351">Diretoria &mdash; monitor de escritório, 12 col</td></tr>
+              <tr style="border-top:1px solid #E5E7EB"><td style="padding:7px 0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums">1280</td><td style="padding:7px 0;color:#3D4351">Desktop padrão &mdash; notebook, 12 col</td></tr>
+              <tr style="border-top:1px solid #E5E7EB"><td style="padding:7px 0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums">1024</td><td style="padding:7px 0;color:#3D4351">Tablet paisagem &mdash; 8 col, sidebar colapsada</td></tr>
+              <tr style="border-top:1px solid #E5E7EB"><td style="padding:7px 0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums">768</td><td style="padding:7px 0;color:#3D4351">Tablet retrato &mdash; 8 col, cards empilhados</td></tr>
+              <tr style="border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB"><td style="padding:7px 0;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums">390</td><td style="padding:7px 0;color:#3D4351">Mobile &mdash; 4 col, consulta de KPI apenas</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section style="flex:1 1 620px;min-width:320px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Botões</h2>
+        <span style="font-size:11px;color:#6B7280">Altura 36px &middot; raio 2px &middot; sem formato pílula</span>
+      </header>
+      <div style="padding:20px">
+        <div style="display:grid;grid-template-columns:minmax(96px,auto) repeat(3,minmax(0,1fr));gap:12px;align-items:center">
+          <span></span>
+          <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280">{{ t.stNormal }}</span>
+          <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280">Hover</span>
+          <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280">{{ t.stDisabled }}</span>
+
+          <span style="font-size:11px;color:#3D4351">Primário</span>
+          <button type="button" style="font-family:inherit;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" style-hover="background:#16294A;border-color:#16294A">{{ t.btnPrimary }}</button>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#16294A;color:#FFFFFF;border:1px solid #16294A;white-space:nowrap;overflow:hidden">{{ t.btnPrimary }}</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#E5E7EB;color:#9CA3AF;border:1px solid #D8DBE0;white-space:nowrap;overflow:hidden">{{ t.btnPrimary }}</span>
+
+          <span style="font-size:11px;color:#3D4351">Secundário</span>
+          <button type="button" style="font-family:inherit;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#FFFFFF;color:#1F3864;border:1px solid #1F3864;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" style-hover="background:#E8EDF5">{{ t.btnSecondary }}</button>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#E8EDF5;color:#1F3864;border:1px solid #1F3864;white-space:nowrap;overflow:hidden">{{ t.btnSecondary }}</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#FFFFFF;color:#9CA3AF;border:1px solid #D8DBE0;white-space:nowrap;overflow:hidden">{{ t.btnSecondary }}</span>
+
+          <span style="font-size:11px;color:#3D4351">Terciário</span>
+          <button type="button" style="font-family:inherit;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:transparent;color:#2E74B5;border:1px solid transparent;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" style-hover="background:#EAF2FA;color:#24608F">{{ t.btnTertiary }}</button>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#EAF2FA;color:#24608F;border:1px solid transparent;white-space:nowrap;overflow:hidden">{{ t.btnTertiary }}</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:transparent;color:#9CA3AF;border:1px solid transparent;white-space:nowrap;overflow:hidden">{{ t.btnTertiary }}</span>
+
+          <span style="font-size:11px;color:#3D4351">Destrutivo</span>
+          <button type="button" style="font-family:inherit;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#FFFFFF;color:#A3402E;border:1px solid #A3402E;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" style-hover="background:#A3402E;color:#FFFFFF">{{ t.btnDanger }}</button>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#A3402E;color:#FFFFFF;border:1px solid #A3402E;white-space:nowrap;overflow:hidden">{{ t.btnDanger }}</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#FFFFFF;color:#9CA3AF;border:1px solid #D8DBE0;white-space:nowrap;overflow:hidden">{{ t.btnDanger }}</span>
+        </div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid #E5E7EB;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;outline:2px solid #2E74B5;outline-offset:1px">{{ t.btnPrimary }}</span>
+          <span style="font-size:11px;line-height:1.6;color:#6B7280;flex:1 1 220px">Foco de teclado: contorno de 2px em <span style="font-family:'IBM Plex Mono',monospace;color:#1A1A1A">#2E74B5</span>, offset 1px, quadrado como o resto da interface. Visível em todos os controles.</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="flex:1 1 380px;min-width:300px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Campos de formulário</h2>
+      </header>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:600;color:#3D4351">{{ t.fieldLabel }}</label>
+          <input type="text" value="CC&#8209;4820&nbsp;&middot;&nbsp;Usinagem" style="font-family:inherit;font-size:13px;height:36px;padding:0 10px;border:1px solid #D8DBE0;border-radius:2px;background:#FFFFFF;color:#1A1A1A;width:100%;box-sizing:border-box">
+          <span style="font-size:11px;color:#6B7280">{{ t.stNormal }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:600;color:#3D4351">{{ t.fieldLabel }}</label>
+          <div style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;height:36px;padding:0 10px;border:1px solid #2E74B5;border-radius:2px;background:#FFFFFF;color:#1A1A1A;display:flex;align-items:center;outline:2px solid #2E74B5;outline-offset:1px;box-sizing:border-box">CC&#8209;4820<span style="width:1px;height:16px;background:#1A1A1A;margin-left:1px"></span></div>
+          <span style="font-size:11px;color:#2E74B5">{{ t.stFocus }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:600;color:#3D4351">{{ t.fieldLabel }}</label>
+          <input type="text" value="CC&#8209;00" style="font-family:inherit;font-size:13px;height:36px;padding:0 10px;border:1px solid #A3402E;border-radius:2px;background:#FDF7F6;color:#1A1A1A;width:100%;box-sizing:border-box">
+          <span style="display:flex;align-items:flex-start;gap:6px;font-size:11px;line-height:1.5;color:#A3402E">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A3402E" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:1px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9v5"/><path d="M12 17h.01"/></svg>
+            <span>{{ t.fieldError }}</span>
+          </span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;font-weight:600;color:#9CA3AF">{{ t.fieldLabel }}</label>
+          <input type="text" value="&mdash;" disabled="disabled" style="font-family:inherit;font-size:13px;height:36px;padding:0 10px;border:1px solid #D8DBE0;border-radius:2px;background:#F4F5F7;color:#9CA3AF;width:100%;box-sizing:border-box">
+          <span style="font-size:11px;color:#6B7280">{{ t.stDisabled }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="flex:1 1 380px;min-width:300px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Badges de status</h2>
+      </header>
+      <div style="padding:20px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border:1px solid #2F6B4F;border-radius:2px;background:#EAF2ED;color:#215039;font-size:11px;font-weight:600;letter-spacing:0.01em">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#215039" stroke-width="2.25" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>{{ t.badgeOk }}
+          </span>
+          <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border:1px solid #8A5E12;border-radius:2px;background:#FBF3E3;color:#6E4A0D;font-size:11px;font-weight:600">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6E4A0D" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17"/><path d="M12 7.5V12l3.5 2.5"/></svg>{{ t.badgePending }}
+          </span>
+          <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border:1px solid #A3402E;border-radius:2px;background:#F9EBE8;color:#8A3526;font-size:11px;font-weight:600">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A3526" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>{{ t.badgeCritical }}
+          </span>
+          <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border:1px solid #2E74B5;border-radius:2px;background:#EAF2FA;color:#24608F;font-size:11px;font-weight:600">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#24608F" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17"/><path d="M12 10.5V17"/><path d="M12 7h.01"/></svg>{{ t.badgeInfo }}
+          </span>
+        </div>
+        <p style="margin:0;padding-top:14px;border-top:1px solid #E5E7EB;font-size:11px;line-height:1.6;color:#6B7280">Cada badge combina cor, ícone outline e rótulo textual. O rótulo cresce livremente para acomodar 30&ndash;40% de expansão em pt&#8209;BR e es sem alterar a altura de 24px.</p>
+        <div>
+          <span style="display:block;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280;margin-bottom:10px">Iconografia &mdash; outline, traço 2px</span>
+          <div style="display:flex;flex-wrap:wrap;gap:14px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M9 9v12"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M3 20h18M6 20V11m5 9V5m5 15v-6"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="4" width="18" height="16"/><path d="M3 9h18M8 4v-2M16 4v-2"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="10" width="18" height="11"/><path d="M7 10V6h10v4"/><path d="M12 14v3"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-7h6v7"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M8 14l3-4 3 3 3-5"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 4h16v5H4zM4 15h16v5H4z"/><path d="M12 9v6"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="flex:1 1 620px;min-width:320px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Card padrão &mdash; KPI</h2>
+        <span style="font-size:11px;color:#6B7280">Borda 1px &middot; sombra 0 1px 2px</span>
+      </header>
+      <div style="padding:20px;background:#F4F5F7">
+        <article style="background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+          <div style="padding:16px 18px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px">
+            <div style="min-width:0">
+              <h3 style="margin:0 0 3px;font-size:15px;font-weight:600;line-height:1.4">{{ t.cardTitle }}</h3>
+              <p style="margin:0;font-size:11px;color:#6B7280">{{ t.cardMeta }}</p>
+            </div>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border:1px solid #8A5E12;border-radius:2px;background:#FBF3E3;color:#6E4A0D;font-size:11px;font-weight:600;flex:none">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6E4A0D" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17"/><path d="M12 7.5V12l3.5 2.5"/></svg>{{ t.badgePending }}
+            </span>
+          </div>
+          <div style="padding:18px;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;border-bottom:1px solid #E5E7EB">
+            <div style="min-width:0">
+              <span style="display:block;font-size:11px;color:#6B7280;margin-bottom:4px">{{ t.kpiLabel }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;line-height:1.1;letter-spacing:-0.02em;font-variant-numeric:{{ figures }}">R$ 4.812.930</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;padding-bottom:6px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A3402E" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 20V4"/><path d="M5 11l7-7 7 7"/></svg>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:#A3402E;font-variant-numeric:{{ figures }}">+6,4%</span>
+              <span style="font-size:11px;color:#6B7280">{{ t.kpiDelta }}</span>
+            </div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:9px 18px;font-size:10px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280;border-bottom:1px solid #E5E7EB">{{ t.thCat }}</th>
+                <th style="text-align:right;padding:9px 18px;font-size:10px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280;border-bottom:1px solid #E5E7EB">{{ t.thValue }}</th>
+                <th style="text-align:right;padding:9px 18px;font-size:10px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280;border-bottom:1px solid #E5E7EB">{{ t.thShare }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ rows }}" as="row" hint-placeholder-count="4">
+                <tr>
+                  <td style="padding:10px 18px;border-bottom:1px solid #E5E7EB;color:#1A1A1A">{{ row.label }}</td>
+                  <td style="padding:10px 18px;border-bottom:1px solid #E5E7EB;text-align:right;font-family:'IBM Plex Mono',monospace;font-variant-numeric:{{ figures }}">{{ row.value }}</td>
+                  <td style="padding:10px 18px;border-bottom:1px solid #E5E7EB;text-align:right;font-family:'IBM Plex Mono',monospace;color:#3D4351;font-variant-numeric:{{ figures }}">{{ row.share }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <div style="padding:14px 18px;display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end">
+            <button type="button" style="font-family:inherit;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:transparent;color:#2E74B5;border:1px solid transparent;cursor:pointer;white-space:nowrap" style-hover="background:#EAF2FA;color:#24608F">{{ t.btnDetail }}</button>
+            <button type="button" style="font-family:inherit;font-size:13px;font-weight:500;height:36px;padding:0 16px;border-radius:2px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;cursor:pointer;white-space:nowrap" style-hover="background:#16294A;border-color:#16294A">{{ t.btnPrimary }}</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section style="flex:1 1 380px;min-width:300px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Navegação lateral</h2>
+        <span style="font-size:11px;color:#6B7280">Expandida 248px &middot; rail 56px</span>
+      </header>
+      <div style="padding:20px;background:#F4F5F7;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap">
+
+        <nav style="flex:1 1 248px;min-width:220px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+          <div style="background:#1F3864;color:#FFFFFF;padding:12px 14px;display:flex;align-items:center;gap:10px">
+            <div style="width:28px;height:28px;border:1px solid rgba(255,255,255,0.45);border-radius:2px;display:flex;align-items:center;justify-content:center;flex:none">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-7h6v7"/></svg>
+            </div>
+            <div style="min-width:0;flex:1">
+              <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#B9C6DC">{{ t.navOrgLabel }}</div>
+              <div style="font-size:12px;font-weight:600;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Metalúrgica Paranaense &mdash; Curitiba</div>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B9C6DC" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <ul style="list-style:none;margin:0;padding:8px 0;display:flex;flex-direction:column">
+            <li style="display:flex;align-items:center;gap:10px;padding:9px 14px 9px 12px;border-left:2px solid #1F3864;background:#E8EDF5;color:#1F3864;font-size:12px;font-weight:600">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M9 9v12"/></svg>
+              <span style="min-width:0">{{ t.nav1 }}</span>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;padding:9px 14px 9px 12px;border-left:2px solid transparent;color:#3D4351;font-size:12px">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M3 20h18M6 20V11m5 9V5m5 15v-6"/></svg>
+              <span style="min-width:0">{{ t.nav2 }}</span>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;padding:9px 14px 9px 12px;border-left:2px solid transparent;color:#3D4351;font-size:12px">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+              <span style="min-width:0">{{ t.nav3 }}</span>
+              <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:#8A3526;background:#F9EBE8;border:1px solid #A3402E;padding:0 4px;flex:none;font-variant-numeric:tabular-nums">12</span>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;padding:9px 14px 9px 12px;border-left:2px solid transparent;color:#3D4351;font-size:12px">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17"/><path d="M7.5 12.5 11 16l5.5-8"/></svg>
+              <span style="min-width:0">{{ t.nav4 }}</span>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;padding:9px 14px 9px 12px;border-left:2px solid transparent;color:#3D4351;font-size:12px">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+              <span style="min-width:0">{{ t.nav5 }}</span>
+            </li>
+          </ul>
+          <div style="border-top:1px solid #E5E7EB;padding:10px 12px;display:flex;flex-direction:column;gap:8px">
+            <button type="button" style="font-family:inherit;display:flex;align-items:center;gap:8px;width:100%;height:32px;padding:0 8px;border:1px solid #D8DBE0;border-radius:2px;background:#FFFFFF;color:#1A1A1A;font-size:12px;cursor:pointer;text-align:left" style-hover="background:#EAF2FA;border-color:#2E74B5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2E74B5" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
+              <span style="flex:1;min-width:0">{{ t.langName }}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div style="display:flex;align-items:center;gap:8px;padding:0 8px;color:#6B7280;font-size:12px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"/></svg>
+              <span>{{ t.collapse }}</span>
+            </div>
+          </div>
+  </nav>
+
+        <div style="width:56px;flex:none;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+          <div style="background:#1F3864;padding:12px 0;display:flex;justify-content:center">
+            <div style="width:28px;height:28px;border:1px solid rgba(255,255,255,0.45);border-radius:2px;display:flex;align-items:center;justify-content:center">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-7h6v7"/></svg>
+            </div>
+          </div>
+          <div style="padding:8px 0;display:flex;flex-direction:column;gap:2px">
+            <div style="height:34px;display:flex;align-items:center;justify-content:center;background:#E8EDF5;border-left:2px solid #1F3864">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M9 9v12"/></svg>
+            </div>
+            <div style="height:34px;display:flex;align-items:center;justify-content:center">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M3 20h18M6 20V11m5 9V5m5 15v-6"/></svg>
+            </div>
+            <div style="height:34px;display:flex;align-items:center;justify-content:center">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+            </div>
+            <div style="height:34px;display:flex;align-items:center;justify-content:center">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17"/><path d="M7.5 12.5 11 16l5.5-8"/></svg>
+            </div>
+            <div style="height:34px;display:flex;align-items:center;justify-content:center">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D4351" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+            </div>
+          </div>
+          <div style="border-top:1px solid #E5E7EB;padding:10px 0;display:flex;justify-content:center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2E74B5" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section style="flex:1 1 100%;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;box-shadow:0 1px 2px rgba(26,26,26,0.04)">
+      <header style="padding:13px 20px;border-bottom:1px solid #E5E7EB">
+        <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Regras de aplicação</h2>
+      </header>
+      <div style="padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
+        <div style="border-left:2px solid #1F3864;padding-left:14px">
+          <h3 style="margin:0 0 6px;font-size:12px;font-weight:600">Geometria</h3>
+          <p style="margin:0;font-size:11px;line-height:1.7;color:#3D4351">Raio de 2px em todos os controles e superfícies. Avatares e miniaturas são quadrados. Nenhum elemento em formato de pílula.</p>
+        </div>
+        <div style="border-left:2px solid #1F3864;padding-left:14px">
+          <h3 style="margin:0 0 6px;font-size:12px;font-weight:600">Elevação</h3>
+          <p style="margin:0;font-size:11px;line-height:1.7;color:#3D4351">Estrutura vem da borda de 1px em <span style="font-family:'IBM Plex Mono',monospace">#D8DBE0</span>. Sombra limitada a <span style="font-family:'IBM Plex Mono',monospace">0 1px 2px rgba(26,26,26,.04)</span>; overlays podem usar <span style="font-family:'IBM Plex Mono',monospace">0 4px 12px rgba(26,26,26,.10)</span>.</p>
+        </div>
+        <div style="border-left:2px solid #1F3864;padding-left:14px">
+          <h3 style="margin:0 0 6px;font-size:12px;font-weight:600">Multilíngue</h3>
+          <p style="margin:0;font-size:11px;line-height:1.7;color:#3D4351">Rótulos dimensionados por conteúdo, nunca por largura fixa. Botões e badges crescem no eixo horizontal e truncam com elipse apenas em último recurso. Zero texto embutido em ícone.</p>
+        </div>
+        <div style="border-left:2px solid #1F3864;padding-left:14px">
+          <h3 style="margin:0 0 6px;font-size:12px;font-weight:600">Acessibilidade</h3>
+          <p style="margin:0;font-size:11px;line-height:1.7;color:#3D4351">WCAG 2.1 AA em texto e componentes. Foco de teclado com contorno de 2px no azul de acento. Status sempre com ícone e rótulo além da cor.</p>
+        </div>
+        <div style="border-left:2px solid #1F3864;padding-left:14px">
+          <h3 style="margin:0 0 6px;font-size:12px;font-weight:600">Números</h3>
+          <p style="margin:0;font-size:11px;line-height:1.7;color:#3D4351">IBM Plex Mono com figuras tabulares para moeda, percentual e contadores. Alinhamento à direita em colunas de valor.</p>
+        </div>
+        <div style="border-left:2px solid #A3402E;padding-left:14px">
+          <h3 style="margin:0 0 6px;font-size:12px;font-weight:600">Fora do sistema</h3>
+          <p style="margin:0;font-size:11px;line-height:1.7;color:#3D4351">Gradientes, ícones preenchidos misturados a outline, emoji na interface, ilustrações de personagem, cantos arredondados acima de 4px, verde ou vermelho saturados.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;language&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;pt-BR&quot;, &quot;en&quot;, &quot;es&quot;], &quot;default&quot;: &quot;pt-BR&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Amostra&quot; },
+  &quot;tabularFigures&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Amostra&quot; },
+  &quot;tallGrid&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Amostra&quot; }
+}">
+const DICT = {
+  "pt-BR": {
+    langName: "Português (Brasil)",
+    stNormal: "Normal", stFocus: "Foco", stDisabled: "Desabilitado",
+    btnPrimary: "Aprovar lançamento", btnSecondary: "Exportar apuração",
+    btnTertiary: "Cancelar", btnDanger: "Excluir registro", btnDetail: "Ver detalhamento",
+    fieldLabel: "Centro de custo", fieldError: "Informe um centro de custo válido (formato CC‑0000).",
+    badgeOk: "Aprovado", badgePending: "Pendente", badgeCritical: "Crítico", badgeInfo: "Informativo",
+    navOrgLabel: "Planta ativa",
+    nav1: "Painel executivo", nav2: "Custos da qualidade", nav3: "Não conformidades",
+    nav4: "Aprovações", nav5: "Relatórios",
+    collapse: "Colapsar navegação",
+    cardTitle: "Custo total da qualidade", cardMeta: "Consolidado de março de 2026 · 3 unidades",
+    kpiLabel: "Trimestre atual", kpiDelta: "vs. trimestre anterior",
+    thCat: "Categoria", thValue: "Valor", thShare: "Part.",
+    rows: [
+      { label: "Falhas internas", value: "R$ 2.104.480", share: "43,7%" },
+      { label: "Falhas externas", value: "R$ 1.286.310", share: "26,7%" },
+      { label: "Avaliação", value: "R$ 902.640", share: "18,8%" },
+      { label: "Prevenção", value: "R$ 519.500", share: "10,8%" }
+    ]
+  },
+  "en": {
+    langName: "English",
+    stNormal: "Normal", stFocus: "Focus", stDisabled: "Disabled",
+    btnPrimary: "Approve entry", btnSecondary: "Export period",
+    btnTertiary: "Cancel", btnDanger: "Delete record", btnDetail: "View breakdown",
+    fieldLabel: "Cost center", fieldError: "Enter a valid cost center (format CC‑0000).",
+    badgeOk: "Approved", badgePending: "Pending", badgeCritical: "Critical", badgeInfo: "Info",
+    navOrgLabel: "Active plant",
+    nav1: "Executive dashboard", nav2: "Cost of quality", nav3: "Non-conformances",
+    nav4: "Approvals", nav5: "Reports",
+    collapse: "Collapse navigation",
+    cardTitle: "Total cost of quality", cardMeta: "March 2026 close · 3 sites",
+    kpiLabel: "Current quarter", kpiDelta: "vs. prior quarter",
+    thCat: "Category", thValue: "Amount", thShare: "Share",
+    rows: [
+      { label: "Internal failure", value: "R$ 2,104,480", share: "43.7%" },
+      { label: "External failure", value: "R$ 1,286,310", share: "26.7%" },
+      { label: "Appraisal", value: "R$ 902,640", share: "18.8%" },
+      { label: "Prevention", value: "R$ 519,500", share: "10.8%" }
+    ]
+  },
+  "es": {
+    langName: "Español",
+    stNormal: "Normal", stFocus: "Enfoque", stDisabled: "Deshabilitado",
+    btnPrimary: "Aprobar registro", btnSecondary: "Exportar periodo",
+    btnTertiary: "Cancelar", btnDanger: "Eliminar registro", btnDetail: "Ver desglose",
+    fieldLabel: "Centro de costo", fieldError: "Indique un centro de costo válido (formato CC‑0000).",
+    badgeOk: "Aprobado", badgePending: "Pendiente", badgeCritical: "Crítico", badgeInfo: "Informativo",
+    navOrgLabel: "Planta activa",
+    nav1: "Panel ejecutivo", nav2: "Costos de la calidad", nav3: "No conformidades",
+    nav4: "Aprobaciones", nav5: "Informes",
+    collapse: "Colapsar navegación",
+    cardTitle: "Costo total de la calidad", cardMeta: "Cierre de marzo de 2026 · 3 plantas",
+    kpiLabel: "Trimestre actual", kpiDelta: "vs. trimestre anterior",
+    thCat: "Categoría", thValue: "Importe", thShare: "Part.",
+    rows: [
+      { label: "Fallos internos", value: "R$ 2.104.480", share: "43,7%" },
+      { label: "Fallos externos", value: "R$ 1.286.310", share: "26,7%" },
+      { label: "Evaluación", value: "R$ 902.640", share: "18,8%" },
+      { label: "Prevención", value: "R$ 519.500", share: "10,8%" }
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    const t = DICT[this.props.language] || DICT["pt-BR"];
+    return {
+      t,
+      rows: t.rows,
+      figures: (this.props.tabularFigures ?? true) ? "tabular-nums" : "proportional-nums",
+      gridHeight: (this.props.tallGrid ?? false) ? "104px" : "56px"
+    };
+  }
+}
+
+</script>
+</body>
+</html>

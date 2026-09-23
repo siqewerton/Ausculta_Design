@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+  }
+  [data-theme="dark"]{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,select,button{font-family:'Archivo',system-ui,sans-serif}
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"></rect>
+    <g stroke-linecap="square" fill="none">
+      <rect x="420" y="180" width="360" height="450" stroke="#131313" stroke-width="26"></rect>
+      <path d="M490 290H710M490 370H710M490 450H640" stroke="#131313" stroke-width="18"></path>
+      <path d="M490 530H600" stroke="#79621F" stroke-width="18"></path>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box">
+
+  <header style="border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20">
+    <div style="max-width:1120px;margin:0 auto;padding:14px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 22px">
+      <a href="Q-Cost AI Landing v2.dc.html" style="display:flex;align-items:center;gap:11px">
+        <svg width="23" height="23" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"></path><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"></path><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"></path><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"></path></svg>
+        <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button type="button" onClick="{{ goBack }}" style="display:flex;align-items:center;gap:8px;height:28px;padding:0 11px;border:1px solid var(--line2);background:transparent;color:var(--ink);font-size:12px;cursor:pointer" style-hover="border-color:var(--ink)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"></path></svg>
+          <span>{{ t.back }}</span>
+        </button>
+        <a href="Q-Cost AI Confianca v2.dc.html" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink)">{{ t.trustCenter }}</a>
+        <div style="display:flex;gap:1px;background:var(--line);flex:none">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ t.themeAria }}" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width:1120px;margin:0 auto;padding:clamp(28px,4vw,52px) clamp(16px,4vw,44px) 96px;display:flex;flex-wrap:wrap;gap:clamp(24px,3.4vw,44px);align-items:flex-start">
+
+    <aside style="flex:0 1 250px;min-width:210px;display:flex;flex-direction:column;gap:18px;position:sticky;top:78px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.docsLabel }}</span>
+        <div style="display:flex;flex-direction:column;border-top:1px solid var(--line)">
+          <sc-for list="{{ docTabs }}" as="d" hint-placeholder-count="3">
+            <button type="button" onClick="{{ d.pick }}" style="text-align:left;border:none;border-bottom:1px solid var(--line);border-left:2px solid {{ d.mark }};background:{{ d.bg }};color:var(--ink);cursor:pointer;padding:12px 13px;display:flex;flex-direction:column;gap:4px" style-hover="background:var(--surf2)">
+              <span style="font-size:13px;line-height:1.35">{{ d.name }}</span>
+              <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)">{{ d.meta }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="border:1px solid var(--line);padding:14px 15px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.sectionsLabel }}</span>
+        <sc-for list="{{ toc }}" as="c" hint-placeholder-count="6">
+          <a href="{{ c.href }}" style="font-size:11.5px;line-height:1.5;color:var(--ink2);display:flex;gap:8px" style-hover="color:var(--ink)">
+            <span style="font-family:'DM Mono',monospace;color:var(--ink3);flex:none">{{ c.n }}</span><span>{{ c.title }}</span>
+          </a>
+        </sc-for>
+      </div>
+    </aside>
+
+    <article style="flex:1 1 480px;min-width:290px;display:flex;flex-direction:column;gap:clamp(20px,2.6vw,30px)">
+      <div style="display:flex;flex-direction:column;gap:13px">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.kicker }}</span>
+        <h1 style="margin:0;font-size:clamp(28px,4vw,42px);font-weight:200;line-height:1.12;letter-spacing:-0.03em">{{ docTitle }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.7;color:var(--ink2);max-width:72ch;text-wrap:pretty">{{ docLead }}</p>
+        <dl style="margin:0;display:flex;flex-wrap:wrap;gap:8px 28px;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">
+          <div style="display:flex;gap:8px"><dt style="margin:0">{{ t.metaVersion }}</dt><dd style="margin:0;color:var(--ink)">{{ docVersion }}</dd></div>
+          <div style="display:flex;gap:8px"><dt style="margin:0">{{ t.metaEffective }}</dt><dd style="margin:0;color:var(--ink)">{{ docEffective }}</dd></div>
+          <div style="display:flex;gap:8px"><dt style="margin:0">{{ t.metaScope }}</dt><dd style="margin:0;color:var(--ink)">{{ docScope }}</dd></div>
+        </dl>
+      </div>
+
+      <div style="border:1px solid var(--line);border-left:2px solid var(--warn);background:var(--surf);padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;color:var(--warn)">{{ t.draftTitle }}</span>
+        <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);max-width:82ch">{{ t.draftBody }}</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:clamp(20px,2.4vw,28px)">
+        <sc-for list="{{ clauses }}" as="c" hint-placeholder-count="7">
+          <section id="{{ c.id }}" style="display:flex;flex-direction:column;gap:11px;padding-bottom:clamp(18px,2.2vw,24px);border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:baseline;gap:11px">
+              <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);flex:none">{{ c.n }}</span>
+              <h2 style="margin:0;font-size:16.5px;font-weight:400;letter-spacing:-0.015em">{{ c.title }}</h2>
+            </div>
+            <p style="margin:0;font-size:13px;line-height:1.75;color:var(--ink2);max-width:74ch;text-wrap:pretty">{{ c.body }}</p>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ c.items }}" as="i" hint-placeholder-count="3">
+                <li style="display:flex;gap:10px;font-size:12.5px;line-height:1.7;color:var(--ink2);max-width:74ch">
+                  <span style="font-family:'DM Mono',monospace;color:var(--ink3);flex:none">&mdash;</span><span>{{ i }}</span>
+                </li>
+              </sc-for>
+            </ul>
+          </section>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <a href="Q-Cost AI Confianca v2.dc.html" style="display:inline-flex;align-items:center;height:34px;padding:0 14px;background:var(--acc);color:var(--accInk);font-size:12.5px" style-hover="opacity:0.88;text-decoration:none">{{ t.backToTrust }}</a>
+        <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);flex:1 1 240px">{{ t.questions }}</span>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;},&quot;language&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pt-BR&quot;,&quot;en&quot;,&quot;es&quot;],&quot;default&quot;:&quot;pt-BR&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;}}">
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() { try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; } }
+function writeTheme(v) { try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {} }
+const LANG_KEY = "qcost-lang-v2";
+function readLang() { try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; } }
+function writeLang(v) { try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {} }
+
+const UI = {
+  "pt-BR": {
+    themeAria:"Alternar tema", back:"Voltar", trustCenter:"Central de confiança",
+    kicker:"Documento legal", docsLabel:"Documentos", sectionsLabel:"Nesta página",
+    metaVersion:"Versão", metaEffective:"Vigência", metaScope:"Aplica-se a",
+    draftTitle:"Rascunho em revisão jurídica",
+    draftBody:"A estrutura e as cláusulas abaixo definem o que cada documento precisa cobrir. O texto final será redigido e revisado pelo jurídico antes de entrar em vigor.",
+    backToTrust:"Voltar à central de confiança",
+    questions:"Dúvidas sobre este documento: juridico@qcost.ai · Encarregado de dados: privacidade@qcost.ai"
+  },
+  en: {
+    themeAria:"Toggle theme", back:"Back", trustCenter:"Trust center",
+    kicker:"Legal document", docsLabel:"Documents", sectionsLabel:"On this page",
+    metaVersion:"Version", metaEffective:"Effective", metaScope:"Applies to",
+    draftTitle:"Draft under legal review",
+    draftBody:"The structure and clauses below define what each document has to cover. The final wording will be drafted and reviewed by legal before it takes effect.",
+    backToTrust:"Back to the trust center",
+    questions:"Questions about this document: juridico@qcost.ai · Data protection officer: privacidade@qcost.ai"
+  },
+  es: {
+    themeAria:"Alternar tema", back:"Volver", trustCenter:"Centro de confianza",
+    kicker:"Documento legal", docsLabel:"Documentos", sectionsLabel:"En esta página",
+    metaVersion:"Versión", metaEffective:"Vigencia", metaScope:"Se aplica a",
+    draftTitle:"Borrador en revisión jurídica",
+    draftBody:"La estructura y las cláusulas de abajo definen lo que cada documento debe cubrir. El texto final será redactado y revisado por el área jurídica antes de entrar en vigor.",
+    backToTrust:"Volver al centro de confianza",
+    questions:"Dudas sobre este documento: juridico@qcost.ai · Encargado de datos: privacidade@qcost.ai"
+  }
+};
+
+const DOCS = {
+  privacidade: {
+    name:"Política de privacidade", meta:"v2.1 · 18/09/2026",
+    title:"Política de privacidade",
+    lead:"Como a Q-Cost AI coleta, usa, compartilha e elimina dados pessoais, e quais direitos você exerce sobre eles. Aplica-se à plataforma, ao site e aos canais de atendimento.",
+    version:"2.1", effective:"18/09/2026", scope:"Plataforma, site e suporte",
+    clauses:[
+      ["Papéis e responsabilidades","A sua organização é controladora dos dados que registra na plataforma: eventos de custo, anexos, identificação de pessoas da equipe e estrutura de plantas. A Q-Cost AI atua como operadora desses dados e como controladora apenas dos dados de conta, faturamento e suporte.",
+        ["O tratamento como operadora é regido pelo acordo de tratamento de dados (DPA).","Instruções de tratamento vêm da sua organização, registradas em contrato."]],
+      ["Dados que tratamos","Coletamos o mínimo necessário para operar o serviço e emitir a cobrança.",
+        ["Dados de conta: nome, e-mail corporativo, cargo, telefone, idioma e fuso.","Dados da organização: razão social, código legal, país, receita de referência, plantas.","Dados de uso: eventos registrados, classificação PAF, anexos, trilha de auditoria.","Dados de faturamento: e-mail financeiro, endereço de cobrança, quatro últimos dígitos do cartão.","Dados técnicos: registros de acesso, endereço IP e identificação do dispositivo."]],
+      ["Finalidades e bases legais","Cada finalidade tem uma base legal documentada no nosso registro de tratamento.",
+        ["Execução do contrato: operar a plataforma, processar eventos e emitir cobrança.","Obrigação legal: guarda fiscal, contábil e atendimento a autoridade competente.","Legítimo interesse: segurança da plataforma, prevenção a fraude e melhoria do serviço.","Consentimento: comunicações de marketing, revogáveis a qualquer momento."]],
+      ["Uso por inteligência artificial","A IA lê o documento enviado para sugerir categoria PAF e valor. O resultado sempre passa por aprovação humana antes de virar apuração.",
+        ["Nenhum dado do cliente é usado para treinar ou ajustar modelos, próprios ou de terceiros.","O provedor de modelo opera com retenção zero e sem uso secundário.","A conta pode desativar a sugestão automática e operar em modo manual."]],
+      ["Compartilhamento","Não vendemos dados pessoais. O compartilhamento se limita a subprocessadores necessários à operação, listados publicamente na central de confiança, e a autoridades quando exigido por lei.",
+        ["Alterações na lista de subprocessadores são comunicadas com 30 dias de antecedência.","Transferências internacionais usam cláusulas contratuais padrão."]],
+      ["Retenção e eliminação","Os dados permanecem enquanto a assinatura estiver ativa. Após o encerramento há uma janela de 12 meses para exportação da apuração.",
+        ["Anexos enviados são eliminados definitivamente no encerramento.","Eliminação irreversível em até 30 dias após o pedido, com comprovante.","Registros exigidos por lei fiscal são mantidos pelo prazo legal."]],
+      ["Direitos do titular","Confirmação, acesso, correção, anonimização, portabilidade, informação sobre compartilhamento e eliminação, com resposta em até 15 dias.",
+        ["Pedidos pelo canal privacidade@qcost.ai ou pela própria plataforma.","Pedidos sobre dados registrados pela sua organização são encaminhados a ela."]],
+      ["Segurança e incidentes","Controles técnicos e organizacionais descritos na política de segurança. Incidente de segurança relevante é notificado em até 48 horas, com o que aconteceu, o que foi afetado e o que foi feito.", []],
+      ["Alterações desta política","Mudanças materiais são comunicadas por e-mail ao administrador da conta e registradas no histórico da central de confiança, com 30 dias de antecedência.", []]
+    ]
+  },
+  termos: {
+    name:"Termos de uso", meta:"v2.0 · 18/09/2026",
+    title:"Termos de uso",
+    lead:"Condições que regem a contratação e o uso da plataforma Q-Cost AI: escopo do serviço, cota de eventos, responsabilidades de cada parte, pagamento e encerramento.",
+    version:"2.0", effective:"18/09/2026", scope:"Todos os planos",
+    clauses:[
+      ["Objeto do serviço","A Q-Cost AI é uma plataforma de apuração de custos da qualidade sobre a estrutura PAF, com leitura assistida por IA, painéis, relatórios e trilha de auditoria.",
+        ["A classificação sugerida pela IA é apoio à decisão, não parecer contábil ou fiscal.","A responsabilidade pela conferência e aprovação de cada lançamento é da sua equipe."]],
+      ["Conta e acesso","O administrador da conta responde pela criação de usuários, pelos níveis de permissão e pelo uso das credenciais.",
+        ["Autenticação em dois fatores é obrigatória para perfis administrativos.","Compartilhar credenciais entre pessoas viola estes termos."]],
+      ["Cota de eventos e cobrança","O plano define a cota mensal de eventos ingeridos pela IA. A cobrança é por evento processado, não por usuário.",
+        ["Usuários são ilimitados em todos os planos.","Eventos acima da cota são cobrados por excedente ou bloqueados, conforme a configuração da conta.","A mudança de plano vale a partir do ciclo seguinte e nenhum evento já apurado é perdido."]],
+      ["Pagamento e inadimplência","O pagamento segue a forma escolhida no cadastro: cartão, boleto, Pix ou faturamento por contrato.",
+        ["Atraso superior a 15 dias suspende a ingestão de novos eventos.","O acesso de leitura e exportação é preservado durante a suspensão.","Valores não incluem impostos aplicáveis."]],
+      ["Propriedade dos dados","Os dados registrados pela sua organização são e continuam sendo dela. A Q-Cost AI não reivindica propriedade sobre eventos, anexos ou apurações.",
+        ["Exportação completa em CSV disponível durante toda a assinatura.","A plataforma, o código e a metodologia de produto permanecem da SIQ Systems."]],
+      ["Uso aceitável","É vedado tentar burlar limites de cota, realizar engenharia reversa, revender acesso ou enviar conteúdo ilícito.",
+        ["Testes de segurança exigem autorização prévia por escrito.","Violação apurada pode suspender a conta mediante aviso."]],
+      ["Nível de serviço","Disponibilidade contratada de 99,5% por mês civil nos planos Pro e Enterprise, com crédito proporcional em caso de descumprimento.",
+        ["Manutenção programada é avisada com 72 horas de antecedência.","O histórico de incidentes fica na página pública de status."]],
+      ["Encerramento","Qualquer das partes pode encerrar ao fim do ciclo vigente, sem multa.",
+        ["Após o encerramento, 12 meses de janela de exportação.","Anexos enviados são eliminados definitivamente, conforme a política de privacidade."]],
+      ["Foro e legislação","Estes termos são regidos pela legislação brasileira, com foro na comarca de Curitiba (PR), salvo condição diversa acordada em contrato Enterprise.", []]
+    ]
+  },
+  dpa: {
+    name:"Acordo de tratamento (DPA)", meta:"v1.3 · 18/09/2026",
+    title:"Acordo de tratamento de dados",
+    lead:"Anexo contratual que rege o tratamento de dados pessoais pela Q-Cost AI na condição de operadora, por conta e ordem da sua organização.",
+    version:"1.3", effective:"18/09/2026", scope:"Anexo ao contrato",
+    clauses:[
+      ["Objeto e duração","A Q-Cost AI trata dados pessoais exclusivamente para prestar o serviço contratado, pelo prazo da assinatura e pelo período de retenção posterior acordado.", []],
+      ["Natureza e finalidade do tratamento","Armazenamento, organização, leitura assistida por IA, geração de indicadores e disponibilização de exportação, sempre conforme instrução documentada da controladora.", []],
+      ["Categorias de titulares e de dados","Pessoas da equipe da controladora e, eventualmente, pessoas identificadas em documentos anexados.",
+        ["Dados de identificação e contato profissional.","Dados funcionais: cargo, planta, permissões e ações registradas.","Conteúdo de documentos anexados pela equipe."]],
+      ["Obrigações da operadora","Compromissos assumidos pela Q-Cost AI enquanto durar o tratamento.",
+        ["Tratar dados apenas conforme instrução documentada da controladora.","Garantir confidencialidade de quem tem acesso, por vínculo contratual.","Implementar as medidas técnicas e organizacionais descritas no anexo de segurança.","Auxiliar a controladora no atendimento a direitos do titular e a autoridades.","Notificar incidente de segurança relevante em até 48 horas.","Eliminar ou devolver os dados ao fim do contrato, à escolha da controladora."]],
+      ["Subprocessadores","A controladora autoriza os subprocessadores listados publicamente na central de confiança.",
+        ["Inclusão ou substituição é comunicada com 30 dias de antecedência.","A controladora pode se opor por escrito, com direito de rescisão sem ônus.","A operadora responde pelos atos dos seus subprocessadores."]],
+      ["Transferência internacional","Quando houver tratamento fora do país, aplicam-se cláusulas contratuais padrão e avaliação de impacto da transferência.",
+        ["O provedor de modelo de IA opera com retenção zero.","A hospedagem principal permanece em território nacional."]],
+      ["Auditoria","A controladora pode auditar o cumprimento deste acordo uma vez por ano, com aviso de 30 dias, ou aceitar os relatórios e certificações disponibilizados sob NDA.", []],
+      ["Eliminação ao término","Concluído o contrato e a janela de exportação, os dados pessoais são eliminados de forma irreversível em até 30 dias, incluindo cópias de backup, com emissão de comprovante.", []]
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  state = { theme: readTheme(), lang: null, doc: "privacidade" };
+
+  componentDidMount() {
+    const h = (window.location.hash || "").replace("#", "");
+    if (DOCS[h]) this.setState({ doc: h });
+  }
+
+  renderVals() {
+    const theme = this.state.theme || this.props.theme || "light";
+    const lang = this.state.lang || readLang() || this.props.language || "pt-BR";
+    const t = UI[lang] || UI["pt-BR"];
+    const onL = (k) => () => { writeLang(k); this.setState({ lang: k }); };
+    const abg = (on) => (on ? "var(--acc)" : "var(--bg)");
+    const afg = (on) => (on ? "var(--accInk)" : "var(--ink2)");
+    const docId = DOCS[this.state.doc] ? this.state.doc : "privacidade";
+    const doc = DOCS[docId];
+
+    return {
+      t, theme,
+      setPt: onL("pt-BR"), setEn: onL("en"), setEs: onL("es"),
+      ptBg: abg(lang === "pt-BR"), ptFg: afg(lang === "pt-BR"),
+      enBg: abg(lang === "en"), enFg: afg(lang === "en"),
+      esBg: abg(lang === "es"), esFg: afg(lang === "es"),
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+      goBack: () => { if (window.history.length > 1) { window.history.back(); } else { window.location.href = "Q-Cost AI Confianca v2.dc.html"; } },
+
+      docTabs: Object.keys(DOCS).map((id) => ({
+        name: DOCS[id].name, meta: DOCS[id].meta,
+        pick: () => this.setState({ doc: id }),
+        bg: id === docId ? "var(--surf2)" : "transparent",
+        mark: id === docId ? "var(--ink)" : "transparent"
+      })),
+
+      docTitle: doc.title, docLead: doc.lead,
+      docVersion: doc.version, docEffective: doc.effective, docScope: doc.scope,
+
+      toc: doc.clauses.map((c, i) => ({ n: String(i + 1).padStart(2, "0"), title: c[0], href: "#" + docId + "-" + (i + 1) })),
+      clauses: doc.clauses.map((c, i) => ({
+        id: docId + "-" + (i + 1),
+        n: String(i + 1).padStart(2, "0"),
+        title: c[0], body: c[1], items: c[2] || []
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>

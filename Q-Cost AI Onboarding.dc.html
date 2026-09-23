@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  body { margin: 0; background: #F4F5F7; -webkit-font-smoothing: antialiased; }
+  a { color: #2E74B5; text-decoration: none; }
+  a:hover { color: #24608F; text-decoration: underline; text-underline-offset: 2px; }
+  *:focus-visible { outline: 2px solid #2E74B5; outline-offset: 2px; }
+  input, select { font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',system-ui,sans-serif;color:#1A1A1A;background:#F4F5F7;min-height:100vh;box-sizing:border-box">
+
+  <header style="background:#FFFFFF;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1080px;margin:0 auto;padding:12px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <svg width="24" height="24" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="#1F3864" stroke-width="3.5"/><path d="M6 22H30" stroke="#1F3864" stroke-width="3.5"/><path d="M6 32.5H20" stroke="#2E74B5" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="#2E74B5" stroke-width="3.5"/></svg>
+        <span style="font-size:15px;font-weight:600;color:#1F3864;white-space:nowrap">Q&#8209;Cost<span style="color:#2E74B5"> AI</span></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span style="font-size:12px;color:#6B7280">Já tem conta?</span>
+        <a href="#entrar" style="font-size:12px;font-weight:500;color:#2E74B5">Entrar</a>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,36px) clamp(16px,4vw,32px) 64px;display:flex;flex-direction:column;gap:24px">
+
+    <nav aria-label="Progresso do cadastro" style="background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;padding:16px clamp(16px,2.5vw,20px);display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 20px">
+      <button type="button" onClick="{{ go1 }}" style="font-family:inherit;text-align:left;background:none;border:none;padding:0;cursor:pointer;display:flex;flex-direction:column;gap:8px">
+        <span style="height:3px;background:{{ bar1 }};display:block"></span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;flex:none;background:{{ mark1 }};border:1px solid {{ markBorder1 }}"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:{{ num1 }}">01</span>
+          <span style="font-size:12px;font-weight:600;color:{{ label1 }}">Criar conta</span>
+        </span>
+      </button>
+      <button type="button" onClick="{{ go2 }}" style="font-family:inherit;text-align:left;background:none;border:none;padding:0;cursor:{{ cursor2 }};display:flex;flex-direction:column;gap:8px">
+        <span style="height:3px;background:{{ bar2 }};display:block"></span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;flex:none;background:{{ mark2 }};border:1px solid {{ markBorder2 }}"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:{{ num2 }}">02</span>
+          <span style="font-size:12px;font-weight:600;color:{{ label2 }}">Escolha seu plano</span>
+        </span>
+      </button>
+      <button type="button" onClick="{{ go3 }}" style="font-family:inherit;text-align:left;background:none;border:none;padding:0;cursor:{{ cursor3 }};display:flex;flex-direction:column;gap:8px">
+        <span style="height:3px;background:{{ bar3 }};display:block"></span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span style="width:10px;height:10px;flex:none;background:{{ mark3 }};border:1px solid {{ markBorder3 }}"></span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:{{ num3 }}">03</span>
+          <span style="font-size:12px;font-weight:600;color:{{ label3 }}">Confirmação</span>
+        </span>
+      </button>
+    </nav>
+
+    <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+        <section style="flex:1 1 440px;min-width:290px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px">
+          <header style="padding:20px clamp(18px,2.5vw,24px);border-bottom:1px solid #E5E7EB">
+            <h1 style="margin:0 0 6px;font-size:clamp(20px,2.6vw,24px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">Criar conta</h1>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:#3D4351">Dados da pessoa que administrará a conta e da organização que será medida.</p>
+          </header>
+
+          <div style="padding:clamp(18px,2.5vw,24px);display:flex;flex-direction:column;gap:18px">
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-name" style="font-size:11px;font-weight:600;color:#3D4351">Nome completo</label>
+              <input id="ob-name" type="text" value="{{ fullName }}" onChange="{{ onFullName }}" placeholder="Ana Ribeiro Camargo" style="font-size:13px;height:38px;padding:0 10px;border:1px solid {{ bName }};border-radius:2px;background:{{ bgName }};color:#1A1A1A;width:100%;box-sizing:border-box">
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-email" style="font-size:11px;font-weight:600;color:#3D4351">E&#8209;mail corporativo</label>
+              <input id="ob-email" type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="ana.camargo@empresa.com.br" style="font-size:13px;height:38px;padding:0 10px;border:1px solid {{ bEmail }};border-radius:2px;background:{{ bgEmail }};color:#1A1A1A;width:100%;box-sizing:border-box">
+              <span style="font-size:11px;line-height:1.5;color:{{ cEmailHelp }}">{{ emailHelp }}</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-pass" style="font-size:11px;font-weight:600;color:#3D4351">Senha</label>
+              <input id="ob-pass" type="password" value="{{ password }}" onChange="{{ onPassword }}" placeholder="Mínimo de 8 caracteres" style="font-size:13px;height:38px;padding:0 10px;border:1px solid {{ bPass }};border-radius:2px;background:{{ bgPass }};color:#1A1A1A;width:100%;box-sizing:border-box">
+              <span style="font-size:11px;line-height:1.5;color:{{ cPassHelp }}">{{ passHelp }}</span>
+            </div>
+
+            <div style="height:1px;background:#E5E7EB"></div>
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-org" style="font-size:11px;font-weight:600;color:#3D4351">Nome da organização</label>
+              <input id="ob-org" type="text" value="{{ org }}" onChange="{{ onOrg }}" placeholder="Metalúrgica Paranaense S.A." style="font-size:13px;height:38px;padding:0 10px;border:1px solid {{ bOrg }};border-radius:2px;background:{{ bgOrg }};color:#1A1A1A;width:100%;box-sizing:border-box">
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px">
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-seg" style="font-size:11px;font-weight:600;color:#3D4351">Segmento industrial</label>
+                <select id="ob-seg" value="{{ segment }}" onChange="{{ onSegment }}" style="font-size:13px;height:38px;padding:0 8px;border:1px solid {{ bSeg }};border-radius:2px;background:{{ bgSeg }};color:#1A1A1A;width:100%;box-sizing:border-box">
+                  <option value="">Selecione o segmento</option>
+                  <option value="discreta">Manufatura discreta</option>
+                  <option value="alimentos">Alimentos e bebidas</option>
+                  <option value="regulada">Indústria regulada — farmacêutico, químico, dispositivos médicos</option>
+                  <option value="outro">Outro</option>
+                </select>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-country" style="font-size:11px;font-weight:600;color:#3D4351">País e idioma preferido</label>
+                <select id="ob-country" value="{{ country }}" onChange="{{ onCountry }}" style="font-size:13px;height:38px;padding:0 8px;border:1px solid #D8DBE0;border-radius:2px;background:#FFFFFF;color:#1A1A1A;width:100%;box-sizing:border-box">
+                  <option value="br">Brasil — Português (pt&#8209;BR)</option>
+                  <option value="us">Estados Unidos — English</option>
+                  <option value="mx">México — Español</option>
+                  <option value="es">Espanha — Español</option>
+                  <option value="pt">Portugal — Português</option>
+                  <option value="other">Outro país</option>
+                </select>
+              </div>
+            </div>
+
+            <sc-if value="{{ hasErrors }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #A3402E;background:#F9EBE8;padding:12px 14px;display:flex;gap:10px;align-items:flex-start">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A3526" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:1px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+                <span style="font-size:12px;line-height:1.6;color:#8A3526">{{ errorSummary }}</span>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding-top:2px">
+              <button type="button" onClick="{{ next }}" style="font-family:inherit;font-size:14px;font-weight:500;height:44px;padding:0 20px;border-radius:2px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;cursor:pointer" style-hover="background:#16294A;border-color:#16294A">Continuar para os planos</button>
+              <a href="#voltar" style="font-size:13px;color:#6B7280">Voltar para a página inicial</a>
+            </div>
+
+          </div>
+        </section>
+
+        <aside style="flex:1 1 280px;min-width:260px;display:flex;flex-direction:column;gap:20px">
+          <section style="background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;padding:20px;display:flex;flex-direction:column;gap:14px">
+            <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Entrar com SSO corporativo</h2>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:#3D4351">Use o diretório da sua empresa. O provedor devolve nome e e&#8209;mail; você completa apenas os dados da organização.</p>
+            <button type="button" onClick="{{ ssoGoogle }}" style="font-family:inherit;font-size:13px;font-weight:500;height:40px;padding:0 12px;border-radius:2px;background:#FFFFFF;color:#1F3864;border:1px solid #1F3864;cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left" style-hover="background:#E8EDF5">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
+              <span style="flex:1">Continuar com Google Workspace</span>
+            </button>
+            <button type="button" onClick="{{ ssoMicrosoft }}" style="font-family:inherit;font-size:13px;font-weight:500;height:40px;padding:0 12px;border-radius:2px;background:#FFFFFF;color:#1F3864;border:1px solid #1F3864;cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left" style-hover="background:#E8EDF5">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+              <span style="flex:1">Continuar com Microsoft Entra ID</span>
+            </button>
+            <p style="margin:0;font-size:11px;line-height:1.6;color:#6B7280;padding-top:12px;border-top:1px solid #E5E7EB">SAML e SCIM para provisionamento em lote estão disponíveis no plano Enterprise.</p>
+          </section>
+
+          <section style="border:1px solid #D8DBE0;border-left:2px solid #2E74B5;background:#FFFFFF;padding:18px;display:flex;flex-direction:column;gap:10px">
+            <h2 style="margin:0;font-size:12px;font-weight:600">Depois do cadastro</h2>
+            <ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px">
+              <li style="font-size:12px;line-height:1.6;color:#3D4351">Escolha o template de estrutura de custos (PAF Essencial ou Manufatura Discreta).</li>
+              <li style="font-size:12px;line-height:1.6;color:#3D4351">Convide o time da qualidade, produção e controladoria.</li>
+              <li style="font-size:12px;line-height:1.6;color:#3D4351">Importe os primeiros documentos e aprove a classificação da IA.</li>
+            </ol>
+          </section>
+        </aside>
+
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+      <section style="display:flex;flex-direction:column;gap:20px">
+        <header style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end">
+          <div style="max-width:56ch">
+            <h1 style="margin:0 0 6px;font-size:clamp(20px,2.6vw,24px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">Escolha seu plano</h1>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:#3D4351">A cobrança é por evento de custo da qualidade ingerido pela IA no mês, não por usuário. Convide quantas pessoas quiser em qualquer plano.</p>
+          </div>
+          <p style="margin:0;font-size:11px;line-height:1.6;color:#6B7280;max-width:32ch;border-left:2px solid #D8DBE0;padding-left:12px">Faixas e valores provisórios, a confirmar com a liderança da SIQ antes do lançamento.</p>
+        </header>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:stretch">
+          <sc-for list="{{ plans }}" as="p" hint-placeholder-count="4">
+            <article style="background:#FFFFFF;border:{{ p.border }};border-radius:2px;display:flex;flex-direction:column">
+              <span style="height:4px;background:{{ p.strip }};display:block"></span>
+              <div style="padding:{{ p.pad }};display:flex;flex-direction:column;gap:14px;flex:1">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+                  <h2 style="margin:0;font-size:17px;font-weight:600;color:#1F3864">{{ p.name }}</h2>
+                  <span style="font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:{{ p.badgeFg }};background:{{ p.badgeBg }};border:1px solid {{ p.badgeBorder }};padding:2px 6px">{{ p.badge }}</span>
+                </div>
+                <div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:600;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1.2;color:#1A1A1A">{{ p.price }}</div>
+                  <div style="font-size:11px;color:#6B7280;margin-top:3px">{{ p.priceNote }}</div>
+                </div>
+                <div style="border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:11px 0">
+                  <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280">Eventos por mês</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:3px">{{ p.events }}</div>
+                </div>
+                <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1">
+                  <sc-for list="{{ p.features }}" as="f" hint-placeholder-count="4">
+                    <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351">
+                      <span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ f }}</span>
+                    </li>
+                  </sc-for>
+                </ul>
+                <button type="button" onClick="{{ p.select }}" style="font-family:inherit;font-size:13px;font-weight:500;height:40px;padding:0 14px;border-radius:2px;background:{{ p.btnBg }};color:{{ p.btnFg }};border:1px solid {{ p.btnBorder }};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+                  <span>{{ p.btnLabel }}</span>
+                </button>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+
+        <p style="margin:0;font-size:12px;line-height:1.65;color:#3D4351;border:1px solid #D8DBE0;background:#FFFFFF;padding:14px 16px">Você pode trocar de plano quando quiser, em Configurações &rsaquo; Assinatura. A mudança vale a partir do ciclo seguinte e nenhum evento já apurado é perdido.</p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <button type="button" onClick="{{ next }}" style="font-family:inherit;font-size:14px;font-weight:500;height:44px;padding:0 20px;border-radius:2px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;cursor:pointer" style-hover="background:#16294A;border-color:#16294A">Revisar e confirmar</button>
+          <button type="button" onClick="{{ back }}" style="font-family:inherit;font-size:13px;font-weight:500;height:44px;padding:0 14px;border-radius:2px;background:transparent;color:#2E74B5;border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#EAF2FA;color:#24608F">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"/></svg>
+            <span>Voltar</span>
+          </button>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+        <section style="flex:1 1 420px;min-width:290px;background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px">
+          <header style="padding:20px clamp(18px,2.5vw,24px);border-bottom:1px solid #E5E7EB">
+            <h1 style="margin:0 0 6px;font-size:clamp(20px,2.6vw,24px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">Confirme antes de finalizar</h1>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:#3D4351">Revise os dados. Qualquer item pode ser corrigido pelo indicador de etapas acima.</p>
+          </header>
+
+          <div style="padding:clamp(18px,2.5vw,24px);display:flex;flex-direction:column;gap:22px">
+
+            <div>
+              <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px">
+                <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Organização</h2>
+                <button type="button" onClick="{{ go1 }}" style="font-family:inherit;font-size:12px;font-weight:500;background:none;border:none;padding:0;color:#2E74B5;cursor:pointer">Editar</button>
+              </div>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 20px;font-size:12px">
+                <dt style="margin:0;color:#6B7280">Nome</dt><dd style="margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere">{{ orgOut }}</dd>
+                <dt style="margin:0;color:#6B7280">Segmento</dt><dd style="margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere">{{ segmentOut }}</dd>
+                <dt style="margin:0;color:#6B7280">País e idioma</dt><dd style="margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere">{{ countryOut }}</dd>
+              </dl>
+            </div>
+
+            <div style="height:1px;background:#E5E7EB"></div>
+
+            <div>
+              <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px">
+                <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Administrador da conta</h2>
+                <button type="button" onClick="{{ go1 }}" style="font-family:inherit;font-size:12px;font-weight:500;background:none;border:none;padding:0;color:#2E74B5;cursor:pointer">Editar</button>
+              </div>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 20px;font-size:12px">
+                <dt style="margin:0;color:#6B7280">Nome</dt><dd style="margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere">{{ fullNameOut }}</dd>
+                <dt style="margin:0;color:#6B7280">E&#8209;mail</dt><dd style="margin:0;font-weight:500;min-width:0;overflow-wrap:anywhere">{{ emailOut }}</dd>
+                <dt style="margin:0;color:#6B7280">Acesso</dt><dd style="margin:0;font-weight:500;min-width:0">{{ accessOut }}</dd>
+              </dl>
+            </div>
+
+            <div style="height:1px;background:#E5E7EB"></div>
+
+            <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer">
+              <input type="checkbox" checked="{{ terms }}" onChange="{{ onTerms }}" style="width:15px;height:15px;margin:2px 0 0;accent-color:#1F3864;flex:none">
+              <span style="font-size:12px;line-height:1.6;color:#3D4351">Aceito os <a href="#termos">termos de uso</a> e a <a href="#privacidade">política de privacidade</a>, incluindo o tratamento de dados conforme a LGPD.</span>
+            </label>
+
+            <sc-if value="{{ termsError }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #A3402E;background:#F9EBE8;padding:12px 14px;display:flex;gap:10px;align-items:flex-start">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A3526" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:1px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+                <span style="font-size:12px;line-height:1.6;color:#8A3526">É necessário aceitar os termos de uso para criar a conta.</span>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+              <button type="button" onClick="{{ submit }}" style="font-family:inherit;font-size:14px;font-weight:500;height:44px;padding:0 20px;border-radius:2px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;cursor:pointer" style-hover="background:#16294A;border-color:#16294A">Criar minha conta</button>
+              <button type="button" onClick="{{ back }}" style="font-family:inherit;font-size:13px;font-weight:500;height:44px;padding:0 14px;border-radius:2px;background:transparent;color:#2E74B5;border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:#EAF2FA;color:#24608F">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"/></svg>
+                <span>Voltar</span>
+              </button>
+            </div>
+
+          </div>
+        </section>
+
+        <aside style="flex:1 1 300px;min-width:270px;background:#FFFFFF;border:2px solid #1F3864;border-radius:2px">
+          <header style="padding:16px 20px;border-bottom:1px solid #E5E7EB;display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <h2 style="margin:0;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#1F3864">Plano escolhido</h2>
+            <button type="button" onClick="{{ go2 }}" style="font-family:inherit;font-size:12px;font-weight:500;background:none;border:none;padding:0;color:#2E74B5;cursor:pointer">Trocar</button>
+          </header>
+          <div style="padding:20px;display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div style="font-size:19px;font-weight:600;color:#1F3864">{{ chosenName }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;margin-top:6px">{{ chosenPrice }}</div>
+              <div style="font-size:11px;color:#6B7280;margin-top:3px">{{ chosenPriceNote }}</div>
+            </div>
+            <div style="border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:12px 0">
+              <div style="font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:#6B7280">Eventos incluídos por mês</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:4px">{{ chosenEvents }}</div>
+            </div>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ chosenFeatures }}" as="f" hint-placeholder-count="4">
+                <li style="display:flex;gap:9px;font-size:12px;line-height:1.55;color:#3D4351">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2F6B4F" stroke-width="2.25" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+                  <span>{{ f }}</span>
+                </li>
+              </sc-for>
+            </ul>
+            <p style="margin:0;font-size:11px;line-height:1.6;color:#6B7280;padding-top:14px;border-top:1px solid #E5E7EB">{{ chosenNote }}</p>
+          </div>
+        </aside>
+
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <section style="background:#FFFFFF;border:1px solid #D8DBE0;border-top:3px solid #2F6B4F;border-radius:2px;padding:clamp(24px,4vw,40px);display:flex;flex-direction:column;gap:16px;max-width:640px">
+        <span style="display:inline-flex;align-items:center;gap:8px;height:24px;padding:0 8px;border:1px solid #2F6B4F;background:#EAF2ED;color:#215039;font-size:11px;font-weight:600;align-self:flex-start">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#215039" stroke-width="2.25" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>Conta criada
+        </span>
+        <h1 style="margin:0;font-size:clamp(20px,2.6vw,24px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">{{ doneTitle }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.65;color:#3D4351;max-width:56ch">Enviamos a confirmação para {{ emailOut }}. O próximo passo é escolher o template de estrutura de custos da qualidade e importar os primeiros documentos.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:4px">
+          <a href="#template" style="display:inline-flex;align-items:center;height:44px;padding:0 20px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;border-radius:2px;font-size:14px;font-weight:500" style-hover="background:#16294A;border-color:#16294A;color:#FFFFFF;text-decoration:none">Escolher template PAF</a>
+          <button type="button" onClick="{{ restart }}" style="font-family:inherit;font-size:13px;font-weight:500;height:44px;padding:0 14px;border-radius:2px;background:transparent;color:#2E74B5;border:1px solid transparent;cursor:pointer" style-hover="background:#EAF2FA;color:#24608F">Recomeçar o fluxo</button>
+        </div>
+      </section>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1180, &quot;height&quot;: 900 }
+}">
+const SEGMENTS = {
+  "": "—",
+  discreta: "Manufatura discreta",
+  alimentos: "Alimentos e bebidas",
+  regulada: "Indústria regulada — farmacêutico, químico, dispositivos médicos",
+  outro: "Outro"
+};
+
+const COUNTRIES = {
+  br: "Brasil — Português (pt-BR)",
+  us: "Estados Unidos — English",
+  mx: "México — Español",
+  es: "Espanha — Español",
+  pt: "Portugal — Português",
+  other: "Outro país"
+};
+
+const PLANS = [
+  {
+    id: "free", name: "Free", price: "R$ 0", priceNote: "gratuito permanente",
+    events: "até 25", badge: "Avaliação",
+    features: ["Template PAF Essencial", "Dashboard COQ e COPQ", "Usuários ilimitados", "Histórico de 6 meses"],
+    note: "Sem cartão de crédito. Ideal para validar a metodologia em uma linha de produção."
+  },
+  {
+    id: "basic", name: "Basic", price: "R$ 890", priceNote: "por mês",
+    events: "até 150", badge: "Uma planta",
+    features: ["Importação de PDF e planilhas", "Exportação da apuração", "Histórico completo", "Suporte por e-mail"],
+    note: "Dimensionado para uma planta com rotina mensal de apuração."
+  },
+  {
+    id: "pro", name: "Pro", price: "R$ 2.490", priceNote: "por mês",
+    events: "até 600", badge: "Mais escolhido",
+    features: ["Múltiplas plantas e centros de custo", "Rastreabilidade e log de auditoria", "Alertas por faixa de custo", "Suporte prioritário"],
+    note: "Cobre auditoria interna e certificação IATF 16949, AS9100 ou ISO 13485."
+  },
+  {
+    id: "enterprise", name: "Enterprise", price: "Fale conosco", priceNote: "volume negociado por contrato",
+    events: "sob contrato", badge: "Corporativo",
+    features: ["API REST e MCP para ERP e agentes", "SSO com SAML e SCIM", "Política de retenção própria", "Plano de implantação dedicado"],
+    note: "Inclui desenho da integração com o QMS e o ERP já em uso."
+  }
+];
+
+class Component extends DCLogic {
+  state = {
+    step: 1, maxStep: 1, submitted: false, showErrors: false, termsError: false,
+    plan: "pro", terms: false, sso: null,
+    fullName: "", email: "", password: "", org: "", segment: "", country: "br"
+  };
+
+  set(key) {
+    return (e) => this.setState({ [key]: e.target.value });
+  }
+
+  invalid() {
+    const s = this.state;
+    const bad = {};
+    if (!s.fullName.trim()) bad.fullName = true;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.email.trim())) bad.email = true;
+    if (s.password.length < 8) bad.password = true;
+    if (!s.org.trim()) bad.org = true;
+    if (!s.segment) bad.segment = true;
+    return bad;
+  }
+
+  go(n) {
+    return () => {
+      if (n > this.state.maxStep) return;
+      this.setState({ step: n, submitted: false });
+    };
+  }
+
+  next = () => {
+    const s = this.state;
+    if (s.step === 1) {
+      const bad = this.invalid();
+      if (Object.keys(bad).length) { this.setState({ showErrors: true }); return; }
+      this.setState({ step: 2, maxStep: Math.max(s.maxStep, 2), showErrors: false });
+    } else if (s.step === 2) {
+      this.setState({ step: 3, maxStep: Math.max(s.maxStep, 3) });
+    }
+  };
+
+  back = () => this.setState((s) => ({ step: Math.max(1, s.step - 1) }));
+
+  submit = () => {
+    if (!this.state.terms) { this.setState({ termsError: true }); return; }
+    this.setState({ submitted: true, termsError: false });
+  };
+
+  restart = () => this.setState({
+    step: 1, maxStep: 1, submitted: false, showErrors: false, termsError: false,
+    plan: "pro", terms: false, sso: null,
+    fullName: "", email: "", password: "", org: "", segment: "", country: "br"
+  });
+
+  sso(provider) {
+    return () => this.setState({
+      sso: provider,
+      fullName: this.state.fullName || "Ana Ribeiro Camargo",
+      email: this.state.email || "ana.camargo@empresa.com.br",
+      password: this.state.password || "sso-provisionado",
+      showErrors: false
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const bad = s.showErrors ? this.invalid() : {};
+    const err = (k) => (bad[k] ? "#A3402E" : "#D8DBE0");
+    const errBg = (k) => (bad[k] ? "#FDF7F6" : "#FFFFFF");
+    const chosen = PLANS.find((p) => p.id === s.plan) || PLANS[2];
+
+    const stepState = (n) => {
+      if (s.submitted) return "done";
+      if (n === s.step) return "current";
+      if (n < s.step || n <= s.maxStep) return "done";
+      return "pending";
+    };
+    const st = [1, 2, 3].map(stepState);
+    const bar = (k) => (k === "current" ? "#1F3864" : k === "done" ? "#2E74B5" : "#E5E7EB");
+    const mark = (k) => (k === "pending" ? "#FFFFFF" : k === "current" ? "#1F3864" : "#2E74B5");
+    const markB = (k) => (k === "pending" ? "#9CA3AF" : mark(k));
+    const lab = (k) => (k === "pending" ? "#9CA3AF" : k === "current" ? "#1A1A1A" : "#3D4351");
+    const num = (k) => (k === "pending" ? "#9CA3AF" : "#2E74B5");
+
+    return {
+      isStep1: !s.submitted && s.step === 1,
+      isStep2: !s.submitted && s.step === 2,
+      isStep3: !s.submitted && s.step === 3,
+      isDone: s.submitted,
+
+      bar1: bar(st[0]), bar2: bar(st[1]), bar3: bar(st[2]),
+      mark1: mark(st[0]), mark2: mark(st[1]), mark3: mark(st[2]),
+      markBorder1: markB(st[0]), markBorder2: markB(st[1]), markBorder3: markB(st[2]),
+      label1: lab(st[0]), label2: lab(st[1]), label3: lab(st[2]),
+      num1: num(st[0]), num2: num(st[1]), num3: num(st[2]),
+      cursor2: s.maxStep >= 2 ? "pointer" : "not-allowed",
+      cursor3: s.maxStep >= 3 ? "pointer" : "not-allowed",
+      go1: this.go(1), go2: this.go(2), go3: this.go(3),
+
+      fullName: s.fullName, email: s.email, password: s.password, org: s.org,
+      segment: s.segment, country: s.country, terms: s.terms,
+      onFullName: this.set("fullName"), onEmail: this.set("email"),
+      onPassword: this.set("password"), onOrg: this.set("org"),
+      onSegment: this.set("segment"), onCountry: this.set("country"),
+      onTerms: (e) => this.setState({ terms: e.target.checked, termsError: false }),
+      ssoGoogle: this.sso("Google Workspace"), ssoMicrosoft: this.sso("Microsoft Entra ID"),
+
+      bName: err("fullName"), bEmail: err("email"), bPass: err("password"),
+      bOrg: err("org"), bSeg: err("segment"),
+      bgName: errBg("fullName"), bgEmail: errBg("email"), bgPass: errBg("password"),
+      bgOrg: errBg("org"), bgSeg: errBg("segment"),
+      emailHelp: bad.email ? "Informe um e-mail corporativo válido." : "Use o domínio da empresa — o domínio identifica a organização.",
+      cEmailHelp: bad.email ? "#A3402E" : "#6B7280",
+      passHelp: bad.password ? "A senha precisa de no mínimo 8 caracteres." : "Mínimo de 8 caracteres, com letras e números.",
+      cPassHelp: bad.password ? "#A3402E" : "#6B7280",
+      hasErrors: Object.keys(bad).length > 0,
+      errorSummary: "Revise os campos destacados para continuar. Nenhum dado foi perdido.",
+
+      next: this.next, back: this.back, submit: this.submit, restart: this.restart,
+      termsError: s.termsError,
+
+      plans: PLANS.map((p) => {
+        const sel = p.id === s.plan;
+        const pro = p.id === "pro";
+        return {
+          ...p,
+          border: sel || pro ? "2px solid #1F3864" : "1px solid #D8DBE0",
+          pad: sel || pro ? "19px" : "20px",
+          strip: sel ? "#1F3864" : "transparent",
+          badgeFg: pro ? "#FFFFFF" : "#3D4351",
+          badgeBg: pro ? "#1F3864" : "#F4F5F7",
+          badgeBorder: pro ? "#1F3864" : "#D8DBE0",
+          btnBg: sel ? "#1F3864" : "#FFFFFF",
+          btnFg: sel ? "#FFFFFF" : "#1F3864",
+          btnBorder: "#1F3864",
+          btnLabel: sel ? "Plano selecionado" : "Selecionar " + p.name,
+          select: () => this.setState({ plan: p.id })
+        };
+      }),
+
+      orgOut: s.org.trim() || "—",
+      segmentOut: SEGMENTS[s.segment] || "—",
+      countryOut: COUNTRIES[s.country] || "—",
+      fullNameOut: s.fullName.trim() || "—",
+      emailOut: s.email.trim() || "—",
+      accessOut: s.sso ? "SSO — " + s.sso : "E-mail e senha",
+
+      chosenName: chosen.name,
+      chosenPrice: chosen.price,
+      chosenPriceNote: chosen.priceNote,
+      chosenEvents: chosen.events,
+      chosenFeatures: chosen.features,
+      chosenNote: chosen.note,
+      doneTitle: (s.org.trim() || "Sua organização") + " está pronta no plano " + chosen.name + "."
+    };
+  }
+}
+
+</script>
+</body>
+</html>

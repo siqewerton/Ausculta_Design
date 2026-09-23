@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  body { margin: 0; background: #F4F5F7; -webkit-font-smoothing: antialiased; }
+  a { color: #2E74B5; text-decoration: none; }
+  a:hover { color: #24608F; text-decoration: underline; text-underline-offset: 2px; }
+  *:focus-visible { outline: 2px solid #2E74B5; outline-offset: 2px; }
+</style>
+</helmet>
+
+<div style="font-family:'IBM Plex Sans',system-ui,sans-serif;color:#1A1A1A;background:#F4F5F7">
+
+  <header style="position:sticky;top:0;z-index:20;background:#FFFFFF;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1200px;margin:0 auto;padding:10px clamp(16px,4vw,40px);display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+      <a href="#top" style="display:flex;align-items:center;gap:10px;flex:0 0 auto">
+        <svg width="26" height="26" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="#1F3864" stroke-width="3.5"/><path d="M6 22H30" stroke="#1F3864" stroke-width="3.5"/><path d="M6 32.5H20" stroke="#2E74B5" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="#2E74B5" stroke-width="3.5"/></svg>
+        <span style="font-size:16px;font-weight:600;color:#1F3864;white-space:nowrap">Q&#8209;Cost<span style="color:#2E74B5"> AI</span></span>
+      </a>
+      <nav style="flex:1 1 240px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center">
+        <a href="#produto" style="font-size:13px;color:#3D4351">{{ t.navProduct }}</a>
+        <a href="#como" style="font-size:13px;color:#3D4351">{{ t.navHow }}</a>
+        <a href="#planos" style="font-size:13px;color:#3D4351">{{ t.navPlans }}</a>
+        <a href="#recursos" style="font-size:13px;color:#3D4351">{{ t.navResources }}</a>
+</nav>
+      <div style="display:flex;align-items:center;gap:10px;flex:0 0 auto">
+        <div style="display:flex;border:1px solid #D8DBE0;border-radius:2px;overflow:hidden">
+          <button type="button" onClick="{{ setPt }}" style="font-family:inherit;font-size:11px;font-weight:600;height:30px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:inherit;font-size:11px;font-weight:600;height:30px;padding:0 9px;border:none;border-left:1px solid #D8DBE0;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:inherit;font-size:11px;font-weight:600;height:30px;padding:0 9px;border:none;border-left:1px solid #D8DBE0;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <a href="#cadastro" style="display:inline-flex;align-items:center;height:34px;padding:0 14px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;border-radius:2px;font-size:13px;font-weight:500;white-space:nowrap" style-hover="background:#16294A;border-color:#16294A;color:#FFFFFF;text-decoration:none">{{ t.ctaHeader }}</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="produto" style="background:#FFFFFF;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,64px) clamp(16px,4vw,40px);display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,48px);align-items:flex-start">
+      <div style="flex:1 1 380px;min-width:280px;display:flex;flex-direction:column;gap:18px">
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#2E74B5">{{ t.heroKicker }}</span>
+        <h1 style="margin:0;font-size:clamp(26px,4.4vw,40px);font-weight:600;line-height:1.2;letter-spacing:-0.015em;text-wrap:pretty">{{ t.heroTitle }}</h1>
+        <p style="margin:0;font-size:clamp(14px,1.4vw,16px);line-height:1.65;color:#3D4351;max-width:56ch;text-wrap:pretty">{{ t.heroSub }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px">
+          <a href="#cadastro" style="display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 20px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;border-radius:2px;font-size:14px;font-weight:500" style-hover="background:#16294A;border-color:#16294A;color:#FFFFFF;text-decoration:none">{{ t.heroCta1 }}</a>
+          <a href="#como" style="display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 20px;background:#FFFFFF;color:#1F3864;border:1px solid #1F3864;border-radius:2px;font-size:14px;font-weight:500" style-hover="background:#E8EDF5;color:#1F3864;text-decoration:none">{{ t.heroCta2 }}</a>
+        </div>
+        <p style="margin:0;font-size:12px;line-height:1.6;color:#6B7280">{{ t.heroNote }}</p>
+      </div>
+
+      <div style="flex:1 1 380px;min-width:280px;border:1px solid #D8DBE0;background:#F4F5F7;padding:clamp(16px,2.4vw,24px)">
+        <span style="display:block;font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#6B7280;margin-bottom:16px">{{ t.flowTitle }}</span>
+        <div style="display:flex;flex-direction:column;gap:10px">
+
+          <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-left:2px solid #1F3864;padding:14px 16px;display:flex;align-items:flex-start;gap:12px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+            <div style="min-width:0">
+              <div style="font-size:13px;font-weight:600;line-height:1.4">{{ t.flow1Title }}</div>
+              <div style="font-size:12px;line-height:1.6;color:#3D4351;margin-top:3px">{{ t.flow1Text }}</div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E74B5" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 4v16"/><path d="M6 15l6 6 6-6"/></svg>
+          </div>
+
+          <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-left:2px solid #2E74B5;padding:14px 16px;display:flex;align-items:flex-start;gap:12px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E74B5" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M9 9h6v6H9z"/></svg>
+            <div style="min-width:0">
+              <div style="font-size:13px;font-weight:600;line-height:1.4">{{ t.flow2Title }}</div>
+              <div style="font-size:12px;line-height:1.6;color:#3D4351;margin-top:3px">{{ t.flow2Text }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+                <span style="font-size:10px;font-weight:600;color:#1F3864;background:#E8EDF5;border:1px solid #C3CFE3;padding:2px 6px">{{ t.tagP }}</span>
+                <span style="font-size:10px;font-weight:600;color:#1F3864;background:#E8EDF5;border:1px solid #C3CFE3;padding:2px 6px">{{ t.tagA }}</span>
+                <span style="font-size:10px;font-weight:600;color:#1F3864;background:#E8EDF5;border:1px solid #C3CFE3;padding:2px 6px">{{ t.tagF }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E74B5" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 4v16"/><path d="M6 15l6 6 6-6"/></svg>
+          </div>
+
+          <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-left:2px solid #1F3864;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;gap:12px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F3864" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M9 9v12"/></svg>
+              <div style="min-width:0">
+                <div style="font-size:13px;font-weight:600;line-height:1.4">{{ t.flow3Title }}</div>
+                <div style="font-size:12px;line-height:1.6;color:#3D4351;margin-top:3px">{{ t.flow3Text }}</div>
+              </div>
+            </div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid #E5E7EB;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end">
+              <div>
+                <div style="font-size:10px;color:#6B7280">{{ t.flowKpiLabel }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1.2">R$ 4.812.930</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;padding-bottom:3px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#A3402E" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M12 20V4"/><path d="M5 11l7-7 7 7"/></svg>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#A3402E;font-variant-numeric:tabular-nums">+6,4%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como" style="background:#F4F5F7;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,64px) clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:60ch">
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#2E74B5">{{ t.howKicker }}</span>
+        <h2 style="margin:0;font-size:clamp(21px,3vw,28px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">{{ t.howTitle }}</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="4">
+          <div style="background:#FFFFFF;border:1px solid #D8DBE0;border-radius:2px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#2E74B5;font-variant-numeric:tabular-nums">{{ step.n }}</span>
+              <span style="width:34px;height:34px;border:1px solid #D8DBE0;display:flex;align-items:center;justify-content:center;flex:none">
+                <span style="display:flex">{{ step.icon }}</span>
+              </span>
+            </div>
+            <h3 style="margin:0;font-size:15px;font-weight:600;line-height:1.4">{{ step.title }}</h3>
+            <p style="margin:0;font-size:13px;line-height:1.65;color:#3D4351">{{ step.text }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#FFFFFF;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,64px) clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:60ch">
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#2E74B5">{{ t.whoKicker }}</span>
+        <h2 style="margin:0;font-size:clamp(21px,3vw,28px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">{{ t.whoTitle }}</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px">
+        <sc-for list="{{ personas }}" as="p" hint-placeholder-count="5">
+          <div style="border:1px solid #D8DBE0;border-top:2px solid #1F3864;padding:18px;display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex">{{ p.icon }}</span>
+            <h3 style="margin:0;font-size:14px;font-weight:600;line-height:1.4">{{ p.role }}</h3>
+            <p style="margin:0;font-size:12px;line-height:1.65;color:#3D4351">{{ p.benefit }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos" style="background:#F4F5F7;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,64px) clamp(16px,4vw,40px);display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,40px);align-items:stretch">
+      <div style="flex:1 1 320px;min-width:280px;background:#FFFFFF;border:1px solid #D8DBE0;padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#2E74B5">{{ t.proofKicker }}</span>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(40px,7vw,56px);font-weight:600;line-height:1;letter-spacing:-0.03em;color:#1F3864;font-variant-numeric:tabular-nums">31%</div>
+        <p style="margin:0;font-size:clamp(14px,1.6vw,16px);line-height:1.6;color:#1A1A1A;max-width:44ch;text-wrap:pretty">{{ t.proofStat }}</p>
+        <p style="margin:0;font-size:11px;line-height:1.6;color:#6B7280;padding-top:12px;border-top:1px solid #E5E7EB">{{ t.proofSource }}</p>
+      </div>
+      <div style="flex:1 1 320px;min-width:280px;display:flex;flex-direction:column;gap:14px;justify-content:center">
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280">{{ t.pilotsLabel }}</span>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <div style="flex:1 1 130px;min-width:120px;height:64px;border:1px dashed #D8DBE0;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF">{{ t.logoSlot }}</div>
+          <div style="flex:1 1 130px;min-width:120px;height:64px;border:1px dashed #D8DBE0;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF">{{ t.logoSlot }}</div>
+          <div style="flex:1 1 130px;min-width:120px;height:64px;border:1px dashed #D8DBE0;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF">{{ t.logoSlot }}</div>
+          <div style="flex:1 1 130px;min-width:120px;height:64px;border:1px dashed #D8DBE0;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF">{{ t.logoSlot }}</div>
+        </div>
+        <p style="margin:0;font-size:12px;line-height:1.65;color:#3D4351">{{ t.pilotsNote }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="planos" style="background:#FFFFFF;border-bottom:1px solid #D8DBE0">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,64px) clamp(16px,4vw,40px);display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end">
+        <div style="display:flex;flex-direction:column;gap:10px;max-width:52ch">
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#2E74B5">{{ t.plansKicker }}</span>
+          <h2 style="margin:0;font-size:clamp(21px,3vw,28px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">{{ t.plansTitle }}</h2>
+        </div>
+        <p style="margin:0;font-size:12px;line-height:1.65;color:#3D4351;max-width:38ch;border-left:2px solid #D8DBE0;padding-left:14px">{{ t.plansNote }}</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:stretch">
+
+        <div style="border:1px solid #D8DBE0;border-radius:2px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div>
+            <h3 style="margin:0;font-size:16px;font-weight:600;color:#1F3864">{{ t.p1Name }}</h3>
+            <p style="margin:5px 0 0;font-size:12px;line-height:1.5;color:#6B7280">{{ t.p1Meta }}</p>
+          </div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1">
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p1f1 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p1f2 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p1f3 }}</span></li>
+          </ul>
+          <a href="#cadastro" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;background:#FFFFFF;color:#1F3864;border:1px solid #1F3864;border-radius:2px;font-size:13px;font-weight:500" style-hover="background:#E8EDF5;color:#1F3864;text-decoration:none">{{ t.p1Cta }}</a>
+        </div>
+
+        <div style="border:1px solid #D8DBE0;border-radius:2px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div>
+            <h3 style="margin:0;font-size:16px;font-weight:600;color:#1F3864">{{ t.p2Name }}</h3>
+            <p style="margin:5px 0 0;font-size:12px;line-height:1.5;color:#6B7280">{{ t.p2Meta }}</p>
+          </div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1">
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p2f1 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p2f2 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p2f3 }}</span></li>
+          </ul>
+          <a href="#cadastro" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;background:#FFFFFF;color:#1F3864;border:1px solid #1F3864;border-radius:2px;font-size:13px;font-weight:500" style-hover="background:#E8EDF5;color:#1F3864;text-decoration:none">{{ t.p2Cta }}</a>
+        </div>
+
+        <div style="border:2px solid #1F3864;border-radius:2px;padding:19px;display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+              <h3 style="margin:0;font-size:16px;font-weight:600;color:#1F3864">{{ t.p3Name }}</h3>
+              <span style="font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#FFFFFF;background:#1F3864;padding:3px 7px">{{ t.p3Badge }}</span>
+            </div>
+            <p style="margin:5px 0 0;font-size:12px;line-height:1.5;color:#6B7280">{{ t.p3Meta }}</p>
+          </div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1">
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p3f1 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p3f2 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p3f3 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p3f4 }}</span></li>
+          </ul>
+          <a href="#cadastro" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;background:#1F3864;color:#FFFFFF;border:1px solid #1F3864;border-radius:2px;font-size:13px;font-weight:500" style-hover="background:#16294A;border-color:#16294A;color:#FFFFFF;text-decoration:none">{{ t.p3Cta }}</a>
+        </div>
+
+        <div style="border:1px solid #D8DBE0;border-radius:2px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div>
+            <h3 style="margin:0;font-size:16px;font-weight:600;color:#1F3864">{{ t.p4Name }}</h3>
+            <p style="margin:5px 0 0;font-size:12px;line-height:1.5;color:#6B7280">{{ t.p4Meta }}</p>
+          </div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1">
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p4f1 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p4f2 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p4f3 }}</span></li>
+            <li style="display:flex;gap:8px;font-size:12px;line-height:1.55;color:#3D4351"><span style="color:#2E74B5;flex:none">&#8213;</span><span>{{ t.p4f4 }}</span></li>
+          </ul>
+          <a href="#contato" style="display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 14px;background:#FFFFFF;color:#1F3864;border:1px solid #1F3864;border-radius:2px;font-size:13px;font-weight:500" style-hover="background:#E8EDF5;color:#1F3864;text-decoration:none">{{ t.p4Cta }}</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="cadastro" style="background:#1F3864">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,64px) clamp(16px,4vw,40px);display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,40px);align-items:center;justify-content:space-between">
+      <div style="flex:1 1 340px;min-width:280px;display:flex;flex-direction:column;gap:12px">
+        <h2 style="margin:0;font-size:clamp(21px,3.2vw,30px);font-weight:600;line-height:1.25;letter-spacing:-0.01em;color:#FFFFFF;text-wrap:pretty">{{ t.finalTitle }}</h2>
+        <p style="margin:0;font-size:clamp(13px,1.4vw,15px);line-height:1.65;color:#C3CFE3;max-width:52ch">{{ t.finalText }}</p>
+      </div>
+      <div style="flex:0 1 auto;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <a href="#cadastro" style="display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 22px;background:#FFFFFF;color:#1F3864;border:1px solid #FFFFFF;border-radius:2px;font-size:14px;font-weight:600" style-hover="background:#E8EDF5;color:#16294A;text-decoration:none">{{ t.finalCta }}</a>
+        <a href="#contato" style="display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 22px;background:transparent;color:#FFFFFF;border:1px solid #7FB2E0;border-radius:2px;font-size:14px;font-weight:500" style-hover="background:#16294A;color:#FFFFFF;text-decoration:none">{{ t.finalCta2 }}</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contato" style="background:#FFFFFF;border-top:1px solid #D8DBE0">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(28px,4vw,44px) clamp(16px,4vw,40px);display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between">
+      <div style="flex:1 1 260px;min-width:240px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <svg width="24" height="24" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="#1F3864" stroke-width="3.5"/><path d="M6 22H30" stroke="#1F3864" stroke-width="3.5"/><path d="M6 32.5H20" stroke="#2E74B5" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="#2E74B5" stroke-width="3.5"/></svg>
+          <span style="font-size:15px;font-weight:600;color:#1F3864;white-space:nowrap">Q&#8209;Cost<span style="color:#2E74B5"> AI</span></span>
+        </div>
+        <p style="margin:0;font-size:12px;line-height:1.65;color:#3D4351;max-width:38ch">{{ t.footerTagline }}</p>
+        <p style="margin:0;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#6B7280">{{ t.footerBy }}</p>
+      </div>
+      <div style="flex:0 1 170px;min-width:150px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#6B7280">{{ t.footerColProduct }}</span>
+        <a href="#produto" style="font-size:12px;color:#3D4351">{{ t.navProduct }}</a>
+        <a href="#como" style="font-size:12px;color:#3D4351">{{ t.navHow }}</a>
+        <a href="#planos" style="font-size:12px;color:#3D4351">{{ t.navPlans }}</a>
+      </div>
+      <div style="flex:0 1 170px;min-width:150px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#6B7280">{{ t.footerColLegal }}</span>
+        <a href="#contato" style="font-size:12px;color:#3D4351">{{ t.footerTerms }}</a>
+        <a href="#contato" style="font-size:12px;color:#3D4351">{{ t.footerPrivacy }}</a>
+        <a href="#contato" style="font-size:12px;color:#3D4351">{{ t.footerLgpd }}</a>
+      </div>
+      <div style="flex:0 1 200px;min-width:170px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-size:10px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#6B7280">{{ t.footerColContact }}</span>
+        <a href="#contato" style="font-size:12px;color:#3D4351">contato@qcost.ai</a>
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <button type="button" onClick="{{ setPt }}" style="font-family:inherit;font-size:11px;font-weight:600;height:28px;padding:0 9px;border:1px solid #D8DBE0;border-radius:2px;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:inherit;font-size:11px;font-weight:600;height:28px;padding:0 9px;border:1px solid #D8DBE0;border-radius:2px;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:inherit;font-size:11px;font-weight:600;height:28px;padding:0 9px;border:1px solid #D8DBE0;border-radius:2px;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid #E5E7EB">
+      <div style="max-width:1200px;margin:0 auto;padding:14px clamp(16px,4vw,40px);font-size:11px;color:#6B7280">{{ t.footerLegalLine }}</div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;language&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;pt-BR&quot;, &quot;en&quot;, &quot;es&quot;], &quot;default&quot;: &quot;pt-BR&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Conteúdo&quot; }
+}">
+const DICT = {
+  "pt-BR": {
+    navProduct: "Produto", navHow: "Como funciona", navPlans: "Planos", navResources: "Recursos",
+    ctaHeader: "Começar agora",
+    heroKicker: "Custos da qualidade · COQ / COPQ",
+    heroTitle: "A maioria das empresas não mede seus custos da qualidade porque o processo manual é inviável.",
+    heroSub: "O Q-Cost AI automatiza essa identificação a partir dos eventos que sua equipe já registra: reclamações, refugos, retrabalhos, inspeções e auditorias viram custo classificado, calculado e rastreável.",
+    heroCta1: "Criar conta gratuita", heroCta2: "Ver como funciona",
+    heroNote: "Sem cartão de crédito. Plano gratuito permanente para começar.",
+    flowTitle: "Fluxo do evento ao custo",
+    flow1Title: "Entrada do evento", flow1Text: "Texto livre, PDF, planilha ou formulário — como sua equipe já registra.",
+    flow2Title: "A IA classifica", flow2Text: "Extrai os dados, classifica em PAF, identifica os custos e pergunta o que falta.",
+    tagP: "Prevenção", tagA: "Avaliação", tagF: "Falha",
+    flow3Title: "Dashboard atualizado", flow3Text: "Após sua aprovação, o custo entra na apuração com log rastreável.",
+    flowKpiLabel: "Custo total da qualidade · trimestre",
+    howKicker: "Como funciona", howTitle: "Quatro passos entre o evento no chão de fábrica e o número no relatório.",
+    whoKicker: "Para quem é", whoTitle: "Cada área olha o mesmo custo pela pergunta que precisa responder.",
+    proofKicker: "O tamanho do problema",
+    proofStat: "das organizações afirmam compreender plenamente o impacto dos custos da qualidade no seu desempenho financeiro.",
+    proofSource: "Fonte: American Society for Quality (ASQ), relatório de 2025. Para a maioria, boa parte do COPQ real permanece invisível.",
+    pilotsLabel: "Clientes-piloto", logoSlot: "Logo do cliente",
+    pilotsNote: "Espaço reservado para as empresas do programa de piloto. Estamos selecionando indústrias com certificação IATF 16949, AS9100 ou ISO 13485.",
+    plansKicker: "Planos", plansTitle: "Você paga pelo volume de eventos processados, não por usuário.",
+    plansNote: "A métrica de cobrança é o evento de custo da qualidade ingerido pela IA no mês. Convide quantas pessoas da empresa quiser em qualquer plano.",
+    p1Name: "Free", p1Meta: "Para experimentar a metodologia",
+    p1f1: "Volume inicial de eventos por mês", p1f2: "Template PAF Essencial", p1f3: "Dashboard COQ e usuários ilimitados",
+    p1Cta: "Criar conta",
+    p2Name: "Basic", p2Meta: "Para uma planta em operação",
+    p2f1: "Volume mensal ampliado de eventos", p2f2: "Importação de documentos e planilhas", p2f3: "Exportação da apuração e histórico",
+    p2Cta: "Criar conta",
+    p3Name: "Pro", p3Badge: "Recomendado", p3Meta: "Para múltiplas plantas e auditoria",
+    p3f1: "Volume alto de eventos por mês", p3f2: "Múltiplas plantas e centros de custo", p3f3: "Rastreabilidade completa e log de auditoria", p3f4: "Alertas configuráveis por faixa de custo",
+    p3Cta: "Começar no Pro",
+    p4Name: "Enterprise", p4Meta: "Para operação corporativa integrada",
+    p4f1: "Volume negociado por contrato", p4f2: "API REST e MCP para ERP e agentes", p4f3: "SSO e política de retenção própria", p4f4: "Suporte dedicado e plano de implantação",
+    p4Cta: "Falar com vendas",
+    finalTitle: "Comece pela apuração deste mês.", finalText: "Crie a conta, escolha o template PAF e importe os primeiros documentos. Um dashboard de COQ confiável em duas a quatro semanas.",
+    finalCta: "Criar conta gratuita", finalCta2: "Agendar demonstração",
+    footerTagline: "Motor de IA para gerenciar facilmente custos da qualidade.",
+    footerBy: "por SIQ Systems",
+    footerColProduct: "Produto", footerColLegal: "Legal", footerColContact: "Contato",
+    footerTerms: "Termos de uso", footerPrivacy: "Política de privacidade", footerLgpd: "LGPD e tratamento de dados",
+    footerLegalLine: "© 2026 SIQ Systems. Q-Cost AI é uma plataforma de gestão de custos da qualidade. Todos os direitos reservados.",
+    steps: [
+      { n: "01", title: "Importe seus documentos", text: "Reclamações de cliente, planilhas de refugo, notas de devolução, relatórios de inspeção." },
+      { n: "02", title: "A IA classifica e sugere", text: "Extração dos dados, classificação PAF e cálculo do custo — com pergunta quando falta informação." },
+      { n: "03", title: "Você revisa e aprova", text: "Edite valores e premissas na tela de revisão. Nada entra na apuração sem aprovação humana." },
+      { n: "04", title: "O dashboard se atualiza", text: "COQ e COPQ por planta, categoria e período, com log rastreável de cada contabilização." }
+    ],
+    personas: [
+      { role: "Diretor Industrial e CFO", benefit: "Quanto a má qualidade custa em percentual da receita, por planta e por trimestre." },
+      { role: "Gerente da Qualidade", benefit: "Justificativa financeira para investir em prevenção em vez de apagar incêndio." },
+      { role: "Gerente de Produção", benefit: "Onde o retrabalho e o refugo concentram custo dentro do próprio processo." },
+      { role: "Controladoria", benefit: "Números auditáveis, com premissa registrada e rastro de quem aprovou o quê." },
+      { role: "Compras e Supply", benefit: "Custo de falha por fornecedor para sustentar negociação com dado, não com percepção." }
+    ]
+  },
+  "en": {
+    navProduct: "Product", navHow: "How it works", navPlans: "Pricing", navResources: "Resources",
+    ctaHeader: "Get started",
+    heroKicker: "Cost of quality · COQ / COPQ",
+    heroTitle: "Most companies never measure their cost of quality because doing it by hand is not viable.",
+    heroSub: "Q-Cost AI automates that identification from the events your team already records: complaints, scrap, rework, inspections and audits become classified, calculated and traceable cost.",
+    heroCta1: "Create free account", heroCta2: "See how it works",
+    heroNote: "No credit card. A permanent free plan to get started.",
+    flowTitle: "From event to cost",
+    flow1Title: "Event intake", flow1Text: "Free text, PDF, spreadsheet or form — however your team already records it.",
+    flow2Title: "The AI classifies", flow2Text: "Extracts the data, classifies it under PAF, identifies costs and asks for what is missing.",
+    tagP: "Prevention", tagA: "Appraisal", tagF: "Failure",
+    flow3Title: "Dashboard updated", flow3Text: "Once you approve, the cost enters the period close with a traceable log.",
+    flowKpiLabel: "Total cost of quality · quarter",
+    howKicker: "How it works", howTitle: "Four steps between the event on the shop floor and the figure in the report.",
+    whoKicker: "Who it is for", whoTitle: "Every function reads the same cost through the question it has to answer.",
+    proofKicker: "The size of the problem",
+    proofStat: "of organizations say they fully understand the impact of quality costs on their financial performance.",
+    proofSource: "Source: American Society for Quality (ASQ), 2025 report. For most, much of the real COPQ stays invisible.",
+    pilotsLabel: "Pilot customers", logoSlot: "Customer logo",
+    pilotsNote: "Reserved for the companies in our pilot program. We are selecting manufacturers certified to IATF 16949, AS9100 or ISO 13485.",
+    plansKicker: "Pricing", plansTitle: "You pay for the volume of events processed, not per user.",
+    plansNote: "Billing is metered on quality cost events ingested by the AI each month. Invite as many colleagues as you like on any plan.",
+    p1Name: "Free", p1Meta: "To try the methodology",
+    p1f1: "Starter event volume per month", p1f2: "PAF Essential template", p1f3: "COQ dashboard and unlimited users",
+    p1Cta: "Create account",
+    p2Name: "Basic", p2Meta: "For a single plant in operation",
+    p2f1: "Expanded monthly event volume", p2f2: "Document and spreadsheet import", p2f3: "Period export and history",
+    p2Cta: "Create account",
+    p3Name: "Pro", p3Badge: "Recommended", p3Meta: "For multiple plants and audit",
+    p3f1: "High event volume per month", p3f2: "Multiple plants and cost centers", p3f3: "Full traceability and audit log", p3f4: "Configurable cost threshold alerts",
+    p3Cta: "Start on Pro",
+    p4Name: "Enterprise", p4Meta: "For integrated corporate operation",
+    p4f1: "Contracted volume", p4f2: "REST API and MCP for ERP and agents", p4f3: "SSO and your own retention policy", p4f4: "Dedicated support and rollout plan",
+    p4Cta: "Talk to sales",
+    finalTitle: "Start with this month's close.", finalText: "Create the account, pick the PAF template and import your first documents. A reliable COQ dashboard in two to four weeks.",
+    finalCta: "Create free account", finalCta2: "Book a demo",
+    footerTagline: "An AI engine to manage cost of quality with ease.",
+    footerBy: "by SIQ Systems",
+    footerColProduct: "Product", footerColLegal: "Legal", footerColContact: "Contact",
+    footerTerms: "Terms of use", footerPrivacy: "Privacy policy", footerLgpd: "Data processing and LGPD",
+    footerLegalLine: "© 2026 SIQ Systems. Q-Cost AI is a cost of quality management platform. All rights reserved.",
+    steps: [
+      { n: "01", title: "Import your documents", text: "Customer complaints, scrap spreadsheets, return notes, inspection reports." },
+      { n: "02", title: "The AI classifies and suggests", text: "Data extraction, PAF classification and cost calculation — asking whenever information is missing." },
+      { n: "03", title: "You review and approve", text: "Edit values and assumptions on the review screen. Nothing enters the close without human approval." },
+      { n: "04", title: "The dashboard updates", text: "COQ and COPQ by plant, category and period, with a traceable log of every entry." }
+    ],
+    personas: [
+      { role: "Industrial Director and CFO", benefit: "What poor quality costs as a share of revenue, by plant and by quarter." },
+      { role: "Quality Manager", benefit: "A financial case for investing in prevention instead of firefighting." },
+      { role: "Production Manager", benefit: "Where rework and scrap concentrate cost inside the process itself." },
+      { role: "Controllership", benefit: "Auditable figures, with recorded assumptions and a trail of who approved what." },
+      { role: "Procurement and Supply", benefit: "Failure cost per supplier, to negotiate on data rather than perception." }
+    ]
+  },
+  "es": {
+    navProduct: "Producto", navHow: "Cómo funciona", navPlans: "Planes", navResources: "Recursos",
+    ctaHeader: "Empezar ahora",
+    heroKicker: "Costos de la calidad · COQ / COPQ",
+    heroTitle: "La mayoría de las empresas no mide sus costos de la calidad porque el proceso manual es inviable.",
+    heroSub: "Q-Cost AI automatiza esa identificación a partir de los eventos que su equipo ya registra: reclamos, desperdicio, reprocesos, inspecciones y auditorías se convierten en costo clasificado, calculado y trazable.",
+    heroCta1: "Crear cuenta gratuita", heroCta2: "Ver cómo funciona",
+    heroNote: "Sin tarjeta de crédito. Plan gratuito permanente para empezar.",
+    flowTitle: "Del evento al costo",
+    flow1Title: "Entrada del evento", flow1Text: "Texto libre, PDF, planilla o formulario — como su equipo ya registra.",
+    flow2Title: "La IA clasifica", flow2Text: "Extrae los datos, clasifica en PAF, identifica los costos y pregunta lo que falta.",
+    tagP: "Prevención", tagA: "Evaluación", tagF: "Fallo",
+    flow3Title: "Panel actualizado", flow3Text: "Tras su aprobación, el costo entra en el cierre con registro trazable.",
+    flowKpiLabel: "Costo total de la calidad · trimestre",
+    howKicker: "Cómo funciona", howTitle: "Cuatro pasos entre el evento en planta y la cifra en el informe.",
+    whoKicker: "Para quién es", whoTitle: "Cada área lee el mismo costo según la pregunta que debe responder.",
+    proofKicker: "El tamaño del problema",
+    proofStat: "de las organizaciones afirma comprender plenamente el impacto de los costos de la calidad en su desempeño financiero.",
+    proofSource: "Fuente: American Society for Quality (ASQ), informe de 2025. Para la mayoría, buena parte del COPQ real sigue siendo invisible.",
+    pilotsLabel: "Clientes piloto", logoSlot: "Logo del cliente",
+    pilotsNote: "Espacio reservado para las empresas del programa piloto. Estamos seleccionando industrias con certificación IATF 16949, AS9100 o ISO 13485.",
+    plansKicker: "Planes", plansTitle: "Usted paga por el volumen de eventos procesados, no por usuario.",
+    plansNote: "La métrica de cobro es el evento de costo de la calidad ingerido por la IA en el mes. Invite a cuantas personas quiera en cualquier plan.",
+    p1Name: "Free", p1Meta: "Para probar la metodología",
+    p1f1: "Volumen inicial de eventos por mes", p1f2: "Plantilla PAF Esencial", p1f3: "Panel COQ y usuarios ilimitados",
+    p1Cta: "Crear cuenta",
+    p2Name: "Basic", p2Meta: "Para una planta en operación",
+    p2f1: "Volumen mensual ampliado de eventos", p2f2: "Importación de documentos y planillas", p2f3: "Exportación del cierre e historial",
+    p2Cta: "Crear cuenta",
+    p3Name: "Pro", p3Badge: "Recomendado", p3Meta: "Para múltiples plantas y auditoría",
+    p3f1: "Volumen alto de eventos por mes", p3f2: "Múltiples plantas y centros de costo", p3f3: "Trazabilidad completa y registro de auditoría", p3f4: "Alertas configurables por rango de costo",
+    p3Cta: "Empezar en Pro",
+    p4Name: "Enterprise", p4Meta: "Para operación corporativa integrada",
+    p4f1: "Volumen negociado por contrato", p4f2: "API REST y MCP para ERP y agentes", p4f3: "SSO y política de retención propia", p4f4: "Soporte dedicado y plan de implantación",
+    p4Cta: "Hablar con ventas",
+    finalTitle: "Empiece por el cierre de este mes.", finalText: "Cree la cuenta, elija la plantilla PAF e importe los primeros documentos. Un panel de COQ confiable en dos a cuatro semanas.",
+    finalCta: "Crear cuenta gratuita", finalCta2: "Agendar demostración",
+    footerTagline: "Motor de IA para gestionar fácilmente los costos de la calidad.",
+    footerBy: "por SIQ Systems",
+    footerColProduct: "Producto", footerColLegal: "Legal", footerColContact: "Contacto",
+    footerTerms: "Términos de uso", footerPrivacy: "Política de privacidad", footerLgpd: "Tratamiento de datos y LGPD",
+    footerLegalLine: "© 2026 SIQ Systems. Q-Cost AI es una plataforma de gestión de costos de la calidad. Todos los derechos reservados.",
+    steps: [
+      { n: "01", title: "Importe sus documentos", text: "Reclamos de cliente, planillas de desperdicio, notas de devolución, informes de inspección." },
+      { n: "02", title: "La IA clasifica y sugiere", text: "Extracción de datos, clasificación PAF y cálculo del costo — preguntando cuando falta información." },
+      { n: "03", title: "Usted revisa y aprueba", text: "Edite valores y premisas en la pantalla de revisión. Nada entra al cierre sin aprobación humana." },
+      { n: "04", title: "El panel se actualiza", text: "COQ y COPQ por planta, categoría y periodo, con registro trazable de cada contabilización." }
+    ],
+    personas: [
+      { role: "Director Industrial y CFO", benefit: "Cuánto cuesta la mala calidad como porcentaje de los ingresos, por planta y trimestre." },
+      { role: "Gerente de Calidad", benefit: "Justificación financiera para invertir en prevención en lugar de apagar incendios." },
+      { role: "Gerente de Producción", benefit: "Dónde el reproceso y el desperdicio concentran costo dentro del propio proceso." },
+      { role: "Contraloría", benefit: "Cifras auditables, con premisas registradas y rastro de quién aprobó qué." },
+      { role: "Compras y Supply", benefit: "Costo de fallo por proveedor, para negociar con dato y no con percepción." }
+    ]
+  }
+};
+
+const STEP_ICONS = [
+  { d: ["M4 3h16v18H4z", "M8 8h8M8 12h8M8 16h5"] },
+  { d: ["M3 3h18v18H3z", "M9 9h6v6H9z"] },
+  { d: ["M3.5 3.5h17v17h-17z", "M7.5 12.5 11 16l5.5-8"] },
+  { d: ["M3 3h18v18H3z", "M3 9h18M9 9v12"] }
+];
+
+const PERSONA_ICONS = [
+  ["M4 21V8l8-5 8 5v13", "M9 21v-7h6v7"],
+  ["M3.5 3.5h17v17h-17z", "M7.5 12.5 11 16l5.5-8"],
+  ["M3 20h18M6 20V11m5 9V5m5 15v-6"],
+  ["M4 3h16v18H4z", "M8 8h8M8 12h8M8 16h5"],
+  ["M3 10h18v11H3z", "M7 10V6h10v4", "M12 14v3"]
+];
+
+function icon(paths, color, size) {
+  return React.createElement("svg", {
+    width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color,
+    strokeWidth: 1.75, strokeLinecap: "square", strokeLinejoin: "miter", "aria-hidden": "true"
+  }, paths.map((d, i) => React.createElement("path", { key: i, d })));
+}
+
+class Component extends DCLogic {
+  state = { lang: null };
+
+  renderVals() {
+    const lang = this.state.lang || this.props.language || "pt-BR";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const on = (k) => () => this.setState({ lang: k });
+    const active = "#1F3864", idle = "#FFFFFF";
+    return {
+      t,
+      steps: t.steps.map((s, i) => ({ ...s, icon: icon(STEP_ICONS[i].d, "#1F3864", 18) })),
+      personas: t.personas.map((p, i) => ({ ...p, icon: icon(PERSONA_ICONS[i], "#2E74B5", 22) })),
+      setPt: on("pt-BR"), setEn: on("en"), setEs: on("es"),
+      ptBg: lang === "pt-BR" ? active : idle, ptFg: lang === "pt-BR" ? "#FFFFFF" : "#3D4351",
+      enBg: lang === "en" ? active : idle, enFg: lang === "en" ? "#FFFFFF" : "#3D4351",
+      esBg: lang === "es" ? active : idle, esFg: lang === "es" ? "#FFFFFF" : "#3D4351"
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+    --paf1:#4E93B8;--paf2:#3E9E8F;--paf3:#D19A45;--paf4:#C4737C;
+    --paf1Soft:rgba(78,147,184,0.16);--paf2Soft:rgba(62,158,143,0.16);--paf3Soft:rgba(209,154,69,0.16);--paf4Soft:rgba(196,115,124,0.16);
+    --paf1Line:rgba(78,147,184,0.34);--paf2Line:rgba(62,158,143,0.34);--paf3Line:rgba(209,154,69,0.34);--paf4Line:rgba(196,115,124,0.34);
+  }
+  [data-theme="light"]{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+    --paf1:#265C7A;--paf2:#257266;--paf3:#AA7123;--paf4:#91363E;
+    --paf1Soft:rgba(38,92,122,0.12);--paf2Soft:rgba(37,114,102,0.12);--paf3Soft:rgba(170,113,35,0.14);--paf4Soft:rgba(145,54,62,0.14);
+    --paf1Line:rgba(38,92,122,0.28);--paf2Line:rgba(37,114,102,0.28);--paf3Line:rgba(170,113,35,0.32);--paf4Line:rgba(145,54,62,0.32);
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,select,button{font-family:'Archivo',system-ui,sans-serif}
+  @media (max-width:680px){
+    header nav{flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header nav::-webkit-scrollbar{display:none}
+    header nav a{padding:9px 10px !important;min-height:0;white-space:nowrap;flex:none}
+    header button{height:38px !important}
+    header button[aria-label]{width:38px !important}
+    button{min-height:34px}
+    input,select{min-height:36px}
+    a{display:inline-flex;align-items:center;min-height:32px}
+    p a,span a{display:inline;min-height:0}
+    td button{min-height:34px}
+  }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"/>
+    <g stroke-linecap="square">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"/>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"/>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"/>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"/>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box">
+
+  <header style="border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:20">
+    <div style="max-width:1560px;margin:0 auto;padding:14px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px">
+      <a href="Q-Cost AI Dashboard v2.dc.html" style="display:flex;align-items:center;gap:11px;flex:none" style-hover="text-decoration:none">
+        <svg width="23" height="23" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"/><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"/><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"/></svg>
+        <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </a>
+      <nav style="flex:1 1 200px;display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center">
+        <a href="Q-Cost AI Dashboard v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav1 }}</a>
+        <a href="Q-Cost AI Novo Evento v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav2 }}</a>
+        <a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a>
+        <span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav4 }}</span>
+        <a href="Q-Cost AI Regras de Alerta v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav6 }}</a>
+        <a href="Q-Cost AI Relatorios v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav5 }}</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px;flex:none">
+        <div style="display:flex;gap:1px;background:var(--line)">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ t.themeAria }}" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+        <div style="position:relative;flex:none">
+          <button type="button" onClick="{{ toggleUser }}" aria-label="{{ t.userAria }}" style="width:28px;height:28px;padding:0;background:transparent;border:1px solid var(--line2);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer" style-hover="border-color:var(--ink3)">AC</button>
+          <sc-if value="{{ userOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:36px;right:0;z-index:40;min-width:244px;border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:8px 0">
+              <div style="padding:11px 15px 13px;border-bottom:1px solid var(--line)">
+                <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Metalúrgica Paranaense S.A.</div>
+                <div style="font-size:13px">Ana Ribeiro Camargo</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">ana.camargo@empresa.com.br</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:6px">{{ c.role }}</div>
+              </div>
+              <a href="Q-Cost AI Perfil v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuProfile }}</a>
+              <a href="Q-Cost AI Organizacao v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuOrg }}</a>
+              <a href="Q-Cost AI Equipe v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuTeam }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Integracoes v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.nav7 }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Ajuda v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuHelp }}</a>
+              <a href="Q-Cost AI Confianca v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuTrust }}</a>
+              <a href="Q-Cost AI Assinatura v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuBilling }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Login v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuSignOut }}</a>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:1560px;margin:0 auto;padding:clamp(30px,4.4vw,60px) clamp(16px,4vw,44px) 96px;display:flex;flex-direction:column;gap:clamp(34px,4.8vw,58px)">
+
+    <section style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between">
+      <div style="flex:1 1 340px;min-width:260px;display:flex;flex-direction:column;gap:9px">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.kicker }}</span>
+        <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.pageTitle }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.65;color:var(--ink2);max-width:70ch;text-wrap:pretty">{{ t.lead }}</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <div style="display:flex;flex-wrap:wrap;gap:1px;background:var(--line);max-width:100%">
+          <button type="button" onClick="{{ setCsv }}" style="font-size:12px;height:34px;padding:0 12px;border:none;cursor:pointer;background:{{ csvBg }};color:{{ csvFg }}">CSV</button>
+          <button type="button" onClick="{{ setPdf }}" style="font-size:12px;height:34px;padding:0 12px;border:none;cursor:pointer;background:{{ pdfBg }};color:{{ pdfFg }}">PDF</button>
+        </div>
+        <button type="button" onClick="{{ doExport }}" style="font-size:13px;font-weight:400;height:34px;padding:0 15px;border-radius:2px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="opacity:0.88">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M4 15v5h16v-5"/><path d="M12 4v12"/><path d="M7 11l5 5 5-5"/></svg>
+          <span>{{ t.export }}</span>
+        </button>
+      </div>
+    </section>
+
+    <sc-if value="{{ exported }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid var(--pos);background:var(--posBg);padding:11px 14px;display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pos)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+        <span style="font-size:12px;line-height:1.55;color:var(--pos);flex:1;min-width:200px">{{ exportMessage }}</span>
+      </div>
+    </sc-if>
+
+    <section aria-label="{{ t.filters }}" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div style="padding:14px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.filters }}</span>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink2);font-variant-numeric:tabular-nums">{{ resultCount }}</span>
+          <button type="button" onClick="{{ clearFilters }}" style="font-size:11px;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ t.clear }}</button>
+        </div>
+      </div>
+      <div style="padding:18px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:14px">
+        <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+          <label for="f-user" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.fUserLabel }}</label>
+          <select id="f-user" value="{{ fUser }}" onChange="{{ onUser }}" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+            <option value="">{{ t.allM }}</option>
+            <sc-for list="{{ userOptions }}" as="u" hint-placeholder-count="5">
+              <option value="{{ u.value }}">{{ u.label }}</option>
+            </sc-for>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+          <label for="f-action" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.fActionLabel }}</label>
+          <select id="f-action" value="{{ fAction }}" onChange="{{ onAction }}" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+            <option value="">{{ t.allF }}</option>
+            <sc-for list="{{ actionOptions }}" as="a" hint-placeholder-count="5"><option value="{{ a.value }}">{{ a.label }}</option></sc-for>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.pafCategory }}</span>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">
+            <sc-for list="{{ pafFilter }}" as="p" hint-placeholder-count="6">
+              <button type="button" onClick="{{ p.pick }}" style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 8px;font-size:11.5px;border-radius:2px;background:{{ p.bg }};color:{{ p.fg }};border:1px solid {{ p.border }};cursor:pointer" style-hover="border-color:var(--ink3)">
+                <span style="width:5px;height:5px;background:{{ p.dot }};display:block;flex:none"></span>{{ p.label }}
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+          <label for="f-plant" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.fPlantLabel }}</label>
+          <select id="f-plant" value="{{ fPlant }}" onChange="{{ onPlant }}" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+            <option value="">{{ t.allF }}</option>
+            <option value="Curitiba (PR)">Curitiba (PR)</option>
+            <option value="Joinville (SC)">Joinville (SC)</option>
+            <option value="Betim (MG)">Betim (MG)</option>
+            <option value="Consolidado">{{ t.consolidated }}</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+          <label for="f-actor" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.fOriginLabel }}</label>
+          <select id="f-actor" value="{{ fActor }}" onChange="{{ onActor }}" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+            <option value="">{{ t.allF }}</option>
+            <option value="ai">{{ t.ai }}</option>
+            <option value="human">{{ t.manual }}</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+          <label for="f-period" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.fPeriodLabel }}</label>
+          <select id="f-period" value="{{ fPeriod }}" onChange="{{ onPeriod }}" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+            <sc-for list="{{ periodOptions }}" as="p" hint-placeholder-count="4"><option value="{{ p.value }}">{{ p.label }}</option></sc-for>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section style="border:1px solid var(--line);border-radius:2px;background:var(--surf)">
+      <div style="width:100%;overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;min-width:920px">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:9px 14px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);white-space:nowrap">{{ t.thTs }}</th>
+              <th style="text-align:left;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);white-space:nowrap">{{ t.thUser }}</th>
+              <th style="text-align:left;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);white-space:nowrap">{{ t.thOrigin }}</th>
+              <th style="text-align:left;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);white-space:nowrap">{{ t.thAction }}</th>
+              <th style="text-align:left;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">{{ t.thEntity }}</th>
+              <th style="text-align:left;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);white-space:nowrap">{{ t.thCategory }}</th>
+              <th style="text-align:left;padding:9px 10px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line);white-space:nowrap">{{ t.thPlant }}</th>
+              <th style="text-align:right;padding:9px 14px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
+              <tr>
+                <td style="padding:9px 14px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:11px;color:var(--ink2);white-space:nowrap;font-variant-numeric:tabular-nums;vertical-align:top">{{ r.ts }}</td>
+                <td style="padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:top">{{ r.user }}</td>
+                <td style="padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top">
+                  <span style="display:inline-flex;align-items:center;gap:5px;height:19px;padding:0 6px;border:1px solid {{ r.actorBorder }};color:{{ r.actorFg }};background:{{ r.actorBg }};font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap">{{ r.actorLabel }}</span>
+                </td>
+                <td style="padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top">
+                  <span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;color:{{ r.actionColor }}">
+                    <span style="width:6px;height:6px;background:{{ r.actionColor }};flex:none;display:block"></span>{{ r.actionLabel }}
+                  </span>
+                </td>
+                <td style="padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top">
+                  <div style="line-height:1.4">{{ r.entity }}</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-top:2px">{{ r.entityId }}</div>
+                </td>
+                <td style="padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:top">
+                  <span style="display:inline-flex;align-items:center;gap:6px;height:21px;padding:0 7px;font-family:'DM Mono',monospace;font-size:10px;background:{{ r.pafBg }};border:1px solid {{ r.pafLine }};color:{{ r.pafInk }}">
+                    <span style="width:5px;height:5px;background:{{ r.pafInk }};display:block;flex:none"></span>{{ r.paf }}
+                  </span>
+                </td>
+                <td style="padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink2);white-space:nowrap;vertical-align:top">{{ r.plant }}</td>
+                <td style="padding:9px 14px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top">
+                  <button type="button" onClick="{{ r.toggle }}" style="font-size:11px;height:26px;padding:0 9px;border-radius:2px;background:{{ r.btnBg }};color:{{ r.btnFg }};border:1px solid {{ r.btnBorder }};cursor:pointer;white-space:nowrap" style-hover="border-color:var(--ink3)">{{ r.btnLabel }}</button>
+                </td>
+              </tr>
+              <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+                <tr>
+                  <td colspan="8" style="padding:0;border-bottom:1px solid var(--line);background:var(--surf2)">
+                    <div style="padding:16px 14px;display:flex;flex-direction:column;gap:14px">
+                      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:baseline">
+                        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.beforeAfter }}</span>
+                        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)">{{ r.versionLabel }}</span>
+                      </div>
+                      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:stretch">
+                        <div style="flex:1 1 260px;min-width:230px;border:1px solid var(--line);background:var(--surf)">
+                          <div style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.before }}</div>
+                          <dl style="margin:0;padding:12px">
+                            <sc-for list="{{ r.diff }}" as="d" hint-placeholder-count="3">
+                              <div style="display:flex;flex-wrap:wrap;gap:4px 10px;padding:5px 0;justify-content:space-between">
+                                <dt style="margin:0;font-size:11px;color:var(--ink3);min-width:0">{{ d.field }}</dt>
+                                <dd style="margin:0;font-family:'DM Mono',monospace;font-size:11px;color:{{ d.beforeColor }};text-align:right;min-width:0;overflow-wrap:anywhere">{{ d.before }}</dd>
+                              </div>
+                            </sc-for>
+                          </dl>
+                        </div>
+                        <div style="flex:1 1 260px;min-width:230px;border:1px solid var(--ink3);background:var(--surf)">
+                          <div style="padding:8px 12px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink)">{{ t.after }}</div>
+                          <dl style="margin:0;padding:12px">
+                            <sc-for list="{{ r.diff }}" as="d" hint-placeholder-count="3">
+                              <div style="display:flex;flex-wrap:wrap;gap:4px 10px;padding:5px 0;justify-content:space-between">
+                                <dt style="margin:0;font-size:11px;color:var(--ink3);min-width:0">{{ d.field }}</dt>
+                                <dd style="margin:0;font-family:'DM Mono',monospace;font-size:11px;color:{{ d.afterColor }};text-align:right;min-width:0;overflow-wrap:anywhere">{{ d.after }}</dd>
+                              </div>
+                            </sc-for>
+                          </dl>
+                        </div>
+                      </div>
+                      <div style="display:flex;flex-wrap:wrap;gap:16px;padding-top:12px;border-top:1px solid var(--line)">
+                        <div style="min-width:0">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.reasonLabel }}</div>
+                          <div style="font-size:12px;line-height:1.55;color:var(--ink2);margin-top:4px;max-width:76ch">{{ r.reason }}</div>
+                        </div>
+                        <div style="min-width:0;margin-left:auto">
+                          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.hashLabel }}</div>
+                          <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink2);margin-top:4px">{{ r.hash }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </sc-if>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:34px 16px;text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center">
+          <span style="font-size:13px;color:var(--ink2)">{{ t.emptyMsg }}</span>
+          <button type="button" onClick="{{ clearFilters }}" style="font-size:12px;font-weight:400;height:32px;padding:0 12px;border-radius:2px;background:transparent;color:var(--ink);border:1px solid var(--line2);cursor:pointer" style-hover="background:var(--surf2)">{{ t.clearFilters }}</button>
+        </div>
+      </sc-if>
+      <div style="padding:11px 14px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ retentionNote }}</span>
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">{{ resultCount }}</span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;},&quot;language&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pt-BR&quot;,&quot;en&quot;,&quot;es&quot;],&quot;default&quot;:&quot;pt-BR&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;}}">
+const PAF_COLORS = {
+  "Prevenção": { ink: "var(--paf1)", bg: "var(--paf1Soft)", line: "var(--paf1Line)" },
+  "Avaliação": { ink: "var(--paf2)", bg: "var(--paf2Soft)", line: "var(--paf2Line)" },
+  "Falha interna": { ink: "var(--paf3)", bg: "var(--paf3Soft)", line: "var(--paf3Line)" },
+  "Falha externa": { ink: "var(--paf4)", bg: "var(--paf4Soft)", line: "var(--paf4Line)" }
+};
+const PAF_NEUTRAL = { ink: "var(--ink3)", bg: "transparent", line: "var(--line2)" };
+const pafColor = (name) => PAF_COLORS[name] || PAF_NEUTRAL;
+const PAF_ORDER = ["Prevenção", "Avaliação", "Falha interna", "Falha externa"];
+
+const LOG = [
+  { d: 0, h: "16:42", user: "Motor de IA", actor: "ai", action: "create", entity: "Evento de custo — reclamação de cliente",
+    id: "EV-2026-0912 · v1", paf: "Falha externa", plant: "Curitiba (PR)",
+    reason: "Extração automática de 2 anexos e 1 descrição em texto. Classificação PAF com confiança alta em 8 de 12 campos.",
+    diff: [["Registro", "—", "EV-2026-0912"], ["Categoria PAF", "—", "Falha externa"], ["Custo proposto", "—", "R$ 40.550,00"], ["Status", "—", "Rascunho"]] },
+  { d: 0, h: "16:58", user: "Ana Ribeiro Camargo", actor: "human", action: "edit", entity: "Evento de custo — reclamação de cliente",
+    id: "EV-2026-0912 · v2", paf: "Falha externa", plant: "Curitiba (PR)",
+    reason: "Centro de custo informado manualmente e valor do frete corrigido conforme fatura do transportador.",
+    diff: [["Centro de custo", "não informado", "CC-4820"], ["Frete de retorno", "R$ 2.150,00", "R$ 2.480,00"], ["Custo total", "R$ 40.550,00", "R$ 40.880,00"]] },
+  { d: 0, h: "17:20", user: "Paulo Grimaldi", actor: "human", action: "approve", entity: "Evento de custo — reclamação de cliente",
+    id: "EV-2026-0912 · v3", paf: "Falha externa", plant: "Curitiba (PR)",
+    reason: "Aprovado para a apuração de setembro de 2026. Premissa de custo médio da peça aceita.",
+    diff: [["Status", "Pendente", "Confirmado"], ["Aprovador", "—", "Paulo Grimaldi"], ["Apuração", "—", "09/2026"]] },
+  { d: 1, h: "11:04", user: "Motor de IA", actor: "ai", action: "create", entity: "Evento de custo — refugo de usinagem",
+    id: "EV-2026-0911 · v1", paf: "Falha interna", plant: "Joinville (SC)",
+    reason: "Planilha de refugo do turno noturno processada. Três campos sem confiança suficiente.",
+    diff: [["Registro", "—", "EV-2026-0911"], ["Categoria PAF", "—", "Falha interna"], ["Custo proposto", "—", "R$ 41.250,00"], ["Status", "—", "Rascunho"]] },
+  { d: 1, h: "14:31", user: "Rafael Doi", actor: "human", action: "edit", entity: "Evento de custo — refugo de usinagem",
+    id: "EV-2026-0911 · v2", paf: "Falha interna", plant: "Joinville (SC)",
+    reason: "Quantidade de peças ajustada após conferência física no almoxarifado.",
+    diff: [["Quantidade", "182 peças", "174 peças"], ["Custo total", "R$ 41.250,00", "R$ 39.440,00"]] },
+  { d: 2, h: "09:12", user: "Paulo Grimaldi", actor: "human", action: "reject", entity: "Evento de custo — retrabalho de solda",
+    id: "EV-2026-0908 · v4", paf: "Falha interna", plant: "Curitiba (PR)",
+    reason: "Rejeitado: horas de retrabalho já lançadas no evento EV-2026-0902. Duplicidade de apontamento.",
+    diff: [["Status", "Pendente", "Cancelado"], ["Motivo", "—", "Duplicidade com EV-2026-0902"], ["Custo apurado", "R$ 18.900,00", "R$ 0,00"]] },
+  { d: 3, h: "15:47", user: "Motor de IA", actor: "ai", action: "edit", entity: "Evento de custo — devolução parcial",
+    id: "EV-2026-0905 · v2", paf: "Falha externa", plant: "Betim (MG)",
+    reason: "Reprocessamento após novo anexo enviado pelo analista. Valor recalculado com a nota fiscal completa.",
+    diff: [["Custo do produto", "R$ 58.100,00", "R$ 63.800,00"], ["Confiança do valor", "estimado", "extraído"]] },
+  { d: 4, h: "10:03", user: "Ana Ribeiro Camargo", actor: "human", action: "edit", entity: "Regra de alerta — falha externa mensal",
+    id: "AL-2026-014", paf: "Falha externa", plant: "Curitiba (PR)",
+    reason: "Limite mensal elevado após revisão do orçamento da qualidade com a controladoria.",
+    diff: [["Limite", "R$ 350.000,00", "R$ 400.000,00"], ["Destinatários", "2 usuários", "4 usuários"]] },
+  { d: 5, h: "17:55", user: "Cristina Vilela", actor: "human", action: "approve", entity: "Evento de custo — auditoria de fornecedor",
+    id: "EV-2026-0901 · v2", paf: "Avaliação", plant: "Consolidado",
+    reason: "Custo de auditoria de fornecedor aprovado e rateado entre as três plantas.",
+    diff: [["Status", "Pendente", "Confirmado"], ["Rateio", "não definido", "3 plantas"], ["Custo total", "R$ 22.400,00", "R$ 22.400,00"]] },
+  { d: 8, h: "08:26", user: "Rafael Doi", actor: "human", action: "delete", entity: "Evento de custo — inspeção duplicada",
+    id: "EV-2026-0884 · v3", paf: "Avaliação", plant: "Joinville (SC)",
+    reason: "Excluído a pedido da controladoria: lançamento duplicado do mesmo relatório de inspeção. Registro mantido no log.",
+    diff: [["Status", "Confirmado", "Cancelado"], ["Custo apurado", "R$ 7.320,00", "R$ 0,00"], ["Apuração", "08/2026", "—"]] },
+  { d: 11, h: "13:19", user: "Ana Ribeiro Camargo", actor: "human", action: "edit", entity: "Estrutura de custos — subcategorias",
+    id: "TPL-PAF-001", paf: "—", plant: "Consolidado",
+    reason: "Subcategoria criada para separar multa contratual de recall, exigência do cliente automotivo.",
+    diff: [["Subcategorias", "11", "12"], ["Nova subcategoria", "—", "Multa contratual"]] },
+  { d: 16, h: "09:41", user: "Motor de IA", actor: "ai", action: "create", entity: "Evento de custo — parada de linha",
+    id: "EV-2026-0851 · v1", paf: "Falha interna", plant: "Curitiba (PR)",
+    reason: "Relatório de parada de linha processado a partir do PDF do supervisor de produção.",
+    diff: [["Registro", "—", "EV-2026-0851"], ["Categoria PAF", "—", "Falha interna"], ["Custo proposto", "—", "R$ 96.700,00"]] },
+  { d: 34, h: "16:08", user: "Cristina Vilela", actor: "human", action: "approve", entity: "Apuração mensal — agosto de 2026",
+    id: "CL-2026-08", paf: "—", plant: "Consolidado",
+    reason: "Apuração de agosto fechada e liberada para a controladoria. 318 eventos consolidados.",
+    diff: [["Status", "Em apuração", "Fechada"], ["Eventos", "318", "318"], ["Custo total", "R$ 1.598.420,00", "R$ 1.598.420,00"]] },
+  { d: 47, h: "11:52", user: "Paulo Grimaldi", actor: "human", action: "edit", entity: "Usuário — permissões",
+    id: "USR-0142", paf: "—", plant: "Joinville (SC)",
+    reason: "Papel elevado de Analista para Aprovador após mudança de função na planta.",
+    diff: [["Papel", "Analista", "Aprovador"], ["Plantas", "1", "2"]] }
+];
+
+const ACTIONS = {
+  create: { label: "Criação", color: "var(--info)" },
+  edit: { label: "Edição", color: "var(--warn)" },
+  approve: { label: "Aprovação", color: "var(--pos)" },
+  reject: { label: "Rejeição", color: "var(--neg)" },
+  delete: { label: "Exclusão", color: "var(--neg)" }
+};
+
+const MONTHS = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+const TODAY = new Date(2026, 8, 10);
+
+function stamp(daysAgo, hhmm, months) {
+  const d = new Date(TODAY.getTime() - daysAgo * 86400000);
+  const dd = String(d.getDate()).padStart(2, "0");
+  return dd + " " + (months || MONTHS)[d.getMonth()] + " " + d.getFullYear() + " · " + hhmm;
+}
+
+function hash(i) {
+  const base = "9f2c71a4e8b3d05c6817af492b0e5d7361cc84fa";
+  return base.slice((i * 4) % 24, ((i * 4) % 24) + 12);
+}
+
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() {
+  try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; }
+}
+function writeTheme(v) {
+  try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {}
+}
+
+const LANG_KEY = "qcost-lang-v2";
+function readLang() {
+  try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; }
+}
+function writeLang(v) {
+  try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {}
+}
+
+
+const DICT = {
+  "pt-BR": {
+    themeAria:"Alternar tema", userAria:"Menu da conta",
+    kicker:"Compliance · trilha imutável", pageTitle:"Histórico e auditoria",
+    lead:"Toda alteração em evento, custo ou regra fica registrada com autor, momento e estado anterior. O log não é editável e não expira dentro do período de retenção do plano.",
+    export:"Exportar", filters:"Filtros", clear:"Limpar", clearFilters:"Limpar filtros",
+    allM:"Todos", allF:"Todas",
+    fUserLabel:"Usuário", fActionLabel:"Tipo de ação", fPlantLabel:"Planta", fOriginLabel:"Origem", fPeriodLabel:"Período",
+    pafCategory:"Categoria PAF", consolidated:"Consolidado", ai:"IA", manual:"Manual",
+    actions:{create:"Criação",edit:"Edição",approve:"Aprovação",reject:"Rejeição",delete:"Exclusão"},
+    periods:["Últimos 7 dias","Últimos 30 dias","Último trimestre","Todo o histórico"],
+    thTs:"Timestamp", thUser:"Usuário", thOrigin:"Origem", thAction:"Ação",
+    thEntity:"Entidade afetada", thCategory:"Categoria", thPlant:"Planta",
+    beforeAfter:"Estado antes e depois", before:"Antes", after:"Depois",
+    reasonLabel:"Justificativa registrada", hashLabel:"Hash do registro",
+    emptyMsg:"Nenhum registro corresponde a estes filtros.",
+    close:"Fechar", details:"Ver detalhes",
+    notApplicable:"NÃO APLICÁVEL", tagAi:"IA", tagManual:"MANUAL",
+    oneRecord:" registro", manyRecords:" registros", ofTotal:" de ",
+    retention:"Log imutável · retenção de 24 meses no plano Pro · fuso America/Sao_Paulo",
+    expOne:" registro exportado", expMany:" registros exportados",
+    expTail1:" em ", expTail2:", com os filtros atuais. O arquivo inclui hash de cada registro para conferência do auditor.",
+    aiEngine:"Motor de IA",
+    paf:{"Prevenção":"Prevenção","Avaliação":"Avaliação","Falha interna":"Falha interna","Falha externa":"Falha externa"},
+    pafNa:"Não aplicável",
+    months:["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"],
+    entities:{
+      e1:"Evento de custo — reclamação de cliente", e2:"Evento de custo — refugo de usinagem",
+      e3:"Evento de custo — retrabalho de solda", e4:"Evento de custo — devolução parcial",
+      e5:"Regra de alerta — falha externa mensal", e6:"Evento de custo — auditoria de fornecedor",
+      e7:"Evento de custo — inspeção duplicada", e8:"Estrutura de custos — subcategorias",
+      e9:"Evento de custo — parada de linha", e10:"Apuração mensal — agosto de 2026", e11:"Usuário — permissões"
+    },
+    reasons:{
+      r1:"Extração automática de 2 anexos e 1 descrição em texto. Classificação PAF com confiança alta em 8 de 12 campos.",
+      r2:"Centro de custo informado manualmente e valor do frete corrigido conforme fatura do transportador.",
+      r3:"Aprovado para a apuração de setembro de 2026. Premissa de custo médio da peça aceita.",
+      r4:"Planilha de refugo do turno noturno processada. Três campos sem confiança suficiente.",
+      r5:"Quantidade de peças ajustada após conferência física no almoxarifado.",
+      r6:"Rejeitado: horas de retrabalho já lançadas no evento EV-2026-0902. Duplicidade de apontamento.",
+      r7:"Reprocessamento após novo anexo enviado pelo analista. Valor recalculado com a nota fiscal completa.",
+      r8:"Limite mensal elevado após revisão do orçamento da qualidade com a controladoria.",
+      r9:"Custo de auditoria de fornecedor aprovado e rateado entre as três plantas.",
+      r10:"Excluído a pedido da controladoria: lançamento duplicado do mesmo relatório de inspeção. Registro mantido no log.",
+      r11:"Subcategoria criada para separar multa contratual de recall, exigência do cliente automotivo.",
+      r12:"Relatório de parada de linha processado a partir do PDF do supervisor de produção.",
+      r13:"Apuração de agosto fechada e liberada para a controladoria. 318 eventos consolidados.",
+      r14:"Papel elevado de Analista para Aprovador após mudança de função na planta."
+    },
+    diffFields:{
+      "Registro":"Registro","Categoria PAF":"Categoria PAF","Custo proposto":"Custo proposto","Status":"Status",
+      "Centro de custo":"Centro de custo","Frete de retorno":"Frete de retorno","Custo total":"Custo total",
+      "Aprovador":"Aprovador","Apuração":"Apuração","Quantidade":"Quantidade","Motivo":"Motivo",
+      "Custo apurado":"Custo apurado","Custo do produto":"Custo do produto","Confiança do valor":"Confiança do valor",
+      "Limite":"Limite","Destinatários":"Destinatários","Rateio":"Rateio","Subcategorias":"Subcategorias",
+      "Nova subcategoria":"Nova subcategoria","Eventos":"Eventos","Papel":"Papel","Plantas":"Plantas"
+    },
+    diffValues:{
+      "Rascunho":"Rascunho","Em revisão":"Em revisão","Pendente":"Pendente","Provisório":"Provisório",
+      "Confirmado":"Confirmado","Ajustado":"Ajustado","Cancelado":"Cancelado",
+      "não informado":"não informado","não definido":"não definido","Em apuração":"Em apuração","Fechada":"Fechada",
+      "estimado":"estimado","extraído":"extraído","Analista":"Analista","Aprovador":"Aprovador",
+      "Falha externa":"Falha externa","Falha interna":"Falha interna",
+      "Duplicidade com EV-2026-0902":"Duplicidade com EV-2026-0902","Multa contratual":"Multa contratual",
+      "182 peças":"182 peças","174 peças":"174 peças","2 usuários":"2 usuários","4 usuários":"4 usuários",
+      "3 plantas":"3 plantas"
+    }
+  },
+  en: {
+    themeAria:"Toggle theme", userAria:"Account menu",
+    kicker:"Compliance · immutable trail", pageTitle:"History and audit trail",
+    lead:"Every change to an event, cost or rule is recorded with author, timestamp and previous state. The log is not editable and does not expire within the plan's retention period.",
+    export:"Export", filters:"Filters", clear:"Clear", clearFilters:"Clear filters",
+    allM:"All", allF:"All",
+    fUserLabel:"User", fActionLabel:"Action type", fPlantLabel:"Plant", fOriginLabel:"Origin", fPeriodLabel:"Period",
+    pafCategory:"PAF category", consolidated:"Consolidated", ai:"AI", manual:"Manual",
+    actions:{create:"Creation",edit:"Edit",approve:"Approval",reject:"Rejection",delete:"Deletion"},
+    periods:["Last 7 days","Last 30 days","Last quarter","Entire history"],
+    thTs:"Timestamp", thUser:"User", thOrigin:"Origin", thAction:"Action",
+    thEntity:"Affected entity", thCategory:"Category", thPlant:"Plant",
+    beforeAfter:"State before and after", before:"Before", after:"After",
+    reasonLabel:"Recorded justification", hashLabel:"Record hash",
+    emptyMsg:"No record matches these filters.",
+    close:"Close", details:"See details",
+    notApplicable:"NOT APPLICABLE", tagAi:"AI", tagManual:"MANUAL",
+    oneRecord:" record", manyRecords:" records", ofTotal:" of ",
+    retention:"Immutable log · 24-month retention on the Pro plan · America/Sao_Paulo timezone",
+    expOne:" record exported", expMany:" records exported",
+    expTail1:" as ", expTail2:", with the current filters. The file includes a hash for each record for the auditor to verify.",
+    aiEngine:"AI engine",
+    paf:{"Prevenção":"Prevention","Avaliação":"Appraisal","Falha interna":"Internal failure","Falha externa":"External failure"},
+    pafNa:"Not applicable",
+    months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+    entities:{
+      e1:"Cost event — customer complaint", e2:"Cost event — machining scrap",
+      e3:"Cost event — weld rework", e4:"Cost event — partial return",
+      e5:"Alert rule — monthly external failure", e6:"Cost event — supplier audit",
+      e7:"Cost event — duplicate inspection", e8:"Cost structure — subcategories",
+      e9:"Cost event — line stoppage", e10:"Monthly accounting — August 2026", e11:"User — permissions"
+    },
+    reasons:{
+      r1:"Automatic extraction from 2 attachments and 1 text description. PAF classification with high confidence on 8 of 12 fields.",
+      r2:"Cost center entered manually and freight amount corrected per the carrier invoice.",
+      r3:"Approved for the September 2026 accounting. Average part cost assumption accepted.",
+      r4:"Night shift scrap spreadsheet processed. Three fields without sufficient confidence.",
+      r5:"Part quantity adjusted after a physical count in the warehouse.",
+      r6:"Rejected: rework hours already posted on event EV-2026-0902. Duplicate entry.",
+      r7:"Reprocessed after a new attachment from the analyst. Amount recalculated with the complete invoice.",
+      r8:"Monthly threshold raised after reviewing the quality budget with controlling.",
+      r9:"Supplier audit cost approved and allocated across the three plants.",
+      r10:"Deleted at controlling's request: duplicate entry of the same inspection report. Record kept in the log.",
+      r11:"Subcategory created to separate contractual penalty from recall, a requirement of the automotive customer.",
+      r12:"Line stoppage report processed from the production supervisor's PDF.",
+      r13:"August accounting closed and released to controlling. 318 events consolidated.",
+      r14:"Role raised from Analyst to Approver after a change of function at the plant."
+    },
+    diffFields:{
+      "Registro":"Record","Categoria PAF":"PAF category","Custo proposto":"Proposed cost","Status":"Status",
+      "Centro de custo":"Cost center","Frete de retorno":"Return freight","Custo total":"Total cost",
+      "Aprovador":"Approver","Apuração":"Accounting","Quantidade":"Quantity","Motivo":"Reason",
+      "Custo apurado":"Accounted cost","Custo do produto":"Product cost","Confiança do valor":"Amount confidence",
+      "Limite":"Threshold","Destinatários":"Recipients","Rateio":"Allocation","Subcategorias":"Subcategories",
+      "Nova subcategoria":"New subcategory","Eventos":"Events","Papel":"Role","Plantas":"Plants"
+    },
+    diffValues:{
+      "Rascunho":"Draft","Em revisão":"Under review","Pendente":"Pending","Provisório":"Provisional",
+      "Confirmado":"Confirmed","Ajustado":"Adjusted","Cancelado":"Cancelled",
+      "não informado":"not provided","não definido":"not defined","Em apuração":"In accounting","Fechada":"Closed",
+      "estimado":"estimated","extraído":"extracted","Analista":"Analyst","Aprovador":"Approver",
+      "Falha externa":"External failure","Falha interna":"Internal failure",
+      "Duplicidade com EV-2026-0902":"Duplicate of EV-2026-0902","Multa contratual":"Contractual penalty",
+      "182 peças":"182 parts","174 peças":"174 parts","2 usuários":"2 users","4 usuários":"4 users",
+      "3 plantas":"3 plants"
+    }
+  },
+  es: {
+    themeAria:"Alternar tema", userAria:"Menú de la cuenta",
+    kicker:"Compliance · trazabilidad inmutable", pageTitle:"Historial y auditoría",
+    lead:"Todo cambio en evento, costo o regla queda registrado con autor, momento y estado anterior. El registro no es editable y no expira dentro del período de retención del plan.",
+    export:"Exportar", filters:"Filtros", clear:"Limpiar", clearFilters:"Limpiar filtros",
+    allM:"Todos", allF:"Todas",
+    fUserLabel:"Usuario", fActionLabel:"Tipo de acción", fPlantLabel:"Planta", fOriginLabel:"Origen", fPeriodLabel:"Período",
+    pafCategory:"Categoría PAF", consolidated:"Consolidado", ai:"IA", manual:"Manual",
+    actions:{create:"Creación",edit:"Edición",approve:"Aprobación",reject:"Rechazo",delete:"Eliminación"},
+    periods:["Últimos 7 días","Últimos 30 días","Último trimestre","Todo el historial"],
+    thTs:"Marca de tiempo", thUser:"Usuario", thOrigin:"Origen", thAction:"Acción",
+    thEntity:"Entidad afectada", thCategory:"Categoría", thPlant:"Planta",
+    beforeAfter:"Estado antes y después", before:"Antes", after:"Después",
+    reasonLabel:"Justificación registrada", hashLabel:"Hash del registro",
+    emptyMsg:"Ningún registro corresponde a estos filtros.",
+    close:"Cerrar", details:"Ver detalles",
+    notApplicable:"NO APLICABLE", tagAi:"IA", tagManual:"MANUAL",
+    oneRecord:" registro", manyRecords:" registros", ofTotal:" de ",
+    retention:"Registro inmutable · retención de 24 meses en el plan Pro · huso America/Sao_Paulo",
+    expOne:" registro exportado", expMany:" registros exportados",
+    expTail1:" en ", expTail2:", con los filtros actuales. El archivo incluye hash de cada registro para verificación del auditor.",
+    aiEngine:"Motor de IA",
+    paf:{"Prevenção":"Prevención","Avaliação":"Evaluación","Falha interna":"Fallo interno","Falha externa":"Fallo externo"},
+    pafNa:"No aplicable",
+    months:["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"],
+    entities:{
+      e1:"Evento de costo — reclamo de cliente", e2:"Evento de costo — chatarra de mecanizado",
+      e3:"Evento de costo — retrabajo de soldadura", e4:"Evento de costo — devolución parcial",
+      e5:"Regla de alerta — fallo externo mensual", e6:"Evento de costo — auditoría de proveedor",
+      e7:"Evento de costo — inspección duplicada", e8:"Estructura de costos — subcategorías",
+      e9:"Evento de costo — parada de línea", e10:"Cierre mensual — agosto de 2026", e11:"Usuario — permisos"
+    },
+    reasons:{
+      r1:"Extracción automática de 2 adjuntos y 1 descripción en texto. Clasificación PAF con confianza alta en 8 de 12 campos.",
+      r2:"Centro de costo informado manualmente y valor del flete corregido según la factura del transportista.",
+      r3:"Aprobado para el cierre de septiembre de 2026. Premisa de costo medio de la pieza aceptada.",
+      r4:"Planilla de chatarra del turno nocturno procesada. Tres campos sin confianza suficiente.",
+      r5:"Cantidad de piezas ajustada tras conteo físico en el almacén.",
+      r6:"Rechazado: horas de retrabajo ya registradas en el evento EV-2026-0902. Duplicidad de registro.",
+      r7:"Reprocesamiento tras nuevo adjunto enviado por el analista. Valor recalculado con la factura completa.",
+      r8:"Límite mensual elevado tras revisión del presupuesto de calidad con controlaría.",
+      r9:"Costo de auditoría de proveedor aprobado y prorrateado entre las tres plantas.",
+      r10:"Eliminado a pedido de controlaría: registro duplicado del mismo informe de inspección. Constancia mantenida en el log.",
+      r11:"Subcategoría creada para separar multa contractual de recall, exigencia del cliente automotriz.",
+      r12:"Informe de parada de línea procesado a partir del PDF del supervisor de producción.",
+      r13:"Cierre de agosto finalizado y liberado a controlaría. 318 eventos consolidados.",
+      r14:"Rol elevado de Analista a Aprobador tras cambio de función en la planta."
+    },
+    diffFields:{
+      "Registro":"Registro","Categoria PAF":"Categoría PAF","Custo proposto":"Costo propuesto","Status":"Estado",
+      "Centro de custo":"Centro de costo","Frete de retorno":"Flete de retorno","Custo total":"Costo total",
+      "Aprovador":"Aprobador","Apuração":"Cierre","Quantidade":"Cantidad","Motivo":"Motivo",
+      "Custo apurado":"Costo contabilizado","Custo do produto":"Costo del producto","Confiança do valor":"Confianza del valor",
+      "Limite":"Límite","Destinatários":"Destinatarios","Rateio":"Prorrateo","Subcategorias":"Subcategorías",
+      "Nova subcategoria":"Nueva subcategoría","Eventos":"Eventos","Papel":"Rol","Plantas":"Plantas"
+    },
+    diffValues:{
+      "Rascunho":"Borrador","Em revisão":"En revisión","Pendente":"Pendiente","Provisório":"Provisional",
+      "Confirmado":"Confirmado","Ajustado":"Ajustado","Cancelado":"Cancelado",
+      "não informado":"no informado","não definido":"no definido","Em apuração":"En cierre","Fechada":"Cerrada",
+      "estimado":"estimado","extraído":"extraído","Analista":"Analista","Aprovador":"Aprobador",
+      "Falha externa":"Fallo externo","Falha interna":"Fallo interno",
+      "Duplicidade com EV-2026-0902":"Duplicidad con EV-2026-0902","Multa contratual":"Multa contractual",
+      "182 peças":"182 piezas","174 peças":"174 piezas","2 usuários":"2 usuarios","4 usuários":"4 usuarios",
+      "3 plantas":"3 plantas"
+    }
+  }
+};
+
+const ENTITY_KEYS = {
+  "Evento de custo — reclamação de cliente":"e1","Evento de custo — refugo de usinagem":"e2",
+  "Evento de custo — retrabalho de solda":"e3","Evento de custo — devolução parcial":"e4",
+  "Regra de alerta — falha externa mensal":"e5","Evento de custo — auditoria de fornecedor":"e6",
+  "Evento de custo — inspeção duplicada":"e7","Estrutura de custos — subcategorias":"e8",
+  "Evento de custo — parada de linha":"e9","Apuração mensal — agosto de 2026":"e10","Usuário — permissões":"e11"
+};
+
+const CHROME = {
+  "pt-BR": { nav1:"Painel", nav2:"Eventos", nav3:"Custos", nav4:"Auditoria", nav5:"Relatórios", nav6:"Alertas", nav7:"Integrações",
+    menuProfile:"Meu perfil", menuOrg:"Organização e plantas", menuTeam:"Equipe e permissões",
+    menuBilling:"Assinatura e faturas", menuHelp:"Central de Ajuda e Treinamento", menuTrust:"Central de Confiança", menuSignOut:"Sair", role:"Administradora · Pro" },
+  "en": { nav1:"Dashboard", nav2:"Events", nav3:"Costs", nav4:"Audit trail", nav5:"Reports", nav6:"Alerts", nav7:"Integrations",
+    menuProfile:"My profile", menuOrg:"Organization and plants", menuTeam:"Team and permissions",
+    menuBilling:"Subscription and invoices", menuHelp:"Help and Training Center", menuTrust:"Trust Center", menuSignOut:"Sign out", role:"Administrator · Pro" },
+  "es": { nav1:"Panel", nav2:"Eventos", nav3:"Costos", nav4:"Auditoría", nav5:"Informes", nav6:"Alertas", nav7:"Integraciones",
+    menuProfile:"Mi perfil", menuOrg:"Organización y plantas", menuTeam:"Equipo y permisos",
+    menuBilling:"Suscripción y facturas", menuHelp:"Central de Ayuda y Capacitación", menuTrust:"Centro de Confianza", menuSignOut:"Salir", role:"Administradora · Pro" }
+};
+
+class Component extends DCLogic {
+  state = {
+    theme: readTheme(), userOpen: false, projOpen: false, open: {}, format: "csv", exported: false,
+    fUser: "", fAction: "", fPaf: "", fPlant: "", fActor: "", fPeriod: "90"
+  };
+
+  set(key) { return (e) => this.setState({ [key]: e.target.value, exported: false }); }
+
+  renderVals() {
+    const s = this.state;
+    const theme = s.theme || this.props.theme || "light";
+    const lang = readLang() || "pt-BR";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const tEntity = (n) => (ENTITY_KEYS[n] && t.entities[ENTITY_KEYS[n]]) || n;
+    const tPaf = (n) => t.paf[n] || n;
+    const tField = (n) => t.diffFields[n] || n;
+    const tValue = (v) => t.diffValues[v] || v;
+    const tUser = (u) => (u === "Motor de IA" ? t.aiEngine : u);
+
+    const days = s.fPeriod === "all" ? Infinity : parseInt(s.fPeriod, 10);
+    const filtered = LOG.filter((r) =>
+      (!s.fUser || r.user === s.fUser) &&
+      (!s.fAction || r.action === s.fAction) &&
+      (!s.fPaf || r.paf === s.fPaf) &&
+      (!s.fPlant || r.plant === s.fPlant) &&
+      (!s.fActor || r.actor === s.fActor) &&
+      r.d <= days
+    );
+
+    const users = [];
+    LOG.forEach((r) => { if (users.indexOf(r.user) === -1) users.push(r.user); });
+
+    const rows = filtered.map((r, i) => {
+      const a = ACTIONS[r.action];
+      const key = r.id + i;
+      const open = !!s.open[key];
+      const ai = r.actor === "ai";
+      return {
+        ts: stamp(r.d, r.h, t.months),
+        user: tUser(r.user),
+        actorLabel: ai ? t.tagAi : t.tagManual,
+        actorFg: ai ? "var(--info)" : "var(--ink2)",
+        actorBg: ai ? "var(--infoBg)" : "transparent",
+        actorBorder: ai ? "var(--info)" : "var(--line2)",
+        actionLabel: t.actions[r.action] || a.label,
+        actionColor: a.color,
+        entity: tEntity(r.entity),
+        entityId: r.id,
+        paf: r.paf === "—" ? t.notApplicable : tPaf(r.paf),
+        pafInk: pafColor(r.paf).ink, pafBg: pafColor(r.paf).bg, pafLine: pafColor(r.paf).line,
+        plant: r.plant,
+        open,
+        btnLabel: open ? t.close : t.details,
+        btnBg: open ? "var(--acc)" : "transparent",
+        btnFg: open ? "var(--accInk)" : "var(--ink)",
+        btnBorder: open ? "var(--acc)" : "var(--line2)",
+        toggle: () => this.setState((st) => ({ open: Object.assign({}, st.open, { [key]: !st.open[key] }) })),
+        versionLabel: r.id,
+        reason: t.reasons["r" + (LOG.indexOf(r) + 1)] || r.reason,
+        hash: hash(i),
+        diff: r.diff.map((d) => ({
+          field: tField(d[0]), before: d[1] === "—" ? "—" : tValue(d[1]), after: d[2] === "—" ? "—" : tValue(d[2]),
+          beforeColor: "var(--ink3)",
+          afterColor: d[1] === d[2] ? "var(--ink3)" : "var(--ink)"
+        }))
+      };
+    });
+
+    const fmt = s.format;
+
+    return {
+      t,
+      theme,
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+      c: CHROME[lang] || CHROME["pt-BR"],
+      userOpen: this.state.userOpen,
+      toggleUser: () => this.setState((st) => ({ userOpen: !st.userOpen })),
+      setPt: () => { writeLang("pt-BR"); this.forceUpdate(); },
+      setEn: () => { writeLang("en"); this.forceUpdate(); },
+      setEs: () => { writeLang("es"); this.forceUpdate(); },
+      ptBg: lang === "pt-BR" ? "var(--acc)" : "var(--bg)", ptFg: lang === "pt-BR" ? "var(--accInk)" : "var(--ink2)",
+      enBg: lang === "en" ? "var(--acc)" : "var(--bg)", enFg: lang === "en" ? "var(--accInk)" : "var(--ink2)",
+      esBg: lang === "es" ? "var(--acc)" : "var(--bg)", esFg: lang === "es" ? "var(--accInk)" : "var(--ink2)",
+      projOpen: s.projOpen,
+      projBg: s.projOpen ? "var(--surf2)" : "transparent",
+      toggleProj: () => this.setState((st) => ({ projOpen: !st.projOpen })),
+
+      fUser: s.fUser, fAction: s.fAction, fPaf: s.fPaf, fPlant: s.fPlant, fActor: s.fActor, fPeriod: s.fPeriod,
+      onUser: this.set("fUser"), onAction: this.set("fAction"), onPaf: this.set("fPaf"),
+      onPlant: this.set("fPlant"), onActor: this.set("fActor"), onPeriod: this.set("fPeriod"),
+      pafFilter: [{ v: "", label: t.allF }]
+        .concat(PAF_ORDER.map((n) => ({ v: n, label: tPaf(n) })))
+        .concat([{ v: "—", label: t.pafNa }])
+        .map((o) => {
+          const c = pafColor(o.v);
+          const hue = PAF_COLORS[o.v] !== undefined;
+          const sel = s.fPaf === o.v;
+          return {
+            label: o.label,
+            bg: sel ? c.bg : "transparent",
+            border: hue ? c.line : (sel ? "var(--ink3)" : "var(--line)"),
+            fg: hue ? c.ink : (sel ? "var(--ink)" : "var(--ink2)"),
+            dot: hue ? c.ink : (sel ? "var(--ink3)" : "var(--line2)"),
+            pick: () => this.setState({ fPaf: o.v })
+          };
+        }),
+      actionOptions: ["create","edit","approve","reject","delete"].map((k) => ({ value: k, label: t.actions[k] })),
+      periodOptions: ["7","30","90","all"].map((v, i) => ({ value: v, label: t.periods[i] })),
+      userOptions: users.map((u) => ({ value: u, label: tUser(u) })),
+      clearFilters: () => this.setState({ fUser: "", fAction: "", fPaf: "", fPlant: "", fActor: "", fPeriod: "all", exported: false }),
+
+      rows,
+      isEmpty: rows.length === 0,
+      resultCount: rows.length + (rows.length === 1 ? t.oneRecord : t.manyRecords) + t.ofTotal + LOG.length,
+      retentionNote: t.retention,
+
+      csvBg: fmt === "csv" ? "var(--acc)" : "var(--bg)",
+      csvFg: fmt === "csv" ? "var(--accInk)" : "var(--ink2)",
+      pdfBg: fmt === "pdf" ? "var(--acc)" : "var(--bg)",
+      pdfFg: fmt === "pdf" ? "var(--accInk)" : "var(--ink2)",
+      setCsv: () => this.setState({ format: "csv", exported: false }),
+      setPdf: () => this.setState({ format: "pdf", exported: false }),
+      doExport: () => this.setState({ exported: true }),
+      exported: s.exported,
+      exportMessage: rows.length + (rows.length === 1 ? t.expOne : t.expMany) + t.expTail1 + fmt.toUpperCase() + t.expTail2
+    };
+  }
+}
+
+</script>
+</body>
+</html>

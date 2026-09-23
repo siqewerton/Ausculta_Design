@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--accSoft:#171717;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+    --paf1:#4E93B8;--paf2:#3E9E8F;--paf3:#D19A45;--paf4:#C4737C;
+    --paf1Soft:rgba(78,147,184,0.16);--paf2Soft:rgba(62,158,143,0.16);--paf3Soft:rgba(209,154,69,0.16);--paf4Soft:rgba(196,115,124,0.16);
+    --paf1Line:rgba(78,147,184,0.34);--paf2Line:rgba(62,158,143,0.34);--paf3Line:rgba(209,154,69,0.34);--paf4Line:rgba(196,115,124,0.34);
+  }
+  [data-theme="light"]{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--accSoft:#F3F3F2;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+    --paf1:#265C7A;--paf2:#257266;--paf3:#AA7123;--paf4:#91363E;
+    --paf1Soft:rgba(38,92,122,0.12);--paf2Soft:rgba(37,114,102,0.12);--paf3Soft:rgba(170,113,35,0.14);--paf4Soft:rgba(145,54,62,0.14);
+    --paf1Line:rgba(38,92,122,0.28);--paf2Line:rgba(37,114,102,0.28);--paf3Line:rgba(170,113,35,0.32);--paf4Line:rgba(145,54,62,0.32);
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,select,textarea,button{font-family:'Archivo',system-ui,sans-serif}
+  @media (max-width:680px){
+    header nav{flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header nav::-webkit-scrollbar{display:none}
+    header nav a{padding:9px 10px !important;min-height:0;white-space:nowrap;flex:none}
+    header button{height:38px !important}
+    header button[aria-label]{width:38px !important}
+    button{min-height:34px}
+    input,select{min-height:36px}
+    a{display:inline-flex;align-items:center;min-height:32px}
+    p a,span a{display:inline;min-height:0}
+    td button{min-height:34px}
+  }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"/>
+    <g stroke-linecap="square">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"/>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"/>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"/>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"/>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box;padding-bottom:40px">
+
+  <header style="border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:20">
+    <div style="max-width:1560px;margin:0 auto;padding:14px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px">
+      <a href="Q-Cost AI Dashboard v2.dc.html" style="display:flex;align-items:center;gap:11px;flex:none" style-hover="text-decoration:none">
+        <svg width="23" height="23" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"/><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"/><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"/></svg>
+        <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </a>
+      <nav style="flex:1 1 200px;display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center">
+        <a href="Q-Cost AI Dashboard v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav1 }}</a>
+        <a href="Q-Cost AI Novo Evento v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav2 }}</a>
+        <a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a>
+        <a href="Q-Cost AI Auditoria v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav4 }}</a>
+        <a href="Q-Cost AI Regras de Alerta v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav6 }}</a>
+        <a href="Q-Cost AI Relatorios v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav5 }}</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px;flex:none">
+        <div style="display:flex;gap:1px;background:var(--line)">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="Alternar tema" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+        <div style="position:relative;flex:none">
+          <button type="button" onClick="{{ toggleUser }}" aria-label="Menu da conta" style="width:28px;height:28px;padding:0;background:transparent;border:1px solid var(--line2);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer" style-hover="border-color:var(--ink3)">AC</button>
+          <sc-if value="{{ userOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:36px;right:0;z-index:40;min-width:244px;border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:8px 0">
+              <div style="padding:11px 15px 13px;border-bottom:1px solid var(--line)">
+                <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Metalúrgica Paranaense S.A.</div>
+                <div style="font-size:13px">Ana Ribeiro Camargo</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">ana.camargo@empresa.com.br</div>
+                <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:6px">{{ c.role }}</div>
+              </div>
+              <span style="display:block;padding:7px 12px;font-size:12px;font-weight:400;background:var(--surf2)">{{ c.menuProfile }}</span>
+              <a href="Q-Cost AI Organizacao v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuOrg }}</a>
+              <a href="Q-Cost AI Equipe v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuTeam }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Integracoes v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.nav7 }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Ajuda v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuHelp }}</a>
+              <a href="Q-Cost AI Confianca v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuTrust }}</a>
+              <a href="Q-Cost AI Assinatura v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuBilling }}</a>
+              <div style="height:1px;background:var(--line);margin:8px 0"></div>
+              <a href="Q-Cost AI Login v2.dc.html" style="display:block;padding:9px 15px;font-size:13px;color:var(--ink2)" style-hover="background:var(--surf2);color:var(--ink);text-decoration:none">{{ c.menuSignOut }}</a>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="max-width:1400px;margin:0 auto;padding:clamp(26px,3.6vw,48px) clamp(16px,4vw,44px);display:flex;flex-direction:column;gap:clamp(26px,3.4vw,42px)">
+
+    <section style="display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,44px);align-items:flex-end;justify-content:space-between">
+      <div style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:12px">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.kicker }}</span>
+        <h1 style="margin:0;font-size:clamp(28px,4.2vw,44px);font-weight:200;line-height:1.12;letter-spacing:-0.03em">{{ t.pageTitle }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.7;color:var(--ink2);max-width:72ch;text-wrap:pretty">{{ t.lead }}</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px;flex:0 1 250px;min-width:215px;border-left:1px solid var(--line);padding-left:18px">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.slaTitle }}</span>
+        <sc-for list="{{ sla }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px">
+            <span style="font-size:12px;color:var(--ink2)">{{ s.k }}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:12px;white-space:nowrap">{{ s.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:13px">
+      <div style="display:flex;align-items:center;gap:12px;border:1px solid var(--line2);background:var(--surf);padding:0 14px;height:48px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5 21 21"></path></svg>
+        <input type="text" value="{{ query }}" onChange="{{ onQuery }}" placeholder="{{ t.searchPh }}" style="flex:1 1 auto;min-width:0;font-size:14px;border:none;background:transparent;color:var(--ink);outline:none;height:46px">
+        <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ clearQuery }}" style="font-family:'DM Mono',monospace;font-size:11px;height:26px;padding:0 9px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;flex:none">{{ t.clear }}</button>
+        </sc-if>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);flex:none">{{ t.suggested }}</span>
+        <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="4">
+          <button type="button" onClick="{{ ch.pick }}" style="font-size:12px;height:29px;padding:0 11px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;white-space:nowrap" style-hover="border-color:var(--ink3);color:var(--ink)">{{ ch.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(18px,2.4vw,28px);align-items:start">
+
+      <section style="border:1px solid var(--line);border-top:2px solid var(--sig);background:var(--surf);display:flex;flex-direction:column">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.chatTitle }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;color:var(--sig)">{{ t.chatBadge }}</span>
+        </div>
+        <div style="padding:16px 18px;display:flex;flex-direction:column;gap:14px">
+          <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink3)">{{ t.chatNote }}</p>
+          <div style="display:flex;flex-direction:column;gap:12px;max-height:420px;overflow-y:auto">
+            <sc-for list="{{ messages }}" as="m" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:7px;align-items:{{ m.align }}">
+                <span style="font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ m.who }}</span>
+                <div style="max-width:88%;border:1px solid {{ m.line }};background:{{ m.bg }};padding:12px 14px;display:flex;flex-direction:column;gap:9px">
+                  <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2);white-space:pre-line">{{ m.text }}</p>
+                  <sc-if value="{{ m.hasSources }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-wrap:wrap;gap:7px;padding-top:9px;border-top:1px solid var(--line)">
+                      <sc-for list="{{ m.sources }}" as="src" hint-placeholder-count="2">
+                        <a href="{{ src.href }}" style="display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border:1px solid {{ src.line }};background:{{ src.bg }};color:{{ src.fg }};font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap" style-hover="text-decoration:none;border-color:var(--ink3)">
+                          <span style="width:4px;height:4px;background:{{ src.fg }};display:block;flex:none"></span>{{ src.label }}
+                        </a>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ prompts }}" as="p" hint-placeholder-count="3">
+              <button type="button" onClick="{{ p.pick }}" style="font-size:12px;min-height:30px;padding:6px 11px;text-align:left;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer" style-hover="border-color:var(--ink3);color:var(--ink)">{{ p.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:9px;align-items:flex-end">
+            <input type="text" value="{{ draft }}" onChange="{{ onDraft }}" placeholder="{{ t.chatPh }}" style="flex:1 1 auto;min-width:0;font-size:13px;height:38px;padding:0 11px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);box-sizing:border-box">
+            <button type="button" onClick="{{ send }}" style="font-size:13px;height:38px;padding:0 15px;border:none;background:var(--acc);color:var(--accInk);cursor:pointer;flex:none;white-space:nowrap">{{ t.send }}</button>
+          </div>
+        </div>
+      </section>
+
+      <section style="border:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column">
+        <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.faqTitle }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)">{{ faqCount }}</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border-bottom:1px solid var(--line)">
+          <sc-for list="{{ topics }}" as="tp" hint-placeholder-count="5">
+            <button type="button" onClick="{{ tp.pick }}" style="font-size:12px;height:36px;padding:0 13px;border:none;background:{{ tp.bg }};color:{{ tp.fg }};cursor:pointer;white-space:nowrap;flex:1 1 auto">{{ tp.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="5">
+            <div style="border-bottom:1px solid var(--line)">
+              <button type="button" onClick="{{ q.toggle }}" style="width:100%;text-align:left;display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border:none;background:{{ q.bg }};color:var(--ink);cursor:pointer;font-size:13px" style-hover="background:var(--surf2)">
+                <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--ink3);flex:none;padding-top:1px">{{ q.sign }}</span>
+                <span style="flex:1 1 auto;min-width:0;line-height:1.5">{{ q.q }}</span>
+                <span style="font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);flex:none;padding-top:3px;white-space:nowrap">{{ q.tag }}</span>
+              </button>
+              <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:0 18px 16px 42px;display:flex;flex-direction:column;gap:10px">
+                  <p style="margin:0;font-size:12.5px;line-height:1.75;color:var(--ink2);max-width:74ch">{{ q.a }}</p>
+                  <a href="{{ q.href }}" style="align-self:flex-start;font-size:11.5px;color:var(--ink);text-decoration:underline;text-underline-offset:3px">{{ q.link }}</a>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <sc-if value="{{ faqEmpty }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;padding:22px 18px;font-size:12.5px;line-height:1.7;color:var(--ink3)">{{ t.faqEmpty }}</p>
+          </sc-if>
+        </div>
+      </section>
+    </div>
+
+    <section style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.videoTitle }}</span>
+        <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);max-width:74ch">{{ t.videoNote }}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,262px),1fr));gap:clamp(14px,1.8vw,20px)">
+        <sc-for list="{{ videos }}" as="v" hint-placeholder-count="6">
+          <div style="border:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column">
+            <div style="aspect-ratio:16/9;background:var(--surf2);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative">
+              <span style="width:44px;height:44px;border:1px solid var(--line2);background:var(--bg);display:flex;align-items:center;justify-content:center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M7 4l12 8-12 8V4Z"></path></svg>
+              </span>
+              <span style="position:absolute;right:9px;bottom:9px;font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;background:var(--bg);border:1px solid var(--line2);color:var(--ink2)">{{ v.time }}</span>
+              <span style="position:absolute;left:9px;top:9px;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.05em;text-transform:uppercase;padding:2px 7px;background:{{ v.tagBg }};border:1px solid {{ v.tagLine }};color:{{ v.tagFg }}">{{ v.tag }}</span>
+            </div>
+            <div style="padding:15px 16px;display:flex;flex-direction:column;gap:9px;flex:1 1 auto">
+              <span style="font-size:14px;line-height:1.35">{{ v.title }}</span>
+              <p style="margin:0;font-size:11.5px;line-height:1.65;color:var(--ink3)">{{ v.desc }}</p>
+              <a href="{{ v.href }}" style="margin-top:auto;font-size:11.5px;color:var(--ink);text-decoration:underline;text-underline-offset:3px">{{ v.cta }}</a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="contato" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.contactTitle }}</span>
+        <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);max-width:74ch">{{ t.contactNote }}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,262px),1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)">
+        <sc-for list="{{ channels }}" as="ch" hint-placeholder-count="3">
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(16px,2vw,22px);display:flex;flex-direction:column;gap:11px;background:var(--surf)">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ ch.kind }}</span>
+            <span style="font-size:14.5px;line-height:1.35">{{ ch.title }}</span>
+            <p style="margin:0;font-size:11.5px;line-height:1.7;color:var(--ink3)">{{ ch.body }}</p>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink2)">{{ ch.value }}</span>
+            <button type="button" onClick="{{ ch.act }}" style="align-self:flex-start;margin-top:auto;font-size:12.5px;height:34px;padding:0 14px;border:1px solid {{ ch.border }};background:{{ ch.bg }};color:{{ ch.fg }};cursor:pointer;white-space:nowrap">{{ ch.cta }}</button>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ ticketOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid var(--line);border-left:2px solid var(--pos);background:var(--posBg);padding:15px 17px">
+          <p style="margin:0;font-size:12.5px;line-height:1.7;color:var(--ink2);max-width:80ch">{{ t.ticketMsg }}</p>
+        </div>
+      </sc-if>
+    </section>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;},&quot;language&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pt-BR&quot;,&quot;en&quot;,&quot;es&quot;],&quot;default&quot;:&quot;pt-BR&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Base&quot;}}">
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() { try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; } }
+function writeTheme(v) { try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {} }
+const LANG_KEY = "qcost-lang-v2";
+function readLang() { try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; } }
+function writeLang(v) { try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {} }
+
+const CHROME = {
+  "pt-BR": { nav1:"Painel", nav2:"Eventos", nav3:"Custos", nav4:"Auditoria", nav5:"Relatórios", nav6:"Alertas", nav7:"Integrações",
+    themeAria:"Alternar tema", userAria:"Menu da conta", role:"Administradora · Pro",
+    menuProfile:"Meu perfil", menuOrg:"Organização e plantas", menuTeam:"Equipe e permissões",
+    menuBilling:"Assinatura e faturas", menuHelp:"Central de Ajuda e Treinamento", menuTrust:"Central de Confiança", menuSignOut:"Sair" },
+  en: { nav1:"Dashboard", nav2:"Events", nav3:"Costs", nav4:"Audit trail", nav5:"Reports", nav6:"Alerts", nav7:"Integrations",
+    themeAria:"Toggle theme", userAria:"Account menu", role:"Administrator · Pro",
+    menuProfile:"My profile", menuOrg:"Organization and plants", menuTeam:"Team and permissions",
+    menuBilling:"Subscription and invoices", menuHelp:"Help and Training Center", menuTrust:"Trust Center", menuSignOut:"Sign out" },
+  es: { nav1:"Panel", nav2:"Eventos", nav3:"Costos", nav4:"Auditoría", nav5:"Informes", nav6:"Alertas", nav7:"Integraciones",
+    themeAria:"Alternar tema", userAria:"Menú de la cuenta", role:"Administradora · Pro",
+    menuProfile:"Mi perfil", menuOrg:"Organización y plantas", menuTeam:"Equipo y permisos",
+    menuBilling:"Suscripción y facturas", menuHelp:"Central de Ayuda y Capacitación", menuTrust:"Centro de Confianza", menuSignOut:"Salir" }
+};
+
+const HREF = {
+  evento: "Q-Cost AI Novo Evento v2.dc.html",
+  revisar: "Q-Cost AI Revisar Evento v2.dc.html",
+  custos: "Q-Cost AI Custos v2.dc.html",
+  paf: "Q-Cost AI Editor PAF v2.dc.html",
+  org: "Q-Cost AI Organizacao v2.dc.html",
+  integra: "Q-Cost AI Integracoes v2.dc.html",
+  auditoria: "Q-Cost AI Auditoria v2.dc.html",
+  relatorios: "Q-Cost AI Relatorios v2.dc.html",
+  alertas: "Q-Cost AI Regras de Alerta v2.dc.html",
+  equipe: "Q-Cost AI Equipe v2.dc.html",
+  confianca: "Q-Cost AI Confianca v2.dc.html",
+  contato: "#contato"
+};
+
+const DICT = {
+  "pt-BR": {
+    kicker: "Central de ajuda",
+    pageTitle: "Aprender usando, sem sair da plataforma",
+    lead: "Custo da qualidade é assunto técnico, mas operar a plataforma não precisa ser. Comece pela pergunta: o assistente responde olhando o que a sua conta já fez. Se não resolver, o FAQ e os vídeos estão logo abaixo, e falar com gente é o último degrau — não o primeiro.",
+    slaTitle: "Tempo de resposta",
+    sla: [["Assistente", "imediato"], ["WhatsApp", "até 2 h úteis"], ["E-mail", "até 1 dia útil"]],
+    searchPh: "Busque por uma dúvida, tela ou termo do PAF",
+    clear: "limpar", suggested: "Frequentes",
+    chips: ["Centro de custo", "Aprovar evento", "Estrutura PAF", "Integração por API", "Trocar moeda"],
+
+    chatTitle: "Assistente da sua conta", chatBadge: "VÊ SEUS DADOS",
+    chatNote: "Responde com base na documentação da plataforma e no histórico da Metalúrgica Paranaense: suas plantas, sua estrutura PAF, seus eventos e o que a sua permissão alcança.",
+    chatPh: "Pergunte em português, como falaria com um colega",
+    send: "Enviar",
+    prompts: [
+      "Por que meu evento está parado?",
+      "Como a IA chegou nesse valor?",
+      "Quem pode aprovar na minha conta?"
+    ],
+    youLabel: "Você", aiLabel: "Assistente",
+    seed: [
+      { who: "ai", text: "Olá, Ana. Sua conta tem 1.284 eventos lançados e 6 aguardando ação — 2 vieram por API do ERP, 2 pelo conector MCP e 1 por upload seu.\n\nO que você quer entender?" }
+    ],
+    answers: {
+      parado: {
+        text: "Hoje há 6 eventos na fila. Três estão sem centro de custo informado na chamada de origem, e nesses a plataforma não aprova enquanto o campo estiver vazio.\n\nO mais antigo é o EV-2026-0901, aberto há 3 dias pelo agente de suprimentos: ele espera sua decisão sobre ratear a auditoria entre as três plantas ou lançar no consolidado. Sistemas e agentes não respondem esclarecimento — por isso a fila só anda com uma pessoa.",
+        sources: [["EV-2026-0901", "revisar"], ["Fila de revisão", "evento"]]
+      },
+      valor: {
+        text: "A IA valoriza pela base de cálculo que você cadastrou em cada subcategoria da estrutura PAF. Em Refugo e sucata, sua conta usa custo médio da peça × quantidade, com a tabela de setembro.\n\nQuando o documento vem em outra moeda, ela converte pela taxa do dia do evento e mostra os três números lado a lado: valor no documento, taxa aplicada e valor contabilizado. A taxa é editável antes de aprovar, e fica registrada junto com o valor original.",
+        sources: [["Sua estrutura PAF", "paf"], ["Ver um evento", "revisar"]]
+      },
+      aprovar: {
+        text: "Na sua conta, 4 das 24 pessoas têm o papel Aprovador: você, o Rafael Doi (Joinville), a Camila Prado (Betim) e o Eduardo Lins (controladoria).\n\nAnalistas registram e corrigem, mas não aprovam — podem propor que uma correção vire regra da subcategoria, e essa proposta cai para um aprovador revisar.",
+        sources: [["Equipe e permissões", "equipe"], ["Trilha de auditoria", "auditoria"]]
+      },
+      fallback: {
+        text: "Não encontrei isso na documentação nem no histórico da sua conta com segurança suficiente para responder.\n\nPrefiro não arriscar um palpite em cima de número contábil. Chame a gente pelo WhatsApp — a conversa já vai com o contexto desta pergunta e da tela em que você estava.",
+        sources: [["Ir para o contato", "contato"]]
+      }
+    },
+
+    faqTitle: "Perguntas frequentes", faqEmpty: "Nada encontrado para esta busca. Tente o assistente acima: ele consulta o histórico da sua conta, não só a documentação.",
+    topics: ["Todas", "Primeiros passos", "Eventos", "Contabilização", "Integrações", "Conta"],
+    faqs: [
+      ["Primeiros passos", "Por onde começo depois do onboarding?", "Registre um evento real, pequeno, de uma subcategoria que você domina. O ciclo inteiro — anexo, leitura da IA, correção, aprovação — leva menos de cinco minutos e ensina mais do que qualquer texto. Só depois vale conectar o ERP.", "Registrar um evento", "evento"],
+      ["Primeiros passos", "Preciso preencher toda a estrutura PAF antes de usar?", "Não. A plataforma começa com o template completo das quatro categorias, e você ajusta as subcategorias conforme a operação pede. Estrutura vazia nunca bloqueia o registro de evento.", "Abrir a estrutura PAF", "paf"],
+      ["Eventos", "Por que o evento não aprova?", "Aprovação exige centro de custo preenchido e nenhuma pendência crítica. Eventos que chegam por API ou MCP costumam vir sem centro de custo — ele é preenchido automaticamente pelo cadastro da planta, mas se a planta não tiver um, o campo fica em branco esperando você.", "Ver a fila", "revisar"],
+      ["Eventos", "Posso corrigir a IA sem virar regra?", "Sim, e esse é o padrão. Toda correção vale só para aquele evento, a menos que você marque explicitamente 'sempre que for esta subcategoria' — e mesmo aí vira uma proposta que um aprovador revisa antes de valer para a organização.", "Registrar um evento", "evento"],
+      ["Contabilização", "De onde vem o centro de custo?", "Da estrutura PAF: cada subcategoria tem um centro de custo geral e, opcionalmente, um específico por planta. O evento herda o da sua planta; sem específico, usa o geral.", "Configurar centros de custo", "paf"],
+      ["Contabilização", "O que acontece se eu trocar a moeda da organização?", "A plataforma pergunta antes de aplicar. Você escolhe converter todo o histórico por uma taxa que informa, ou manter o passado na moeda anterior. A decisão, a taxa e os totais antes e depois ficam na trilha de auditoria.", "Abrir organização", "org"],
+      ["Contabilização", "Como o custo é atribuído a fornecedor?", "Pela origem do defeito, não por quem detectou. Fornecedor externo alimenta a negociação comercial; unidade interna alimenta a meta de qualidade da planta.", "Ver custos por fornecedor", "custos"],
+      ["Integrações", "Qual a diferença entre API e MCP?", "API REST é para os seus sistemas — ERP, QMS, MES — criarem eventos no momento em que o fato acontece. MCP é para os seus agentes de IA consultarem e lançarem custo em linguagem natural. Os dois caem na mesma fila de revisão humana.", "Ver integrações", "integra"],
+      ["Integrações", "Um evento criado por API já entra na apuração?", "Não. Ele entra como rascunho analisado pela IA e espera aprovação de uma pessoa, igual a um upload manual. Nenhum caminho de entrada dispensa o olho humano.", "Ver o registro de invocações", "integra"],
+      ["Conta", "Quem vê o quê?", "Permissão é por papel e por planta. Um analista de Joinville não enxerga custo de Betim, a menos que tenha escopo consolidado.", "Equipe e permissões", "equipe"],
+      ["Conta", "Onde ficam as políticas de dados?", "Na central de confiança: privacidade, uso de dados pela IA, segurança, retenção e os subprocessadores, com os documentos para a sua área de compliance.", "Abrir central de confiança", "confianca"]
+    ],
+    faqCountOne: " pergunta", faqCountMany: " perguntas",
+
+    videoTitle: "Jornadas em vídeo",
+    videoNote: "Cada vídeo percorre uma jornada inteira, do começo ao fim, na mesma ordem em que você faria. Curtos de propósito: nenhum passa de seis minutos.",
+    videos: [
+      ["Configurar a organização", "5:40", "Primeiros passos", "Do cadastro ao template PAF: país e moeda, plantas, ciclo de apuração e a estrutura que vai classificar tudo depois.", "org"],
+      ["Registrar o primeiro evento", "4:10", "Primeiros passos", "Anexo, descrição em texto, leitura da IA e a sua correção. O ciclo completo de um evento manual.", "evento"],
+      ["Revisar o que a IA propôs", "3:25", "Eventos", "Como ler as três faixas — registro, contabilização e dados extraídos — e o que olhar antes de aprovar.", "revisar"],
+      ["Corrigir e ensinar a plataforma", "3:50", "Eventos", "A diferença entre corrigir um evento e propor uma regra para a subcategoria inteira.", "evento"],
+      ["Ler a apuração do mês", "5:05", "Contabilização", "Categorias, subcategorias, razão entre investimento e perda, e o que levar para a reunião de diretoria.", "custos"],
+      ["Conectar o ERP pela API", "5:55", "Integrações", "Chave, ambiente de teste, primeiro evento por chamada e onde acompanhar o registro de invocações.", "integra"]
+    ],
+    watch: "Abrir a tela desta jornada",
+
+    contactTitle: "Falar com a gente",
+    contactNote: "Quando o assistente e o FAQ não resolverem. A conversa já chega com a sua conta, a tela onde você estava e o que já tentou.",
+    channels: [
+      ["Mensagem", "WhatsApp", "Para dúvida de operação no meio do trabalho. Time de suporte em horário comercial, fuso de Brasília.", "+55 41 99000-0000", "Abrir conversa"],
+      ["Correio", "E-mail", "Para assunto que precisa de anexo, evidência ou registro formal — auditoria, contrato, cobrança.", "suporte@qcost.ai", "Escrever e-mail"],
+      ["Agenda", "Sessão com especialista", "Trinta minutos com quem implanta custo da qualidade em indústria. Incluído nos planos Pro e Enterprise.", "Plano Pro · sem custo", "Agendar horário"]
+    ],
+    ticketMsg: "Conversa aberta com o suporte. Enviamos junto o identificador da sua conta, a tela de origem e as duas últimas perguntas feitas ao assistente — você não precisa repetir o contexto."
+  },
+
+  en: {
+    kicker: "Help center",
+    pageTitle: "Learn by using, without leaving the platform",
+    lead: "Cost of quality is a technical subject, but operating the platform doesn't have to be. Start with the question: the assistant answers by looking at what your account has already done. If that doesn't settle it, the FAQ and the videos are right below, and talking to a person is the last step — not the first.",
+    slaTitle: "Response time",
+    sla: [["Assistant", "immediate"], ["WhatsApp", "within 2 business h"], ["Email", "within 1 business day"]],
+    searchPh: "Search a question, a screen or a PAF term",
+    clear: "clear", suggested: "Common",
+    chips: ["Cost center", "Approve an event", "PAF structure", "API integration", "Change currency"],
+
+    chatTitle: "Your account's assistant", chatBadge: "SEES YOUR DATA",
+    chatNote: "Answers from the platform documentation and from Metalúrgica Paranaense's history: your plants, your PAF structure, your events and whatever your permission reaches.",
+    chatPh: "Ask in plain language, as you would a colleague",
+    send: "Send",
+    prompts: [
+      "Why is my event stuck?",
+      "How did the AI reach that amount?",
+      "Who can approve in my account?"
+    ],
+    youLabel: "You", aiLabel: "Assistant",
+    seed: [
+      { who: "ai", text: "Hello, Ana. Your account has 1,284 events posted and 6 awaiting action — 2 came through the ERP API, 2 through the MCP connector and 1 from your own upload.\n\nWhat would you like to understand?" }
+    ],
+    answers: {
+      parado: {
+        text: "There are 6 events in the queue today. Three have no cost center in the originating call, and the platform will not approve those while the field is empty.\n\nThe oldest is EV-2026-0901, opened 3 days ago by the procurement agent: it is waiting on your decision to allocate the audit across the three plants or post it to consolidated. Systems and agents do not answer clarifications — that is why the queue only moves with a person.",
+        sources: [["EV-2026-0901", "revisar"], ["Review queue", "evento"]]
+      },
+      valor: {
+        text: "The AI values the event by the cost driver you registered on each subcategory of the PAF structure. Under Scrap, your account uses average part cost × quantity, with the September table.\n\nWhen the document arrives in another currency, it converts at the rate of the event date and shows the three numbers side by side: amount on the document, rate applied and amount accounted. The rate is editable before approval, and it is recorded together with the original amount.",
+        sources: [["Your PAF structure", "paf"], ["See an event", "revisar"]]
+      },
+      aprovar: {
+        text: "In your account, 4 of the 24 people hold the Approver role: you, Rafael Doi (Joinville), Camila Prado (Betim) and Eduardo Lins (controlling).\n\nAnalysts record and correct but do not approve — they can propose that a correction become a subcategory rule, and that proposal goes to an approver for review.",
+        sources: [["Team and permissions", "equipe"], ["Audit trail", "auditoria"]]
+      },
+      fallback: {
+        text: "I could not find this in the documentation or in your account history with enough confidence to answer.\n\nI would rather not guess on top of an accounting figure. Reach us on WhatsApp — the conversation already carries the context of this question and the screen you were on.",
+        sources: [["Go to contact", "contato"]]
+      }
+    },
+
+    faqTitle: "Frequently asked", faqEmpty: "Nothing found for this search. Try the assistant above: it queries your account history, not only the documentation.",
+    topics: ["All", "Getting started", "Events", "Accounting", "Integrations", "Account"],
+    faqs: [
+      ["Getting started", "Where do I start after onboarding?", "Record a real, small event from a subcategory you know well. The whole cycle — attachment, AI reading, correction, approval — takes under five minutes and teaches more than any article. Connecting the ERP comes after that.", "Record an event", "evento"],
+      ["Getting started", "Do I need the full PAF structure before using it?", "No. The platform starts with the complete template of the four categories, and you adjust the subcategories as the operation demands. An empty structure never blocks recording an event.", "Open the PAF structure", "paf"],
+      ["Events", "Why won't the event approve?", "Approval requires a cost center and no critical pending fields. Events arriving via API or MCP often come without a cost center — it is filled automatically from the plant registry, but if the plant has none, the field waits for you.", "See the queue", "revisar"],
+      ["Events", "Can I correct the AI without creating a rule?", "Yes, and that is the default. Every correction applies to that event only, unless you explicitly mark 'whenever it is this subcategory' — and even then it becomes a proposal an approver reviews before it applies to the organization.", "Record an event", "evento"],
+      ["Accounting", "Where does the cost center come from?", "From the PAF structure: each subcategory has a general cost center and, optionally, a specific one per plant. The event inherits the one for its plant; with no specific one, it uses the general.", "Configure cost centers", "paf"],
+      ["Accounting", "What happens if I change the organization currency?", "The platform asks before applying. You choose to convert the whole history at a rate you set, or keep the past in the previous currency. The decision, the rate and the totals before and after stay in the audit trail.", "Open organization", "org"],
+      ["Accounting", "How is cost attributed to a supplier?", "By the origin of the defect, not by who detected it. External suppliers feed the commercial negotiation; internal units feed the plant's quality target.", "See cost by supplier", "custos"],
+      ["Integrations", "What is the difference between API and MCP?", "The REST API is for your systems — ERP, QMS, MES — to create events the moment the fact happens. MCP is for your AI agents to query and post cost in natural language. Both land in the same human review queue.", "See integrations", "integra"],
+      ["Integrations", "Does an event created by API go straight into accounting?", "No. It enters as a draft analysed by the AI and waits for a person's approval, same as a manual upload. No entry path skips the human eye.", "See the invocation log", "integra"],
+      ["Account", "Who sees what?", "Permission is by role and by plant. An analyst in Joinville does not see Betim's cost unless they hold consolidated scope.", "Team and permissions", "equipe"],
+      ["Account", "Where are the data policies?", "In the trust center: privacy, AI use of data, security, retention and the subprocessors, with the documents for your compliance team.", "Open the trust center", "confianca"]
+    ],
+    faqCountOne: " question", faqCountMany: " questions",
+
+    videoTitle: "Journeys on video",
+    videoNote: "Each video walks a whole journey end to end, in the order you would do it. Short on purpose: none runs past six minutes.",
+    videos: [
+      ["Set up the organization", "5:40", "Getting started", "From registration to the PAF template: country and currency, plants, accounting cycle and the structure that will classify everything after.", "org"],
+      ["Record the first event", "4:10", "Getting started", "Attachment, text description, AI reading and your correction. The complete cycle of a manual event.", "evento"],
+      ["Review what the AI proposed", "3:25", "Events", "How to read the three bands — record, accounting and extracted data — and what to check before approving.", "revisar"],
+      ["Correct and teach the platform", "3:50", "Events", "The difference between correcting one event and proposing a rule for the whole subcategory.", "evento"],
+      ["Read the month's accounting", "5:05", "Accounting", "Categories, subcategories, the ratio between investment and loss, and what to take to the board meeting.", "custos"],
+      ["Connect the ERP through the API", "5:55", "Integrations", "Key, test environment, first event by call and where to follow the invocation log.", "integra"]
+    ],
+    watch: "Open this journey's screen",
+
+    contactTitle: "Talk to us",
+    contactNote: "For when the assistant and the FAQ don't settle it. The conversation arrives with your account, the screen you were on and what you already tried.",
+    channels: [
+      ["Message", "WhatsApp", "For an operational question in the middle of the work. Support team in business hours, Brasília time.", "+55 41 99000-0000", "Open a chat"],
+      ["Mail", "Email", "For anything needing an attachment, evidence or a formal record — audit, contract, billing.", "suporte@qcost.ai", "Write an email"],
+      ["Calendar", "Session with a specialist", "Thirty minutes with someone who rolls out cost of quality in industry. Included in Pro and Enterprise.", "Pro plan · no charge", "Book a slot"]
+    ],
+    ticketMsg: "Conversation opened with support. We sent along your account identifier, the originating screen and the last two questions you asked the assistant — you don't have to repeat the context."
+  },
+
+  es: {
+    kicker: "Centro de ayuda",
+    pageTitle: "Aprender usando, sin salir de la plataforma",
+    lead: "El costo de la calidad es un asunto técnico, pero operar la plataforma no tiene por qué serlo. Empiece por la pregunta: el asistente responde mirando lo que su cuenta ya hizo. Si no lo resuelve, el FAQ y los videos están justo abajo, y hablar con una persona es el último escalón — no el primero.",
+    slaTitle: "Tiempo de respuesta",
+    sla: [["Asistente", "inmediato"], ["WhatsApp", "hasta 2 h hábiles"], ["Correo", "hasta 1 día hábil"]],
+    searchPh: "Busque una duda, una pantalla o un término del PAF",
+    clear: "limpiar", suggested: "Frecuentes",
+    chips: ["Centro de costo", "Aprobar evento", "Estructura PAF", "Integración por API", "Cambiar moneda"],
+
+    chatTitle: "Asistente de su cuenta", chatBadge: "VE SUS DATOS",
+    chatNote: "Responde con base en la documentación de la plataforma y en el historial de Metalúrgica Paranaense: sus plantas, su estructura PAF, sus eventos y lo que su permiso alcanza.",
+    chatPh: "Pregunte en lenguaje natural, como le hablaría a un colega",
+    send: "Enviar",
+    prompts: [
+      "¿Por qué mi evento está detenido?",
+      "¿Cómo llegó la IA a ese valor?",
+      "¿Quién puede aprobar en mi cuenta?"
+    ],
+    youLabel: "Usted", aiLabel: "Asistente",
+    seed: [
+      { who: "ai", text: "Hola, Ana. Su cuenta tiene 1.284 eventos registrados y 6 esperando acción — 2 llegaron por API del ERP, 2 por el conector MCP y 1 por carga suya.\n\n¿Qué quiere entender?" }
+    ],
+    answers: {
+      parado: {
+        text: "Hoy hay 6 eventos en la cola. Tres no traen centro de costo en la llamada de origen, y en esos la plataforma no aprueba mientras el campo esté vacío.\n\nEl más antiguo es el EV-2026-0901, abierto hace 3 días por el agente de suministros: espera su decisión sobre prorratear la auditoría entre las tres plantas o registrarla en el consolidado. Los sistemas y agentes no responden aclaraciones — por eso la cola solo avanza con una persona.",
+        sources: [["EV-2026-0901", "revisar"], ["Cola de revisión", "evento"]]
+      },
+      valor: {
+        text: "La IA valoriza por la base de cálculo que usted registró en cada subcategoría de la estructura PAF. En Chatarra y desecho, su cuenta usa costo medio de la pieza × cantidad, con la tabla de septiembre.\n\nCuando el documento viene en otra moneda, convierte por la tasa del día del evento y muestra los tres números lado a lado: valor en el documento, tasa aplicada y valor contabilizado. La tasa es editable antes de aprobar y queda registrada junto con el valor original.",
+        sources: [["Su estructura PAF", "paf"], ["Ver un evento", "revisar"]]
+      },
+      aprovar: {
+        text: "En su cuenta, 4 de las 24 personas tienen el rol Aprobador: usted, Rafael Doi (Joinville), Camila Prado (Betim) y Eduardo Lins (controlaría).\n\nLos analistas registran y corrigen, pero no aprueban — pueden proponer que una corrección se vuelva regla de la subcategoría, y esa propuesta pasa a un aprobador para revisión.",
+        sources: [["Equipo y permisos", "equipe"], ["Trazabilidad", "auditoria"]]
+      },
+      fallback: {
+        text: "No encontré esto en la documentación ni en el historial de su cuenta con suficiente confianza para responder.\n\nPrefiero no arriesgar una suposición sobre una cifra contable. Escríbanos por WhatsApp — la conversación ya lleva el contexto de esta pregunta y de la pantalla en la que estaba.",
+        sources: [["Ir al contacto", "contato"]]
+      }
+    },
+
+    faqTitle: "Preguntas frecuentes", faqEmpty: "Nada encontrado para esta búsqueda. Pruebe el asistente de arriba: consulta el historial de su cuenta, no solo la documentación.",
+    topics: ["Todas", "Primeros pasos", "Eventos", "Contabilización", "Integraciones", "Cuenta"],
+    faqs: [
+      ["Primeros pasos", "¿Por dónde empiezo después del onboarding?", "Registre un evento real, pequeño, de una subcategoría que domine. El ciclo entero — adjunto, lectura de la IA, corrección, aprobación — lleva menos de cinco minutos y enseña más que cualquier texto. Conectar el ERP viene después.", "Registrar un evento", "evento"],
+      ["Primeros pasos", "¿Necesito completar toda la estructura PAF antes de usar?", "No. La plataforma empieza con la plantilla completa de las cuatro categorías, y usted ajusta las subcategorías según lo que pida la operación. Una estructura vacía nunca bloquea el registro de un evento.", "Abrir la estructura PAF", "paf"],
+      ["Eventos", "¿Por qué el evento no aprueba?", "La aprobación exige centro de costo completado y ninguna pendencia crítica. Los eventos que llegan por API o MCP suelen venir sin centro de costo — se completa automáticamente desde el registro de la planta, pero si la planta no tiene uno, el campo queda esperándolo.", "Ver la cola", "revisar"],
+      ["Eventos", "¿Puedo corregir a la IA sin crear una regla?", "Sí, y ese es el comportamiento por defecto. Toda corrección vale solo para ese evento, salvo que marque explícitamente 'siempre que sea esta subcategoría' — y aun así se vuelve una propuesta que un aprobador revisa antes de valer para la organización.", "Registrar un evento", "evento"],
+      ["Contabilización", "¿De dónde viene el centro de costo?", "De la estructura PAF: cada subcategoría tiene un centro de costo general y, opcionalmente, uno específico por planta. El evento hereda el de su planta; sin específico, usa el general.", "Configurar centros de costo", "paf"],
+      ["Contabilización", "¿Qué pasa si cambio la moneda de la organización?", "La plataforma pregunta antes de aplicar. Usted elige convertir todo el historial por una tasa que informa, o mantener el pasado en la moneda anterior. La decisión, la tasa y los totales antes y después quedan en la trazabilidad.", "Abrir organización", "org"],
+      ["Contabilización", "¿Cómo se atribuye el costo a un proveedor?", "Por el origen del defecto, no por quien lo detectó. El proveedor externo alimenta la negociación comercial; la unidad interna alimenta la meta de calidad de la planta.", "Ver costos por proveedor", "custos"],
+      ["Integraciones", "¿Cuál es la diferencia entre API y MCP?", "La API REST es para que sus sistemas — ERP, QMS, MES — creen eventos en el momento en que ocurre el hecho. MCP es para que sus agentes de IA consulten y registren costo en lenguaje natural. Ambos caen en la misma cola de revisión humana.", "Ver integraciones", "integra"],
+      ["Integraciones", "¿Un evento creado por API entra directo en el cierre?", "No. Entra como borrador analizado por la IA y espera la aprobación de una persona, igual que una carga manual. Ningún camino de entrada omite el ojo humano.", "Ver el registro de invocaciones", "integra"],
+      ["Cuenta", "¿Quién ve qué?", "El permiso es por rol y por planta. Un analista de Joinville no ve el costo de Betim, salvo que tenga alcance consolidado.", "Equipo y permisos", "equipe"],
+      ["Cuenta", "¿Dónde están las políticas de datos?", "En el centro de confianza: privacidad, uso de datos por la IA, seguridad, retención y los subprocesadores, con los documentos para su área de compliance.", "Abrir centro de confianza", "confianca"]
+    ],
+    faqCountOne: " pregunta", faqCountMany: " preguntas",
+
+    videoTitle: "Jornadas en video",
+    videoNote: "Cada video recorre una jornada entera, de principio a fin, en el mismo orden en que usted lo haría. Cortos a propósito: ninguno pasa de seis minutos.",
+    videos: [
+      ["Configurar la organización", "5:40", "Primeros pasos", "Del registro a la plantilla PAF: país y moneda, plantas, ciclo de cierre y la estructura que clasificará todo después.", "org"],
+      ["Registrar el primer evento", "4:10", "Primeros pasos", "Adjunto, descripción en texto, lectura de la IA y su corrección. El ciclo completo de un evento manual.", "evento"],
+      ["Revisar lo que la IA propuso", "3:25", "Eventos", "Cómo leer las tres franjas — registro, contabilización y datos extraídos — y qué mirar antes de aprobar.", "revisar"],
+      ["Corregir y enseñar a la plataforma", "3:50", "Eventos", "La diferencia entre corregir un evento y proponer una regla para toda la subcategoría.", "evento"],
+      ["Leer el cierre del mes", "5:05", "Contabilización", "Categorías, subcategorías, la razón entre inversión y pérdida, y qué llevar a la reunión de dirección.", "custos"],
+      ["Conectar el ERP por la API", "5:55", "Integraciones", "Clave, ambiente de prueba, primer evento por llamada y dónde seguir el registro de invocaciones.", "integra"]
+    ],
+    watch: "Abrir la pantalla de esta jornada",
+
+    contactTitle: "Hablar con nosotros",
+    contactNote: "Para cuando el asistente y el FAQ no lo resuelven. La conversación llega con su cuenta, la pantalla en la que estaba y lo que ya intentó.",
+    channels: [
+      ["Mensaje", "WhatsApp", "Para una duda de operación en medio del trabajo. Equipo de soporte en horario comercial, huso de Brasilia.", "+55 41 99000-0000", "Abrir conversación"],
+      ["Correo", "Correo electrónico", "Para un asunto que necesita adjunto, evidencia o constancia formal — auditoría, contrato, cobro.", "suporte@qcost.ai", "Escribir correo"],
+      ["Agenda", "Sesión con especialista", "Treinta minutos con quien implanta costo de la calidad en industria. Incluido en los planes Pro y Enterprise.", "Plan Pro · sin costo", "Agendar horario"]
+    ],
+    ticketMsg: "Conversación abierta con soporte. Enviamos el identificador de su cuenta, la pantalla de origen y las dos últimas preguntas hechas al asistente — no necesita repetir el contexto."
+  }
+};
+
+function matchAnswer(text) {
+  const q = text.toLowerCase();
+  if (/parad|stuck|fila|queue|cola|aprova|approv|pend/.test(q)) return "parado";
+  if (/valor|amount|custo|cost|moeda|currency|taxa|rate|calcul/.test(q)) return "valor";
+  if (/quem|who|permiss|papel|role|equipe|team/.test(q)) return "aprovar";
+  return "fallback";
+}
+
+class Component extends DCLogic {
+  state = {
+    theme: readTheme(), lang: null, userOpen: false,
+    query: "", topic: 0, open: {}, draft: "", log: [], ticket: false
+  };
+
+  renderVals() {
+    const s = this.state;
+    const theme = s.theme || this.props.theme || "light";
+    const lang = s.lang || readLang() || this.props.language || "pt-BR";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const onL = (k) => () => { writeLang(k); this.setState({ lang: k }); };
+    const abg = (on) => (on ? "var(--acc)" : "var(--bg)");
+    const afg = (on) => (on ? "var(--accInk)" : "var(--ink2)");
+
+    const norm = (x) => String(x).toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const q = norm(s.query.trim());
+
+    const topicName = t.topics[s.topic];
+    const faqRows = t.faqs
+      .map((r, i) => ({ r: r, i: i }))
+      .filter((x) => s.topic === 0 || x.r[0] === topicName)
+      .filter((x) => !q || norm(x.r[1] + " " + x.r[2] + " " + x.r[0]).indexOf(q) >= 0);
+
+    const srcTone = { fg: "var(--ink2)", bg: "var(--bg)", line: "var(--line2)" };
+
+    const msgs = t.seed.concat(s.log).map((m) => {
+      const mine = m.who === "you";
+      const ans = m.key ? t.answers[m.key] : null;
+      return {
+        who: mine ? t.youLabel : t.aiLabel,
+        align: mine ? "flex-end" : "flex-start",
+        text: ans ? ans.text : m.text,
+        bg: mine ? "var(--surf2)" : "var(--sigBg)",
+        line: mine ? "var(--line2)" : "var(--sig)",
+        hasSources: !!(ans && ans.sources),
+        sources: ans && ans.sources
+          ? ans.sources.map((sr) => ({ label: sr[0], href: HREF[sr[1]] || "#", fg: srcTone.fg, bg: srcTone.bg, line: srcTone.line }))
+          : []
+      };
+    });
+
+    const ask = (text) => {
+      if (!String(text).trim()) return;
+      this.setState((st) => ({
+        log: st.log.concat([{ who: "you", text: text }, { who: "ai", key: matchAnswer(text) }]),
+        draft: ""
+      }));
+    };
+
+    return {
+      t, theme,
+      c: CHROME[lang] || CHROME["pt-BR"],
+      setPt: onL("pt-BR"), setEn: onL("en"), setEs: onL("es"),
+      ptBg: abg(lang === "pt-BR"), ptFg: afg(lang === "pt-BR"),
+      enBg: abg(lang === "en"), enFg: afg(lang === "en"),
+      esBg: abg(lang === "es"), esFg: afg(lang === "es"),
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+      userOpen: s.userOpen,
+      toggleUser: () => this.setState((st) => ({ userOpen: !st.userOpen })),
+
+      sla: t.sla.map((x) => ({ k: x[0], v: x[1] })),
+
+      query: s.query, hasQuery: !!s.query,
+      onQuery: (e) => this.setState({ query: e.target.value }),
+      clearQuery: () => this.setState({ query: "" }),
+      chips: t.chips.map((label) => ({ label: label, pick: () => this.setState({ query: label, topic: 0 }) })),
+
+      messages: msgs,
+      prompts: t.prompts.map((label) => ({ label: label, pick: () => ask(label) })),
+      draft: s.draft,
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      send: () => ask(s.draft),
+
+      topics: t.topics.map((label, i) => ({
+        label: label,
+        bg: i === s.topic ? "var(--acc)" : "var(--surf)",
+        fg: i === s.topic ? "var(--accInk)" : "var(--ink2)",
+        pick: () => this.setState({ topic: i })
+      })),
+      faqCount: faqRows.length + (faqRows.length === 1 ? t.faqCountOne : t.faqCountMany),
+      faqEmpty: faqRows.length === 0,
+      faqs: faqRows.map((x) => {
+        const open = !!s.open[x.i];
+        return {
+          q: x.r[1], a: x.r[2], link: x.r[3], href: HREF[x.r[4]] || "#",
+          tag: x.r[0], sign: open ? "–" : "+", open: open,
+          bg: open ? "var(--surf2)" : "transparent",
+          toggle: () => this.setState((st) => ({ open: Object.assign({}, st.open, { [x.i]: !st.open[x.i] }) }))
+        };
+      }),
+
+      videos: t.videos.map((v) => ({
+        title: v[0], time: v[1], tag: v[2], desc: v[3],
+        href: HREF[v[4]] || "#", cta: t.watch,
+        tagBg: "var(--bg)", tagLine: "var(--line2)", tagFg: "var(--ink2)"
+      })),
+
+      channels: t.channels.map((ch, i) => ({
+        kind: ch[0], title: ch[1], body: ch[2], value: ch[3], cta: ch[4],
+        border: i === 0 ? "var(--acc)" : "var(--line2)",
+        bg: i === 0 ? "var(--acc)" : "transparent",
+        fg: i === 0 ? "var(--accInk)" : "var(--ink)",
+        act: () => this.setState({ ticket: true })
+      })),
+      ticketOpen: s.ticket
+    };
+  }
+}
+
+</script>
+</body>
+</html>

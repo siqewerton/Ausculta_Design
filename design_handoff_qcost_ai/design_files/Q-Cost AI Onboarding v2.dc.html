@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+  }
+  [data-theme="light"]{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,select,button{font-family:'Archivo',system-ui,sans-serif}
+  @media (max-width:680px){
+    header nav{flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header nav::-webkit-scrollbar{display:none}
+    header nav a{padding:9px 10px !important;min-height:0;white-space:nowrap;flex:none}
+    header button{height:38px !important}
+    header button[aria-label]{width:38px !important}
+    button{min-height:34px}
+    input,select{min-height:36px}
+    a{display:inline-flex;align-items:center;min-height:32px}
+    p a,span a{display:inline;min-height:0}
+    td button{min-height:34px}
+  }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"/>
+    <g stroke-linecap="square">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"/>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"/>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"/>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"/>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box">
+
+  <header style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1120px;margin:0 auto;padding:14px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 22px">
+      <div style="display:flex;align-items:center;gap:11px">
+        <svg width="23" height="23" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"/><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"/><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"/></svg>
+        <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="display:flex;gap:1px;background:var(--line);flex:none">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ t.themeAria }}" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+        <a href="Q-Cost AI Login v2.dc.html" style="font-size:12px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.signIn }}</a>
+      </div>
+    </div>
+  </header>
+
+  <div style="max-width:1120px;margin:0 auto;padding:clamp(30px,4.4vw,60px) clamp(16px,4vw,44px) 96px;display:flex;flex-direction:column;gap:clamp(34px,4.8vw,58px)">
+
+    <nav aria-label="{{ t.progressAria }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px">
+      <sc-for list="{{ navSteps }}" as="n" hint-placeholder-count="5">
+        <button type="button" onClick="{{ n.go }}" style="text-align:left;background:none;border:none;padding:0;cursor:{{ n.cursor }};display:flex;flex-direction:column;gap:9px">
+          <span style="height:2px;background:{{ n.bar }};display:block"></span>
+          <span style="display:flex;align-items:center;gap:9px">
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3)">{{ n.num }}</span>
+            <span style="font-size:12px;font-weight:400;color:{{ n.label }}">{{ n.text }}</span>
+          </span>
+        </button>
+      </sc-for>
+    </nav>
+
+    <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
+
+        <section style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.s1Title }}</h1>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:var(--ink2);max-width:52ch">{{ t.s1Lead }}</p>
+          </div>
+
+          <div style="border:1px solid var(--line);padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:17px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-name" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbName }}</label>
+              <input id="ob-name" type="text" value="{{ fullName }}" onChange="{{ onFullName }}" placeholder="{{ t.phName }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bName }};background:{{ bgName }};color:var(--ink);width:100%;box-sizing:border-box">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-email" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbEmail }}</label>
+              <input id="ob-email" type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="{{ t.phEmail }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bEmail }};background:{{ bgEmail }};color:var(--ink);width:100%;box-sizing:border-box">
+              <span style="font-size:11px;line-height:1.5;color:{{ cEmailHelp }}">{{ emailHelp }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-pass" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbPass }}</label>
+              <input id="ob-pass" type="password" value="{{ password }}" onChange="{{ onPassword }}" placeholder="{{ t.phPass }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bPass }};background:{{ bgPass }};color:var(--ink);width:100%;box-sizing:border-box">
+              <span style="font-size:11px;line-height:1.5;color:{{ cPassHelp }}">{{ passHelp }}</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:17px">
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-role" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbRole }}</label>
+                <select id="ob-role" value="{{ role }}" onChange="{{ onRole }}" style="font-size:13px;height:36px;padding:0 8px;border:1px solid {{ bRole }};background:{{ bgRole }};color:var(--ink);width:100%;box-sizing:border-box">
+                  <sc-for list="{{ roleOptions }}" as="o" hint-placeholder-count="7"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+                </select>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-phone" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbPhone }}</label>
+                <input id="ob-phone" type="tel" value="{{ phone }}" onChange="{{ onPhone }}" placeholder="{{ t.phPhone }}" style="font-family:'DM Mono',monospace;font-size:13px;height:36px;padding:0 10px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+                <span style="font-size:11px;line-height:1.5;color:var(--ink3)">{{ t.phoneHint }}</span>
+              </div>
+            </div>
+
+            <div style="height:1px;background:var(--line)"></div>
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label for="ob-org" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbOrg }}</label>
+              <input id="ob-org" type="text" value="{{ org }}" onChange="{{ onOrg }}" placeholder="{{ t.phOrg }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bOrg }};background:{{ bgOrg }};color:var(--ink);width:100%;box-sizing:border-box">
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:17px">
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-seg" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbSegment }}</label>
+                <select id="ob-seg" value="{{ segment }}" onChange="{{ onSegment }}" style="font-size:13px;height:36px;padding:0 8px;border:1px solid {{ bSeg }};background:{{ bgSeg }};color:var(--ink);width:100%;box-sizing:border-box">
+                  <sc-for list="{{ segmentOptions }}" as="o" hint-placeholder-count="13"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+                </select>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-country" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbCountry }}</label>
+                <select id="ob-country" value="{{ country }}" onChange="{{ onCountry }}" style="font-size:13px;height:36px;padding:0 8px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+                  <sc-for list="{{ countryOptions }}" as="o" hint-placeholder-count="6"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:17px">
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-cnpj" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ legalLabel }}</label>
+                <input id="ob-cnpj" type="text" value="{{ taxId }}" onChange="{{ onTaxId }}" placeholder="{{ legalPlaceholder }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bTax }};background:{{ bgTax }};color:var(--ink);width:100%;box-sizing:border-box">
+                <span style="font-size:11px;line-height:1.5;color:var(--ink3)">{{ legalHint }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-cycle" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbCycle }}</label>
+                <select id="ob-cycle" value="{{ cycle }}" onChange="{{ onCycle }}" style="font-size:13px;height:36px;padding:0 8px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+                  <sc-for list="{{ cycleOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+                </select>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:17px">
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-rev" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbRevenue }}</label>
+                <div style="display:flex;align-items:stretch;border:1px solid {{ bRev }};background:{{ bgRev }}">
+                  <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--ink3);display:flex;align-items:center;padding:0 10px;border-right:1px solid var(--line);flex:none">{{ currencySymbol }}</span>
+                  <input id="ob-rev" type="text" inputmode="numeric" value="{{ revenue }}" onChange="{{ onRevenue }}" placeholder="412.000.000" style="font-size:13px;height:34px;padding:0 10px;border:none;background:transparent;color:var(--ink);width:100%;min-width:0;box-sizing:border-box;font-variant-numeric:tabular-nums;text-align:right">
+                </div>
+                <span style="font-size:11px;line-height:1.5;color:var(--ink3)">{{ t.revenueHint }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <label for="ob-revyear" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbRevYear }}</label>
+                <select id="ob-revyear" value="{{ revYear }}" onChange="{{ onRevYear }}" style="font-size:13px;height:36px;padding:0 8px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+                  <option value="2026">2026</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                </select>
+              </div>
+            </div>
+
+            <sc-if value="{{ hasErrors }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid var(--neg);background:var(--negBg);padding:11px 13px;display:flex;gap:9px;align-items:flex-start">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--neg)" stroke-width="1.9" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+                <span style="font-size:12.5px;line-height:1.65;color:var(--neg)">{{ errorSummary }}</span>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding-top:2px">
+              <button type="button" onClick="{{ next }}" style="font-size:13px;font-weight:400;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer" style-hover="opacity:0.88">{{ t.continue }}</button>
+              <a href="Q-Cost AI Landing v2.dc.html" style="font-size:12.5px;color:var(--ink3)" style-hover="color:var(--ink);text-decoration:none">{{ t.backSite }}</a>
+            </div>
+          </div>
+        </section>
+
+        <aside style="flex:1 1 280px;min-width:250px;display:flex;flex-direction:column;gap:18px">
+          <div style="border:1px solid var(--line);padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:13px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.ssoTitle }}</span>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.ssoLead }}</p>
+            <button type="button" onClick="{{ ssoGoogle }}" style="font-size:12px;font-weight:400;height:38px;padding:0 11px;background:transparent;color:var(--ink);border:1px solid var(--line2);cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left" style-hover="background:var(--surf2);border-color:var(--ink3)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M3 3h18v18H3z"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
+              <span style="flex:1">Google Workspace</span>
+            </button>
+            <button type="button" onClick="{{ ssoMicrosoft }}" style="font-size:12px;font-weight:400;height:38px;padding:0 11px;background:transparent;color:var(--ink);border:1px solid var(--line2);cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left" style-hover="background:var(--surf2);border-color:var(--ink3)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z"/></svg>
+              <span style="flex:1">Microsoft Entra ID</span>
+            </button>
+            <p style="margin:0;font-size:11px;line-height:1.6;color:var(--ink3);padding-top:12px;border-top:1px solid var(--line)">{{ t.ssoNote }}</p>
+          </div>
+
+          <div style="border:1px solid var(--line);padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:12px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.afterTitle }}</span>
+            <div style="display:flex;gap:10px"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);flex:none">01</span><span style="font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.after1 }}</span></div>
+            <div style="display:flex;gap:10px"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);flex:none">02</span><span style="font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.after2 }}</span></div>
+            <div style="display:flex;gap:10px"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);flex:none">03</span><span style="font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.after3 }}</span></div>
+          </div>
+        </aside>
+
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+      <section style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end">
+          <div style="max-width:50ch;display:flex;flex-direction:column;gap:10px">
+            <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.s2Title }}</h1>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:var(--ink2)">{{ t.s2Lead }}</p>
+          </div>
+          <p style="margin:0;font-size:11px;line-height:1.6;color:var(--ink3);max-width:30ch">{{ t.s2Note }}</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:0;border:1px solid var(--line);overflow:hidden">
+          <sc-for list="{{ plans }}" as="p" hint-placeholder-count="4">
+            <article style="border-right:1px solid var(--line);background:{{ p.bg }};display:flex;flex-direction:column">
+              <span style="height:2px;background:{{ p.strip }};display:block"></span>
+              <div style="padding:19px;display:flex;flex-direction:column;gap:14px;flex:1">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+                  <h2 style="margin:0;font-size:15px;font-weight:400">{{ p.name }}</h2>
+                  <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;padding:2px 6px;border:1px solid {{ p.badgeBorder }};color:{{ p.badgeFg }};background:{{ p.badgeBg }}">{{ p.badge }}</span>
+                </div>
+                <div>
+                  <div style="font-family:'DM Mono',monospace;font-size:19px;font-weight:400;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">{{ p.price }}</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-top:4px">{{ p.priceNote }}</div>
+                </div>
+                <div style="padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+                  <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.eventsMonth }}</div>
+                  <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:400;margin-top:4px;font-variant-numeric:tabular-nums">{{ p.events }}</div>
+                </div>
+                <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;flex:1">
+                  <sc-for list="{{ p.features }}" as="f" hint-placeholder-count="4">
+                    <li style="display:flex;gap:8px;font-size:11.5px;line-height:1.55;color:var(--ink2)">
+                      <span style="font-family:'DM Mono',monospace;color:var(--ink3);flex:none">&mdash;</span><span>{{ f }}</span>
+                    </li>
+                  </sc-for>
+                </ul>
+                <button type="button" onClick="{{ p.select }}" style="font-size:12px;font-weight:400;height:36px;padding:0 12px;background:{{ p.btnBg }};color:{{ p.btnFg }};border:1px solid {{ p.btnBorder }};cursor:pointer">{{ p.btnLabel }}</button>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+
+        <p style="margin:0;font-size:12px;line-height:1.6;color:var(--ink2);border-left:1px solid var(--line2);padding-left:14px">{{ t.s2Switch }}</p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <button type="button" onClick="{{ next }}" style="font-size:13px;font-weight:400;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer" style-hover="opacity:0.88">{{ t.review }}</button>
+          <button type="button" onClick="{{ back }}" style="font-size:12px;font-weight:400;height:40px;padding:0 12px;background:transparent;color:var(--ink2);border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:var(--surf2);color:var(--ink)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"/></svg>
+            <span>{{ t.back }}</span>
+          </button>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isPlants }}" hint-placeholder-val="{{ false }}">
+      <section style="display:flex;flex-direction:column;gap:20px;max-width:900px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.spTitle }}</h1>
+          <p style="margin:0;font-size:13px;line-height:1.6;color:var(--ink2);max-width:60ch">{{ t.spLead }}</p>
+        </div>
+
+        <div style="border:1px solid var(--line)">
+          <div style="padding:16px 18px;border-bottom:1px solid var(--line);background:var(--surf2);display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-start">
+            <span style="display:inline-flex;align-items:center;height:22px;padding:0 8px;border:1px solid var(--pos);background:var(--posBg);color:var(--pos);font-family:'DM Mono',monospace;font-size:10.5px;flex:none">{{ t.spDefault }}</span>
+            <div style="display:flex;flex-direction:column;gap:5px;flex:1 1 260px;min-width:0">
+              <span style="font-size:13.5px;line-height:1.4;overflow-wrap:anywhere">{{ consolidatedName }}</span>
+              <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">{{ t.spDefaultNote }}</span>
+            </div>
+          </div>
+
+          <sc-for list="{{ plantRows }}" as="p" hint-placeholder-count="2">
+            <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+              <div style="display:flex;flex-direction:column;gap:6px;flex:2 1 200px;min-width:0">
+                <label style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.spName }}</label>
+                <input type="text" value="{{ p.name }}" onChange="{{ p.onName }}" placeholder="{{ t.spNamePh }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;flex:1 1 140px;min-width:0">
+                <label style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.spCity }}</label>
+                <input type="text" value="{{ p.city }}" onChange="{{ p.onCity }}" placeholder="{{ t.spCityPh }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;flex:1 1 120px;min-width:0">
+                <label style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.spCode }}</label>
+                <input type="text" value="{{ p.code }}" onChange="{{ p.onCode }}" placeholder="{{ t.spCodePh }}" style="font-family:'DM Mono',monospace;font-size:13px;height:36px;padding:0 10px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+              </div>
+              <button type="button" onClick="{{ p.remove }}" style="font-size:12px;height:36px;padding:0 12px;background:transparent;color:var(--ink2);border:1px solid var(--line2);cursor:pointer;flex:none" style-hover="border-color:var(--neg);color:var(--neg)">{{ t.spRemove }}</button>
+            </div>
+          </sc-for>
+
+          <div style="padding:14px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+            <button type="button" onClick="{{ addPlant }}" style="font-size:12.5px;height:36px;padding:0 13px;background:transparent;color:var(--ink);border:1px solid var(--line2);cursor:pointer;display:flex;align-items:center;gap:9px" style-hover="border-color:var(--ink)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              <span>{{ t.spAdd }}</span>
+            </button>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums">{{ plantCount }}</span>
+          </div>
+        </div>
+
+        <p style="margin:0;font-size:12px;line-height:1.6;color:var(--ink2);border-left:1px solid var(--line2);padding-left:14px;max-width:70ch">{{ plantPlanNote }}</p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <button type="button" onClick="{{ next }}" style="font-size:13px;font-weight:400;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer" style-hover="opacity:0.88">{{ t.continue }}</button>
+          <button type="button" onClick="{{ back }}" style="font-size:12px;font-weight:400;height:40px;padding:0 12px;background:transparent;color:var(--ink2);border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:var(--surf2);color:var(--ink)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"></path></svg>
+            <span>{{ t.back }}</span>
+          </button>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isPay }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
+        <section style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.payTitle }}</h1>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:var(--ink2);max-width:54ch">{{ payLead }}</p>
+          </div>
+
+          <sc-if value="{{ payFree }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid var(--line);border-left:2px solid var(--pos);background:var(--surf);padding:16px 18px;display:flex;flex-direction:column;gap:8px">
+              <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--pos)">{{ t.payNoneTitle }}</span>
+              <p style="margin:0;font-size:12.5px;line-height:1.65;color:var(--ink2)">{{ t.payFreeNote }}</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ payNeeded }}" hint-placeholder-val="{{ true }}">
+            <div style="border:1px solid var(--line);padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:18px">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.payMethod }}</span>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:1px;background:var(--line);border:1px solid var(--line)">
+                  <sc-for list="{{ payMethods }}" as="m" hint-placeholder-count="4">
+                    <button type="button" onClick="{{ m.pick }}" style="text-align:left;border:none;cursor:pointer;background:{{ m.bg }};color:{{ m.fg }};padding:12px 13px;display:flex;flex-direction:column;gap:5px;min-height:34px">
+                      <span style="font-size:12.5px;line-height:1.35">{{ m.label }}</span>
+                      <span style="font-size:11px;line-height:1.5;color:{{ m.noteFg }}">{{ m.note }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+
+              <sc-if value="{{ isCard }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;gap:17px">
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <label for="pay-num" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbCardNumber }}</label>
+                    <input id="pay-num" type="text" inputmode="numeric" value="{{ cardNumber }}" onChange="{{ onCardNumber }}" placeholder="0000 0000 0000 0000" style="font-family:'DM Mono',monospace;font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bCard }};background:{{ bgCard }};color:var(--ink);width:100%;box-sizing:border-box;letter-spacing:0.04em">
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <label for="pay-holder" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbCardName }}</label>
+                    <input id="pay-holder" type="text" value="{{ cardName }}" onChange="{{ onCardName }}" placeholder="{{ t.phCardName }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bCardName }};background:{{ bgCardName }};color:var(--ink);width:100%;box-sizing:border-box">
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:17px">
+                    <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                      <label for="pay-exp" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbCardExp }}</label>
+                      <input id="pay-exp" type="text" inputmode="numeric" value="{{ cardExp }}" onChange="{{ onCardExp }}" placeholder="MM/AA" style="font-family:'DM Mono',monospace;font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bExp }};background:{{ bgExp }};color:var(--ink);width:100%;box-sizing:border-box">
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                      <label for="pay-cvc" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbCardCvc }}</label>
+                      <input id="pay-cvc" type="text" inputmode="numeric" value="{{ cardCvc }}" onChange="{{ onCardCvc }}" placeholder="000" style="font-family:'DM Mono',monospace;font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bCvc }};background:{{ bgCvc }};color:var(--ink);width:100%;box-sizing:border-box">
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isInvoice }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <label for="pay-po" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbPO }}</label>
+                  <input id="pay-po" type="text" value="{{ po }}" onChange="{{ onPo }}" placeholder="{{ t.phPO }}" style="font-family:'DM Mono',monospace;font-size:13px;height:36px;padding:0 10px;border:1px solid var(--line2);background:var(--surf);color:var(--ink);width:100%;box-sizing:border-box">
+                  <span style="font-size:11px;line-height:1.5;color:var(--ink3)">{{ t.poHint }}</span>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isSlip }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--line);background:var(--surf2);padding:14px 16px">
+                  <p style="margin:0;font-size:12.5px;line-height:1.65;color:var(--ink2)">{{ slipNote }}</p>
+                </div>
+              </sc-if>
+
+              <div style="height:1px;background:var(--line)"></div>
+
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label for="pay-email" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbBillingEmail }}</label>
+                <input id="pay-email" type="email" value="{{ billingEmail }}" onChange="{{ onBillingEmail }}" placeholder="{{ t.phBillingEmail }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bBillEmail }};background:{{ bgBillEmail }};color:var(--ink);width:100%;box-sizing:border-box">
+                <span style="font-size:11px;line-height:1.5;color:var(--ink3)">{{ t.billingEmailHint }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <label for="pay-addr" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbBillingAddr }}</label>
+                <input id="pay-addr" type="text" value="{{ billingAddr }}" onChange="{{ onBillingAddr }}" placeholder="{{ t.phBillingAddr }}" style="font-size:13px;height:36px;padding:0 10px;border:1px solid {{ bAddr }};background:{{ bgAddr }};color:var(--ink);width:100%;box-sizing:border-box">
+              </div>
+
+              <sc-if value="{{ payErrors }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--neg);background:var(--negBg);padding:11px 13px;display:flex;gap:9px;align-items:flex-start">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--neg)" stroke-width="1.9" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"></path><path d="M12 9.5v4.5"></path><path d="M12 17h.01"></path></svg>
+                  <span style="font-size:12.5px;line-height:1.65;color:var(--neg)">{{ t.errSummary }}</span>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+            <button type="button" onClick="{{ next }}" style="font-size:13px;font-weight:400;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer" style-hover="opacity:0.88">{{ t.review }}</button>
+            <button type="button" onClick="{{ back }}" style="font-size:12px;font-weight:400;height:40px;padding:0 12px;background:transparent;color:var(--ink2);border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:var(--surf2);color:var(--ink)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"></path></svg>
+              <span>{{ t.back }}</span>
+            </button>
+          </div>
+        </section>
+
+        <aside style="flex:1 1 280px;min-width:250px;display:flex;flex-direction:column;gap:18px">
+          <div style="border:1px solid var(--line);padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:13px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.paySummary }}</span>
+            <sc-for list="{{ payLines }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding-bottom:9px;border-bottom:1px solid var(--line)">
+                <span style="font-size:12px;color:var(--ink2);min-width:0">{{ l.label }}</span>
+                <span style="font-family:'DM Mono',monospace;font-size:12.5px;font-variant-numeric:tabular-nums;white-space:nowrap;color:{{ l.color }}">{{ l.value }}</span>
+              </div>
+            </sc-for>
+            <p style="margin:0;font-size:11px;line-height:1.6;color:var(--ink3)">{{ t.payCycleNote }}</p>
+          </div>
+
+          <div style="border:1px solid var(--line);border-left:2px solid var(--sig);padding:clamp(16px,2.2vw,22px);display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--sig)">{{ t.paySecureTitle }}</span>
+            <p style="margin:0;font-size:11.5px;line-height:1.65;color:var(--ink2)">{{ t.paySecure }}</p>
+            <a href="Q-Cost AI Confianca v2.dc.html" style="font-size:12px;color:var(--ink)">{{ t.trustLink }}</a>
+          </div>
+        </aside>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
+
+        <section style="flex:1 1 400px;min-width:280px;display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.s3Title }}</h1>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:var(--ink2);max-width:52ch">{{ t.s3Lead }}</p>
+          </div>
+
+          <div style="border:1px solid var(--line);">
+            <div style="padding:18px;border-bottom:1px solid var(--line)">
+              <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbOrg }}</span>
+                <button type="button" onClick="{{ go1 }}" style="font-size:11px;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ t.edit }}</button>
+              </div>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 18px;font-size:12px">
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowName }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ orgOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.lbSegment }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ segmentOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ legalLabel }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ taxIdOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowCountry }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ countryOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowRevenue }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ revenueOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowCycle }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ cycleOut }}</dd>
+              </dl>
+            </div>
+            <div style="padding:18px;border-bottom:1px solid var(--line)">
+              <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.adminTitle }}</span>
+                <button type="button" onClick="{{ go1 }}" style="font-size:11px;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ t.edit }}</button>
+              </div>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 18px;font-size:12px">
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowName }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ fullNameOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowEmail }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ emailOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowAccess }}</dt><dd style="margin:0;min-width:0">{{ accessOut }}</dd>
+              </dl>
+            </div>
+            <div style="padding:18px;border-bottom:1px solid var(--line)">
+              <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.rowPlants }}</span>
+                <button type="button" onClick="{{ go3 }}" style="font-size:11px;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ t.edit }}</button>
+              </div>
+              <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px">
+                <sc-for list="{{ plantSummary }}" as="p" hint-placeholder-count="2">
+                  <li style="display:flex;gap:9px;font-size:12px;line-height:1.6;color:{{ p.color }}">
+                    <span style="font-family:'DM Mono',monospace;color:var(--ink3);flex:none">{{ p.tag }}</span><span style="min-width:0;overflow-wrap:anywhere">{{ p.text }}</span>
+                  </li>
+                </sc-for>
+              </ul>
+            </div>
+            <div style="padding:18px;border-bottom:1px solid var(--line)">
+              <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.rowPayment }}</span>
+                <button type="button" onClick="{{ go4 }}" style="font-size:11px;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ t.edit }}</button>
+              </div>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:9px 18px;font-size:12px">
+                <dt style="margin:0;color:var(--ink3)">{{ t.payMethod }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ payMethodOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowBillingEmail }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ billingEmailOut }}</dd>
+                <dt style="margin:0;color:var(--ink3)">{{ t.rowFirstCharge }}</dt><dd style="margin:0;min-width:0;overflow-wrap:anywhere">{{ firstChargeOut }}</dd>
+              </dl>
+            </div>
+            <div style="padding:18px;display:flex;flex-direction:column;gap:16px">
+              <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer">
+                <input type="checkbox" checked="{{ terms }}" onChange="{{ onTerms }}" style="width:14px;height:14px;margin:3px 0 0;accent-color:var(--ink);flex:none">
+                <span style="font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.termsPre }} <a href="#termos" style="color:var(--ink)">{{ t.termsUse }}</a> {{ t.termsAnd }} <a href="Q-Cost AI Confianca v2.dc.html" style="color:var(--ink)">{{ t.termsPrivacy }}</a>{{ t.termsPost }} {{ t.termsTrustPre }} <a href="Q-Cost AI Confianca v2.dc.html" style="color:var(--ink)">{{ t.termsTrustLink }}</a>{{ t.termsTrustPost }}</span>
+              </label>
+
+              <sc-if value="{{ termsError }}" hint-placeholder-val="{{ false }}">
+                <div style="border:1px solid var(--neg);background:var(--negBg);padding:11px 13px;display:flex;gap:9px;align-items:flex-start">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--neg)" stroke-width="1.9" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+                  <span style="font-size:12.5px;line-height:1.65;color:var(--neg)">{{ t.termsError }}</span>
+                </div>
+              </sc-if>
+
+              <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+                <button type="button" onClick="{{ submit }}" style="font-size:13px;font-weight:400;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer" style-hover="opacity:0.88">{{ t.createMine }}</button>
+                <button type="button" onClick="{{ back }}" style="font-size:12px;font-weight:400;height:40px;padding:0 12px;background:transparent;color:var(--ink2);border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:8px" style-hover="background:var(--surf2);color:var(--ink)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square" aria-hidden="true"><path d="M4 12h16M4 12l5-5M4 12l5 5"/></svg>
+                  <span>{{ t.back }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside style="flex:1 1 290px;min-width:260px;border:1px solid var(--ink3);">
+          <header style="padding:15px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.chosenTitle }}</span>
+            <button type="button" onClick="{{ go2 }}" style="font-size:11px;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;text-decoration:underline;text-underline-offset:3px">{{ t.change }}</button>
+          </header>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:15px">
+            <div>
+              <div style="font-size:17px;font-weight:400">{{ chosenName }}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:20px;font-weight:400;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;margin-top:6px">{{ chosenPrice }}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-top:4px">{{ chosenPriceNote }}</div>
+            </div>
+            <div style="padding:11px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+              <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.eventsIncluded }}</div>
+              <div style="font-family:'DM Mono',monospace;font-size:14px;font-weight:400;margin-top:4px;font-variant-numeric:tabular-nums">{{ chosenEvents }}</div>
+            </div>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ chosenFeatures }}" as="f" hint-placeholder-count="4">
+                <li style="display:flex;gap:9px;font-size:12.5px;line-height:1.65;color:var(--ink2)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--pos)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:3px" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+                  <span>{{ f }}</span>
+                </li>
+              </sc-for>
+            </ul>
+            <p style="margin:0;font-size:11px;line-height:1.6;color:var(--ink3);padding-top:13px;border-top:1px solid var(--line)">{{ chosenNote }}</p>
+          </div>
+        </aside>
+
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <section style="border:1px solid var(--line);border-top:2px solid var(--pos);background:var(--surf);padding:clamp(22px,4vw,36px);display:flex;flex-direction:column;gap:15px;max-width:620px">
+        <span style="display:inline-flex;align-items:center;gap:7px;height:22px;padding:0 8px;border:1px solid var(--pos);background:var(--posBg);color:var(--pos);font-family:'DM Mono',monospace;font-size:11px;align-self:flex-start">
+          <span style="width:5px;height:5px;background:var(--pos);display:block;flex:none"></span>{{ t.accountCreated }}
+        </span>
+        <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ doneTitle }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:var(--ink2);max-width:54ch">{{ t.doneLead1 }} {{ emailOut }}{{ t.doneLead2 }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+          <a href="Q-Cost AI Template PAF v2.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 18px;background:var(--acc);color:var(--accInk);font-size:13px;font-weight:400" style-hover="opacity:0.88;text-decoration:none">{{ t.pickTemplate }}</a>
+          <a href="Q-Cost AI Editor PAF v2.dc.html" style="display:inline-flex;align-items:center;height:40px;padding:0 16px;border:1px solid var(--line2);font-size:13px;color:var(--ink)" style-hover="border-color:var(--ink3);text-decoration:none">{{ t.ownStructure }}</a>
+          <button type="button" onClick="{{ restart }}" style="font-size:12px;font-weight:400;height:40px;padding:0 12px;background:transparent;color:var(--ink2);border:1px solid transparent;cursor:pointer" style-hover="background:var(--surf2);color:var(--ink)">{{ t.restart }}</button>
+        </div>
+      </section>
+
+      <section style="display:flex;flex-direction:column;gap:15px">
+        <div style="display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.vidTitle }}</span>
+          <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);max-width:76ch">{{ t.vidNote }}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,252px),1fr));gap:clamp(14px,1.8vw,20px)">
+          <sc-for list="{{ videos }}" as="v" hint-placeholder-count="4">
+            <div style="border:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column">
+              <div style="aspect-ratio:16/9;background:var(--surf2);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative">
+                <span style="width:42px;height:42px;border:1px solid var(--line2);background:var(--bg);display:flex;align-items:center;justify-content:center">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M7 4l12 8-12 8V4Z"></path></svg>
+                </span>
+                <span style="position:absolute;right:9px;bottom:9px;font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;background:var(--bg);border:1px solid var(--line2);color:var(--ink2)">{{ v.time }}</span>
+                <span style="position:absolute;left:9px;top:9px;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.05em;text-transform:uppercase;padding:2px 7px;background:var(--bg);border:1px solid var(--line2);color:var(--ink2)">{{ v.n }}</span>
+              </div>
+              <div style="padding:14px 15px;display:flex;flex-direction:column;gap:8px;flex:1 1 auto">
+                <span style="font-size:14px;line-height:1.35">{{ v.title }}</span>
+                <p style="margin:0;font-size:11.5px;line-height:1.65;color:var(--ink3)">{{ v.desc }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;border:1px solid var(--line);background:var(--surf2);padding:14px 16px">
+          <span style="font-size:12.5px;line-height:1.65;color:var(--ink2);flex:1 1 300px">{{ t.vidFoot }}</span>
+          <a href="Q-Cost AI Ajuda v2.dc.html" style="display:inline-flex;align-items:center;height:34px;padding:0 14px;border:1px solid var(--line2);font-size:12.5px;color:var(--ink);flex:none" style-hover="border-color:var(--ink3);text-decoration:none">{{ t.vidCta }}</a>
+        </div>
+      </section>
+    </sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;theme&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;light&quot;, &quot;dark&quot;], &quot;default&quot;: &quot;light&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Base&quot; },
+  &quot;language&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;pt-BR&quot;, &quot;en&quot;, &quot;es&quot;], &quot;default&quot;: &quot;pt-BR&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Base&quot; }
+}">
+const ROLE_KEYS = ["qualidade","producao","controladoria","engenharia","diretoria","ti","outro"];
+const SEGMENT_KEYS = ["auto","aero","agro","farma","disp","alimentos","quimico","metal","plast","eletro","consumo","outro"];
+const CYCLE_KEYS = ["m5","m10","mend","tri"];
+const PLAN_IDS = ["free","basic","pro","enterprise"];
+const PLAN_PRICES = { free:"R$ 0", basic:"R$ 890", pro:"R$ 2.490" };
+
+const LANG_KEY = "qcost-lang-v2";
+function readLang() { try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; } }
+function writeLang(v) { try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {} }
+
+const DICT = {
+  "pt-BR": {
+    themeAria:"Alternar tema", signIn:"Entrar", progressAria:"Progresso do cadastro",
+    step1:"Criar conta", step2:"Plano", step3:"Confirmação",
+    stepPlants:"Plantas", stepPay:"Pagamento", stepConfirm:"Confirmação",
+    lbRole:"Cargo", lbPhone:"Telefone corporativo", phPhone:"+55 41 99999-0000",
+    phoneHint:"Usado apenas para avisos críticos de conta e faturamento.",
+    roles:{qualidade:"Gestão da qualidade",producao:"Produção e manufatura",controladoria:"Controladoria e finanças",engenharia:"Engenharia e processos",diretoria:"Diretoria industrial",ti:"TI e integrações",outro:"Outro"},
+    spTitle:"Quais plantas você vai gerenciar?",
+    spLead:"A apuração começa consolidada na organização. Adicione plantas quando precisar comparar unidades — a estrutura PAF é replicada em cada uma.",
+    spDefault:"Padrão", spDefaultNote:"Criado a partir da organização informada. Reúne o consolidado e não pode ser removido.",
+    spName:"Nome da planta", spNamePh:"Unidade Betim", spCity:"Cidade e UF", spCityPh:"Betim / MG", spCode:"Código interno", spCodePh:"BET-01",
+    spAdd:"Adicionar planta", spRemove:"Remover", spUnit:"unidade na apuração", spUnits:"unidades na apuração",
+    spPlanFree:"O plano Free apura apenas o consolidado da organização. Para separar plantas, escolha Basic ou superior.",
+    spPlanBasic:"O plano Basic cobre uma planta além do consolidado. O Pro libera múltiplas plantas e centros de custo.",
+    spPlanPro:"O plano escolhido cobre múltiplas plantas e centros de custo, sem limite de unidades.",
+    payTitle:"Forma de pagamento",
+    payLeadPaid:"A cobrança acontece no fim de cada ciclo, sobre os eventos efetivamente ingeridos pela IA.",
+    payLeadFree:"O plano Free não exige forma de pagamento agora.",
+    payNoneTitle:"Nenhuma cobrança",
+    payFreeNote:"Você pode começar sem cartão. Quando quiser subir de plano, pedimos a forma de pagamento em Configurações › Assinatura, sem perder nenhum evento já apurado.",
+    payMethod:"Método",
+    payCard:"Cartão de crédito", payCardNote:"Cobrança automática por ciclo",
+    paySlip:"Boleto bancário", paySlipNote:"Vencimento em 7 dias",
+    payPix:"Pix", payPixNote:"Confirmação imediata",
+    payInvoice:"Faturamento por contrato", payInvoiceNote:"Enterprise, com nota e prazo",
+    lbCardNumber:"Número do cartão", lbCardName:"Nome impresso no cartão", phCardName:"ANA R CAMARGO",
+    lbCardExp:"Validade", lbCardCvc:"CVC",
+    lbPO:"Ordem de compra (PO)", phPO:"PO-2026-0148", poHint:"Opcional. Aparece na nota fiscal e na fatura.",
+    slipNote:"O boleto é enviado ao e-mail financeiro no início de cada ciclo, com vencimento em 7 dias. Atraso superior a 15 dias suspende a ingestão de novos eventos.",
+    pixNote:"O Pix é gerado no início de cada ciclo e enviado ao e-mail financeiro. A confirmação libera a cota do mês na hora.",
+    lbBillingEmail:"E-mail financeiro", phBillingEmail:"financeiro@empresa.com.br",
+    billingEmailHint:"Recebe nota fiscal, fatura e aviso de vencimento. Pode ser diferente do e-mail do administrador.",
+    lbBillingAddr:"Endereço de cobrança", phBillingAddr:"Av. das Indústrias, 1200 — Curitiba / PR",
+    paySummary:"Resumo da cobrança", payCycleNote:"Valores sem impostos. A nota fiscal é emitida para o cadastro informado na etapa 1.",
+    paySecureTitle:"Segurança financeira",
+    paySecure:"Pagamento processado por adquirente com certificação PCI DSS nível 1. A Q-Cost AI não armazena o número do cartão — guardamos apenas os quatro últimos dígitos.",
+    trustLink:"Central de confiança",
+    termsTrustPre:"Veja o que fazemos com esses dados na", termsTrustLink:"central de confiança", termsTrustPost:".",
+    rowPlants:"Plantas", rowPayment:"Pagamento", rowBillingEmail:"E-mail financeiro", rowFirstCharge:"Primeira cobrança",
+    payPlanLine:"Plano", payPlantsLine:"Unidades", payTotalLine:"Total por ciclo",
+    payFreeValue:"Sem cobrança", payContract:"sob contrato", payAfterTrial:"após 14 dias de avaliação",
+    s1Title:"Criar conta", s1Lead:"Dados de quem administra a conta e da organização que será medida.",
+    lbName:"Nome completo", phName:"Ana Ribeiro Camargo",
+    lbEmail:"E-mail corporativo", phEmail:"ana.camargo@empresa.com.br",
+    lbPass:"Senha", phPass:"Mínimo de 8 caracteres",
+    lbOrg:"Organização", phOrg:"Metalúrgica Paranaense S.A.",
+    lbSegment:"Segmento", lbCountry:"País, idioma e moeda", lbCycle:"Ciclo de apuração",
+    lbRevenue:"Receita de referência anual", lbRevYear:"Ano de referência",
+    revenueHint:"Base dos indicadores relativos do painel. Cada alteração fica registrada com ano, usuário e data.",
+    legalHintSuffix:". Verificado na contratação; depois só muda por solicitação ao suporte.",
+    continue:"Continuar", backSite:"Voltar ao site", back:"Voltar",
+    ssoTitle:"SSO corporativo",
+    ssoLead:"Use o diretório da empresa. O provedor devolve nome e e-mail; você completa só os dados da organização.",
+    ssoNote:"SAML e SCIM para provisionamento em lote no plano Enterprise.",
+    afterTitle:"Depois do cadastro",
+    after1:"Escolha o template de estrutura de custos.",
+    after2:"Convide qualidade, produção e controladoria.",
+    after3:"Importe documentos e aprove a classificação.",
+    s2Title:"Escolha seu plano",
+    s2Lead:"A cobrança é por evento de custo da qualidade ingerido pela IA no mês, não por usuário.",
+    s2Note:"Faixas e valores provisórios, a confirmar com a liderança da SIQ.",
+    eventsMonth:"Eventos por mês", eventsIncluded:"Eventos incluídos",
+    s2Switch:"Você pode trocar de plano quando quiser, em Configurações › Assinatura. A mudança vale a partir do ciclo seguinte e nenhum evento já apurado é perdido.",
+    review:"Revisar e confirmar", selected:"Selecionado", select:"Selecionar",
+    s3Title:"Confirme antes de finalizar", s3Lead:"Qualquer item pode ser corrigido pelo indicador de etapas acima.",
+    edit:"Editar", change:"Trocar", adminTitle:"Administrador",
+    rowName:"Nome", rowCountry:"País", rowRevenue:"Receita de referência", rowCycle:"Ciclo",
+    rowEmail:"E-mail", rowAccess:"Acesso", accessPass:"E-mail e senha", accessSso:"SSO — ",
+    termsPre:"Aceito os", termsUse:"termos de uso", termsAnd:"e a", termsPrivacy:"política de privacidade",
+    termsPost:", incluindo o tratamento de dados conforme a LGPD.",
+    termsError:"É necessário aceitar os termos de uso para criar a conta.",
+    createMine:"Criar minha conta", chosenTitle:"Plano escolhido",
+    accountCreated:"CONTA CRIADA", doneLead1:"Enviamos a confirmação para",
+    doneLead2:". O próximo passo é definir a estrutura de custos: adotar um template pronto ou montar a sua.",
+    doneTitle1:"", doneTitle2:" está pronta no plano ", doneTitle3:".", yourOrg:"Sua organização",
+    pickTemplate:"Escolher template PAF", ownStructure:"Criar estrutura própria", restart:"Recomeçar",
+    vidTitle:"Veja como funciona, antes de precisar",
+    vidNote:"Quatro jornadas em vídeo, na ordem em que você vai percorrê-las. Nenhuma passa de seis minutos.",
+    vidFoot:"Mais vídeos, perguntas frequentes e o assistente que conhece a sua conta ficam na central de ajuda, sempre no menu do seu usuário.",
+    vidCta:"Abrir central de ajuda",
+    videos:[
+      ["01","Configurar a organização","5:40","País e moeda, plantas, ciclo de apuração e a estrutura que vai classificar tudo depois."],
+      ["02","Registrar o primeiro evento","4:10","Anexo, descrição em texto, leitura da IA e a sua correção. O ciclo completo."],
+      ["03","Revisar o que a IA propôs","3:25","Como ler as três faixas do evento e o que olhar antes de aprovar."],
+      ["04","Ler a apuração do mês","5:05","Categorias, razão entre investimento e perda, e o que levar para a diretoria."]
+    ],
+    errSummary:"Revise os campos destacados para continuar. Nenhum dado foi perdido.",
+    errEmail:"Informe um e-mail corporativo válido.", helpEmail:"O domínio da empresa identifica a organização.",
+    errPass:"A senha precisa de no mínimo 8 caracteres.", helpPass:"Mínimo de 8 caracteres, com letras e números.",
+    selectOne:"Selecione",
+    segments:{auto:"Automotivo — IATF 16949",aero:"Defesa e aeroespacial — AS9100",agro:"Máquinas agrícolas",farma:"Farmacêutico — GMP e ANVISA",disp:"Dispositivos médicos — ISO 13485",alimentos:"Alimentos e bebidas — FSSC 22000",quimico:"Químico e petroquímico",metal:"Metalurgia e usinagem",plast:"Autopeças, plásticos e borracha",eletro:"Eletroeletrônico",consumo:"Bens de consumo",outro:"Outro"},
+    cycles:{m5:"Mensal — fecha no dia 5",m10:"Mensal — fecha no dia 10",mend:"Mensal — fecha no último dia",tri:"Trimestral"},
+    countries:{br:"Brasil — pt-BR · BRL (R$)",us:"Estados Unidos — English · USD (US$)",mx:"México — Español · MXN (MX$)",ar:"Argentina — Español · ARS (AR$)",es:"Espanha — Español · EUR (€)",pt:"Portugal — Português · EUR (€)"},
+    plans:{
+      free:{name:"Free",badge:"Avaliação",priceNote:"gratuito permanente",events:"até 25",price:"R$ 0",
+        features:["Template PAF Essencial","Dashboard COQ e COPQ","Usuários ilimitados","Histórico de 6 meses"],
+        note:"Sem cartão de crédito. Ideal para validar a metodologia em uma linha."},
+      basic:{name:"Basic",badge:"Uma planta",priceNote:"por mês",events:"até 150",price:"R$ 890",
+        features:["Importação de PDF e planilhas","Exportação da apuração","Histórico completo","Suporte por e-mail"],
+        note:"Dimensionado para uma planta com rotina mensal de apuração."},
+      pro:{name:"Pro",badge:"Mais escolhido",priceNote:"por mês",events:"até 600",price:"R$ 2.490",
+        features:["Múltiplas plantas e centros de custo","Rastreabilidade e log de auditoria","Alertas por faixa de custo","Suporte prioritário"],
+        note:"Cobre auditoria interna e certificação IATF 16949, AS9100 ou ISO 13485."},
+      enterprise:{name:"Enterprise",badge:"Corporativo",priceNote:"volume por contrato",events:"sob contrato",price:"Fale conosco",
+        features:["API REST e MCP para ERP e agentes","SSO com SAML e SCIM","Política de retenção própria","Plano de implantação dedicado"],
+        note:"Inclui desenho da integração com o QMS e o ERP já em uso."}
+    }
+  },
+  en: {
+    themeAria:"Toggle theme", signIn:"Sign in", progressAria:"Signup progress",
+    step1:"Create account", step2:"Plan", step3:"Confirmation",
+    stepPlants:"Plants", stepPay:"Payment", stepConfirm:"Confirmation",
+    lbRole:"Role", lbPhone:"Work phone", phPhone:"+1 555 010 0000",
+    phoneHint:"Used only for critical account and billing notices.",
+    roles:{qualidade:"Quality management",producao:"Production and manufacturing",controladoria:"Controlling and finance",engenharia:"Engineering and process",diretoria:"Industrial leadership",ti:"IT and integrations",outro:"Other"},
+    spTitle:"Which plants will you manage?",
+    spLead:"Accounting starts consolidated at the organization level. Add plants when you need to compare units — the PAF structure is replicated in each one.",
+    spDefault:"Default", spDefaultNote:"Created from the organization you entered. Holds the consolidated view and cannot be removed.",
+    spName:"Plant name", spNamePh:"Betim plant", spCity:"City and state", spCityPh:"Betim / MG", spCode:"Internal code", spCodePh:"BET-01",
+    spAdd:"Add plant", spRemove:"Remove", spUnit:"unit in accounting", spUnits:"units in accounting",
+    spPlanFree:"The Free plan only accounts for the organization's consolidated view. To separate plants, choose Basic or above.",
+    spPlanBasic:"The Basic plan covers one plant beyond the consolidated view. Pro unlocks multiple plants and cost centers.",
+    spPlanPro:"The chosen plan covers multiple plants and cost centers, with no limit on units.",
+    payTitle:"Payment method",
+    payLeadPaid:"Billing happens at the end of each cycle, on the events actually ingested by the AI.",
+    payLeadFree:"The Free plan does not require a payment method now.",
+    payNoneTitle:"No charge",
+    payFreeNote:"You can start without a card. When you move up a plan we ask for the payment method in Settings › Subscription, with no accounted event lost.",
+    payMethod:"Method",
+    payCard:"Credit card", payCardNote:"Automatic charge per cycle",
+    paySlip:"Bank slip", paySlipNote:"Due in 7 days",
+    payPix:"Pix", payPixNote:"Immediate confirmation",
+    payInvoice:"Invoice by contract", payInvoiceNote:"Enterprise, with terms",
+    lbCardNumber:"Card number", lbCardName:"Name on card", phCardName:"ANA R CAMARGO",
+    lbCardExp:"Expiry", lbCardCvc:"CVC",
+    lbPO:"Purchase order (PO)", phPO:"PO-2026-0148", poHint:"Optional. Shown on the invoice.",
+    slipNote:"The slip is sent to the billing email at the start of each cycle, due in 7 days. Delays over 15 days suspend ingestion of new events.",
+    pixNote:"Pix is generated at the start of each cycle and sent to the billing email. Confirmation releases the monthly quota immediately.",
+    lbBillingEmail:"Billing email", phBillingEmail:"finance@company.com",
+    billingEmailHint:"Receives invoice and due-date notices. It can differ from the administrator's email.",
+    lbBillingAddr:"Billing address", phBillingAddr:"1200 Industry Ave — Curitiba / PR",
+    paySummary:"Billing summary", payCycleNote:"Amounts exclude taxes. The invoice is issued to the registration entered in step 1.",
+    paySecureTitle:"Financial security",
+    paySecure:"Payments are processed by a PCI DSS Level 1 certified acquirer. Q-Cost AI never stores the card number — only the last four digits.",
+    trustLink:"Trust center",
+    termsTrustPre:"See what we do with that data in the", termsTrustLink:"trust center", termsTrustPost:".",
+    rowPlants:"Plants", rowPayment:"Payment", rowBillingEmail:"Billing email", rowFirstCharge:"First charge",
+    payPlanLine:"Plan", payPlantsLine:"Units", payTotalLine:"Total per cycle",
+    payFreeValue:"No charge", payContract:"under contract", payAfterTrial:"after the 14-day trial",
+    s1Title:"Create account", s1Lead:"Details of the account administrator and of the organization being measured.",
+    lbName:"Full name", phName:"Ana Ribeiro Camargo",
+    lbEmail:"Work email", phEmail:"ana.camargo@company.com",
+    lbPass:"Password", phPass:"At least 8 characters",
+    lbOrg:"Organization", phOrg:"Metalúrgica Paranaense S.A.",
+    lbSegment:"Segment", lbCountry:"Country, language and currency", lbCycle:"Accounting cycle",
+    lbRevenue:"Annual reference revenue", lbRevYear:"Reference year",
+    revenueHint:"Base for the dashboard's relative indicators. Every change is recorded with year, user and date.",
+    legalHintSuffix:". Verified at signup; afterwards it only changes through a support request.",
+    continue:"Continue", backSite:"Back to the site", back:"Back",
+    ssoTitle:"Corporate SSO",
+    ssoLead:"Use the company directory. The provider returns name and email; you only fill in the organization data.",
+    ssoNote:"SAML and SCIM for bulk provisioning on the Enterprise plan.",
+    afterTitle:"After signup",
+    after1:"Choose the cost structure template.",
+    after2:"Invite quality, production and controlling.",
+    after3:"Import documents and approve the classification.",
+    s2Title:"Choose your plan",
+    s2Lead:"Billing is per quality cost event ingested by the AI each month, not per user.",
+    s2Note:"Tiers and prices are provisional, pending confirmation with SIQ leadership.",
+    eventsMonth:"Events per month", eventsIncluded:"Events included",
+    s2Switch:"You can change plans anytime in Settings › Subscription. The change applies from the next cycle and no accounted event is lost.",
+    review:"Review and confirm", selected:"Selected", select:"Select",
+    s3Title:"Confirm before finishing", s3Lead:"Any item can be corrected from the step indicator above.",
+    edit:"Edit", change:"Change", adminTitle:"Administrator",
+    rowName:"Name", rowCountry:"Country", rowRevenue:"Reference revenue", rowCycle:"Cycle",
+    rowEmail:"Email", rowAccess:"Access", accessPass:"Email and password", accessSso:"SSO — ",
+    termsPre:"I accept the", termsUse:"terms of use", termsAnd:"and the", termsPrivacy:"privacy policy",
+    termsPost:", including data processing under applicable privacy law.",
+    termsError:"You need to accept the terms of use to create the account.",
+    createMine:"Create my account", chosenTitle:"Chosen plan",
+    accountCreated:"ACCOUNT CREATED", doneLead1:"We sent the confirmation to",
+    doneLead2:". The next step is defining the cost structure: adopt a ready template or build your own.",
+    doneTitle1:"", doneTitle2:" is ready on the ", doneTitle3:" plan.", yourOrg:"Your organization",
+    pickTemplate:"Choose a PAF template", ownStructure:"Build your own structure", restart:"Start over",
+    vidTitle:"See how it works, before you need to",
+    vidNote:"Four journeys on video, in the order you will walk them. None runs past six minutes.",
+    vidFoot:"More videos, frequently asked questions and the assistant that knows your account live in the help center, always in your user menu.",
+    vidCta:"Open the help center",
+    videos:[
+      ["01","Set up the organization","5:40","Country and currency, plants, accounting cycle and the structure that will classify everything after."],
+      ["02","Record the first event","4:10","Attachment, text description, AI reading and your correction. The complete cycle."],
+      ["03","Review what the AI proposed","3:25","How to read the three bands of an event and what to check before approving."],
+      ["04","Read the month's accounting","5:05","Categories, the ratio between investment and loss, and what to take to the board."]
+    ],
+    errSummary:"Review the highlighted fields to continue. No data was lost.",
+    errEmail:"Enter a valid work email.", helpEmail:"The company domain identifies the organization.",
+    errPass:"The password needs at least 8 characters.", helpPass:"At least 8 characters, with letters and numbers.",
+    selectOne:"Select",
+    segments:{auto:"Automotive — IATF 16949",aero:"Defense and aerospace — AS9100",agro:"Agricultural machinery",farma:"Pharmaceutical — GMP",disp:"Medical devices — ISO 13485",alimentos:"Food and beverage — FSSC 22000",quimico:"Chemical and petrochemical",metal:"Metalworking and machining",plast:"Auto parts, plastics and rubber",eletro:"Electronics",consumo:"Consumer goods",outro:"Other"},
+    cycles:{m5:"Monthly — closes on the 5th",m10:"Monthly — closes on the 10th",mend:"Monthly — closes on the last day",tri:"Quarterly"},
+    countries:{br:"Brazil — pt-BR · BRL (R$)",us:"United States — English · USD (US$)",mx:"Mexico — Español · MXN (MX$)",ar:"Argentina — Español · ARS (AR$)",es:"Spain — Español · EUR (€)",pt:"Portugal — Português · EUR (€)"},
+    plans:{
+      free:{name:"Free",badge:"Evaluation",priceNote:"free forever",events:"up to 25",price:"R$ 0",
+        features:["Essential PAF template","COQ and COPQ dashboard","Unlimited users","6-month history"],
+        note:"No credit card. Ideal for validating the method on one line."},
+      basic:{name:"Basic",badge:"One plant",priceNote:"per month",events:"up to 150",price:"R$ 890",
+        features:["PDF and spreadsheet import","Accounting export","Full history","Email support"],
+        note:"Sized for one plant with a monthly accounting routine."},
+      pro:{name:"Pro",badge:"Most chosen",priceNote:"per month",events:"up to 600",price:"R$ 2,490",
+        features:["Multiple plants and cost centers","Traceability and audit log","Alerts by cost threshold","Priority support"],
+        note:"Covers internal audit and IATF 16949, AS9100 or ISO 13485 certification."},
+      enterprise:{name:"Enterprise",badge:"Corporate",priceNote:"contract volume",events:"under contract",price:"Contact us",
+        features:["REST API and MCP for ERP and agents","SSO with SAML and SCIM","Custom retention policy","Dedicated rollout plan"],
+        note:"Includes designing the integration with your existing QMS and ERP."}
+    }
+  },
+  es: {
+    themeAria:"Alternar tema", signIn:"Iniciar sesión", progressAria:"Progreso del registro",
+    step1:"Crear cuenta", step2:"Plan", step3:"Confirmación",
+    stepPlants:"Plantas", stepPay:"Pago", stepConfirm:"Confirmación",
+    lbRole:"Cargo", lbPhone:"Teléfono corporativo", phPhone:"+52 55 1234 5678",
+    phoneHint:"Se usa solo para avisos críticos de cuenta y facturación.",
+    roles:{qualidade:"Gestión de la calidad",producao:"Producción y manufactura",controladoria:"Controlaría y finanzas",engenharia:"Ingeniería y procesos",diretoria:"Dirección industrial",ti:"TI e integraciones",outro:"Otro"},
+    spTitle:"¿Qué plantas va a gestionar?",
+    spLead:"El cierre empieza consolidado en la organización. Agregue plantas cuando necesite comparar unidades — la estructura PAF se replica en cada una.",
+    spDefault:"Predeterminado", spDefaultNote:"Creado a partir de la organización informada. Reúne el consolidado y no puede eliminarse.",
+    spName:"Nombre de la planta", spNamePh:"Unidad Betim", spCity:"Ciudad y estado", spCityPh:"Betim / MG", spCode:"Código interno", spCodePh:"BET-01",
+    spAdd:"Agregar planta", spRemove:"Quitar", spUnit:"unidad en el cierre", spUnits:"unidades en el cierre",
+    spPlanFree:"El plan Free contabiliza solo el consolidado de la organización. Para separar plantas, elija Basic o superior.",
+    spPlanBasic:"El plan Basic cubre una planta además del consolidado. Pro libera múltiples plantas y centros de costo.",
+    spPlanPro:"El plan elegido cubre múltiples plantas y centros de costo, sin límite de unidades.",
+    payTitle:"Forma de pago",
+    payLeadPaid:"El cobro ocurre al final de cada ciclo, sobre los eventos efectivamente procesados por la IA.",
+    payLeadFree:"El plan Free no exige forma de pago ahora.",
+    payNoneTitle:"Sin cobro",
+    payFreeNote:"Puede empezar sin tarjeta. Cuando quiera subir de plan, pedimos la forma de pago en Configuración › Suscripción, sin perder ningún evento contabilizado.",
+    payMethod:"Método",
+    payCard:"Tarjeta de crédito", payCardNote:"Cobro automático por ciclo",
+    paySlip:"Boleto bancario", paySlipNote:"Vence en 7 días",
+    payPix:"Pix", payPixNote:"Confirmación inmediata",
+    payInvoice:"Facturación por contrato", payInvoiceNote:"Enterprise, con plazo",
+    lbCardNumber:"Número de la tarjeta", lbCardName:"Nombre impreso en la tarjeta", phCardName:"ANA R CAMARGO",
+    lbCardExp:"Vencimiento", lbCardCvc:"CVC",
+    lbPO:"Orden de compra (PO)", phPO:"PO-2026-0148", poHint:"Opcional. Aparece en la factura.",
+    slipNote:"El boleto se envía al correo financiero al inicio de cada ciclo, con vencimiento en 7 días. El atraso superior a 15 días suspende el procesamiento de nuevos eventos.",
+    pixNote:"El Pix se genera al inicio de cada ciclo y se envía al correo financiero. La confirmación libera la cuota del mes al instante.",
+    lbBillingEmail:"Correo financiero", phBillingEmail:"finanzas@empresa.com",
+    billingEmailHint:"Recibe factura y aviso de vencimiento. Puede ser distinto del correo del administrador.",
+    lbBillingAddr:"Dirección de facturación", phBillingAddr:"Av. de las Industrias 1200 — Curitiba / PR",
+    paySummary:"Resumen del cobro", payCycleNote:"Valores sin impuestos. La factura se emite para el registro informado en la etapa 1.",
+    paySecureTitle:"Seguridad financiera",
+    paySecure:"El pago lo procesa un adquirente con certificación PCI DSS nivel 1. Q-Cost AI no almacena el número de la tarjeta — solo los últimos cuatro dígitos.",
+    trustLink:"Centro de confianza",
+    termsTrustPre:"Vea qué hacemos con esos datos en el", termsTrustLink:"centro de confianza", termsTrustPost:".",
+    rowPlants:"Plantas", rowPayment:"Pago", rowBillingEmail:"Correo financiero", rowFirstCharge:"Primer cobro",
+    payPlanLine:"Plan", payPlantsLine:"Unidades", payTotalLine:"Total por ciclo",
+    payFreeValue:"Sin cobro", payContract:"según contrato", payAfterTrial:"tras 14 días de evaluación",
+    s1Title:"Crear cuenta", s1Lead:"Datos de quien administra la cuenta y de la organización que será medida.",
+    lbName:"Nombre completo", phName:"Ana Ribeiro Camargo",
+    lbEmail:"Correo corporativo", phEmail:"ana.camargo@empresa.com",
+    lbPass:"Contraseña", phPass:"Mínimo de 8 caracteres",
+    lbOrg:"Organización", phOrg:"Metalúrgica Paranaense S.A.",
+    lbSegment:"Segmento", lbCountry:"País, idioma y moneda", lbCycle:"Ciclo de cierre",
+    lbRevenue:"Ingresos de referencia anuales", lbRevYear:"Año de referencia",
+    revenueHint:"Base de los indicadores relativos del panel. Cada cambio queda registrado con año, usuario y fecha.",
+    legalHintSuffix:". Verificado en la contratación; después solo cambia por solicitud al soporte.",
+    continue:"Continuar", backSite:"Volver al sitio", back:"Volver",
+    ssoTitle:"SSO corporativo",
+    ssoLead:"Use el directorio de la empresa. El proveedor devuelve nombre y correo; usted completa solo los datos de la organización.",
+    ssoNote:"SAML y SCIM para aprovisionamiento masivo en el plan Enterprise.",
+    afterTitle:"Después del registro",
+    after1:"Elija la plantilla de estructura de costos.",
+    after2:"Invite a calidad, producción y controlaría.",
+    after3:"Importe documentos y apruebe la clasificación.",
+    s2Title:"Elija su plan",
+    s2Lead:"El cobro es por evento de costo de la calidad procesado por la IA en el mes, no por usuario.",
+    s2Note:"Rangos y valores provisionales, a confirmar con la dirección de SIQ.",
+    eventsMonth:"Eventos por mes", eventsIncluded:"Eventos incluidos",
+    s2Switch:"Puede cambiar de plan cuando quiera, en Configuración › Suscripción. El cambio vale a partir del ciclo siguiente y ningún evento ya contabilizado se pierde.",
+    review:"Revisar y confirmar", selected:"Seleccionado", select:"Seleccionar",
+    s3Title:"Confirme antes de finalizar", s3Lead:"Cualquier elemento puede corregirse desde el indicador de etapas de arriba.",
+    edit:"Editar", change:"Cambiar", adminTitle:"Administrador",
+    rowName:"Nombre", rowCountry:"País", rowRevenue:"Ingresos de referencia", rowCycle:"Ciclo",
+    rowEmail:"Correo", rowAccess:"Acceso", accessPass:"Correo y contraseña", accessSso:"SSO — ",
+    termsPre:"Acepto los", termsUse:"términos de uso", termsAnd:"y la", termsPrivacy:"política de privacidad",
+    termsPost:", incluido el tratamiento de datos conforme a la ley de privacidad aplicable.",
+    termsError:"Es necesario aceptar los términos de uso para crear la cuenta.",
+    createMine:"Crear mi cuenta", chosenTitle:"Plan elegido",
+    accountCreated:"CUENTA CREADA", doneLead1:"Enviamos la confirmación a",
+    doneLead2:". El próximo paso es definir la estructura de costos: adoptar una plantilla lista o armar la suya.",
+    doneTitle1:"", doneTitle2:" está lista en el plan ", doneTitle3:".", yourOrg:"Su organización",
+    pickTemplate:"Elegir plantilla PAF", ownStructure:"Crear estructura propia", restart:"Empezar de nuevo",
+    vidTitle:"Vea cómo funciona, antes de necesitarlo",
+    vidNote:"Cuatro jornadas en video, en el orden en que las recorrerá. Ninguna pasa de seis minutos.",
+    vidFoot:"Más videos, preguntas frecuentes y el asistente que conoce su cuenta están en el centro de ayuda, siempre en el menú de su usuario.",
+    vidCta:"Abrir centro de ayuda",
+    videos:[
+      ["01","Configurar la organización","5:40","País y moneda, plantas, ciclo de cierre y la estructura que clasificará todo después."],
+      ["02","Registrar el primer evento","4:10","Adjunto, descripción en texto, lectura de la IA y su corrección. El ciclo completo."],
+      ["03","Revisar lo que la IA propuso","3:25","Cómo leer las tres franjas del evento y qué mirar antes de aprobar."],
+      ["04","Leer el cierre del mes","5:05","Categorías, razón entre inversión y pérdida, y qué llevar a la dirección."]
+    ],
+    errSummary:"Revise los campos destacados para continuar. Ningún dato se perdió.",
+    errEmail:"Informe un correo corporativo válido.", helpEmail:"El dominio de la empresa identifica la organización.",
+    errPass:"La contraseña necesita al menos 8 caracteres.", helpPass:"Mínimo de 8 caracteres, con letras y números.",
+    selectOne:"Seleccione",
+    segments:{auto:"Automotriz — IATF 16949",aero:"Defensa y aeroespacial — AS9100",agro:"Maquinaria agrícola",farma:"Farmacéutico — GMP",disp:"Dispositivos médicos — ISO 13485",alimentos:"Alimentos y bebidas — FSSC 22000",quimico:"Químico y petroquímico",metal:"Metalurgia y mecanizado",plast:"Autopartes, plásticos y caucho",eletro:"Electrónica",consumo:"Bienes de consumo",outro:"Otro"},
+    cycles:{m5:"Mensual — cierra el día 5",m10:"Mensual — cierra el día 10",mend:"Mensual — cierra el último día",tri:"Trimestral"},
+    countries:{br:"Brasil — pt-BR · BRL (R$)",us:"Estados Unidos — English · USD (US$)",mx:"México — Español · MXN (MX$)",ar:"Argentina — Español · ARS (AR$)",es:"España — Español · EUR (€)",pt:"Portugal — Português · EUR (€)"},
+    plans:{
+      free:{name:"Free",badge:"Evaluación",priceNote:"gratis permanente",events:"hasta 25",price:"R$ 0",
+        features:["Plantilla PAF Esencial","Panel COQ y COPQ","Usuarios ilimitados","Historial de 6 meses"],
+        note:"Sin tarjeta de crédito. Ideal para validar la metodología en una línea."},
+      basic:{name:"Basic",badge:"Una planta",priceNote:"por mes",events:"hasta 150",price:"R$ 890",
+        features:["Importación de PDF y planillas","Exportación del cierre","Historial completo","Soporte por correo"],
+        note:"Dimensionado para una planta con rutina mensual de cierre."},
+      pro:{name:"Pro",badge:"Más elegido",priceNote:"por mes",events:"hasta 600",price:"R$ 2.490",
+        features:["Múltiples plantas y centros de costo","Trazabilidad y registro de auditoría","Alertas por rango de costo","Soporte prioritario"],
+        note:"Cubre auditoría interna y certificación IATF 16949, AS9100 o ISO 13485."},
+      enterprise:{name:"Enterprise",badge:"Corporativo",priceNote:"volumen por contrato",events:"según contrato",price:"Contáctenos",
+        features:["API REST y MCP para ERP y agentes","SSO con SAML y SCIM","Política de retención propia","Plan de implantación dedicado"],
+        note:"Incluye el diseño de la integración con el QMS y el ERP en uso."}
+    }
+  }
+};
+
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() {
+  try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; }
+}
+function writeTheme(v) {
+  try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {}
+}
+
+const CURRENCIES = [
+  { value: "br", sym: "R$", loc: "pt-BR" },
+  { value: "us", sym: "US$", loc: "en-US" },
+  { value: "mx", sym: "MX$", loc: "es-MX" },
+  { value: "ar", sym: "AR$", loc: "es-AR" },
+  { value: "es", sym: "€", loc: "es-ES" },
+  { value: "pt", sym: "€", loc: "pt-PT" }
+];
+const LEGAL = {
+  br: { label: "CNPJ", ph: "12.345.678/0001-90", digits: 14, hint: "Cadastro Nacional da Pessoa Jurídica" },
+  us: { label: "EIN", ph: "12-3456789", digits: 9, hint: "Employer Identification Number" },
+  mx: { label: "RFC", ph: "ABC123456T1B", digits: 12, alnum: true, hint: "Registro Federal de Contribuyentes" },
+  ar: { label: "CUIT", ph: "30-12345678-9", digits: 11, hint: "Clave Única de Identificación Tributaria" },
+  es: { label: "NIF", ph: "B12345678", digits: 9, alnum: true, hint: "Número de Identificación Fiscal" },
+  pt: { label: "NIPC", ph: "512345678", digits: 9, hint: "Número de Identificação de Pessoa Coletiva" }
+};
+const legalOf = (code) => LEGAL[code] || LEGAL.br;
+const currencyOf = (code) => CURRENCIES.find((c) => c.value === code) || CURRENCIES[0];
+const groupDigits = (digits, loc) => {
+  const n = String(digits).replace(/\D/g, "").replace(/^0+(?=\d)/, "");
+  if (!n) return "";
+  try { return Number(n).toLocaleString(loc); } catch (e) { return n; }
+};
+
+class Component extends DCLogic {
+  state = {
+    step: 1, maxStep: 1, submitted: false, showErrors: false, termsError: false,
+    plan: "pro", terms: false, sso: null, theme: readTheme(), lang: null, projOpen: false,
+    fullName: "", email: "", password: "", org: "", segment: "", country: "br",
+    taxId: "", revenue: "", revYear: "2026", cycle: "m5",
+    role: "", phone: "", plants: [], showPayErrors: false,
+    payMethod: "card", cardNumber: "", cardName: "", cardExp: "", cardCvc: "",
+    po: "", billingEmail: "", billingAddr: ""
+  };
+
+  set(key) { return (e) => this.setState({ [key]: e.target.value }); }
+
+  payInvalid() {
+    const s = this.state, bad = {};
+    if (s.plan === "free") return bad;
+    if (s.payMethod === "card") {
+      const n = s.cardNumber.replace(/\D/g, "");
+      if (n.length < 13 || n.length > 19) bad.cardNumber = true;
+      if (!s.cardName.trim()) bad.cardName = true;
+      if (!/^\d{2}\/\d{2}$/.test(s.cardExp.trim())) bad.cardExp = true;
+      if (!/^\d{3,4}$/.test(s.cardCvc.trim())) bad.cardCvc = true;
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.billingEmail.trim())) bad.billingEmail = true;
+    if (!s.billingAddr.trim()) bad.billingAddr = true;
+    return bad;
+  }
+
+  invalid() {
+    const s = this.state, bad = {};
+    if (!s.fullName.trim()) bad.fullName = true;
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.email.trim())) bad.email = true;
+    if (s.password.length < 8) bad.password = true;
+    if (!s.org.trim()) bad.org = true;
+    if (!s.segment) bad.segment = true;
+    const lg = legalOf(s.country);
+    const raw = lg.alnum ? s.taxId.replace(/[^0-9A-Za-z]/g, "") : s.taxId.replace(/\D/g, "");
+    if (raw.length !== lg.digits) bad.taxId = true;
+    if (!/\d/.test(s.revenue)) bad.revenue = true;
+    if (!s.role) bad.role = true;
+    return bad;
+  }
+
+  go(n) { return () => { if (n > this.state.maxStep) return; this.setState({ step: n, submitted: false }); }; }
+
+  next = () => {
+    const s = this.state;
+    if (s.step === 1) {
+      const bad = this.invalid();
+      if (Object.keys(bad).length) { this.setState({ showErrors: true }); return; }
+      this.setState({ step: 2, maxStep: Math.max(s.maxStep, 2), showErrors: false });
+    } else if (s.step === 2) {
+      this.setState({ step: 3, maxStep: Math.max(s.maxStep, 3) });
+    } else if (s.step === 3) {
+      this.setState({ step: 4, maxStep: Math.max(s.maxStep, 4) });
+    } else if (s.step === 4) {
+      const bad = this.payInvalid();
+      if (Object.keys(bad).length) { this.setState({ showPayErrors: true }); return; }
+      this.setState({ step: 5, maxStep: Math.max(s.maxStep, 5), showPayErrors: false });
+    }
+  };
+
+  back = () => this.setState((s) => ({ step: Math.max(1, s.step - 1) }));
+
+  updPlant(i, key, value) {
+    this.setState((s) => ({ plants: s.plants.map((p, j) => (j === i ? { ...p, [key]: value } : p)) }));
+  }
+
+  submit = () => {
+    if (!this.state.terms) { this.setState({ termsError: true }); return; }
+    this.setState({ submitted: true, termsError: false });
+  };
+
+  restart = () => this.setState({
+    step: 1, maxStep: 1, submitted: false, showErrors: false, termsError: false,
+    plan: "pro", terms: false, sso: null,
+    fullName: "", email: "", password: "", org: "", segment: "", country: "br",
+    taxId: "", revenue: "", revYear: "2026", cycle: "m5",
+    role: "", phone: "", plants: [], showPayErrors: false,
+    payMethod: "card", cardNumber: "", cardName: "", cardExp: "", cardCvc: "",
+    po: "", billingEmail: "", billingAddr: ""
+  });
+
+  sso(provider) {
+    return () => this.setState({
+      sso: provider,
+      fullName: this.state.fullName || "Ana Ribeiro Camargo",
+      email: this.state.email || "ana.camargo@empresa.com.br",
+      password: this.state.password || "sso-provisionado",
+      showErrors: false
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const theme = s.theme || this.props.theme || "light";
+    const lang = s.lang || readLang() || this.props.language || "pt-BR";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const onL = (k) => () => { writeLang(k); this.setState({ lang: k }); };
+    const abg = (on) => (on ? "var(--acc)" : "var(--bg)");
+    const afg = (on) => (on ? "var(--accInk)" : "var(--ink2)");
+    const bad = s.showErrors ? this.invalid() : {};
+    const err = (k) => (bad[k] ? "var(--neg)" : "var(--line2)");
+    const errBg = (k) => (bad[k] ? "var(--negBg)" : "var(--surf)");
+    const chosen = t.plans[s.plan] || t.plans.pro;
+    const pbad = s.showPayErrors ? this.payInvalid() : {};
+    const perr = (k) => (pbad[k] ? "var(--neg)" : "var(--line2)");
+    const perrBg = (k) => (pbad[k] ? "var(--negBg)" : "var(--surf)");
+    const payOptions = [
+      { id: "card", label: t.payCard, note: t.payCardNote },
+      { id: "slip", label: t.paySlip, note: t.paySlipNote },
+      { id: "pix", label: t.payPix, note: t.payPixNote },
+      { id: "invoice", label: t.payInvoice, note: t.payInvoiceNote }
+    ].filter((m) => (m.id === "slip" || m.id === "pix" ? s.country === "br" : true));
+
+    const stState = (n) => {
+      if (s.submitted) return "done";
+      if (n === s.step) return "current";
+      if (n < s.step || n <= s.maxStep) return "done";
+      return "pending";
+    };
+    const st = [1, 2, 3, 4, 5].map(stState);
+    const bar = (k) => (k === "current" ? "var(--ink)" : k === "done" ? "var(--ink3)" : "var(--line)");
+    const lab = (k) => (k === "pending" ? "var(--ink3)" : k === "current" ? "var(--ink)" : "var(--ink2)");
+
+    return {
+      t, theme,
+      setPt: onL("pt-BR"), setEn: onL("en"), setEs: onL("es"),
+      ptBg: abg(lang === "pt-BR"), ptFg: afg(lang === "pt-BR"),
+      enBg: abg(lang === "en"), enFg: afg(lang === "en"),
+      esBg: abg(lang === "es"), esFg: afg(lang === "es"),
+      segmentOptions: [{ value: "", label: t.selectOne }].concat(SEGMENT_KEYS.map((k) => ({ value: k, label: t.segments[k] }))),
+      cycleOptions: CYCLE_KEYS.map((k) => ({ value: k, label: t.cycles[k] })),
+      projOpen: s.projOpen,
+      projBg: s.projOpen ? "var(--surf2)" : "transparent",
+      toggleProj: () => this.setState((st) => ({ projOpen: !st.projOpen })),
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+
+      isStep1: !s.submitted && s.step === 1,
+      isStep2: !s.submitted && s.step === 2,
+      isPlants: !s.submitted && s.step === 3,
+      isPay: !s.submitted && s.step === 4,
+      isStep3: false,
+      isStep5: !s.submitted && s.step === 5,
+      isDone: s.submitted,
+
+      navSteps: [t.step1, t.step2, t.stepPlants, t.stepPay, t.stepConfirm].map((text, i) => ({
+        text, num: "0" + (i + 1),
+        bar: bar(st[i]), label: lab(st[i]),
+        cursor: s.maxStep >= i + 1 ? "pointer" : "not-allowed",
+        go: this.go(i + 1)
+      })),
+      go4: this.go(4), go5: this.go(5),
+
+      role: s.role, onRole: this.set("role"),
+      bRole: err("role"), bgRole: errBg("role"),
+      roleOptions: [{ value: "", label: t.selectOne }].concat(ROLE_KEYS.map((k) => ({ value: k, label: t.roles[k] }))),
+      phone: s.phone, onPhone: this.set("phone"),
+
+      consolidatedName: (s.org.trim() || t.yourOrg) + " — " + (lang === "en" ? "consolidated" : "consolidado"),
+      plantRows: s.plants.map((p, i) => ({
+        name: p.name, city: p.city, code: p.code,
+        onName: (e) => this.updPlant(i, "name", e.target.value),
+        onCity: (e) => this.updPlant(i, "city", e.target.value),
+        onCode: (e) => this.updPlant(i, "code", e.target.value),
+        remove: () => this.setState((st2) => ({ plants: st2.plants.filter((_, j) => j !== i) }))
+      })),
+      addPlant: () => this.setState((st2) => ({ plants: st2.plants.concat([{ name: "", city: "", code: "" }]) })),
+      plantCount: (s.plants.length + 1) + " " + (s.plants.length === 0 ? t.spUnit : t.spUnits),
+      plantPlanNote: s.plan === "free" ? t.spPlanFree : (s.plan === "basic" ? t.spPlanBasic : t.spPlanPro),
+      plantSummary: [{ tag: "01", text: (s.org.trim() || t.yourOrg) + " — " + (lang === "en" ? "consolidated" : "consolidado"), color: "var(--ink)" }]
+        .concat(s.plants.map((p, i) => ({
+          tag: "0" + (i + 2),
+          text: [p.name.trim(), p.city.trim(), p.code.trim()].filter(Boolean).join(" · ") || "—",
+          color: p.name.trim() ? "var(--ink)" : "var(--ink3)"
+        }))),
+
+      payFree: s.plan === "free",
+      payNeeded: s.plan !== "free",
+      payLead: s.plan === "free" ? t.payLeadFree : t.payLeadPaid,
+      payMethods: payOptions.map((m) => ({
+        label: m.label, note: m.note,
+        pick: () => this.setState({ payMethod: m.id }),
+        bg: s.payMethod === m.id ? "var(--acc)" : "var(--surf)",
+        fg: s.payMethod === m.id ? "var(--accInk)" : "var(--ink)",
+        noteFg: s.payMethod === m.id ? "var(--accInk)" : "var(--ink3)"
+      })),
+      isCard: s.payMethod === "card",
+      isInvoice: s.payMethod === "invoice",
+      isSlip: s.payMethod === "slip" || s.payMethod === "pix",
+      slipNote: s.payMethod === "pix" ? t.pixNote : t.slipNote,
+      cardNumber: s.cardNumber, onCardNumber: this.set("cardNumber"),
+      cardName: s.cardName, onCardName: this.set("cardName"),
+      cardExp: s.cardExp, onCardExp: this.set("cardExp"),
+      cardCvc: s.cardCvc, onCardCvc: this.set("cardCvc"),
+      po: s.po, onPo: this.set("po"),
+      billingEmail: s.billingEmail, onBillingEmail: this.set("billingEmail"),
+      billingAddr: s.billingAddr, onBillingAddr: this.set("billingAddr"),
+      bCard: perr("cardNumber"), bgCard: perrBg("cardNumber"),
+      bCardName: perr("cardName"), bgCardName: perrBg("cardName"),
+      bExp: perr("cardExp"), bgExp: perrBg("cardExp"),
+      bCvc: perr("cardCvc"), bgCvc: perrBg("cardCvc"),
+      bBillEmail: perr("billingEmail"), bgBillEmail: perrBg("billingEmail"),
+      bAddr: perr("billingAddr"), bgAddr: perrBg("billingAddr"),
+      payErrors: Object.keys(pbad).length > 0,
+      payLines: [
+        { label: t.payPlanLine, value: chosen.name, color: "var(--ink)" },
+        { label: t.payPlantsLine, value: String(s.plants.length + 1), color: "var(--ink)" },
+        { label: t.eventsIncluded, value: chosen.events, color: "var(--ink2)" },
+        { label: t.payTotalLine, value: s.plan === "enterprise" ? t.payContract : chosen.price, color: "var(--ink)" }
+      ],
+      payMethodOut: s.plan === "free" ? t.payFreeValue : (payOptions.find((m) => m.id === s.payMethod) || payOptions[0]).label
+        + (s.payMethod === "card" && s.cardNumber.replace(/\D/g, "").length >= 4 ? " · •••• " + s.cardNumber.replace(/\D/g, "").slice(-4) : ""),
+      billingEmailOut: s.billingEmail.trim() || (s.plan === "free" ? "—" : s.email.trim() || "—"),
+      firstChargeOut: s.plan === "free" ? t.payFreeValue : (s.plan === "enterprise" ? t.payContract : chosen.price + " · " + t.payAfterTrial),
+
+      go1: this.go(1), go2: this.go(2), go3: this.go(3),
+
+      fullName: s.fullName, email: s.email, password: s.password, org: s.org,
+      segment: s.segment, country: s.country, terms: s.terms,
+      onFullName: this.set("fullName"), onEmail: this.set("email"),
+      onPassword: this.set("password"), onOrg: this.set("org"),
+      onSegment: this.set("segment"), onCountry: this.set("country"),
+      taxId: s.taxId, revenue: groupDigits(s.revenue, currencyOf(s.country).loc), revYear: s.revYear, cycle: s.cycle,
+      countryOptions: CURRENCIES.map((c) => ({ value: c.value, label: t.countries[c.value] })), currencySymbol: currencyOf(s.country).sym,
+      legalLabel: legalOf(s.country).label,
+      legalPlaceholder: legalOf(s.country).ph,
+      legalHint: legalOf(s.country).hint + t.legalHintSuffix,
+      onTaxId: this.set("taxId"), onRevenue: (e) => this.setState({ revenue: e.target.value.replace(/\D/g, "") }),
+      onRevYear: this.set("revYear"), onCycle: this.set("cycle"),
+      bTax: err("taxId"), bgTax: errBg("taxId"), bRev: err("revenue"), bgRev: errBg("revenue"),
+      taxIdOut: s.taxId.trim() || "—",
+      revenueOut: s.revenue ? currencyOf(s.country).sym + " " + groupDigits(s.revenue, currencyOf(s.country).loc) + " · " + s.revYear : "—",
+      cycleOut: t.cycles[s.cycle] || "—",
+      onTerms: (e) => this.setState({ terms: e.target.checked, termsError: false }),
+      ssoGoogle: this.sso("Google Workspace"), ssoMicrosoft: this.sso("Microsoft Entra ID"),
+
+      bName: err("fullName"), bEmail: err("email"), bPass: err("password"),
+      bOrg: err("org"), bSeg: err("segment"),
+      bgName: errBg("fullName"), bgEmail: errBg("email"), bgPass: errBg("password"),
+      bgOrg: errBg("org"), bgSeg: errBg("segment"),
+      emailHelp: bad.email ? t.errEmail : t.helpEmail,
+      cEmailHelp: bad.email ? "var(--neg)" : "var(--ink3)",
+      passHelp: bad.password ? t.errPass : t.helpPass,
+      cPassHelp: bad.password ? "var(--neg)" : "var(--ink3)",
+      hasErrors: Object.keys(bad).length > 0,
+      errorSummary: t.errSummary,
+
+      next: this.next, back: this.back, submit: this.submit, restart: this.restart,
+      termsError: s.termsError,
+
+      plans: PLAN_IDS.map((id) => {
+        const p = t.plans[id];
+        const sel = id === s.plan;
+        return {
+          name: p.name, badge: p.badge, price: p.price, priceNote: p.priceNote,
+          events: p.events, features: p.features,
+          bg: sel ? "var(--surf2)" : "var(--surf)",
+          strip: sel ? "var(--ink)" : "transparent",
+          badgeBorder: sel ? "var(--ink)" : "var(--line2)",
+          badgeFg: sel ? "var(--accInk)" : "var(--ink3)",
+          badgeBg: sel ? "var(--acc)" : "transparent",
+          btnBg: sel ? "var(--acc)" : "transparent",
+          btnFg: sel ? "var(--accInk)" : "var(--ink)",
+          btnBorder: sel ? "var(--acc)" : "var(--line2)",
+          btnLabel: sel ? t.selected : t.select,
+          select: () => this.setState({ plan: id })
+        };
+      }),
+
+      orgOut: s.org.trim() || "—",
+      segmentOut: t.segments[s.segment] || "—",
+      countryOut: t.countries[s.country] || "—",
+      fullNameOut: s.fullName.trim() || "—",
+      emailOut: s.email.trim() || "—",
+      accessOut: s.sso ? t.accessSso + s.sso : t.accessPass,
+
+      chosenName: chosen.name, chosenPrice: chosen.price, chosenPriceNote: chosen.priceNote,
+      chosenEvents: chosen.events, chosenFeatures: chosen.features, chosenNote: chosen.note,
+      videos: t.videos.map((v) => ({ n: v[0], title: v[1], time: v[2], desc: v[3] })),
+      doneTitle: (s.org.trim() || t.yourOrg) + t.doneTitle2 + chosen.name + t.doneTitle3
+    };
+  }
+}
+
+</script>
+</body>
+</html>

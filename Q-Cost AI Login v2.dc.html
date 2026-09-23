@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
+    --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
+    --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
+  }
+  [data-theme="dark"]{
+    --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
+    --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
+    --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
+  }
+  body{margin:0;background:#FBFBFA;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
+  input,button{font-family:'Archivo',system-ui,sans-serif}
+  @media (max-width:680px){
+    header nav{flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header nav::-webkit-scrollbar{display:none}
+    header nav a{padding:9px 10px !important;min-height:0;white-space:nowrap;flex:none}
+    header button{height:38px !important}
+    header button[aria-label]{width:38px !important}
+    button{min-height:34px}
+    input,select{min-height:36px}
+    a{display:inline-flex;align-items:center;min-height:32px}
+    p a,span a{display:inline;min-height:0}
+    td button{min-height:34px}
+  }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFBFA"/>
+    <g stroke-linecap="square">
+      <path d="M380 300H820" stroke="#131313" stroke-width="44"/>
+      <path d="M380 400H700" stroke="#131313" stroke-width="44"/>
+      <path d="M380 500H570" stroke="#79621F" stroke-width="44"/>
+      <path d="M700 480 L860 640" stroke="#79621F" stroke-width="44"/>
+    </g>
+  </svg>
+</template>
+</helmet>
+
+<div data-theme="{{ theme }}" style="font-family:'Archivo',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column">
+
+  <header style="border-bottom:1px solid var(--line)">
+    <div style="max-width:1120px;margin:0 auto;padding:14px clamp(16px,4vw,44px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 22px">
+      <a href="Q-Cost AI Landing v2.dc.html" style="display:flex;align-items:center;gap:11px" style-hover="text-decoration:none">
+        <svg width="23" height="23" viewBox="0 0 48 48" fill="none" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true" style="flex:none"><path d="M6 11.5H38" stroke="currentColor" stroke-width="3.5"/><path d="M6 22H30" stroke="currentColor" stroke-width="3.5"/><path d="M6 32.5H20" stroke="var(--sig)" stroke-width="3.5"/><path d="M30 30 L44 44" stroke="var(--sig)" stroke-width="3.5"/></svg>
+        <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+      </a>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;gap:1px;background:var(--line);flex:none">
+          <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
+          <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ esBg }};color:{{ esFg }}">ES</button>
+        </div>
+        <button type="button" onClick="{{ toggleTheme }}" aria-label="{{ t.themeAria }}" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0" style-hover="border-color:var(--ink3)"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></sc-if>
+        </button>
+        <span style="font-size:12.5px;color:var(--ink3)">{{ t.noAccount }}</span>
+        <a href="Q-Cost AI Onboarding v2.dc.html" style="font-size:12px;font-weight:400;color:var(--ink)">{{ t.createAccount }}</a>
+      </div>
+    </div>
+  </header>
+
+  <div style="flex:1;display:flex;align-items:flex-start;justify-content:center;padding:clamp(28px,6vw,72px) clamp(16px,4vw,32px) 72px">
+    <div style="width:100%;max-width:390px;display:flex;flex-direction:column;gap:20px">
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.kicker }}</span>
+        <h1 style="margin:0;font-size:clamp(30px,4.4vw,46px);font-weight:200;line-height:1.1;letter-spacing:-0.03em">{{ t.title }}</h1>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:var(--ink2)">{{ t.lead }}</p>
+      </div>
+
+      <div style="border:1px solid var(--line);padding:clamp(18px,2.4vw,26px);display:flex;flex-direction:column;gap:16px">
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <button type="button" onClick="{{ ssoGoogle }}" style="font-size:12px;font-weight:400;height:38px;padding:0 11px;background:transparent;color:var(--ink);border:1px solid var(--line2);cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left" style-hover="background:var(--surf2);border-color:var(--ink3)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M3 3h18v18H3z"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
+            <span style="flex:1">{{ t.ssoGoogle }}</span>
+          </button>
+          <button type="button" onClick="{{ ssoMicrosoft }}" style="font-size:12px;font-weight:400;height:38px;padding:0 11px;background:transparent;color:var(--ink);border:1px solid var(--line2);cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left" style-hover="background:var(--surf2);border-color:var(--ink3)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" style="flex:none" aria-hidden="true"><path d="M3 3h8v8H3zM13 3h8v8h-8zM3 13h8v8H3zM13 13h8v8h-8z"/></svg>
+            <span style="flex:1">{{ t.ssoMs }}</span>
+          </button>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="height:1px;background:var(--line);flex:1"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)">{{ t.or }}</span>
+          <span style="height:1px;background:var(--line);flex:1"></span>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label for="lg-email" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbEmail }}</label>
+          <input id="lg-email" type="email" value="{{ email }}" onChange="{{ onEmail }}" onKeyDown="{{ onKey }}" placeholder="{{ t.phEmail }}" style="font-size:13px;height:38px;padding:0 10px;border:1px solid {{ bEmail }};background:{{ bgEmail }};color:var(--ink);width:100%;box-sizing:border-box">
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:baseline">
+            <label for="lg-pass" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.lbPass }}</label>
+            <a href="#recuperar" style="font-size:11px;color:var(--ink2)" style-hover="color:var(--ink);text-decoration:none">{{ t.forgot }}</a>
+          </div>
+          <input id="lg-pass" type="password" value="{{ password }}" onChange="{{ onPassword }}" onKeyDown="{{ onKey }}" placeholder="{{ t.phPass }}" style="font-size:13px;height:38px;padding:0 10px;border:1px solid {{ bPass }};background:{{ bgPass }};color:var(--ink);width:100%;box-sizing:border-box">
+        </div>
+
+        <label style="display:flex;gap:9px;align-items:center;cursor:pointer">
+          <input type="checkbox" checked="{{ remember }}" onChange="{{ onRemember }}" style="width:14px;height:14px;margin:0;accent-color:var(--ink);flex:none">
+          <span style="font-size:12px;color:var(--ink2)">{{ t.remember }}</span>
+        </label>
+
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid var(--neg);background:var(--negBg);padding:11px 13px;display:flex;gap:9px;align-items:flex-start">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--neg)" stroke-width="1.9" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9.5v4.5"/><path d="M12 17h.01"/></svg>
+            <span style="font-size:12.5px;line-height:1.65;color:var(--neg)">{{ errorText }}</span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isIdle }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ submit }}" style="font-size:13px;font-weight:400;height:40px;padding:0 16px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:pointer" style-hover="opacity:0.88">{{ t.title }}</button>
+        </sc-if>
+
+        <sc-if value="{{ isBusy }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="display:flex;align-items:center;justify-content:center;height:40px;padding:0 16px;background:var(--surf2);color:var(--ink3);border:1px solid var(--line2);font-size:13px;font-weight:400">{{ t.authing }}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);text-align:center">{{ busyNote }}</span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="border:1px solid var(--pos);background:var(--posBg);padding:11px 13px;display:flex;gap:9px;align-items:flex-start">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pos)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" style="flex:none;margin-top:2px" aria-hidden="true"><path d="M4 12.5 9.5 18 20 6.5"/></svg>
+              <span style="font-size:12.5px;line-height:1.65;color:var(--pos)">{{ doneText }}</span>
+            </div>
+            <a href="Q-Cost AI Dashboard v2.dc.html" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;height:40px;padding:0 16px;background:var(--acc);color:var(--accInk);font-size:13px;font-weight:400" style-hover="opacity:0.88;text-decoration:none">
+              <span>{{ t.openPanel }}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="square" aria-hidden="true" style="flex:none"><path d="M4 12h16M20 12l-5-5M20 12l-5 5"/></svg>
+            </a>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <p style="margin:0;font-size:11.5px;line-height:1.65;color:var(--ink3)">{{ t.foot }}</p>
+
+    </div>
+  </div>
+
+  <footer style="border-top:1px solid var(--line)">
+    <div style="max-width:1120px;margin:0 auto;padding:14px clamp(16px,4vw,32px);display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between;align-items:center">
+      <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">© 2026 SIQ Systems · Q&#8209;Cost AI</span>
+      <div style="display:flex;flex-wrap:wrap;gap:16px">
+        <a href="#termos" style="font-size:11.5px;color:var(--ink3)" style-hover="color:var(--ink);text-decoration:none">{{ t.terms }}</a>
+        <a href="#privacidade" style="font-size:11.5px;color:var(--ink3)" style-hover="color:var(--ink);text-decoration:none">{{ t.privacy }}</a>
+        <a href="Q-Cost AI Landing v2.dc.html" style="font-size:11.5px;color:var(--ink3)" style-hover="color:var(--ink);text-decoration:none">{{ t.backSite }}</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;theme&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;light&quot;, &quot;dark&quot;], &quot;default&quot;: &quot;light&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Base&quot; },
+  &quot;language&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;pt-BR&quot;, &quot;en&quot;, &quot;es&quot;], &quot;default&quot;: &quot;pt-BR&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Base&quot; }
+}">
+const THEME_KEY = "qcost-theme-v2";
+function readTheme() {
+  try { return window.localStorage.getItem(THEME_KEY); } catch (e) { return null; }
+}
+function writeTheme(v) {
+  try { window.localStorage.setItem(THEME_KEY, v); } catch (e) {}
+}
+
+const LANG_KEY = "qcost-lang-v2";
+function readLang() { try { return window.localStorage.getItem(LANG_KEY); } catch (e) { return null; } }
+function writeLang(v) { try { window.localStorage.setItem(LANG_KEY, v); } catch (e) {} }
+
+const DICT = {
+  "pt-BR": {
+    themeAria:"Alternar tema", noAccount:"Não tem conta?", createAccount:"Criar conta",
+    kicker:"Acesso à plataforma", title:"Entrar",
+    lead:"Use o e-mail corporativo cadastrado pela sua organização.",
+    ssoGoogle:"Entrar com Google Workspace", ssoMs:"Entrar com Microsoft Entra ID", or:"ou",
+    lbEmail:"E-mail corporativo", phEmail:"ana.camargo@empresa.com.br",
+    lbPass:"Senha", phPass:"Sua senha", forgot:"Esqueci a senha",
+    remember:"Manter esta sessão por 30 dias", authing:"Autenticando…", openPanel:"Abrir o painel",
+    foot:"Acesso restrito aos usuários convidados pela organização. Para liberar um novo acesso, procure o administrador da conta.",
+    terms:"Termos", privacy:"Privacidade", backSite:"Voltar ao site",
+    errBoth:"Informe um e-mail corporativo válido e a senha de no mínimo 8 caracteres.",
+    errEmail:"Informe um e-mail corporativo válido.", errPass:"A senha tem no mínimo 8 caracteres.",
+    busySso:"Validando com o ", busyCred:"Verificando credenciais e organização",
+    done:"Autenticada em Metalúrgica Paranaense S.A. · plano Pro.", doneRemember:" Sessão mantida por 30 dias."
+  },
+  en: {
+    themeAria:"Toggle theme", noAccount:"No account yet?", createAccount:"Create account",
+    kicker:"Platform access", title:"Sign in",
+    lead:"Use the work email your organization registered for you.",
+    ssoGoogle:"Sign in with Google Workspace", ssoMs:"Sign in with Microsoft Entra ID", or:"or",
+    lbEmail:"Work email", phEmail:"ana.camargo@company.com",
+    lbPass:"Password", phPass:"Your password", forgot:"Forgot password",
+    remember:"Keep this session for 30 days", authing:"Authenticating…", openPanel:"Open the dashboard",
+    foot:"Access is limited to users invited by the organization. To release a new account, contact the account administrator.",
+    terms:"Terms", privacy:"Privacy", backSite:"Back to the site",
+    errBoth:"Enter a valid work email and a password with at least 8 characters.",
+    errEmail:"Enter a valid work email.", errPass:"The password needs at least 8 characters.",
+    busySso:"Validating with ", busyCred:"Checking credentials and organization",
+    done:"Signed in to Metalúrgica Paranaense S.A. · Pro plan.", doneRemember:" Session kept for 30 days."
+  },
+  es: {
+    themeAria:"Alternar tema", noAccount:"¿No tiene cuenta?", createAccount:"Crear cuenta",
+    kicker:"Acceso a la plataforma", title:"Iniciar sesión",
+    lead:"Use el correo corporativo registrado por su organización.",
+    ssoGoogle:"Entrar con Google Workspace", ssoMs:"Entrar con Microsoft Entra ID", or:"o",
+    lbEmail:"Correo corporativo", phEmail:"ana.camargo@empresa.com",
+    lbPass:"Contraseña", phPass:"Su contraseña", forgot:"Olvidé la contraseña",
+    remember:"Mantener esta sesión por 30 días", authing:"Autenticando…", openPanel:"Abrir el panel",
+    foot:"Acceso restringido a los usuarios invitados por la organización. Para habilitar un nuevo acceso, contacte al administrador de la cuenta.",
+    terms:"Términos", privacy:"Privacidad", backSite:"Volver al sitio",
+    errBoth:"Informe un correo corporativo válido y una contraseña de al menos 8 caracteres.",
+    errEmail:"Informe un correo corporativo válido.", errPass:"La contraseña tiene al menos 8 caracteres.",
+    busySso:"Validando con ", busyCred:"Verificando credenciales y organización",
+    done:"Autenticada en Metalúrgica Paranaense S.A. · plan Pro.", doneRemember:" Sesión mantenida por 30 días."
+  }
+};
+
+class Component extends DCLogic {
+  state = {
+    theme: readTheme(), lang: null, phase: "idle", showErrors: false,
+    email: "", password: "", remember: true, sso: null
+  };
+
+  componentWillUnmount() { if (this.t) clearTimeout(this.t); }
+
+  set(key) { return (e) => this.setState({ [key]: e.target.value, showErrors: false }); }
+
+  bad() {
+    const b = {};
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.state.email.trim())) b.email = true;
+    if (this.state.password.length < 8) b.password = true;
+    return b;
+  }
+
+  run = () => {
+    if (this.state.phase !== "idle") return;
+    this.setState({ phase: "busy" });
+    this.t = setTimeout(() => this.setState({ phase: "done" }), 1400);
+  };
+
+  submit = () => {
+    if (Object.keys(this.bad()).length) { this.setState({ showErrors: true }); return; }
+    this.run();
+  };
+
+  sso(provider) {
+    return () => {
+      this.setState({
+        sso: provider,
+        email: this.state.email || "ana.camargo@empresa.com.br",
+        password: "sso",
+        showErrors: false
+      });
+      this.run();
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const theme = s.theme || this.props.theme || "light";
+    const lang = s.lang || readLang() || this.props.language || "pt-BR";
+    const t = DICT[lang] || DICT["pt-BR"];
+    const onL = (k) => () => { writeLang(k); this.setState({ lang: k }); };
+    const abg = (on) => (on ? "var(--acc)" : "var(--bg)");
+    const afg = (on) => (on ? "var(--accInk)" : "var(--ink2)");
+    const b = s.showErrors ? this.bad() : {};
+    const any = Object.keys(b).length > 0;
+
+    return {
+      t, theme,
+      setPt: onL("pt-BR"), setEn: onL("en"), setEs: onL("es"),
+      ptBg: abg(lang === "pt-BR"), ptFg: afg(lang === "pt-BR"),
+      enBg: abg(lang === "en"), enFg: afg(lang === "en"),
+      esBg: abg(lang === "es"), esFg: afg(lang === "es"),
+      isDark: theme === "dark", isLight: theme !== "dark",
+      toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
+
+      email: s.email, password: s.password, remember: s.remember,
+      onEmail: this.set("email"), onPassword: this.set("password"),
+      onRemember: (e) => this.setState({ remember: e.target.checked }),
+      onKey: (e) => { if (e.key === "Enter") this.submit(); },
+
+      bEmail: b.email ? "var(--neg)" : "var(--line2)",
+      bgEmail: b.email ? "var(--negBg)" : "var(--surf)",
+      bPass: b.password ? "var(--neg)" : "var(--line2)",
+      bgPass: b.password ? "var(--negBg)" : "var(--surf)",
+      hasError: any,
+      errorText: b.email && b.password ? t.errBoth : b.email ? t.errEmail : t.errPass,
+
+      submit: this.submit,
+      ssoGoogle: this.sso("Google Workspace"),
+      ssoMicrosoft: this.sso("Microsoft Entra ID"),
+
+      isIdle: s.phase === "idle",
+      isBusy: s.phase === "busy",
+      isDone: s.phase === "done",
+      busyNote: s.sso ? t.busySso + s.sso : t.busyCred,
+      doneText: t.done + (s.remember ? t.doneRemember : "")
+    };
+  }
+}
+
+</script>
+</body>
+</html>
