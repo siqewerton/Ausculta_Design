@@ -578,6 +578,18 @@ LOG.push({ d: 6, h: "10:15", user: "Cristina Vilela", actor: "human", action: "c
     id: "TPL-PAF-001 · v7", paf: "Falha externa", plant: "Consolidado", obj: "structure", comp: "—",
     reason: "Conta contábil de Custos de garantia trocada após revisão do plano de contas.",
     diff: [["Subcategoria", "Custos de garantia", "Custos de garantia"], ["Conta contábil", "4.1.03.002", "4.1.03.017"]] }
+  ,{ d: 12, h: "10:30", user: "Rafael Doi", actor: "human", action: "revreq", entity: "Evento de custo — parada de linha",
+    id: "EV-2026-0851 · pedido", paf: "Falha interna", plant: "Curitiba (PR)", obj: "event", comp: "08/2026",
+    reason: "Parada registrada em 25/08, mas ocorreu em 02/09 conforme apontamento do MES. Pedido de estorno e relançamento na competência correta.",
+    diff: [["Tipo de pedido", "—", "Estornar e relançar"], ["Motivo", "—", "Data de contabilização errada"], ["Status", "Confirmado", "Confirmado"]] },
+  { d: 11, h: "15:05", user: "Luís Otávio Prado", actor: "human", action: "reversal", entity: "Evento de custo — parada de linha",
+    id: "EV-2026-0851 · v2", paf: "Falha interna", plant: "Curitiba (PR)", obj: "event", comp: "09/2026",
+    reason: "Estorno aprovado com a permissão de estorno em competência fechada. Lançamento original de 08/2026 mantido; valor anulado em 09/2026.",
+    diff: [["Lançamento", "—", "Estorno de v1"], ["Competência do estorno", "—", "09/2026"], ["Custo apurado", "R$ 96.700,00", "R$ 0,00"]] },
+  { d: 11, h: "15:05", user: "Luís Otávio Prado", actor: "human", action: "repost", entity: "Evento de custo — parada de linha",
+    id: "EV-2026-0851 · v3", paf: "Falha interna", plant: "Curitiba (PR)", obj: "event", comp: "09/2026",
+    reason: "Relançamento com a data de contabilização correta.",
+    diff: [["Data de contabilização", "25/08/2026", "02/09/2026"], ["Competência", "08/2026", "09/2026"], ["Custo apurado", "R$ 0,00", "R$ 96.700,00"], ["Status", "Confirmado", "Ajustado"]] }
 ].forEach((r) => LOG.push(r));
 
 const EVD = [
@@ -601,7 +613,7 @@ const RETRO_DAYS = 45;
 
 const COST_FIELDS = ["Custo total", "Frete de retorno", "Custo do produto", "Custo apurado"];
 const CLOSED = { "08/2026": 34 };
-const CHECK_KEYS = ["retro", "value", "post", "sod", "del", "override", "master"];
+const CHECK_KEYS = ["retro", "rev", "value", "post", "sod", "del", "override", "master"];
 const isoOf = (daysAgo) => { const d = new Date(TODAY.getTime() - daysAgo * 86400000); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
 const baseId = (id) => id.split(" · ")[0];
 function flagsOf(r) {
@@ -613,6 +625,7 @@ function flagsOf(r) {
   if (r.actor === "human" && r.action === "edit" && LOG.some((o) => baseId(o.id) === baseId(r.id) && o.action === "create" && o.actor === "ai")) f.push("override");
   if (["structure", "user", "alert", "org"].indexOf(r.obj) !== -1) f.push("master");
   if (r.ev && r.ev.ed - r.d > RETRO_DAYS) f.push("retro");
+  if (["revreq", "reversal", "repost"].indexOf(r.action) !== -1) f.push("rev");
   return f;
 }
 LOG.forEach((r) => { r.flags = flagsOf(r); });
@@ -622,7 +635,10 @@ const ACTIONS = {
   edit: { label: "Edição", color: "var(--warn)" },
   approve: { label: "Aprovação", color: "var(--pos)" },
   reject: { label: "Rejeição", color: "var(--neg)" },
-  delete: { label: "Exclusão", color: "var(--neg)" }
+  delete: { label: "Exclusão", color: "var(--neg)" },
+  revreq: { label: "Pedido de estorno", color: "var(--warn)" },
+  reversal: { label: "Estorno", color: "var(--neg)" },
+  repost: { label: "Relançamento", color: "var(--info)" }
 };
 
 const MONTHS = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
@@ -665,7 +681,7 @@ const DICT = {
     allM:"Todos", allF:"Todas",
     fUserLabel:"Usuário", fActionLabel:"Tipo de ação", fPlantLabel:"Planta", fOriginLabel:"Autoria", fPeriodLabel:"Período",
     pafCategory:"Categoria PAF", consolidated:"Consolidado", ai:"IA", manual:"Manual",
-    actions:{create:"Criação",edit:"Edição",approve:"Aprovação",reject:"Rejeição",delete:"Exclusão"},
+    actions:{create:"Criação",edit:"Edição",approve:"Aprovação",reject:"Rejeição",delete:"Exclusão",revreq:"Pedido de estorno",reversal:"Estorno",repost:"Relançamento"},
     periods:["Últimos 7 dias","Últimos 30 dias","Último trimestre","Todo o histórico","Personalizado"],
     thTs:"Timestamp", thUser:"Usuário", thOrigin:"Autoria", thAction:"Ação",
     thEntity:"Entidade afetada", thCategory:"Categoria", thPlant:"Planta",
@@ -683,12 +699,12 @@ const DICT = {
     pafNa:"Não aplicável",
     fSearchLabel:"Buscar registro", fSearchPh:"Ex.: EV-2026-0912, hash ou texto da justificativa", fCompLabel:"Competência", allComp:"Todas",
     checksLabel:"Verificações de auditoria", checksHint:"Recortes de risco usados para auditar contabilizações. O número mostra quantos registros cada um encontra com os demais filtros.",
-    checks:{retro:"Lançamento retroativo",value:"Alteração de valor",post:"Após fechamento",sod:"Mesmo autor e aprovador",del:"Exclusão ou rejeição",override:"Correção sobre a IA",master:"Cadastro e permissões"},
+    checks:{retro:"Lançamento retroativo",rev:"Estornos",value:"Alteração de valor",post:"Após fechamento",sod:"Mesmo autor e aprovador",del:"Exclusão ou rejeição",override:"Correção sobre a IA",master:"Cadastro e permissões"},
     moreFilters:"Mais filtros", lessFilters:"Menos filtros", fObjLabel:"Objeto",
     objs:{event:"Evento de custo",close:"Apuração mensal",structure:"Estrutura PAF",alert:"Regra de alerta",user:"Usuário e permissões",org:"Organização"},
     activeLabel:"Aplicados", removeAria:"Remover filtro", traceAria:"Ver todas as versões de",
     perPage:"Por página", pagination:"Paginação", prevPage:"Página anterior", nextPage:"Próxima página", pageAria:"Página ",
-    checkDesc:{retro:"Data do evento mais de 45 dias anterior ao envio.",value:"Valor contábil mudou entre versões do registro.",post:"Alteração em competência já fechada.",sod:"Quem lançou o evento também o aprovou.",del:"Registro removido da apuração.",override:"Uma pessoa corrigiu o valor proposto pela IA.",master:"Mudança em receita, moeda, ciclo de apuração, estrutura PAF, regra de alerta ou permissão."},
+    checkDesc:{rev:"Pedido, estorno ou relançamento de evento já contabilizado.",retro:"Data do evento mais de 45 dias anterior ao envio.",value:"Valor contábil mudou entre versões do registro.",post:"Alteração em competência já fechada.",sod:"Quem lançou o evento também o aprovou.",del:"Registro removido da apuração.",override:"Uma pessoa corrigiu o valor proposto pela IA.",master:"Mudança em receita, moeda, ciclo de apuração, estrutura PAF, regra de alerta ou permissão."},
     rangeFrom:"Início", rangeTo:"Fim", rangeInvalid:"FIM ANTES DO INÍCIO",
     fStLabel:"Tipo de fornecedor", stOpts:{ext:"Externo",int:"Interno"}, fSupLabel:"Fornecedor", fCustLabel:"Cliente", fCcLabel:"Centro de custo", fSubLabel:"Subcategoria PAF",
     fSrcLabel:"Origem do envio", srcOpts:{upload:"Upload",api:"API REST",mcp:"MCP"},
@@ -726,7 +742,10 @@ const DICT = {
       r17:"Sede fiscal transferida para o Brasil. Todo o histórico convertido pela taxa informada; totais antes e depois registrados.",
       r18:"Fechamento movido para o 5º dia útil, alinhado ao calendário da controladoria.",
       r19:"Centro de custo específico definido para Refugo e sucata em Joinville. Eventos já registrados não são reclassificados.",
-      r20:"Conta contábil de Custos de garantia trocada após revisão do plano de contas."
+      r20:"Conta contábil de Custos de garantia trocada após revisão do plano de contas.",
+      r21:"Parada registrada em 25/08, mas ocorreu em 02/09 conforme apontamento do MES. Pedido de estorno e relançamento na competência correta.",
+      r22:"Estorno aprovado com a permissão de estorno em competência fechada. Lançamento original de 08/2026 mantido; valor anulado em 09/2026.",
+      r23:"Relançamento com a data de contabilização correta."
     },
     diffFields:{
       "Registro":"Registro","Categoria PAF":"Categoria PAF","Custo proposto":"Custo proposto","Status":"Status",
@@ -737,7 +756,7 @@ const DICT = {
       "Nova subcategoria":"Nova subcategoria","Eventos":"Eventos","Papel":"Papel","Plantas":"Plantas",
       "Receita de referência":"Receita de referência","Vigência":"Vigência","País e moeda":"País e moeda","Tratamento do histórico":"Tratamento do histórico",
       "Taxa aplicada":"Taxa aplicada","Custo apurado acumulado":"Custo apurado acumulado","Ciclo de apuração":"Ciclo de apuração",
-      "Subcategoria":"Subcategoria","Centro de custo · Joinville":"Centro de custo · Joinville","Conta contábil":"Conta contábil"
+      "Subcategoria":"Subcategoria","Centro de custo · Joinville":"Centro de custo · Joinville","Conta contábil":"Conta contábil","Tipo de pedido":"Tipo de pedido","Lançamento":"Lançamento","Competência do estorno":"Competência do estorno","Data de contabilização":"Data de contabilização","Competência":"Competência"
     },
     diffValues:{
       "Rascunho":"Rascunho","Em revisão":"Em revisão","Pendente":"Pendente","Provisório":"Provisório",
@@ -758,7 +777,7 @@ const DICT = {
     allM:"All", allF:"All",
     fUserLabel:"User", fActionLabel:"Action type", fPlantLabel:"Plant", fOriginLabel:"Authorship", fPeriodLabel:"Period",
     pafCategory:"PAF category", consolidated:"Consolidated", ai:"AI", manual:"Manual",
-    actions:{create:"Creation",edit:"Edit",approve:"Approval",reject:"Rejection",delete:"Deletion"},
+    actions:{create:"Creation",edit:"Edit",approve:"Approval",reject:"Rejection",delete:"Deletion",revreq:"Reversal request",reversal:"Reversal",repost:"Repost"},
     periods:["Last 7 days","Last 30 days","Last quarter","Entire history","Custom"],
     thTs:"Timestamp", thUser:"User", thOrigin:"Authorship", thAction:"Action",
     thEntity:"Affected entity", thCategory:"Category", thPlant:"Plant",
@@ -776,12 +795,12 @@ const DICT = {
     pafNa:"Not applicable",
     fSearchLabel:"Find record", fSearchPh:"E.g. EV-2026-0912, hash or justification text", fCompLabel:"Accounting period", allComp:"All",
     checksLabel:"Audit checks", checksHint:"Risk cuts used to audit cost entries. The number shows how many records each one finds with the other filters.",
-    checks:{retro:"Backdated entry",value:"Amount change",post:"After close",sod:"Same author and approver",del:"Deletion or rejection",override:"Correction over AI",master:"Master data and permissions"},
+    checks:{retro:"Backdated entry",rev:"Reversals",value:"Amount change",post:"After close",sod:"Same author and approver",del:"Deletion or rejection",override:"Correction over AI",master:"Master data and permissions"},
     moreFilters:"More filters", lessFilters:"Fewer filters", fObjLabel:"Object",
     objs:{event:"Cost event",close:"Monthly accounting",structure:"PAF structure",alert:"Alert rule",user:"User and permissions",org:"Organization"},
     activeLabel:"Applied", removeAria:"Remove filter", traceAria:"See every version of",
     perPage:"Per page", pagination:"Pagination", prevPage:"Previous page", nextPage:"Next page", pageAria:"Page ",
-    checkDesc:{retro:"Event date more than 45 days before the submission.",value:"Accounted amount changed between record versions.",post:"Change in an accounting period already closed.",sod:"Whoever entered the event also approved it.",del:"Record removed from the accounting.",override:"A person corrected the amount proposed by the AI.",master:"Change to revenue, currency, accounting cycle, PAF structure, an alert rule or a permission."},
+    checkDesc:{rev:"Request, reversal or repost of an event already accounted.",retro:"Event date more than 45 days before the submission.",value:"Accounted amount changed between record versions.",post:"Change in an accounting period already closed.",sod:"Whoever entered the event also approved it.",del:"Record removed from the accounting.",override:"A person corrected the amount proposed by the AI.",master:"Change to revenue, currency, accounting cycle, PAF structure, an alert rule or a permission."},
     rangeFrom:"From", rangeTo:"To", rangeInvalid:"END BEFORE START",
     fStLabel:"Supplier type", stOpts:{ext:"External",int:"Internal"}, fSupLabel:"Supplier", fCustLabel:"Customer", fCcLabel:"Cost center", fSubLabel:"PAF subcategory",
     fSrcLabel:"Submission source", srcOpts:{upload:"Upload",api:"REST API",mcp:"MCP"},
@@ -819,7 +838,10 @@ const DICT = {
       r17:"Tax headquarters moved to Brazil. Entire history converted at the rate provided; totals before and after recorded.",
       r18:"Close moved to the 5th business day, aligned with the controlling calendar.",
       r19:"Specific cost center set for Scrap at Joinville. Events already recorded are not reclassified.",
-      r20:"Ledger account for Warranty charges changed after a chart of accounts review."
+      r20:"Ledger account for Warranty charges changed after a chart of accounts review.",
+      r21:"Stoppage posted on 08/25, but it happened on 09/02 per the MES log. Reversal and repost requested in the correct period.",
+      r22:"Reversal approved under the closed-period reversal permission. Original 08/2026 entry kept; amount cancelled in 09/2026.",
+      r23:"Reposted with the correct accounting date."
     },
     diffFields:{
       "Registro":"Record","Categoria PAF":"PAF category","Custo proposto":"Proposed cost","Status":"Status",
@@ -830,7 +852,7 @@ const DICT = {
       "Nova subcategoria":"New subcategory","Eventos":"Events","Papel":"Role","Plantas":"Plants",
       "Receita de referência":"Reference revenue","Vigência":"Effective from","País e moeda":"Country and currency","Tratamento do histórico":"History treatment",
       "Taxa aplicada":"Rate applied","Custo apurado acumulado":"Cumulative accounted cost","Ciclo de apuração":"Accounting cycle",
-      "Subcategoria":"Subcategory","Centro de custo · Joinville":"Cost center · Joinville","Conta contábil":"Ledger account"
+      "Subcategoria":"Subcategory","Centro de custo · Joinville":"Cost center · Joinville","Conta contábil":"Ledger account","Tipo de pedido":"Request type","Lançamento":"Entry","Competência do estorno":"Reversal period","Data de contabilização":"Accounting date","Competência":"Accounting period"
     },
     diffValues:{
       "Rascunho":"Draft","Em revisão":"Under review","Pendente":"Pending","Provisório":"Provisional",
@@ -843,7 +865,7 @@ const DICT = {
       "3 plantas":"3 plants",
       "Estados Unidos · USD":"United States · USD","Brasil · BRL":"Brazil · BRL","Convertido":"Converted",
       "Mensal · fechamento no último dia":"Monthly · close on last day","Mensal · fechamento no 5º dia útil":"Monthly · close on 5th business day",
-      "Refugo e sucata":"Scrap","Custos de garantia":"Warranty charges","herda o geral (CC-3100)":"inherits general (CC-3100)"
+      "Refugo e sucata":"Scrap","Custos de garantia":"Warranty charges","herda o geral (CC-3100)":"inherits general (CC-3100)","Estornar e relançar":"Reverse and repost","Data de contabilização errada":"Wrong accounting date","Estorno de v1":"Reversal of v1"
     }
   },
   es: {
@@ -854,7 +876,7 @@ const DICT = {
     allM:"Todos", allF:"Todas",
     fUserLabel:"Usuario", fActionLabel:"Tipo de acción", fPlantLabel:"Planta", fOriginLabel:"Autoría", fPeriodLabel:"Período",
     pafCategory:"Categoría PAF", consolidated:"Consolidado", ai:"IA", manual:"Manual",
-    actions:{create:"Creación",edit:"Edición",approve:"Aprobación",reject:"Rechazo",delete:"Eliminación"},
+    actions:{create:"Creación",edit:"Edición",approve:"Aprobación",reject:"Rechazo",delete:"Eliminación",revreq:"Solicitud de reversión",reversal:"Reversión",repost:"Nuevo registro"},
     periods:["Últimos 7 días","Últimos 30 días","Último trimestre","Todo el historial","Personalizado"],
     thTs:"Marca de tiempo", thUser:"Usuario", thOrigin:"Autoría", thAction:"Acción",
     thEntity:"Entidad afectada", thCategory:"Categoría", thPlant:"Planta",
@@ -872,12 +894,12 @@ const DICT = {
     pafNa:"No aplicable",
     fSearchLabel:"Buscar registro", fSearchPh:"Ej.: EV-2026-0912, hash o texto de la justificación", fCompLabel:"Período contable", allComp:"Todos",
     checksLabel:"Verificaciones de auditoría", checksHint:"Cortes de riesgo usados para auditar asientos de costo. El número muestra cuántos registros encuentra cada uno con los demás filtros.",
-    checks:{retro:"Registro retroactivo",value:"Cambio de valor",post:"Tras el cierre",sod:"Mismo autor y aprobador",del:"Eliminación o rechazo",override:"Corrección sobre la IA",master:"Catastro y permisos"},
+    checks:{retro:"Registro retroactivo",rev:"Reversiones",value:"Cambio de valor",post:"Tras el cierre",sod:"Mismo autor y aprobador",del:"Eliminación o rechazo",override:"Corrección sobre la IA",master:"Catastro y permisos"},
     moreFilters:"Más filtros", lessFilters:"Menos filtros", fObjLabel:"Objeto",
     objs:{event:"Evento de costo",close:"Cierre mensual",structure:"Estructura PAF",alert:"Regla de alerta",user:"Usuario y permisos",org:"Organización"},
     activeLabel:"Aplicados", removeAria:"Quitar filtro", traceAria:"Ver todas las versiones de",
     perPage:"Por página", pagination:"Paginación", prevPage:"Página anterior", nextPage:"Página siguiente", pageAria:"Página ",
-    checkDesc:{retro:"Fecha del evento más de 45 días anterior al envío.",value:"El importe contable cambió entre versiones del registro.",post:"Cambio en un período contable ya cerrado.",sod:"Quien registró el evento también lo aprobó.",del:"Registro retirado del cierre.",override:"Una persona corrigió el importe propuesto por la IA.",master:"Cambio en ingreso, moneda, ciclo de cierre, estructura PAF, regla de alerta o permiso."},
+    checkDesc:{rev:"Solicitud, reversión o nuevo registro de un evento ya contabilizado.",retro:"Fecha del evento más de 45 días anterior al envío.",value:"El importe contable cambió entre versiones del registro.",post:"Cambio en un período contable ya cerrado.",sod:"Quien registró el evento también lo aprobó.",del:"Registro retirado del cierre.",override:"Una persona corrigió el importe propuesto por la IA.",master:"Cambio en ingreso, moneda, ciclo de cierre, estructura PAF, regla de alerta o permiso."},
     rangeFrom:"Inicio", rangeTo:"Fin", rangeInvalid:"FIN ANTES DEL INICIO",
     fStLabel:"Tipo de proveedor", stOpts:{ext:"Externo",int:"Interno"}, fSupLabel:"Proveedor", fCustLabel:"Cliente", fCcLabel:"Centro de costo", fSubLabel:"Subcategoría PAF",
     fSrcLabel:"Origen del envío", srcOpts:{upload:"Upload",api:"API REST",mcp:"MCP"},
@@ -915,7 +937,10 @@ const DICT = {
       r17:"Sede fiscal trasladada a Brasil. Todo el historial convertido a la tasa informada; totales antes y después registrados.",
       r18:"Cierre movido al 5.º día hábil, alineado con el calendario de controlaría.",
       r19:"Centro de costo específico definido para Chatarra y desecho en Joinville. Los eventos ya registrados no se reclasifican.",
-      r20:"Cuenta contable de Costos de garantía cambiada tras revisión del plan de cuentas."
+      r20:"Cuenta contable de Costos de garantía cambiada tras revisión del plan de cuentas.",
+      r21:"Parada registrada el 25/08, pero ocurrió el 02/09 según el registro del MES. Solicitud de reversión y nuevo registro en el período correcto.",
+      r22:"Reversión aprobada con el permiso de reversión en período cerrado. Asiento original de 08/2026 mantenido; importe anulado en 09/2026.",
+      r23:"Nuevo registro con la fecha de contabilización correcta."
     },
     diffFields:{
       "Registro":"Registro","Categoria PAF":"Categoría PAF","Custo proposto":"Costo propuesto","Status":"Estado",
@@ -926,7 +951,7 @@ const DICT = {
       "Nova subcategoria":"Nueva subcategoría","Eventos":"Eventos","Papel":"Rol","Plantas":"Plantas",
       "Receita de referência":"Ingreso de referencia","Vigência":"Vigencia","País e moeda":"País y moneda","Tratamento do histórico":"Tratamiento del historial",
       "Taxa aplicada":"Tasa aplicada","Custo apurado acumulado":"Costo contabilizado acumulado","Ciclo de apuração":"Ciclo de cierre",
-      "Subcategoria":"Subcategoría","Centro de custo · Joinville":"Centro de costo · Joinville","Conta contábil":"Cuenta contable"
+      "Subcategoria":"Subcategoría","Centro de custo · Joinville":"Centro de costo · Joinville","Conta contábil":"Cuenta contable","Tipo de pedido":"Tipo de solicitud","Lançamento":"Asiento","Competência do estorno":"Período de la reversión","Data de contabilização":"Fecha de contabilización","Competência":"Período contable"
     },
     diffValues:{
       "Rascunho":"Borrador","Em revisão":"En revisión","Pendente":"Pendiente","Provisório":"Provisional",
@@ -939,7 +964,7 @@ const DICT = {
       "3 plantas":"3 plantas",
       "Estados Unidos · USD":"Estados Unidos · USD","Brasil · BRL":"Brasil · BRL","Convertido":"Convertido",
       "Mensal · fechamento no último dia":"Mensual · cierre el último día","Mensal · fechamento no 5º dia útil":"Mensual · cierre el 5.º día hábil",
-      "Refugo e sucata":"Chatarra y desecho","Custos de garantia":"Costos de garantía","herda o geral (CC-3100)":"hereda el general (CC-3100)"
+      "Refugo e sucata":"Chatarra y desecho","Custos de garantia":"Costos de garantía","herda o geral (CC-3100)":"hereda el general (CC-3100)","Estornar e relançar":"Revertir y volver a registrar","Data de contabilização errada":"Fecha de contabilización errónea","Estorno de v1":"Reversión de v1"
     }
   }
 };
@@ -1153,7 +1178,7 @@ class Component extends DCLogic {
             pick: () => this.setState({ fPaf: o.v, page: 1 })
           };
         }),
-      actionOptions: ["create","edit","approve","reject","delete"].map((k) => ({ value: k, label: t.actions[k] })),
+      actionOptions: ["create","edit","approve","reject","delete","revreq","reversal","repost"].map((k) => ({ value: k, label: t.actions[k] })),
       periodOptions: ["7","30","90","all","custom"].map((v, i) => ({ value: v, label: t.periods[i] })),
       userOptions: users.map((u) => ({ value: u, label: tUser(u) })),
       clearFilters: () => this.setState({ fUser: "", fAction: "", fPaf: "", fPlant: "", fActor: "", fPeriod: "all", fQ: "", fComp: "", fObj: "", checks: {}, fSt: "", fSup: "", fCust: "", fCc: "", fSub: "", fSrc: "", fFx: "", fMin: "", fMax: "", exported: false, page: 1 }),

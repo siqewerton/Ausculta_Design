@@ -68,9 +68,9 @@
         <span style="font-size:16px;font-weight:500;letter-spacing:-0.025em;white-space:nowrap">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
       </a>
       <nav style="flex:1 1 200px;display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center">
-        <a href="Q-Cost AI Dashboard v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav1 }}</a>
+        <sc-if value="{{ notQueue }}" hint-placeholder-val="{{ true }}"><a href="Q-Cost AI Dashboard v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav1 }}</a></sc-if><sc-if value="{{ consultQueue }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav1 }}</span></sc-if>
         <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav2 }}</span></sc-if><sc-if value="{{ consult }}" hint-placeholder-val="{{ false }}"><a href="Q-Cost AI Novo Evento v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav2 }}</a></sc-if>
-        <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}"><a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a></sc-if><sc-if value="{{ consult }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav3 }}</span></sc-if>
+        <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}"><a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a></sc-if><sc-if value="{{ consultCosts }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav3 }}</span></sc-if><sc-if value="{{ consultQueue }}" hint-placeholder-val="{{ false }}"><a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a></sc-if>
         <a href="Q-Cost AI Auditoria v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav4 }}</a>
         <a href="Q-Cost AI Regras de Alerta v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav6 }}</a>
         <a href="Q-Cost AI Relatorios v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav5 }}</a>
@@ -136,6 +136,24 @@
         </div>
         <a href="{{ auditHref }}" style="font-size:12.5px;height:34px;padding:0 14px;border:1px solid var(--line2);display:inline-flex;align-items:center;color:var(--ink);background:var(--surf);white-space:nowrap" style-hover="border-color:var(--ink3);text-decoration:none">{{ t.consultAudit }}</a>
       </section>
+      <sc-if value="{{ revRequested }}" hint-placeholder-val="{{ false }}">
+        <section style="border:1px solid {{ revBadgeFg }};background:{{ revBadgeBg }};padding:13px 17px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:{{ revBadgeFg }};font-weight:500">{{ revBadgeLabel }}</span>
+          <span style="font-size:12.5px;line-height:1.6;color:var(--ink2);max-width:86ch">{{ revPendingLine }}</span>
+          <sc-if value="{{ revPending }}" hint-placeholder-val="{{ true }}">
+            <div style="border-top:1px solid var(--line2);padding-top:11px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center">
+              <div style="display:flex;flex-direction:column;gap:3px;flex:1 1 320px;min-width:0">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.revDecideTitle }}</span>
+                <span style="font-size:12px;line-height:1.6;color:var(--ink2);max-width:80ch">{{ t.revDecideNote }}</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <button type="button" onClick="{{ approveRev }}" style="font-size:13px;height:36px;padding:0 16px;border:none;background:var(--acc);color:var(--accInk);cursor:pointer;white-space:nowrap" style-hover="opacity:0.88">{{ t.revApprove }}</button>
+                <button type="button" onClick="{{ refuseRev }}" style="font-size:13px;height:36px;padding:0 14px;border:1px solid var(--line2);background:var(--surf);color:var(--ink2);cursor:pointer;white-space:nowrap" style-hover="border-color:var(--neg);color:var(--neg)">{{ t.revRefuse }}</button>
+              </div>
+            </div>
+          </sc-if>
+        </section>
+      </sc-if>
       <section aria-label="{{ t.histTitle }}" style="border:1px solid var(--line);background:var(--surf)">
         <div style="padding:13px 17px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
           <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.histTitle }}</span>
@@ -440,8 +458,14 @@
 
     <sc-if value="{{ consult }}" hint-placeholder-val="{{ false }}">
       <section style="border:1px solid var(--line);background:var(--surf);padding:clamp(16px,2vw,20px);display:flex;flex-wrap:wrap;gap:12px;align-items:center">
-        <a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;height:38px;padding:0 18px;background:var(--acc);color:var(--accInk);display:inline-flex;align-items:center;white-space:nowrap" style-hover="opacity:0.88;text-decoration:none">{{ t.backCosts }}</a>
+        <a href="{{ backHref }}" style="font-size:13px;height:38px;padding:0 18px;background:var(--acc);color:var(--accInk);display:inline-flex;align-items:center;white-space:nowrap" style-hover="opacity:0.88;text-decoration:none">{{ backLabel }}</a>
         <a href="{{ auditHref }}" style="font-size:13px;height:38px;padding:0 15px;border:1px solid var(--line2);color:var(--ink);display:inline-flex;align-items:center;white-space:nowrap" style-hover="border-color:var(--ink3);text-decoration:none">{{ t.consultAudit }}</a>
+        <sc-if value="{{ revCanRequest }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ openRev }}" style="font-size:13px;height:38px;padding:0 15px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;white-space:nowrap" style-hover="border-color:var(--neg);color:var(--neg)">{{ t.revRequest }}</button>
+        </sc-if>
+        <sc-if value="{{ revRequested }}" hint-placeholder-val="{{ false }}">
+          <span style="display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 9px;border:1px solid {{ revBadgeFg }};background:{{ revBadgeBg }};color:{{ revBadgeFg }};font-family:'DM Mono',monospace;font-size:10.5px;white-space:nowrap"><span style="width:5px;height:5px;background:{{ revBadgeFg }};display:block"></span>{{ revBadgeLabel }}</span>
+        </sc-if>
       </section>
     </sc-if>
     <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}">
@@ -450,6 +474,72 @@
       <button type="button" onClick="{{ reject }}" style="font-size:13px;height:38px;padding:0 15px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;white-space:nowrap" style-hover="border-color:var(--neg);color:var(--neg)">{{ t.reject }}</button>
       <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);flex:1 1 260px">{{ footNote }}</span>
     </section>
+    </sc-if>
+
+    <sc-if value="{{ revOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;background:rgba(0,0,0,0.42);display:flex;align-items:center;justify-content:center;padding:24px;z-index:80">
+        <div role="dialog" aria-modal="true" aria-label="{{ t.revKicker }}" style="width:min(640px,100%);max-height:calc(100vh - 48px);overflow:auto;box-sizing:border-box;border:1px solid var(--line2);background:var(--surf);padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 10px 30px rgba(0,0,0,0.14)">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--neg)">{{ t.revKicker }}</span>
+            <p style="margin:0;font-size:15px;line-height:1.45;color:var(--ink)">{{ revHead }}</p>
+            <p style="margin:0;font-size:12px;line-height:1.65;color:var(--ink2);text-wrap:pretty">{{ t.revLead }}</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1px;background:var(--line);border:1px solid var(--line)">
+            <sc-for list="{{ revTypeOpts }}" as="o" hint-placeholder-count="2">
+              <button type="button" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="text-align:left;padding:11px 13px;border:none;background:{{ o.bg }};color:{{ o.fg }};cursor:pointer;display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:13px">{{ o.label }}</span>
+                <span style="font-size:11px;line-height:1.5;color:{{ o.sub }}">{{ o.note }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px">
+            <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+              <label for="rev-reason" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.revReasonLabel }}</label>
+              <select id="rev-reason" value="{{ revReason }}" onChange="{{ onRevReason }}" style="font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+                <sc-for list="{{ revReasonOpts }}" as="r" hint-placeholder-count="6"><option value="{{ r.value }}">{{ r.label }}</option></sc-for>
+              </select>
+            </div>
+            <sc-if value="{{ revIsRepost }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+                <label for="rev-date" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.revDateLabel }}</label>
+                <dc-import name="Q-Cost AI Campo Data" input-id="rev-date" value="{{ revDate }}" on-change="{{ onRevDate }}" lang="{{ revDateLang }}" format="iso" hint-size="100%,34px"></dc-import>
+                <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ revCompLine }}</span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label for="rev-just" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.revJustLabel }}</label>
+            <textarea id="rev-just" value="{{ revJust }}" onChange="{{ onRevJust }}" placeholder="{{ t.revJustPh }}" rows="3" style="font-size:13px;line-height:1.55;padding:9px 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box;resize:vertical;font-family:inherit"></textarea>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.revPreviewLabel }}</span>
+            <div style="width:100%;overflow-x:auto;border:1px solid var(--line)">
+              <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:420px">
+                <thead><tr>
+                  <th style="text-align:left;padding:8px 12px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">{{ t.revThEntry }}</th>
+                  <th style="text-align:left;padding:8px 12px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">{{ t.revThComp }}</th>
+                  <th style="text-align:right;padding:8px 12px;font-family:'DM Mono',monospace;font-size:10px;font-weight:400;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3);border-bottom:1px solid var(--line)">{{ t.revThValue }}</th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ revPreview }}" as="p" hint-placeholder-count="3">
+                    <tr>
+                      <td style="padding:9px 12px;border-bottom:1px solid var(--line);color:{{ p.fg }}">{{ p.k }}</td>
+                      <td style="padding:9px 12px;border-bottom:1px solid var(--line);font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;color:var(--ink2)">{{ p.comp }}</td>
+                      <td style="padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap;color:{{ p.vfg }}">{{ p.v }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div style="border:1px solid var(--warn);background:var(--warnBg);padding:11px 13px;font-size:12px;line-height:1.6;color:var(--ink2)">{{ t.revApprovalClosed }}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;align-items:center">
+            <sc-if value="{{ revJustShort }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;color:var(--ink3);margin-right:auto">{{ t.revJustMin }}</span></sc-if>
+            <button type="button" onClick="{{ closeRev }}" style="font-size:13px;height:36px;padding:0 15px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer" style-hover="border-color:var(--ink3)">{{ t.revBack }}</button>
+            <button type="button" onClick="{{ sendRev }}" disabled="{{ revJustShort }}" style="font-size:13px;height:36px;padding:0 15px;border:1px solid {{ revSendLine }};background:transparent;color:{{ revSendFg }};cursor:{{ revSendCursor }}" style-hover="background:var(--negBg)">{{ t.revSend }}</button>
+          </div>
+        </div>
+      </div>
     </sc-if>
 
     <sc-if value="{{ preview }}" hint-placeholder-val="{{ false }}">
@@ -779,7 +869,31 @@ const DICT = {
     rejectBack: "Voltar", rejectConfirmBtn: "Cancelar evento",
     backCosts:"Voltar para Custos", consultLead:"Evento aprovado e contabilizado. Consulte abaixo o envio, a contabilização, as ocorrências e o histórico de versões.", consultKicker:"Consulta · evento contabilizado", consultNote:"Somente leitura. Corrigir um evento contabilizado exige reabri-lo, o que gera nova versão (Ajustado) na trilha de auditoria.", consultAudit:"Abrir na Auditoria",
     histTitle:"Histórico do evento", histCount:" versões", hCreate:"Criação", hEdit:"Edição", hApprove:"Aprovação · Confirmado", hAi:"Motor de IA",
-    hCreateNote:"Envio lido pela IA; contabilização gerada como Rascunho com valor proposto.", hEditNote:"Centro de custo confirmado e valor de uma ocorrência corrigido conforme o documento.", hApproveNote:"Aprovado e lançado na competência 09/2026.",
+    hCreateNote:"Envio lido pela IA; contabilização gerada como Rascunho com valor proposto.", hEditNote:"Centro de custo confirmado e valor de uma ocorrência corrigido conforme o documento.", hApproveNote:"Aprovado e lançado na competência 08/2026.",
+    revRequest:"Solicitar estorno", revRequested:"Estorno solicitado · aguarda aprovação", revPendingTag:"pedido",
+    revKicker:"Estorno de contabilização", revHeadPre:"Estornar ",
+    revLead:"O lançamento aprovado não é apagado nem editado. Um lançamento contrário anula o valor e, se for o caso, um novo lançamento registra os dados corretos. Tudo fica na trilha de auditoria.",
+    revTypeReverse:"Estornar", revTypeRepost:"Estornar e relançar",
+    revTypeReverseNote:"O evento não deveria existir. Vai para Cancelado.", revTypeRepostNote:"O evento existe, mas algo estava errado. Vai para Ajustado.",
+    revReasonLabel:"Motivo", revReasons:{date:"Data de contabilização errada",paf:"Classificação PAF errada",value:"Valor errado",cc:"Centro de custo errado",dup:"Duplicidade",other:"Outro"},
+    revJustLabel:"Justificativa", revJustPh:"Ex.: o fato ocorreu em 02/09, não em 12/08; conferido com o documento de origem.",
+    revDateLabel:"Data de contabilização correta", revCompLabel:"Competência do relançamento: ",
+    revPreviewLabel:"Lançamentos", revThEntry:"Lançamento", revThComp:"Competência", revThValue:"Valor",
+    revOrig:"Original (v3) · permanece no histórico", revRev:"Estorno", revRepost:"Relançamento",
+    revApprovalClosed:"A competência 08/2026 está fechada. O estorno entra na competência aberta 09/2026 e só pode ser aprovado por um usuário com a permissão exclusiva Estorno em competência fechada, que pode ser o próprio solicitante.",
+    revDemoTitle:"Parada de linha — forno de indução", revDemoJust:"Parada registrada em 12/08, mas ocorreu em 02/09 conforme apontamento do MES.", revBy:"solicitado por ",
+    revDecideTitle:"Decisão do pedido", revDecideNote:"Você tem a permissão exclusiva Estorno em competência fechada e pode decidir este pedido, inclusive se foi você quem o fez. A decisão fica registrada com seu nome e a permissão usada.",
+    revApprove:"Aprovar estorno", revRefuse:"Recusar pedido", revApprovedBadge:"Estorno aprovado", revRefusedBadge:"Pedido recusado",
+    revApprovedLine:"Estorno aprovado. O lançamento original permanece no histórico e o valor foi anulado na competência 09/2026. Evento em Cancelado.",
+    revApprovedLineRepost:"Estorno e relançamento aprovados. O lançamento original permanece no histórico; o valor foi anulado em 09/2026 e relançado com a data corrigida. Evento em Ajustado.",
+    revRefusedLine:"Pedido recusado. O lançamento original segue valendo, sem alteração.",
+    hRev:"Estorno", hRepost:"Relançamento", hRefused:"Pedido recusado",
+    hRevNote:"Lançamento contrário na competência 09/2026, aprovado com a permissão Estorno em competência fechada. O original (v3) permanece no histórico.",
+    hRepostNote:"Novo lançamento com a data de contabilização corrigida. Evento passa a Ajustado.",
+    hRefusedNote:"Pedido recusado por quem tem a permissão; o lançamento original não muda.", stAdjusted:"Ajustado",
+    revBack:"Voltar", revSend:"Enviar para aprovação", revJustMin:"Descreva o motivo com pelo menos 10 caracteres.",
+    revReqReverse:"Pedido de estorno", revReqRepost:"Pedido de estorno e relançamento", revYou:"Você", revNow:"agora",
+    revPendingNote:"Até a decisão, o lançamento original continua valendo na apuração.",
     cancelledNote: "Evento cancelado. Sai da apuração de setembro de 2026; a transição Pendente → Cancelado está na trilha de auditoria.",
     acctTitle: "Contabilização do evento", acctOk: "TUDO CONFIRMADO",
     acctNote: "Contrato fixo de contabilização: todo evento carrega estes campos, sempre os mesmos. É o que entra na apuração e no razão.",
@@ -962,7 +1076,31 @@ const DICT = {
     rejectBack: "Back", rejectConfirmBtn: "Cancel event",
     backCosts:"Back to Costs", consultLead:"Event approved and accounted. Below are the submission, the accounting entry, the occurrences and the version history.", consultKicker:"View · accounted event", consultNote:"Read-only. Correcting an accounted event requires reopening it, which creates a new version (Adjusted) in the audit trail.", consultAudit:"Open in Audit trail",
     histTitle:"Event history", histCount:" versions", hCreate:"Creation", hEdit:"Edit", hApprove:"Approval · Confirmed", hAi:"AI engine",
-    hCreateNote:"Submission read by the AI; entry generated as Draft with a proposed amount.", hEditNote:"Cost center confirmed and one occurrence amount corrected per the document.", hApproveNote:"Approved and posted to period 09/2026.",
+    hCreateNote:"Submission read by the AI; entry generated as Draft with a proposed amount.", hEditNote:"Cost center confirmed and one occurrence amount corrected per the document.", hApproveNote:"Approved and posted to period 08/2026.",
+    revRequest:"Request reversal", revRequested:"Reversal requested · awaiting approval", revPendingTag:"request",
+    revKicker:"Accounting reversal", revHeadPre:"Reverse ",
+    revLead:"The approved entry is neither deleted nor edited. An offsetting entry cancels the amount and, when needed, a new entry records the correct data. Everything stays in the audit trail.",
+    revTypeReverse:"Reverse", revTypeRepost:"Reverse and repost",
+    revTypeReverseNote:"The event should not exist. It moves to Cancelled.", revTypeRepostNote:"The event exists, but something was wrong. It moves to Adjusted.",
+    revReasonLabel:"Reason", revReasons:{date:"Wrong accounting date",paf:"Wrong PAF classification",value:"Wrong amount",cc:"Wrong cost center",dup:"Duplicate",other:"Other"},
+    revJustLabel:"Justification", revJustPh:"E.g. the event happened on 09/02, not 08/12; checked against the source document.",
+    revDateLabel:"Correct accounting date", revCompLabel:"Repost period: ",
+    revPreviewLabel:"Entries", revThEntry:"Entry", revThComp:"Period", revThValue:"Amount",
+    revOrig:"Original (v3) · stays in the history", revRev:"Reversal", revRepost:"Repost",
+    revApprovalClosed:"Period 08/2026 is closed. The reversal is posted to the open period 09/2026 and can only be approved by a user with the exclusive permission Reversal in a closed period, who may be the requester.",
+    revDemoTitle:"Line stoppage — induction furnace", revDemoJust:"Stoppage posted on 08/12, but it happened on 09/02 per the MES log.", revBy:"requested by ",
+    revDecideTitle:"Request decision", revDecideNote:"You hold the exclusive permission Reversal in a closed period and can decide this request, even if you made it. The decision is recorded with your name and the permission used.",
+    revApprove:"Approve reversal", revRefuse:"Decline request", revApprovedBadge:"Reversal approved", revRefusedBadge:"Request declined",
+    revApprovedLine:"Reversal approved. The original entry stays in the history and the amount was cancelled in period 09/2026. Event is Cancelled.",
+    revApprovedLineRepost:"Reversal and repost approved. The original entry stays in the history; the amount was cancelled in 09/2026 and reposted with the corrected date. Event is Adjusted.",
+    revRefusedLine:"Request declined. The original entry remains unchanged.",
+    hRev:"Reversal", hRepost:"Repost", hRefused:"Request declined",
+    hRevNote:"Offsetting entry in period 09/2026, approved under the Reversal in a closed period permission. The original (v3) stays in the history.",
+    hRepostNote:"New entry with the corrected accounting date. Event moves to Adjusted.",
+    hRefusedNote:"Request declined by the permission holder; the original entry does not change.", stAdjusted:"Adjusted",
+    revBack:"Back", revSend:"Send for approval", revJustMin:"Describe the reason in at least 10 characters.",
+    revReqReverse:"Reversal request", revReqRepost:"Reversal and repost request", revYou:"You", revNow:"now",
+    revPendingNote:"Until the decision, the original entry remains in the accounting.",
     cancelledNote: "Event cancelled. It leaves the September 2026 accounting; the Pending → Cancelled transition is in the audit trail.",
     acctTitle: "Event accounting", acctOk: "ALL CONFIRMED",
     acctNote: "Fixed accounting contract: every event carries these fields, always the same ones. This is what posts to the period and to the ledger.",
@@ -1145,7 +1283,31 @@ const DICT = {
     rejectBack: "Volver", rejectConfirmBtn: "Cancelar evento",
     backCosts:"Volver a Costos", consultLead:"Evento aprobado y contabilizado. Consulte abajo el envío, la contabilización, las ocurrencias y el historial de versiones.", consultKicker:"Consulta · evento contabilizado", consultNote:"Solo lectura. Corregir un evento contabilizado exige reabrirlo, lo que genera una nueva versión (Ajustado) en la pista de auditoría.", consultAudit:"Abrir en Auditoría",
     histTitle:"Historial del evento", histCount:" versiones", hCreate:"Creación", hEdit:"Edición", hApprove:"Aprobación · Confirmado", hAi:"Motor de IA",
-    hCreateNote:"Envío leído por la IA; contabilización generada como Borrador con valor propuesto.", hEditNote:"Centro de costo confirmado e importe de una ocurrencia corregido según el documento.", hApproveNote:"Aprobado y registrado en el período 09/2026.",
+    hCreateNote:"Envío leído por la IA; contabilización generada como Borrador con valor propuesto.", hEditNote:"Centro de costo confirmado e importe de una ocurrencia corregido según el documento.", hApproveNote:"Aprobado y registrado en el período 08/2026.",
+    revRequest:"Solicitar reversión", revRequested:"Reversión solicitada · espera aprobación", revPendingTag:"solicitud",
+    revKicker:"Reversión de contabilización", revHeadPre:"Revertir ",
+    revLead:"El asiento aprobado no se borra ni se edita. Un asiento contrario anula el importe y, si corresponde, un nuevo asiento registra los datos correctos. Todo queda en la pista de auditoría.",
+    revTypeReverse:"Revertir", revTypeRepost:"Revertir y volver a registrar",
+    revTypeReverseNote:"El evento no debería existir. Pasa a Cancelado.", revTypeRepostNote:"El evento existe, pero algo estaba mal. Pasa a Ajustado.",
+    revReasonLabel:"Motivo", revReasons:{date:"Fecha de contabilización errónea",paf:"Clasificación PAF errónea",value:"Importe erróneo",cc:"Centro de costo erróneo",dup:"Duplicidad",other:"Otro"},
+    revJustLabel:"Justificación", revJustPh:"Ej.: el hecho ocurrió el 02/09, no el 12/08; verificado con el documento de origen.",
+    revDateLabel:"Fecha de contabilización correcta", revCompLabel:"Período del nuevo registro: ",
+    revPreviewLabel:"Asientos", revThEntry:"Asiento", revThComp:"Período", revThValue:"Importe",
+    revOrig:"Original (v3) · permanece en el historial", revRev:"Reversión", revRepost:"Nuevo registro",
+    revApprovalClosed:"El período 08/2026 está cerrado. La reversión entra en el período abierto 09/2026 y solo puede aprobarla un usuario con el permiso exclusivo Reversión en período cerrado, que puede ser el propio solicitante.",
+    revDemoTitle:"Parada de línea — horno de inducción", revDemoJust:"Parada registrada el 12/08, pero ocurrió el 02/09 según el registro del MES.", revBy:"solicitado por ",
+    revDecideTitle:"Decisión de la solicitud", revDecideNote:"Usted tiene el permiso exclusivo Reversión en período cerrado y puede decidir esta solicitud, incluso si la hizo usted. La decisión queda registrada con su nombre y el permiso usado.",
+    revApprove:"Aprobar reversión", revRefuse:"Rechazar solicitud", revApprovedBadge:"Reversión aprobada", revRefusedBadge:"Solicitud rechazada",
+    revApprovedLine:"Reversión aprobada. El asiento original permanece en el historial y el importe se anuló en el período 09/2026. Evento en Cancelado.",
+    revApprovedLineRepost:"Reversión y nuevo registro aprobados. El asiento original permanece en el historial; el importe se anuló en 09/2026 y se registró de nuevo con la fecha corregida. Evento en Ajustado.",
+    revRefusedLine:"Solicitud rechazada. El asiento original sigue vigente, sin cambios.",
+    hRev:"Reversión", hRepost:"Nuevo registro", hRefused:"Solicitud rechazada",
+    hRevNote:"Asiento contrario en el período 09/2026, aprobado con el permiso Reversión en período cerrado. El original (v3) permanece en el historial.",
+    hRepostNote:"Nuevo asiento con la fecha de contabilización corregida. El evento pasa a Ajustado.",
+    hRefusedNote:"Solicitud rechazada por quien tiene el permiso; el asiento original no cambia.", stAdjusted:"Ajustado",
+    revBack:"Volver", revSend:"Enviar a aprobación", revJustMin:"Describa el motivo con al menos 10 caracteres.",
+    revReqReverse:"Solicitud de reversión", revReqRepost:"Solicitud de reversión y nuevo registro", revYou:"Usted", revNow:"ahora",
+    revPendingNote:"Hasta la decisión, el asiento original sigue vigente en el cierre.",
     cancelledNote: "Evento cancelado. Sale del cierre de septiembre de 2026; la transición Pendiente → Cancelado está en la pista de auditoría.",
     acctTitle: "Contabilización del evento", acctOk: "TODO CONFIRMADO",
     acctNote: "Contrato fijo de contabilización: todo evento lleva estos campos, siempre los mismos. Es lo que entra en el cierre y en el mayor.",
@@ -1289,6 +1451,9 @@ function sub3(s, map) {
   return out;
 }
 
+function revFromUrl() {
+  try { const p = new URLSearchParams(window.location.search); const r = p.get("rev"); return r === "repost" || r === "reverse" ? { type: r, reason: "date", just: "", by: "Rafael Doi" } : null; } catch (e) { return null; }
+}
 function consultFromUrl() {
   try { const p = new URLSearchParams(window.location.search); return p.get("mode") === "consulta" ? (p.get("ev") || "EV") : null; } catch (e) { return null; }
 }
@@ -1303,7 +1468,7 @@ function evIndexFromUrl() {
 }
 
 class Component extends DCLogic {
-  state = { consult: consultFromUrl(), theme: readTheme(), lang: null, userOpen: false, fxRate: null, idx: evIndexFromUrl(), values: {}, amounts: {}, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: consultFromUrl() !== null, cancelled: false, confirmOpen: false };
+  state = { revOpen: false, revType: "repost", revReason: "date", revJust: "", revDate: "2026-09-02", revSent: revFromUrl(), fromQueue: revFromUrl() !== null, revDone: null, consult: consultFromUrl(), theme: readTheme(), lang: null, userOpen: false, fxRate: null, idx: evIndexFromUrl(), values: {}, amounts: {}, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: consultFromUrl() !== null, cancelled: false, confirmOpen: false };
 
   renderVals() {
     const s = this.state;
@@ -1680,13 +1845,13 @@ class Component extends DCLogic {
         { k: t.provWho, v: TE.sender, sub: TE.senderMeta, isPlain: true },
         { k: t.provWhen, v: ago, sub: stampOf(E.at), isPlain: true },
         { k: t.labels.tipo, v: TE.fieldValues.tipo, sub: TE.fieldHints.tipo, isPlain: true },
-        { k: t.regStatus, v: s.cancelled ? t.stCancelled : s.approved ? t.stApproved : t.stPending, sub: t.regStatusSub, isBadge: true,
-          fg: s.cancelled ? "var(--neg)" : s.approved ? "var(--pos)" : "var(--warn)", bg: s.cancelled ? "var(--negBg)" : s.approved ? "var(--posBg)" : "var(--warnBg)", line: s.cancelled ? "var(--neg)" : s.approved ? "var(--pos)" : "var(--warn)" },
+        { k: t.regStatus, v: s.revAdj ? t.stAdjusted : s.cancelled ? t.stCancelled : s.approved ? t.stApproved : t.stPending, sub: t.regStatusSub, isBadge: true,
+          fg: s.revAdj ? "var(--info)" : s.cancelled ? "var(--neg)" : s.approved ? "var(--pos)" : "var(--warn)", bg: s.revAdj ? "var(--infoBg)" : s.cancelled ? "var(--negBg)" : s.approved ? "var(--posBg)" : "var(--warnBg)", line: s.revAdj ? "var(--info)" : s.cancelled ? "var(--neg)" : s.approved ? "var(--pos)" : "var(--warn)" },
         { k: t.provTrace, v: E.op, sub: TE.payloadMeta, isPlain: true }
       ],
 
       ev: {
-        title: TE.title, lead: s.consult !== null ? t.consultLead : TE.lead,
+        title: s.fromQueue ? t.revDemoTitle : TE.title, lead: s.consult !== null ? t.consultLead : TE.lead,
         channel: t.channels[E.ch], channelNote: TE.channelNote,
         chColor: tone.color, chBg: tone.bg, chLine: tone.line,
         ago: ago, stamp: stampOf(E.at),
@@ -1740,18 +1905,57 @@ class Component extends DCLogic {
       consult: s.consult !== null, notConsult: s.consult === null,
       consultKickerLine: t.consultKicker + " · " + (s.consult || ""),
       auditHref: "Q-Cost AI Auditoria v2.dc.html?q=" + encodeURIComponent(s.consult || ""),
-      backHref: s.consult !== null ? "Q-Cost AI Custos v2.dc.html" : "Q-Cost AI Dashboard v2.dc.html",
-      backLabel: s.consult !== null ? t.backCosts : t.backQueue,
+      backHref: s.consult !== null && !s.fromQueue ? "Q-Cost AI Custos v2.dc.html" : "Q-Cost AI Dashboard v2.dc.html",
+      backLabel: s.consult !== null && !s.fromQueue ? t.backCosts : t.backQueue,
+      consultCosts: s.consult !== null && !s.fromQueue, consultQueue: s.consult !== null && s.fromQueue, notQueue: !(s.consult !== null && s.fromQueue),
       history: (function () {
         const L = String(lang || "pt-BR");
         const hdf = new Intl.DateTimeFormat(L.slice(0, 2) === "en" ? "en-US" : L.slice(0, 2) === "es" ? "es-MX" : "pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
-        return [
-          { ver: "v3", when: hdf.format(new Date(2026, 8, 3)) + " · 16:40", action: t.hApprove, who: "Paulo Grimaldi", note: t.hApproveNote, color: "var(--pos)" },
-          { ver: "v2", when: hdf.format(new Date(2026, 8, 2)) + " · 11:02", action: t.hEdit, who: "Ana Ribeiro Camargo", note: t.hEditNote, color: "var(--warn)" },
-          { ver: "v1", when: hdf.format(new Date(2026, 8, 2)) + " · 09:14", action: t.hCreate, who: t.hAi, note: t.hCreateNote, color: "var(--info)" }
-        ];
+        const out = [];
+        const nowW = hdf.format(new Date(2026, 8, 24)) + " · " + t.revNow;
+        if (s.revDone === "approved") {
+          if (s.revSent.type === "repost") out.push({ ver: "v6", when: nowW, action: t.hRepost, who: t.revYou, note: t.hRepostNote, color: "var(--info)" });
+          out.push({ ver: "v5", when: nowW, action: t.hRev, who: t.revYou, note: t.hRevNote, color: "var(--neg)" });
+        } else if (s.revDone === "refused") {
+          out.push({ ver: "v5", when: nowW, action: t.hRefused, who: t.revYou, note: t.hRefusedNote, color: "var(--ink3)" });
+        }
+        if (s.revSent) out.push({ ver: "v4 · " + t.revPendingTag, when: s.revSent.by ? hdf.format(new Date(2026, 8, 23)) + " · 10:30" : nowW, action: s.revSent.type === "repost" ? t.revReqRepost : t.revReqReverse, who: s.revSent.by || t.revYou, note: t.revReasons[s.revSent.reason] + " — " + (s.revSent.just || t.revDemoJust), color: "var(--warn)" });
+        return out.concat([
+          { ver: "v3", when: hdf.format(new Date(2026, 7, 13)) + " · 16:40", action: t.hApprove, who: "Paulo Grimaldi", note: t.hApproveNote, color: "var(--pos)" },
+          { ver: "v2", when: hdf.format(new Date(2026, 7, 12)) + " · 11:02", action: t.hEdit, who: "Ana Ribeiro Camargo", note: t.hEditNote, color: "var(--warn)" },
+          { ver: "v1", when: hdf.format(new Date(2026, 7, 12)) + " · 09:14", action: t.hCreate, who: t.hAi, note: t.hCreateNote, color: "var(--info)" }
+        ]);
       })(),
-      histCountLabel: "3" + t.histCount,
+      histCountLabel: String(3 + (s.revSent ? 1 : 0) + (s.revDone === "approved" ? (s.revSent.type === "repost" ? 2 : 1) : s.revDone === "refused" ? 1 : 0)) + t.histCount,
+      revPending: !!s.revSent && !s.revDone,
+      revBadgeLabel: s.revDone === "approved" ? t.revApprovedBadge : s.revDone === "refused" ? t.revRefusedBadge : t.revRequested,
+      revBadgeFg: s.revDone === "approved" ? "var(--pos)" : s.revDone === "refused" ? "var(--ink3)" : "var(--warn)",
+      revBadgeBg: s.revDone === "approved" ? "var(--posBg)" : s.revDone === "refused" ? "var(--surf2)" : "var(--warnBg)",
+      approveRev: () => this.setState((st) => ({ revDone: "approved", revAdj: st.revSent.type === "repost", cancelled: st.revSent.type !== "repost", approved: st.revSent.type === "repost" })),
+      refuseRev: () => this.setState({ revDone: "refused" }),
+      revOpen: s.revOpen, revCanRequest: s.consult !== null && !s.revSent, revRequested: !!s.revSent,
+      openRev: () => this.setState({ revOpen: true }), closeRev: () => this.setState({ revOpen: false }),
+      revHead: t.revHeadPre + (s.consult || E.id),
+      revTypeOpts: ["reverse", "repost"].map((k) => ({
+        label: k === "repost" ? t.revTypeRepost : t.revTypeReverse, note: k === "repost" ? t.revTypeRepostNote : t.revTypeReverseNote,
+        on: s.revType === k, bg: s.revType === k ? "var(--acc)" : "var(--surf)", fg: s.revType === k ? "var(--accInk)" : "var(--ink)", sub: s.revType === k ? "var(--accInk)" : "var(--ink3)",
+        pick: () => this.setState({ revType: k })
+      })),
+      revReason: s.revReason, onRevReason: (e) => this.setState({ revReason: e.target.value }),
+      revReasonOpts: ["date", "paf", "value", "cc", "dup", "other"].map((k) => ({ value: k, label: t.revReasons[k] })),
+      revJust: s.revJust, onRevJust: (e) => this.setState({ revJust: e.target.value }),
+      revIsRepost: s.revType === "repost", revDate: s.revDate, onRevDate: (e) => this.setState({ revDate: e.target.value }), revDateLang: lang,
+      revCompLine: t.revCompLabel + (s.revDate ? s.revDate.slice(5, 7) + "/" + s.revDate.slice(0, 4) : "—"),
+      revPreview: [
+        { k: t.revOrig, comp: "08/2026", v: money(sum), fg: "var(--ink2)", vfg: "var(--ink2)" },
+        { k: t.revRev, comp: "09/2026", v: "− " + money(sum), fg: "var(--ink)", vfg: "var(--neg)" }
+      ].concat(s.revType === "repost" ? [{ k: t.revRepost, comp: s.revDate ? s.revDate.slice(5, 7) + "/" + s.revDate.slice(0, 4) : "—", v: money(sum), fg: "var(--ink)", vfg: "var(--ink)" }] : []),
+      revJustShort: s.revJust.trim().length < 10,
+      revSendLine: s.revJust.trim().length < 10 ? "var(--line2)" : "var(--neg)", revSendFg: s.revJust.trim().length < 10 ? "var(--ink3)" : "var(--neg)",
+      revSendCursor: s.revJust.trim().length < 10 ? "not-allowed" : "pointer",
+      sendRev: () => { if (s.revJust.trim().length >= 10) this.setState({ revSent: { type: s.revType, reason: s.revReason, just: s.revJust.trim() }, revOpen: false }); },
+      revPendingLine: !s.revSent ? "" : s.revDone === "approved" ? (s.revSent.type === "repost" ? t.revApprovedLineRepost : t.revApprovedLine) : s.revDone === "refused" ? t.revRefusedLine
+        : (s.revSent.type === "repost" ? t.revReqRepost : t.revReqReverse) + " · " + t.revReasons[s.revSent.reason] + (s.revSent.by ? " · " + t.revBy + s.revSent.by : "") + ". " + t.revPendingNote,
       approveLabel: s.approved ? t.approved : t.approve,
       approveDisabled: s.cancelled || allRows.length === 0,
       approveBg: (s.cancelled || allRows.length === 0) ? "var(--surf2)" : s.approved ? "var(--posBg)" : blocked ? "var(--surf2)" : "var(--acc)",

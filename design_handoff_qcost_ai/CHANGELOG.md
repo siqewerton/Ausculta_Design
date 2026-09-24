@@ -4,6 +4,36 @@ Registro das decisões de design para atualizar SDD e discovery. Mais recente no
 
 ## 2026-09-24
 
+### Estorno de contabilização
+- Lançamento aprovado nunca é apagado nem editado: correção por estorno (Cancelado) ou estorno e relançamento (Ajustado), a partir do modo consulta de Revisar Evento.
+- Motivo obrigatório, justificativa, data correta no relançamento e prévia dos lançamentos. Competência fechada não é reaberta: o estorno entra na competência aberta.
+- Aprovação exige a permissão exclusiva "Estorno em competência fechada" (Equipe › Permissões especiais), que pode ser do próprio solicitante. Pedido entra na fila do Painel ("Decidir estorno"); aprovar ou recusar gera novas versões no histórico.
+- Auditoria: ações Pedido de estorno, Estorno e Relançamento; verificação "Estornos".
+- Regras de alerta de exemplo: AR-016 pedido registrado, AR-017 estorno aprovado, AR-018 pedido recusado.
+
+### Relatórios
+- Cinco modelos novos: conciliação de fechamento, estornos e relançamentos, precisão da IA por subcategoria, segregação de funções, origem dos eventos.
+
+### Landing — Integrações
+- Título e texto cobrem QMS, CRM, ERP, MES, WMS e PLM; novo item "PLM e engenharia".
+- Notas de "Sistemas de origem" cobrem as 31 subcategorias do PAF padrão, cada uma em um sistema.
+- SIQ Systems — EQM posicionado como plataforma que gerencia o processo de todas as subcategorias dos quatro elementos do PAF. **Pendente**: validar a afirmação de exclusividade com marketing e jurídico.
+
+### Período padrão
+- Painel abre em Ano; Custos abre em Mês; Auditoria abre em Últimos 30 dias.
+
+### Auditoria
+- Busca por ID, hash ou justificativa; período personalizado com início e fim; competência separada da data do registro.
+- Verificações de auditoria com contagem: lançamento retroativo (> 45 dias), alteração de valor, após fechamento, mesmo autor e aprovador, exclusão ou rejeição, correção sobre a IA, cadastro e permissões.
+- Mais filtros: objeto, ação, usuário, autoria, planta, categoria e subcategoria PAF, tipo de fornecedor, fornecedor, cliente, centro de custo, origem do envio, moeda convertida, faixa de valor.
+- Chips de filtros aplicados, rastreio por ID (todas as versões), detalhe com dados da contabilização, paginação (10/25/50), exportação com critérios de filtro.
+- Novos logs de exemplo: receita de referência, moeda da organização, ciclo de apuração e estrutura PAF.
+- Abre filtrada quando recebe `?q=<id>`.
+
+### Custos → Revisar Evento (consulta)
+- Eventos da árvore PAF ordenados por data de contabilização DESC.
+- Código do evento abre Revisar Evento em modo consulta (`?ev=<id>&mode=consulta`): somente leitura, estado Confirmado, histórico de versões, atalhos para Custos e Auditoria.
+
 ### Pacote SDD
 - Adicionados `CLAUDE.md` e `specs/` (constituição, índice e sete specs com critérios de aceite rastreáveis, mais o modelo de dados do evento).
 - `design_files/` sincronizado com a versão atual das telas.

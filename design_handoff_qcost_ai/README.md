@@ -594,7 +594,11 @@ Motivo de fila (Aprovação, Incompletos, Alertas) e progresso de processamento 
 
 ---
 
-## Última sincronização — 23/09/2026
+## Última sincronização — 24/09/2026
+
+Landing (Integrações e SIQ), períodos padrão de Painel/Custos/Auditoria, novo filtro de Auditoria, modo consulta de Revisar Evento a partir de Custos. Detalhes em `CHANGELOG.md` e nas specs 03 e 04.
+
+### Sincronização anterior — 23/09/2026
 
 Registro completo das decisões em `CHANGELOG.md`.
 

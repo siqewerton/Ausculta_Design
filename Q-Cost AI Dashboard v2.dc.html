@@ -423,7 +423,8 @@ const EV_META = [
   { id:"EV-2026-0911", st:"incomplete", ev:"draft",      act:"actComplete", v:41250,  ch:"mcp",    min:47,   pl:1 },
   { id:"EV-2026-0910", st:"pending",    ev:"pending",    act:"actApprove",  v:18900,  ch:"upload", min:1580, pl:0 },
   { id:"EV-2026-0905", st:"incomplete", ev:"draft",      act:"actComplete", v:63800,  ch:"api",    min:2870, pl:2 },
-  { id:"EV-2026-0901", st:"pending",    ev:"provisional",act:"actReview",   v:22400,  ch:"mcp",    min:4310, pl:3 }
+  { id:"EV-2026-0901", st:"pending",    ev:"provisional",act:"actReview",   v:22400,  ch:"mcp",    min:4310, pl:3 },
+  { id:"EV-2026-0851", st:"pending",    ev:"confirmed",  act:"actDecideRev",v:96700,  ch:"upload", min:95,   pl:0, rev:"repost" }
 ];
 const EV_CH = {
   upload: { color:"var(--ink2)", bg:"var(--surf2)", line:"var(--line2)" },
@@ -469,13 +470,14 @@ const DICT = {
     capMonth:"Setembro de 2026", capQuarter:"Jul–set de 2026", capYear:"Últimos 12 meses", capCustom:"01/07 – 30/09/2026",
     dMonth:"Contra agosto", dQuarter:"Contra o trimestre anterior", dYear:"Contra os 12 meses anteriores", dCustom:"Contra o período anterior",
     evStates:{draft:"Rascunho",review:"Em revisão",pending:"Pendente",provisional:"Provisório",confirmed:"Confirmado",adjusted:"Ajustado",cancelled:"Cancelado"},
-    actReview:"Revisar", actComplete:"Completar", actApprove:"Aprovar",
+    actReview:"Revisar", actComplete:"Completar", actApprove:"Aprovar", actDecideRev:"Decidir estorno",
     events:[
       {title:"Refugo de fundição — lote 2214"},
       {title:"Retrabalho de solda — linha 3"},
       {title:"Calibração fora do prazo — 14 instrumentos"},
       {title:"Devolução parcial — pedido 77.412"},
-      {title:"Auditoria de fornecedor — aço SAE 1045"}
+      {title:"Auditoria de fornecedor — aço SAE 1045"},
+      {title:"Pedido de estorno — parada de linha"}
     ],
     thOrigin:"Origem",
     chLabels:{upload:"UPLOAD",api:"API REST",mcp:"MCP",system:"ALERTA"},
@@ -518,7 +520,7 @@ const DICT = {
     capMonth:"September 2026", capQuarter:"Jul–Sep 2026", capYear:"Last 12 months", capCustom:"07/01 – 09/30/2026",
     dMonth:"Against August", dQuarter:"Against previous quarter", dYear:"Against previous 12 months", dCustom:"Against previous period",
     evStates:{draft:"Draft",review:"Under review",pending:"Pending",provisional:"Provisional",confirmed:"Confirmed",adjusted:"Adjusted",cancelled:"Cancelled"},
-    actReview:"Review", actComplete:"Complete", actApprove:"Approve",
+    actReview:"Review", actComplete:"Complete", actApprove:"Approve", actDecideRev:"Decide reversal",
     thOrigin:"Origin",
     chLabels:{upload:"UPLOAD",api:"REST API",mcp:"MCP",system:"ALERT"},
     evPlants:["Curitiba","Joinville","Betim","Consolidated"],
@@ -528,7 +530,8 @@ const DICT = {
       {title:"Weld rework — line 3"},
       {title:"Overdue calibration — 14 instruments"},
       {title:"Partial return — order 77,412"},
-      {title:"Supplier audit — SAE 1045 steel"}
+      {title:"Supplier audit — SAE 1045 steel"},
+      {title:"Reversal request — line stoppage"}
     ]
   },
   "es": {
@@ -570,7 +573,7 @@ const DICT = {
     capMonth:"Septiembre de 2026", capQuarter:"Jul–sep de 2026", capYear:"Últimos 12 meses", capCustom:"01/07 – 30/09/2026",
     dMonth:"Contra agosto", dQuarter:"Contra el trimestre anterior", dYear:"Contra los 12 meses anteriores", dCustom:"Contra el periodo anterior",
     evStates:{draft:"Borrador",review:"En revisión",pending:"Pendiente",provisional:"Provisional",confirmed:"Confirmado",adjusted:"Ajustado",cancelled:"Cancelado"},
-    actReview:"Revisar", actComplete:"Completar", actApprove:"Aprobar",
+    actReview:"Revisar", actComplete:"Completar", actApprove:"Aprobar", actDecideRev:"Decidir reversión",
     thOrigin:"Origen",
     chLabels:{upload:"CARGA",api:"API REST",mcp:"MCP",system:"ALERTA"},
     evPlants:["Curitiba","Joinville","Betim","Consolidado"],
@@ -580,7 +583,8 @@ const DICT = {
       {title:"Retrabajo de soldadura — línea 3"},
       {title:"Calibración vencida — 14 instrumentos"},
       {title:"Devolución parcial — pedido 77.412"},
-      {title:"Auditoría de proveedor — acero SAE 1045"}
+      {title:"Auditoría de proveedor — acero SAE 1045"},
+      {title:"Solicitud de reversión — parada de línea"}
     ]
   }
 };
@@ -774,7 +778,7 @@ class Component extends DCLogic {
             badgeLabel: s.label, color: s.color, border: s.border, bg: s.bg,
             chLabel: t.chLabels[r.m.ch], chColor: ch.color, chBg: ch.bg, chLine: ch.line,
             action: t[r.m.act],
-            href: "Q-Cost AI Revisar Evento v2.dc.html?ev=" + encodeURIComponent(r.m.id) };
+            href: "Q-Cost AI Revisar Evento v2.dc.html?ev=" + encodeURIComponent(r.m.id) + (r.m.rev ? "&mode=consulta&rev=" + r.m.rev : "") };
         }),
 
       supKpis: (function () {

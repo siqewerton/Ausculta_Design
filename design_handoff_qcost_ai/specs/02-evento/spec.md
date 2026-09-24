@@ -67,6 +67,16 @@ Ref.: `README.md › Telas 5 e 6`, `› Sequência de seções do evento`, `› 
 - **EVT-AC-33** Analista não vê "Aprovar"; pode salvar e propor regra.
 - **EVT-AC-34** Aprovar muda o estado (Confirmado, ou Provisório se houver valor estimado); rejeitar leva a Cancelado. Ambos geram registro de auditoria.
 
+### Estorno de evento contabilizado
+- **EVT-AC-35** Lançamento aprovado nunca é apagado nem editado. A correção é feita por estorno a partir do modo consulta ("Solicitar estorno").
+- **EVT-AC-36** Duas formas: Estornar (lançamento contrário −X; evento vai para Cancelado) e Estornar e relançar (−X e novo lançamento +Y com os dados corretos; evento vai para Ajustado).
+- **EVT-AC-37** Motivo obrigatório (data de contabilização, classificação PAF, valor, centro de custo, duplicidade, outro) e justificativa com no mínimo 10 caracteres. Em relançamento, informar a data de contabilização correta (Campo Data); a competência deriva dela.
+- **EVT-AC-38** Prévia mostra os lançamentos (original, estorno, relançamento) com competência e valor antes de enviar.
+- **EVT-AC-39** Competência fechada nunca é reaberta: o estorno entra na competência aberta atual, referenciando a original.
+- **EVT-AC-40** O pedido fica pendente e o lançamento original continua valendo até a decisão. Estorno de competência fechada só pode ser aprovado ou recusado por usuário com a permissão exclusiva "Estorno em competência fechada" (GOV-AC-16), que pode ser o próprio solicitante; a decisão registra o nome e a permissão usada.
+- **EVT-AC-40a** O pedido entra na fila do Painel ("Decidir estorno") e abre Revisar Evento em consulta com o bloco de decisão (`&rev=repost|reverse`). Aprovado: novas versões Estorno (e Relançamento) no histórico; estado Cancelado (estorno) ou Ajustado (relançamento). Recusado: versão "Pedido recusado", lançamento original inalterado.
+- **EVT-AC-41** Pedido, estorno e relançamento viram novas versões ligadas à original, com autor, momento, motivo e hash; aparecem no histórico do evento e na Auditoria.
+
 ## Fora de escopo
 Motor de extração da IA (contrato de saída em data-model.md). Regras de alerta (spec 04).
 

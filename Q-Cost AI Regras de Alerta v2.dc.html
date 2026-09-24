@@ -395,6 +395,9 @@ const METRICS = [
   { k: "failShare", unit: "PCT", rec: false },
   { k: "recurrence", unit: "COUNT", rec: true },
   { k: "eventCount", unit: "COUNT", rec: true }
+  ,{ k: "revReq", unit: "COUNT", rec: false, ev: true },
+  { k: "revApproved", unit: "COUNT", rec: false, ev: true },
+  { k: "revRefused", unit: "COUNT", rec: false, ev: true }
 ];
 const OPS = [
   { k: "gt", sym: ">" }, { k: "gte", sym: "≥" }, { k: "lt", sym: "<" }, { k: "lte", sym: "≤" }
@@ -405,6 +408,12 @@ const PAFS = ["prev", "aval", "fint", "fext"];
 const SUPPLIERS = ["aciaria", "fundicao", "termico", "hidraulicos"];
 
 const SEED_RULES = [
+  { id: "AR-018", metric: "revRefused", operator: "gte", threshold: "1", window: "", plant: "", paf: "", sup: "",
+    active: true, lastFire: "", author: "Ana Ribeiro Camargo", created: "24/09/2026" },
+  { id: "AR-017", metric: "revApproved", operator: "gte", threshold: "1", window: "", plant: "", paf: "", sup: "",
+    active: true, lastFire: "22/09/2026 15:05", author: "Ana Ribeiro Camargo", created: "24/09/2026" },
+  { id: "AR-016", metric: "revReq", operator: "gte", threshold: "1", window: "", plant: "", paf: "", sup: "",
+    active: true, lastFire: "23/09/2026 10:30", author: "Ana Ribeiro Camargo", created: "24/09/2026" },
   { id: "AR-014", metric: "cost", operator: "gt", threshold: "400000", window: "", plant: "curitiba", paf: "fext", sup: "",
     active: true, lastFire: "16/09/2026 08:14", author: "Ana Ribeiro Camargo", created: "02/08/2026" },
   { id: "AR-011", metric: "recurrence", operator: "gte", threshold: "3", window: "d30", plant: "", paf: "", sup: "aciaria",
@@ -416,6 +425,8 @@ const SEED_RULES = [
 ];
 
 const SEED_FIRINGS = [
+  { id: "F-3025", rule: "AR-016", when: "23/09/2026 10:30", value: 1, note: "" },
+  { id: "F-3024", rule: "AR-017", when: "22/09/2026 15:05", value: 1, note: "Estorno e relançamento do EV-2026-0851 conferidos pela controladoria." },
   { id: "F-3021", rule: "AR-014", when: "16/09/2026 08:14", value: 471930, note: "" },
   { id: "F-3018", rule: "AR-011", when: "12/09/2026 16:40", value: 4,
     note: "Aberta reunião técnica com a Aciaria Sul. Lote 2208 segregado para reinspeção dimensional." },
@@ -443,7 +454,8 @@ const DICT = {
     scopeAllPlants: "Todas as plantas", scopeAllPafs: "Todas as categorias", scopeAllSups: "Todos os fornecedores",
     metrics: { cost: "Custo acumulado no período", avgCost: "Custo médio por evento",
       failShare: "Participação de falha no COQ", recurrence: "Recorrência da mesma falha",
-      eventCount: "Contagem de eventos" },
+      eventCount: "Contagem de eventos", revReq: "Pedido de estorno registrado", revApproved: "Estorno aprovado", revRefused: "Pedido de estorno recusado" },
+    evRule: { revReq: "Avisar quando um pedido de estorno for registrado, com o evento, a competência, o motivo e quem pediu", revApproved: "Avisar quando um estorno for aprovado, com os lançamentos gerados e a permissão usada", revRefused: "Avisar quando um pedido de estorno for recusado, com o motivo da recusa" },
     ops: { gt: "maior que", gte: "maior ou igual a", lt: "menor que", lte: "menor ou igual a" },
     opsShort: { gt: "for maior que", gte: "for maior ou igual a", lt: "for menor que", lte: "for menor ou igual a" },
     windows: { d7: "Últimos 7 dias", d30: "Últimos 30 dias", d90: "Últimos 90 dias", quarter: "Trimestre corrente" },
@@ -502,7 +514,8 @@ const DICT = {
     scopeAllPlants: "All plants", scopeAllPafs: "All categories", scopeAllSups: "All suppliers",
     metrics: { cost: "Accumulated cost in period", avgCost: "Average cost per event",
       failShare: "Failure share of CoQ", recurrence: "Recurrence of the same failure",
-      eventCount: "Event count" },
+      eventCount: "Event count", revReq: "Reversal request recorded", revApproved: "Reversal approved", revRefused: "Reversal request declined" },
+    evRule: { revReq: "Notify when a reversal request is recorded, with the event, period, reason and requester", revApproved: "Notify when a reversal is approved, with the entries generated and the permission used", revRefused: "Notify when a reversal request is declined, with the reason" },
     ops: { gt: "greater than", gte: "greater than or equal to", lt: "less than", lte: "less than or equal to" },
     opsShort: { gt: "goes above", gte: "reaches", lt: "falls below", lte: "is at or below" },
     windows: { d7: "Last 7 days", d30: "Last 30 days", d90: "Last 90 days", quarter: "Current quarter" },
@@ -561,7 +574,8 @@ const DICT = {
     scopeAllPlants: "Todas las plantas", scopeAllPafs: "Todas las categorías", scopeAllSups: "Todos los proveedores",
     metrics: { cost: "Costo acumulado en el período", avgCost: "Costo medio por evento",
       failShare: "Participación de falla en el CDC", recurrence: "Recurrencia de la misma falla",
-      eventCount: "Recuento de eventos" },
+      eventCount: "Recuento de eventos", revReq: "Solicitud de reversión registrada", revApproved: "Reversión aprobada", revRefused: "Solicitud de reversión rechazada" },
+    evRule: { revReq: "Avisar cuando se registre una solicitud de reversión, con el evento, el período, el motivo y quién la pidió", revApproved: "Avisar cuando se apruebe una reversión, con los asientos generados y el permiso usado", revRefused: "Avisar cuando se rechace una solicitud de reversión, con el motivo del rechazo" },
     ops: { gt: "mayor que", gte: "mayor o igual a", lt: "menor que", lte: "menor o igual a" },
     opsShort: { gt: "sea mayor que", gte: "sea mayor o igual a", lt: "sea menor que", lte: "sea menor o igual a" },
     windows: { d7: "Últimos 7 días", d30: "Últimos 30 días", d90: "Últimos 90 días", quarter: "Trimestre corriente" },
@@ -645,6 +659,12 @@ class Component extends DCLogic {
 
   describe(t, loc, r) {
     const m = this.metricOf(r.metric);
+    if (m && m.ev) {
+      let e = t.evRule[r.metric];
+      if (r.plant) e += " " + t.previewIn + " " + t.plants[r.plant];
+      if (r.paf) e += " " + t.previewOf + " " + t.pafs[r.paf].toLowerCase();
+      return e + ".";
+    }
     if (!m || !r.operator || r.threshold === "") return "—";
     let s = t.previewPrefix + " " + t.metrics[r.metric].toLowerCase();
     if (r.paf) s += " " + t.previewOf + " " + t.pafs[r.paf].toLowerCase();

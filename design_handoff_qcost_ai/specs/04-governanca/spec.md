@@ -18,7 +18,7 @@ Ref.: `README.md › Telas 11–15`; arquivos `Auditoria v2`, `Regras de Alerta 
 - **GOV-AC-06** Alerta disparado vive na aba Alertas; não entra na fila do Painel nem aparece em Revisar Evento.
 
 ## Relatórios
-- **GOV-AC-07** Cinco modelos: apuração mensal PAF, COPQ por planta, falhas por fornecedor, evolução 12 meses, pacote de auditoria ISO.
+- **GOV-AC-07** Dez modelos: apuração mensal PAF, COPQ por planta, falhas por fornecedor, evolução 12 meses, pacote de auditoria ISO, conciliação de fechamento, estornos e relançamentos, precisão da IA por subcategoria, segregação de funções e origem dos eventos.
 - **GOV-AC-08** Histórico de gerações e agendamento de envio recorrente.
 - **GOV-AC-09** Relatórios respeitam idioma, moeda e escopo de planta do usuário.
 
@@ -31,6 +31,8 @@ Ref.: `README.md › Telas 11–15`; arquivos `Auditoria v2`, `Regras de Alerta 
 ## Equipe e permissões
 - **GOV-AC-14** Papéis: Analista (registra, corrige, propõe regra), Aprovador (aprova eventos e propostas), Administrador (tudo + cadastro e equipe).
 - **GOV-AC-15** Escopo por planta; usuário sem escopo consolidado não vê custo de outras plantas.
+- **GOV-AC-16** Permissão especial "Estorno em competência fechada", concedida individualmente em Equipe. Não vem com nenhum papel, nem Administrador. Quem a tem pode aprovar inclusive o próprio pedido; a decisão registra a permissão usada.
+- **GOV-AC-17** Auditoria registra os tipos de ação Pedido de estorno, Estorno e Relançamento, com a verificação "Estornos".
 
 ## Questões abertas
 - Canais de alerta suportados no lançamento (e-mail, WhatsApp, webhook?).

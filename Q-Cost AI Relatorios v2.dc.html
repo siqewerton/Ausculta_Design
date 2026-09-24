@@ -271,7 +271,12 @@ const MODELS = [
   { name: "Evolução 12 meses", tag: "Diretoria", desc: "Série anual das quatro categorias, com a razão entre investimento em prevenção e perda por falha.",
     formats: "PDF", paths: ["M3 3h18v18H3z", "M8 14l3-4 3 3 3-5"] },
   { name: "Pacote de auditoria ISO", tag: "Compliance", desc: "Apuração do período, premissas de cálculo, trilha de alterações e evidências anexadas, no formato que o auditor pede.",
-    formats: "PDF · ZIP", paths: ["M3.5 3.5h17v17h-17z", "M7.5 12.5 11 16l5.5-8"] }
+    formats: "PDF · ZIP", paths: ["M3.5 3.5h17v17h-17z", "M7.5 12.5 11 16l5.5-8"] },
+  { name: "Conciliação de fechamento", tag: "Controladoria", formats: "PDF · XLSX", paths: ["M4 4h16v16H4z", "M4 10h16", "M10 10v10"] },
+  { name: "Estornos e relançamentos", tag: "Controladoria", formats: "XLSX · PDF", paths: ["M20 7H8m3-3L8 7l3 3", "M4 17h12m-3-3 3 3-3 3"] },
+  { name: "Precisão da IA por subcategoria", tag: "IA", formats: "XLSX", paths: ["M8 8h8v8H8z", "M12 3v5M12 16v5M3 12h5M16 12h5"] },
+  { name: "Segregação de funções", tag: "Compliance", formats: "PDF · XLSX", paths: ["M4 4h7v7H4z", "M13 13h7v7h-7z", "M4 20 20 4"] },
+  { name: "Origem dos eventos", tag: "Operação", formats: "XLSX · CSV", paths: ["M4 6h6M4 12h6M4 18h6", "M10 6l4 6-4 6", "M14 12h6"] }
 ];
 
 const HISTORY = [
@@ -317,7 +322,7 @@ const DICT = {
     themeAria:"Alternar tema", userAria:"Menu da conta",
     kicker:"Saídas da apuração", pageTitle:"Relatórios",
     lead:"Modelos prontos para a rotina mensal e para auditoria externa. Todo relatório sai com as premissas de cálculo e o log de aprovação anexados, para que o número possa ser defendido fora da plataforma.",
-    modelsTitle:"Modelos", modelsNote:"5 disponíveis no plano Pro",
+    modelsTitle:"Modelos", modelsNote:"10 disponíveis no plano Pro",
     historyTitle:"Relatórios gerados", allModels:"Todos os modelos",
     thReport:"Relatório", thPeriod:"Período", thBy:"Gerado por", thStatus:"Status", thFile:"Arquivo",
     emptyMsg:"Nenhum relatório gerado com este modelo.",
@@ -331,14 +336,19 @@ const DICT = {
     queued:"em fila", recreate:"recriar",
     genMsg:" gerado para o período atual, com premissas e trilha de aprovação anexadas. O arquivo está no topo da lista.",
     activeOf:" de 3 ativos",
-    tags:{rotina:"Rotina",compras:"Compras",diretoria:"Diretoria",compliance:"Compliance"},
+    tags:{rotina:"Rotina",compras:"Compras",diretoria:"Diretoria",compliance:"Compliance",controladoria:"Controladoria",ia:"IA",operacao:"Operação"},
     status:{ready:"DISPONÍVEL",processing:"PROCESSANDO",expired:"EXPIRADO"},
     models:[
       ["Apuração mensal PAF","Fechamento do mês por categoria e subcategoria, com variação sobre o mês anterior e lista de eventos que compõem cada linha."],
       ["COPQ por planta","Custo da má qualidade por unidade produtiva, em valor e em percentual da receita de referência de cada planta."],
       ["Falhas por fornecedor","Custo de falha atribuível a cada fornecedor, para sustentar renegociação e plano de qualificação."],
       ["Evolução 12 meses","Série anual das quatro categorias, com a razão entre investimento em prevenção e perda por falha."],
-      ["Pacote de auditoria ISO","Apuração do período, premissas de cálculo, trilha de alterações e evidências anexadas, no formato que o auditor pede."]
+      ["Pacote de auditoria ISO","Apuração do período, premissas de cálculo, trilha de alterações e evidências anexadas, no formato que o auditor pede."],
+      ["Conciliação de fechamento","Por competência: total aprovado, provisórios, estornos e relançamentos lançados após o fechamento e saldo final. Mostra o que mudou em cada mês depois de fechado."],
+      ["Estornos e relançamentos","Pedidos, aprovações e recusas por motivo, valor anulado e relançado, quem pediu, quem aprovou e a permissão usada."],
+      ["Precisão da IA por subcategoria","Campos extraídos, sugeridos e corrigidos, desvio médio do valor corrigido e propostas de regra, por subcategoria. Indica onde ajustar instruções."],
+      ["Segregação de funções","Eventos lançados e aprovados pela mesma pessoa e estornos aprovados pelo próprio solicitante com a permissão exclusiva, com a trilha de cada caso."],
+      ["Origem dos eventos","Volume, valor e tempo até a aprovação por Upload, API e MCP e por sistema de origem (QMS, ERP, MES, WMS, CRM, PLM)."]
     ],
     periods:["Ago 2026","Jan–ago 2026","2º trim. 2026","Jul–ago 2026","Set 2025–ago 2026","Jul 2026","Jun 2026"],
     recurring:"Envio recorrente",
@@ -352,7 +362,7 @@ const DICT = {
     themeAria:"Toggle theme", userAria:"Account menu",
     kicker:"Accounting outputs", pageTitle:"Reports",
     lead:"Ready-made templates for the monthly routine and for external audit. Every report ships with the calculation assumptions and the approval log attached, so the number can be defended outside the platform.",
-    modelsTitle:"Templates", modelsNote:"5 available on the Pro plan",
+    modelsTitle:"Templates", modelsNote:"10 available on the Pro plan",
     historyTitle:"Generated reports", allModels:"All templates",
     thReport:"Report", thPeriod:"Period", thBy:"Generated by", thStatus:"Status", thFile:"File",
     emptyMsg:"No report generated from this template.",
@@ -366,14 +376,19 @@ const DICT = {
     queued:"queued", recreate:"recreate",
     genMsg:" generated for the current period, with assumptions and approval trail attached. The file is at the top of the list.",
     activeOf:" of 3 active",
-    tags:{rotina:"Routine",compras:"Procurement",diretoria:"Leadership",compliance:"Compliance"},
+    tags:{rotina:"Routine",compras:"Procurement",diretoria:"Leadership",compliance:"Compliance",controladoria:"Controlling",ia:"AI",operacao:"Operations"},
     status:{ready:"AVAILABLE",processing:"PROCESSING",expired:"EXPIRED"},
     models:[
       ["Monthly PAF accounting","Month-end close by category and subcategory, with variation against the previous month and the list of events behind each line."],
       ["COPQ by plant","Cost of poor quality per production unit, in value and as a percentage of each plant's reference revenue."],
       ["Failures by supplier","Failure cost attributable to each supplier, to support renegotiation and a qualification plan."],
       ["12-month trend","Annual series of the four categories, with the ratio between prevention investment and failure loss."],
-      ["ISO audit pack","Period accounting, calculation assumptions, change trail and attached evidence, in the format auditors ask for."]
+      ["ISO audit pack","Period accounting, calculation assumptions, change trail and attached evidence, in the format auditors ask for."],
+      ["Close reconciliation","By accounting period: total approved, provisional entries, reversals and reposts posted after close, and final balance. Shows what changed in each month after it closed."],
+      ["Reversals and reposts","Requests, approvals and declines by reason, amount cancelled and reposted, requester, approver and permission used."],
+      ["AI accuracy by subcategory","Fields extracted, suggested and corrected, average deviation of corrected amounts and rule proposals, by subcategory. Shows where to tune instructions."],
+      ["Segregation of duties","Events entered and approved by the same person and reversals approved by their own requester under the exclusive permission, with the trail for each case."],
+      ["Event sources","Volume, amount and time to approval by Upload, API and MCP, and by source system (QMS, ERP, MES, WMS, CRM, PLM)."]
     ],
     periods:["Aug 2026","Jan–Aug 2026","Q2 2026","Jul–Aug 2026","Sep 2025–Aug 2026","Jul 2026","Jun 2026"],
     recurring:"Recurring delivery",
@@ -387,7 +402,7 @@ const DICT = {
     themeAria:"Alternar tema", userAria:"Menú de la cuenta",
     kicker:"Salidas del cierre", pageTitle:"Informes",
     lead:"Plantillas listas para la rutina mensual y para auditoría externa. Todo informe sale con las premisas de cálculo y el registro de aprobación adjuntos, para que el número pueda defenderse fuera de la plataforma.",
-    modelsTitle:"Plantillas", modelsNote:"5 disponibles en el plan Pro",
+    modelsTitle:"Plantillas", modelsNote:"10 disponibles en el plan Pro",
     historyTitle:"Informes generados", allModels:"Todas las plantillas",
     thReport:"Informe", thPeriod:"Período", thBy:"Generado por", thStatus:"Estado", thFile:"Archivo",
     emptyMsg:"Ningún informe generado con esta plantilla.",
@@ -401,14 +416,19 @@ const DICT = {
     queued:"en cola", recreate:"recrear",
     genMsg:" generado para el período actual, con premisas y trazabilidad de aprobación adjuntas. El archivo está al principio de la lista.",
     activeOf:" de 3 activos",
-    tags:{rotina:"Rutina",compras:"Compras",diretoria:"Dirección",compliance:"Compliance"},
+    tags:{rotina:"Rutina",compras:"Compras",diretoria:"Dirección",compliance:"Compliance",controladoria:"Controlaría",ia:"IA",operacao:"Operación"},
     status:{ready:"DISPONIBLE",processing:"PROCESANDO",expired:"EXPIRADO"},
     models:[
       ["Cierre mensual PAF","Cierre del mes por categoría y subcategoría, con variación sobre el mes anterior y lista de eventos que componen cada línea."],
       ["COPQ por planta","Costo de la mala calidad por unidad productiva, en valor y en porcentaje de los ingresos de referencia de cada planta."],
       ["Fallos por proveedor","Costo de fallo atribuible a cada proveedor, para sustentar renegociación y plan de calificación."],
       ["Evolución 12 meses","Serie anual de las cuatro categorías, con la razón entre inversión en prevención y pérdida por fallo."],
-      ["Paquete de auditoría ISO","Cierre del período, premisas de cálculo, trazabilidad de cambios y evidencias adjuntas, en el formato que pide el auditor."]
+      ["Paquete de auditoría ISO","Cierre del período, premisas de cálculo, trazabilidad de cambios y evidencias adjuntas, en el formato que pide el auditor."],
+      ["Conciliación de cierre","Por período contable: total aprobado, provisionales, reversiones y nuevos registros posteriores al cierre, y saldo final. Muestra qué cambió en cada mes después de cerrado."],
+      ["Reversiones y nuevos registros","Solicitudes, aprobaciones y rechazos por motivo, importe anulado y registrado de nuevo, quién pidió, quién aprobó y el permiso usado."],
+      ["Precisión de la IA por subcategoría","Campos extraídos, sugeridos y corregidos, desvío medio del importe corregido y propuestas de regla, por subcategoría. Indica dónde ajustar instrucciones."],
+      ["Segregación de funciones","Eventos registrados y aprobados por la misma persona y reversiones aprobadas por el propio solicitante con el permiso exclusivo, con la pista de cada caso."],
+      ["Origen de los eventos","Volumen, importe y tiempo hasta la aprobación por Upload, API y MCP, y por sistema de origen (QMS, ERP, MES, WMS, CRM, PLM)."]
     ],
     periods:["Ago 2026","Ene–ago 2026","2.º trim. 2026","Jul–ago 2026","Sep 2025–ago 2026","Jul 2026","Jun 2026"],
     recurring:"Envío recurrente",
@@ -420,7 +440,7 @@ const DICT = {
   }
 };
 
-const TAG_KEYS = ["rotina","rotina","compras","diretoria","compliance"];
+const TAG_KEYS = ["rotina","rotina","compras","diretoria","compliance", "controladoria", "controladoria", "ia", "compliance", "operacao"];
 
 const CHROME = {
   "pt-BR": { nav1:"Painel", nav2:"Eventos", nav3:"Custos", nav4:"Auditoria", nav5:"Relatórios", nav6:"Alertas", nav7:"Integrações",

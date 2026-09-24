@@ -257,6 +257,14 @@
           </sc-for>
         </div>
 
+        <div style="padding:18px 22px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:12.5px;font-weight:400">{{ t.specialTitle }}</span>
+          <button type="button" onClick="{{ toggleRev }}" aria-pressed="{{ revOn }}" style="padding:10px 0;border:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;color:var(--ink);cursor:{{ saveCursor }};display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%" style-hover="background:var(--surf2)">
+            <span style="width:13px;height:13px;margin-top:2px;border:1px solid {{ revBoxLine }};background:{{ revBox }};flex:none;display:block"></span>
+            <span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font-size:12px">{{ t.revPerm }}</span><span style="font-size:11px;line-height:1.55;color:var(--ink3);max-width:60ch">{{ t.revPermNote }}</span></span>
+          </button>
+        </div>
+
         <div style="margin-top:auto;padding:14px 16px;border-top:1px solid var(--line);background:var(--surf2);display:flex;flex-wrap:wrap;gap:11px;align-items:center;justify-content:space-between">
           <span style="font-size:11.5px;line-height:1.6;color:var(--ink2);max-width:46ch">{{ permSummary }}</span>
           <button type="button" onClick="{{ savePerms }}" disabled="{{ sel.locked }}" style="font-size:12px;font-weight:400;height:32px;padding:0 14px;border-radius:2px;background:var(--acc);color:var(--accInk);border:1px solid var(--acc);cursor:{{ saveCursor }};opacity:{{ saveOpacity }};flex:none" style-hover="opacity:0.88">{{ saveLabel }}</button>
@@ -336,7 +344,7 @@ const MEMBERS = [
     plants:[false,true,false,false], subs:[false,false,false,true,true,false,true,true,true,true,true,false] },
   { name:"Marina Esteves", email:"marina.esteves@empresa.com.br", role:"approver", st:"pending",
     plants:[true,true,true,false], subs:[false,false,false,false,false,false,true,true,true,true,true,true] },
-  { name:"Luís Otávio Prado", email:"luis.prado@controladoria.com.br", role:"viewer", st:"pending",
+  { name:"Luís Otávio Prado", email:"luis.prado@controladoria.com.br", role:"viewer", st:"pending", rev:true,
     plants:[false,false,false,true], subs:[false,false,false,false,false,false,false,false,false,false,false,false] }
 ];
 
@@ -362,7 +370,7 @@ const DICT = {
     count:(n,total)=>n+" de "+total,
     summary:(p,s)=>"Pode registrar eventos em "+p+" planta(s) e "+s+" subcategoria(s).",
     summaryNone:"Sem permissão para registrar eventos. A pessoa só consulta o que já foi apurado.",
-    save:"Salvar permissões", saved:"Permissões salvas"
+    save:"Salvar permissões", saved:"Permissões salvas", specialTitle:"Permissões especiais", revPerm:"Estorno em competência fechada", revPermNote:"Aprova estorno e relançamento de eventos cuja competência já foi fechada. Exclusiva: não vem com nenhum papel, nem com o de administrador. Quem tem a permissão pode aprovar inclusive o próprio pedido; a decisão fica registrada com a permissão usada."
   },
   "en": {
     pageTitle:"Team and permissions",
@@ -385,7 +393,7 @@ const DICT = {
     count:(n,total)=>n+" of "+total,
     summary:(p,s)=>"Can record events in "+p+" plant(s) and "+s+" subcategory(ies).",
     summaryNone:"No permission to record events. This person only reads what has been accounted.",
-    save:"Save permissions", saved:"Permissions saved"
+    save:"Save permissions", saved:"Permissions saved", specialTitle:"Special permissions", revPerm:"Reversal in a closed period", revPermNote:"Approves reversal and reposting of events whose accounting period is already closed. Exclusive: not included in any role, including administrator. A holder may approve even their own request; the decision is recorded with the permission used."
   },
   "es": {
     pageTitle:"Equipo y permisos",
@@ -408,7 +416,7 @@ const DICT = {
     count:(n,total)=>n+" de "+total,
     summary:(p,s)=>"Puede registrar eventos en "+p+" planta(s) y "+s+" subcategoría(s).",
     summaryNone:"Sin permiso para registrar eventos. La persona solo consulta lo ya contabilizado.",
-    save:"Guardar permisos", saved:"Permisos guardados"
+    save:"Guardar permisos", saved:"Permisos guardados", specialTitle:"Permisos especiales", revPerm:"Reversión en período cerrado", revPermNote:"Aprueba la reversión y el nuevo registro de eventos cuyo período contable ya fue cerrado. Exclusivo: no viene con ningún rol, ni con el de administrador. Quien tiene el permiso puede aprobar incluso su propia solicitud; la decisión queda registrada con el permiso usado."
   }
 };
 
@@ -542,6 +550,10 @@ class Component extends DCLogic {
         };
       }),
 
+      revOn: (this.state.rev && this.state.rev[si] !== undefined) ? this.state.rev[si] : !!(MEMBERS[si] && MEMBERS[si].rev),
+      revBox: ((this.state.rev && this.state.rev[si] !== undefined) ? this.state.rev[si] : !!(MEMBERS[si] && MEMBERS[si].rev)) ? "var(--acc)" : "transparent",
+      revBoxLine: ((this.state.rev && this.state.rev[si] !== undefined) ? this.state.rev[si] : !!(MEMBERS[si] && MEMBERS[si].rev)) ? "var(--acc)" : "var(--line2)",
+      toggleRev: () => { if (locked) return; const curOn = (this.state.rev && this.state.rev[si] !== undefined) ? this.state.rev[si] : !!(MEMBERS[si] && MEMBERS[si].rev); this.setState((st) => ({ rev: Object.assign({}, st.rev, { [si]: !curOn }), saved: false })); },
       permSummary: plantsOn === 0 || subsOn === 0 ? t.summaryNone : t.summary(plantsOn, subsOn),
       saveLabel: this.state.saved ? t.saved : t.save,
       saveCursor: locked ? "not-allowed" : "pointer",
