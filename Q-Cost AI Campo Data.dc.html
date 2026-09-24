@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div ref="{{ rootRef }}" style="position:relative;width:100%;min-width:0">
+  <div style="display:flex;width:100%;min-width:0">
+    <input id="{{ inputId }}" type="text" inputMode="numeric" autoComplete="off" value="{{ shown }}" onChange="{{ onInput }}" onBlur="{{ onBlur }}" placeholder="{{ placeholder }}" aria-label="{{ ariaLabel }}" aria-invalid="{{ invalid }}" style="flex:1 1 auto;min-width:0;width:100%;box-sizing:border-box;font-family:'DM Mono',monospace;font-size:12.5px;height:34px;padding:0 10px;border:1px solid {{ border }};border-right:none;background:{{ bg }};color:var(--ink);font-variant-numeric:tabular-nums">
+    <button type="button" onClick="{{ toggle }}" aria-label="{{ openLabel }}" aria-expanded="{{ open }}" style="flex:none;width:34px;min-height:34px;align-self:stretch;box-sizing:border-box;border:1px solid {{ border }};background:{{ btnBg }};color:var(--ink2);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer" style-hover="color:var(--ink);background:var(--surf2)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+    </button>
+  </div>
+  <sc-if value="{{ invalid }}" hint-placeholder-val="{{ false }}">
+    <span style="display:block;margin-top:5px;font-size:11px;color:var(--neg)">{{ badText }}</span>
+  </sc-if>
+  <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-label="{{ openLabel }}" style="position:fixed;top:{{ popTop }}px;left:{{ popLeft }}px;z-index:200;width:256px;max-width:calc(100vw - 32px);box-sizing:border-box;background:var(--surf);border:1px solid var(--line2);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:12px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <button type="button" onClick="{{ prev }}" aria-label="{{ prevLabel }}" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer" style-hover="color:var(--ink);border-color:var(--ink3)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+        <span style="font-size:13px;letter-spacing:-0.01em">{{ monthLabel }}</span>
+        <button type="button" onClick="{{ next }}" aria-label="{{ nextLabel }}" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer" style-hover="color:var(--ink);border-color:var(--ink3)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="m9 18 6-6-6-6"></path></svg>
+        </button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px">
+        <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="7">
+          <span style="text-align:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;color:var(--ink3);padding:4px 0">{{ w.w }}</span>
+        </sc-for>
+        <sc-for list="{{ cells }}" as="c" hint-placeholder-count="35">
+          <button type="button" onClick="{{ c.pick }}" aria-label="{{ c.aria }}" aria-pressed="{{ c.sel }}" style="height:32px;padding:0;border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};font-family:'DM Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums;cursor:pointer" style-hover="border-color:var(--ink3)">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:10px">
+        <button type="button" onClick="{{ goToday }}" style="height:28px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);font-size:12px;cursor:pointer" style-hover="border-color:var(--ink3)">{{ todayLabel }}</button>
+        <button type="button" onClick="{{ clear }}" style="height:28px;padding:0 10px;border:none;background:transparent;color:var(--ink2);font-size:12px;cursor:pointer" style-hover="color:var(--ink)">{{ clearLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:300,&quot;height&quot;:380},&quot;value&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;19/09/2026&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onChange&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(e:{target:{value:string}})=&gt;void&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;pt-BR&quot;,&quot;en&quot;,&quot;es&quot;],&quot;default&quot;:&quot;pt-BR&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;format&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;display&quot;,&quot;iso&quot;],&quot;default&quot;:&quot;display&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;inputId&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;border&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;bg&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;ariaLabel&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;}}">
+const MONTHS = {
+  pt: ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],
+  en: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+  es: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+};
+const WD = { pt: ["S","T","Q","Q","S","S","D"], en: ["M","T","W","T","F","S","S"], es: ["L","M","X","J","V","S","D"] };
+const TXT = {
+  pt: { today: "Hoje", clear: "Limpar", open: "Abrir calendário", prev: "Mês anterior", next: "Próximo mês", ph: "dd/mm/aaaa", bad: "Data inválida" },
+  en: { today: "Today", clear: "Clear", open: "Open calendar", prev: "Previous month", next: "Next month", ph: "mm/dd/yyyy", bad: "Invalid date" },
+  es: { today: "Hoy", clear: "Borrar", open: "Abrir calendario", prev: "Mes anterior", next: "Mes siguiente", ph: "dd/mm/aaaa", bad: "Fecha inválida" }
+};
+const pad = (n) => String(n).padStart(2, "0");
+
+class Component extends DCLogic {
+  state = { open: false, text: null, vy: null, vm: null };
+  root = React.createRef();
+
+  L() { const l = this.props.lang || "pt-BR"; return l.startsWith("en") ? "en" : l.startsWith("es") ? "es" : "pt"; }
+  isIso() { return this.props.format === "iso"; }
+  valid(y, m, d) { return m >= 1 && m <= 12 && d >= 1 && y >= 1900 && y <= 2100 && d <= new Date(y, m, 0).getDate(); }
+  parseDisp(str) {
+    const r = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(str || "");
+    if (!r) return null;
+    const a = +r[1], b = +r[2], y = +r[3];
+    const d = this.L() === "en" ? b : a, m = this.L() === "en" ? a : b;
+    return this.valid(y, m, d) ? { y, m, d } : null;
+  }
+  fmtDisp(o) { return this.L() === "en" ? `${pad(o.m)}/${pad(o.d)}/${o.y}` : `${pad(o.d)}/${pad(o.m)}/${o.y}`; }
+  parseIso(v) { const r = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ""); return r && this.valid(+r[1], +r[2], +r[3]) ? { y: +r[1], m: +r[2], d: +r[3] } : null; }
+  fmtIso(o) { return `${o.y}-${pad(o.m)}-${pad(o.d)}`; }
+  current() { return this.isIso() ? this.parseIso(this.props.value) : this.parseDisp(this.props.value); }
+  emit(v) { if (this.props.onChange) this.props.onChange({ target: { value: v } }); }
+  pick(o) { this.setState({ open: false, text: null }); this.emit(this.isIso() ? this.fmtIso(o) : this.fmtDisp(o)); }
+
+  componentDidMount() {
+    this.onDoc = (e) => { if (this.state.open && this.root.current && !this.root.current.contains(e.target)) this.setState({ open: false }); };
+    this.onKey = (e) => { if (e.key === "Escape" && this.state.open) this.setState({ open: false }); };
+    document.addEventListener("mousedown", this.onDoc);
+    document.addEventListener("touchstart", this.onDoc);
+    document.addEventListener("keydown", this.onKey);
+    this.onScroll = (e) => { if (!this.state.open) return; const pop = this.root.current && this.root.current.querySelector('[role="dialog"]'); if (pop && pop.contains(e.target)) return; this.setState({ open: false }); };
+    window.addEventListener("scroll", this.onScroll, true);
+    window.addEventListener("resize", this.onScroll);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.onDoc);
+    document.removeEventListener("touchstart", this.onDoc);
+    document.removeEventListener("keydown", this.onKey);
+    window.removeEventListener("scroll", this.onScroll, true);
+    window.removeEventListener("resize", this.onScroll);
+  }
+
+  renderVals() {
+    const L = this.L(), T = TXT[L], cur = this.current(), now = new Date();
+    const today = { y: now.getFullYear(), m: now.getMonth() + 1, d: now.getDate() };
+    let shown;
+    if (this.state.text !== null) shown = this.state.text;
+    else if (this.isIso()) shown = cur ? this.fmtDisp(cur) : "";
+    else shown = this.props.value || "";
+    const invalid = /^\d{2}\/\d{2}\/\d{4}$/.test(shown) && !this.parseDisp(shown);
+
+    const base = cur || today;
+    const vy = this.state.vy ?? base.y, vm = this.state.vm ?? base.m;
+    const offset = (new Date(vy, vm - 1, 1).getDay() + 6) % 7;
+    const rows = Math.ceil((offset + new Date(vy, vm, 0).getDate()) / 7);
+    const cells = [];
+    for (let i = 0; i < rows * 7; i++) {
+      const dt = new Date(vy, vm - 1, 1 - offset + i);
+      const o = { y: dt.getFullYear(), m: dt.getMonth() + 1, d: dt.getDate() };
+      const sel = !!cur && cur.y === o.y && cur.m === o.m && cur.d === o.d;
+      const isT = o.y === today.y && o.m === today.m && o.d === today.d;
+      cells.push({
+        label: String(o.d), aria: this.fmtDisp(o), sel,
+        bg: sel ? "var(--acc)" : "transparent",
+        fg: sel ? "var(--accInk)" : o.m === vm ? "var(--ink)" : "var(--ph)",
+        bd: isT && !sel ? "var(--ink3)" : "transparent",
+        pick: () => this.pick(o)
+      });
+    }
+    const shift = (d) => () => { let m = vm + d, y = vy; if (m < 1) { m = 12; y--; } if (m > 12) { m = 1; y++; } this.setState({ vy: y, vm: m }); };
+    const border = invalid ? "var(--neg)" : (this.props.border || "var(--line2)");
+
+    return {
+      rootRef: this.root,
+      inputId: this.props.inputId || undefined,
+      shown, placeholder: T.ph, ariaLabel: this.props.ariaLabel || T.ph,
+      border, bg: this.props.bg || "transparent", btnBg: this.state.open ? "var(--surf2)" : (this.props.bg || "transparent"),
+      invalid, badText: T.bad,
+      onInput: (e) => {
+        const dg = e.target.value.replace(/\D/g, "").slice(0, 8);
+        const t = dg.length > 4 ? dg.slice(0, 2) + "/" + dg.slice(2, 4) + "/" + dg.slice(4) : dg.length > 2 ? dg.slice(0, 2) + "/" + dg.slice(2) : dg;
+        const p = this.parseDisp(t);
+        if (this.isIso()) { this.setState({ text: t }); if (p) this.emit(this.fmtIso(p)); else if (!t) this.emit(""); }
+        else { this.setState({ text: null }); this.emit(t); }
+        if (p) this.setState({ vy: p.y, vm: p.m });
+      },
+      onBlur: () => { if (this.isIso()) this.setState({ text: null }); },
+      open: this.state.open,
+      popTop: this.state.top || 0, popLeft: this.state.left || 0,
+      toggle: () => {
+        const r = this.root.current ? this.root.current.getBoundingClientRect() : { left: 0, bottom: 0, top: 0 };
+        const w = Math.min(256, window.innerWidth - 32), h = 330;
+        const left = Math.max(16, Math.min(r.left, window.innerWidth - w - 16));
+        const top = r.bottom + 4 + h > window.innerHeight && r.top - h - 4 > 8 ? r.top - h - 4 : r.bottom + 4;
+        this.setState((s) => ({ open: !s.open, vy: null, vm: null, top, left }));
+      },
+      monthLabel: MONTHS[L][vm - 1] + " " + vy,
+      weekdays: WD[L].map((w) => ({ w })),
+      cells,
+      prev: shift(-1), next: shift(1),
+      prevLabel: T.prev, nextLabel: T.next, openLabel: T.open,
+      todayLabel: T.today, clearLabel: T.clear,
+      goToday: () => this.pick(today),
+      clear: () => { this.setState({ open: false, text: null }); this.emit(""); }
+    };
+  }
+}
+</script>
+</body>
+</html>

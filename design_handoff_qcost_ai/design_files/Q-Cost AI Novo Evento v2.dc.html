@@ -14,7 +14,7 @@
 <style>
   :root{
     --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
-    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;--ph:#5E5E5E;
     --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
     --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
     --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
@@ -25,7 +25,7 @@
   }
   [data-theme="light"]{
     --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
-    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;--ph:#A2A29F;
     --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
     --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
     --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
@@ -51,6 +51,14 @@
     a{display:inline-flex;align-items:center;min-height:32px}
     p a,span a{display:inline;min-height:0}
     td button{min-height:34px}
+  }
+  ::placeholder{color:var(--ph);font-weight:300;font-style:italic;opacity:1}
+  ::-webkit-input-placeholder{color:var(--ph);font-weight:300;font-style:italic}
+  @media (max-width:680px){
+    header nav{order:3;flex:1 1 100% !important;flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header [data-hdrtools]{margin-left:auto}
+    header [data-usermenu]{position:fixed !important;top:auto !important;left:8px !important;right:8px !important;min-width:0 !important;margin-top:8px;max-height:calc(100dvh - 130px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+    header [data-usermenu] a{display:flex !important;align-items:center;min-height:44px;padding-top:0 !important;padding-bottom:0 !important}
   }
 </style>
 <template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
@@ -82,7 +90,7 @@
         <a href="Q-Cost AI Regras de Alerta v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav6 }}</a>
         <a href="Q-Cost AI Relatorios v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav5 }}</a>
       </nav>
-      <div style="display:flex;align-items:center;gap:10px;flex:none">
+      <div data-hdrtools="" style="display:flex;align-items:center;gap:10px;flex:none">
         <div style="display:flex;gap:1px;background:var(--line)">
           <button type="button" onClick="{{ setPt }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ ptBg }};color:{{ ptFg }}">PT</button>
           <button type="button" onClick="{{ setEn }}" style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;border:none;cursor:pointer;background:{{ enBg }};color:{{ enFg }}">EN</button>
@@ -93,7 +101,7 @@
         <div style="position:relative;flex:none">
           <button type="button" onClick="{{ toggleUser }}" aria-label="{{ t.userAria }}" style="width:28px;height:28px;padding:0;background:transparent;border:1px solid var(--line2);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer" style-hover="border-color:var(--ink3)">AC</button>
           <sc-if value="{{ userOpen }}" hint-placeholder-val="{{ false }}">
-            <div style="position:absolute;top:36px;right:0;z-index:40;min-width:244px;border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:8px 0">
+            <div data-usermenu="" style="position:absolute;top:36px;right:0;z-index:40;min-width:244px;border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:8px 0">
               <div style="padding:11px 15px 13px;border-bottom:1px solid var(--line)">
                 <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Metalúrgica Paranaense S.A.</div>
                 <div style="font-size:13px">Ana Ribeiro Camargo</div>
@@ -255,23 +263,32 @@
                 <div style="border:1px solid var(--line);background:var(--surf)">
                   <sc-for list="{{ cons.entries }}" as="e" hint-placeholder-count="4">
                     <div style="border-bottom:1px solid var(--line)">
-                      <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-start;padding:14px 16px">
-                        <button type="button" onClick="{{ e.toggle }}" aria-label="{{ t.consToggle }}" style="flex:none;width:22px;height:22px;margin-top:1px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;line-height:1;padding:0" style-hover="border-color:var(--ink3);color:var(--ink)">{{ e.caret }}</button>
-                        <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:6px">
-                          <div style="display:flex;flex-wrap:wrap;gap:7px 12px;align-items:center">
-                            <span style="font-family:'DM Mono',monospace;font-size:11.5px;color:{{ e.stColor }}">{{ e.state }}</span>
-                            <span style="display:inline-flex;align-items:center;height:20px;padding:0 7px;border:1px solid {{ e.pafLine }};background:{{ e.pafSoft }};color:{{ e.paf }};font-family:'DM Mono',monospace;font-size:10px">{{ e.pafLabel }}</span>
+                      <div style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;padding:16px">
+                        <div style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:9px">
+                          <div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center">
+                            <span style="display:inline-flex;align-items:center;gap:6px;height:21px;padding:0 8px;border:1px solid {{ e.stLine }};background:{{ e.stBg }};color:{{ e.stColor }};font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap"><span style="width:5px;height:5px;background:{{ e.stColor }};display:block;flex:none"></span>{{ e.state }}</span>
+                            <div style="display:grid;grid-template-columns:repeat(4,20px);gap:3px" aria-hidden="true">
+                              <sc-for list="{{ e.segs }}" as="g" hint-placeholder-count="4">
+                                <span style="display:flex;flex-direction:column;gap:3px"><span style="display:block;height:3px;background:{{ g.bg }}"></span><span style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.04em;line-height:1;color:{{ g.fg }}">{{ g.abbr }}</span></span>
+                              </sc-for>
+                            </div>
                           </div>
-                          <span style="font-size:13px;line-height:1.5">{{ e.subcat }}</span>
-                          <span style="font-family:'DM Mono',monospace;font-size:10.5px;line-height:1.7;color:var(--ink3)">{{ e.key }}</span>
+                          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;min-width:0">
+                            <span style="font-size:18px;font-weight:300;letter-spacing:-0.015em;line-height:1.1;color:{{ e.paf }};white-space:nowrap">{{ e.pafLabel }}</span>
+                            <span style="display:inline-flex;align-items:baseline;gap:12px;min-width:0"><span style="display:block;width:1px;height:14px;background:var(--line2);align-self:center"></span><span style="font-size:13px;font-style:italic;font-weight:300;line-height:1.35;color:var(--ink2)">{{ e.subcat }}</span></span>
+                          </div>
+                          <span style="font-family:'DM Mono',monospace;font-size:10.5px;line-height:1.6;color:var(--ink3)">{{ e.key }}</span>
                         </div>
-                        <div style="flex:none;display:flex;flex-direction:column;gap:5px;align-items:flex-end;text-align:right">
-                          <span style="font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;font-size:13.5px">{{ e.total }}</span>
-                          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ e.occLabel }}</span>
+                        <div style="flex:none;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:flex-end">
+                          <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;text-align:right">
+                            <span style="font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;font-size:16px;font-weight:300;letter-spacing:-0.01em">{{ e.total }}</span>
+                            <button type="button" onClick="{{ e.toggle }}" aria-expanded="{{ e.open }}" aria-label="{{ t.consToggle }}" style="display:inline-flex;align-items:center;gap:6px;height:22px;padding:0;border:none;background:transparent;color:var(--ink3);font-family:'DM Mono',monospace;font-size:10.5px;cursor:pointer" style-hover="color:var(--ink)"><span style="display:inline-flex;width:12px;justify-content:center">{{ e.caret }}</span>{{ e.occLabel }}</button>
+                          </div>
+                          <a href="Q-Cost AI Revisar Evento v2.dc.html" style="font-size:12.5px;height:34px;padding:0 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);display:inline-flex;align-items:center;white-space:nowrap" style-hover="background:var(--acc);color:var(--accInk);text-decoration:none">{{ t.consOpen }}</a>
                         </div>
                       </div>
                       <sc-if value="{{ e.open }}" hint-placeholder-val="{{ false }}">
-                        <div style="background:var(--surf2);border-top:1px solid var(--line);padding:13px 16px 14px clamp(30px,4vw,54px);display:flex;flex-direction:column;gap:9px">
+                        <div style="background:var(--surf2);border-top:1px solid var(--line);padding:13px 16px 14px;display:flex;flex-direction:column;gap:9px">
                           <span style="font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.consSample }}</span>
                           <sc-for list="{{ e.sample }}" as="row" hint-placeholder-count="3">
                             <div style="display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;align-items:baseline;padding-bottom:7px;border-bottom:1px solid var(--line)">
@@ -279,10 +296,7 @@
                               <span style="font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;font-size:11px;color:var(--ink2)">{{ row.v }}</span>
                             </div>
                           </sc-for>
-                          <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;padding-top:2px">
-                            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ e.sampleNote }}</span>
-                            <a href="Q-Cost AI Revisar Evento v2.dc.html" style="font-size:12.5px;height:31px;padding:0 12px;border:1px solid var(--line2);background:transparent;color:var(--ink);display:inline-flex;align-items:center;white-space:nowrap" style-hover="border-color:var(--ink3);text-decoration:none">{{ t.consOpen }}</a>
-                          </div>
+                          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ e.sampleNote }}</span>
                         </div>
                       </sc-if>
                     </div>
@@ -321,9 +335,9 @@
           <div style="display:flex;flex-direction:column;gap:20px">
 
             <div style="border:1px solid var(--line);background:var(--surf)">
-              <header style="padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:baseline">
+              <header style="background:{{ acctBadge.hdrBg }};padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
                 <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.acctTitle }}</span>
-                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;color:{{ acctPendColor }}">{{ acctPendLabel }}</span>
+                <span role="status" style="display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 10px;border:1px solid {{ acctBadge.line }};background:{{ acctBadge.bg }};color:{{ acctBadge.fg }};font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:0.05em;white-space:nowrap;font-variant-numeric:tabular-nums"><sc-if value="{{ acctBadge.isPend }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></sc-if><sc-if value="{{ acctBadge.isOk }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>{{ acctBadge.label }}</span>
               </header>
 
               <div style="padding:clamp(16px,2vw,20px) 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end;justify-content:space-between">
@@ -332,9 +346,22 @@
                   <span style="font-family:'DM Mono',monospace;font-size:clamp(22px,2.6vw,32px);font-weight:300;letter-spacing:-0.025em;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums">{{ totalProposed }}</span>
                   <span style="font-size:11.5px;line-height:1.55;color:var(--ink3)">{{ totalNote }}</span>
                 </div>
-                <span style="display:inline-flex;align-items:center;gap:8px;height:26px;padding:0 10px;border:1px solid var(--paf4Line);background:var(--paf4Soft);color:var(--paf4);font-family:'DM Mono',monospace;font-size:10.5px;white-space:nowrap;flex:none">
-                  <span style="width:5px;height:5px;background:var(--paf4);display:block;flex:none"></span>{{ catPair }}
-                </span>
+                <div style="flex:1 1 240px;min-width:0;align-self:stretch;display:flex;justify-content:center;align-items:center">
+                  <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;min-width:0">
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px">
+                      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ paf.kicker }}</span>
+                      <div style="display:grid;grid-template-columns:repeat(4,24px);gap:3px" aria-hidden="true">
+                        <sc-for list="{{ paf.segs }}" as="g" hint-placeholder-count="4">
+                          <span style="display:flex;flex-direction:column;gap:3px;align-items:flex-start"><span style="display:block;width:100%;height:3px;background:{{ g.bg }}"></span><span style="font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.04em;line-height:1;color:{{ g.fg }}">{{ g.abbr }}</span></span>
+                        </sc-for>
+                      </div>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;min-width:0">
+                      <span style="font-size:clamp(20px,2.2vw,26px);font-weight:300;letter-spacing:-0.02em;line-height:1;color:{{ paf.color }};white-space:nowrap">{{ paf.name }}</span>
+                      <span style="display:inline-flex;align-items:baseline;gap:12px;min-width:0"><span style="display:block;width:1px;height:18px;background:var(--line2);align-self:center"></span><span style="font-size:13px;font-style:italic;font-weight:300;line-height:1.3;color:var(--ink2)">{{ paf.sub }}</span></span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <p style="margin:0;padding:14px 16px 0;font-size:11.5px;line-height:1.65;color:var(--ink3);max-width:82ch">{{ t.acctNote }}</p>
@@ -364,6 +391,9 @@
                             <select value="{{ f.value }}" onChange="{{ f.onChange }}" style="font-size:12.5px;height:34px;padding:0 8px;border:1px solid {{ f.inputBorder }};background:{{ f.inputBg }};color:var(--ink);width:100%;box-sizing:border-box">
                               <sc-for list="{{ f.options }}" as="o" hint-placeholder-count="4"><option value="{{ o }}">{{ o }}</option></sc-for>
                             </select>
+                          </sc-if>
+                          <sc-if value="{{ f.isDate }}" hint-placeholder-val="{{ false }}">
+                            <dc-import name="Q-Cost AI Campo Data" value="{{ f.value }}" on-change="{{ f.onChange }}" lang="{{ dateLang }}" border="{{ f.inputBorder }}" bg="{{ f.inputBg }}" aria-label="{{ f.label }}" hint-size="100%,34px"></dc-import>
                           </sc-if>
                           <sc-if value="{{ f.editable }}" hint-placeholder-val="{{ true }}">
                             <input type="text" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" style="font-family:'DM Mono',monospace;font-size:12.5px;height:34px;padding:0 10px;border:1px solid {{ f.inputBorder }};background:{{ f.inputBg }};color:var(--ink);width:100%;box-sizing:border-box">
@@ -405,15 +435,13 @@
             </div>
 
             <div style="border:1px solid var(--line);border-radius:2px;background:var(--surf)">
-              <header style="padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+              <header style="background:{{ specBadge.hdrBg }};padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
                 <div style="min-width:0">
                   <span style="display:block;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink3)">{{ t.specTitle }}</span>
                   <p style="margin:4px 0 0;font-size:11px;line-height:1.55;color:var(--ink3);max-width:70ch">{{ t.specNote }}</p>
                 </div>
-                <div style="display:flex;flex-wrap:wrap;gap:10px 14px;flex:none">
-                  <span style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)"><span style="width:7px;height:7px;background:var(--pos);flex:none"></span>{{ t.tagHigh }}</span>
-                  <span style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)"><span style="width:7px;height:7px;background:var(--warn);flex:none"></span>{{ t.tagSuggested }}</span>
-                  <span style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)"><span style="width:7px;height:7px;background:var(--neg);flex:none"></span>{{ t.tagMissing }}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:10px 14px;flex:none;align-items:center;justify-content:flex-end">
+                  <span role="status" style="display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 10px;border:1px solid {{ specBadge.line }};background:{{ specBadge.bg }};color:{{ specBadge.fg }};font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:0.05em;white-space:nowrap;font-variant-numeric:tabular-nums"><sc-if value="{{ specBadge.isPend }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></sc-if><sc-if value="{{ specBadge.isOk }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>{{ specBadge.label }}</span>
                 </div>
               </header>
               <div style="width:100%;overflow-x:auto">
@@ -442,6 +470,9 @@
                             <select value="{{ f.value }}" onChange="{{ f.onChange }}" style="font-size:12.5px;height:34px;padding:0 8px;border:1px solid {{ f.inputBorder }};background:{{ f.inputBg }};color:var(--ink);width:100%;box-sizing:border-box">
                               <sc-for list="{{ f.options }}" as="o" hint-placeholder-count="4"><option value="{{ o }}">{{ o }}</option></sc-for>
                             </select>
+                          </sc-if>
+                          <sc-if value="{{ f.isDate }}" hint-placeholder-val="{{ false }}">
+                            <dc-import name="Q-Cost AI Campo Data" value="{{ f.value }}" on-change="{{ f.onChange }}" lang="{{ dateLang }}" border="{{ f.inputBorder }}" bg="{{ f.inputBg }}" aria-label="{{ f.label }}" hint-size="100%,34px"></dc-import>
                           </sc-if>
                           <sc-if value="{{ f.editable }}" hint-placeholder-val="{{ true }}">
                             <input type="text" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" style="font-family:'DM Mono',monospace;font-size:12.5px;height:34px;padding:0 10px;border:1px solid {{ f.inputBorder }};background:{{ f.inputBg }};color:var(--ink);width:100%;box-sizing:border-box">
@@ -518,7 +549,7 @@
             <div style="border:1px solid var(--line);border-left:2px solid var(--warn);background:var(--warnBg)">
               <header style="padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
                 <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--warn)">{{ t.clarifyTitle }}</span>
-                <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--warn);font-variant-numeric:tabular-nums">{{ answeredCount }}</span>
+                <span role="status" style="display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 10px;border:1px solid {{ clarBadge.line }};background:{{ clarBadge.bg }};color:{{ clarBadge.fg }};font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:0.05em;white-space:nowrap;font-variant-numeric:tabular-nums"><sc-if value="{{ clarBadge.isPend }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></sc-if><sc-if value="{{ clarBadge.isOk }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>{{ clarBadge.label }}</span>
               </header>
               <div style="padding:0 16px">
 
@@ -1149,7 +1180,7 @@ class Component extends DCLogic {
     phase: "idle", step: 0, theme: readTheme(), userOpen: false, projOpen: false,
     prompt: null, promptTouched: false, amounts: {}, fxRate: null,
     values: {}, edited: {}, scope: {}, q1: null, q2: null, q2Note: "",
-    sample: "single", consOpen: { 0: true }
+    sample: "single", consOpen: {}
   };
 
   componentWillUnmount() { this.clear(); }
@@ -1242,7 +1273,8 @@ class Component extends DCLogic {
         options: f.sel ? optionsFor(f.sel) : [],
         tag: t[c.tagKey], color: c.c, inputBorder: c.inputBorder, inputBg: c.inputBg, hintColor: c.hint,
         hint: s.edited[f.id] ? t.editedHint : tf[2],
-        editable: !f.locked && !f.sel,
+        editable: !f.locked && !f.sel && f.id !== "data",
+        isDate: !f.locked && !f.sel && f.id === "data",
         locked: !!f.locked,
         showScope: eligible,
         scopeBroad: broad,
@@ -1312,6 +1344,21 @@ class Component extends DCLogic {
     const pending = FIELDS.filter((f) => !f.locked && !s.edited[f.id] && f.conf !== "high").length;
     const answered = (s.q1 ? 1 : 0) + (s.q2 ? 1 : 0);
 
+    const pafIdx = Math.max(0, OPT.cats.indexOf(selValue.cat));
+    const PAFK = { pt: ["Classificação PAF", ["P","A","FI","FE"]], en: ["PAF classification", ["P","A","IF","EF"]], es: ["Clasificación PAF", ["P","E","FI","FE"]] }[String(lang).slice(0, 2) === "en" ? "en" : String(lang).slice(0, 2) === "es" ? "es" : "pt"];
+    const paf = {
+      kicker: PAFK[0], name: selValue.cat, sub: selValue.sub, color: "var(--paf" + (pafIdx + 1) + ")",
+      segs: [0, 1, 2, 3].map((k) => ({ abbr: PAFK[1][k], bg: k === pafIdx ? "var(--paf" + (k + 1) + ")" : "var(--line2)", fg: k === pafIdx ? "var(--paf" + (k + 1) + ")" : "var(--ink3)" }))
+    };
+
+    const PB = { pt: { f1: " CAMPO PARA REVISAR", fN: " CAMPOS PARA REVISAR", fOk: "TUDO CONFIRMADO", q1: " PERGUNTA A RESPONDER", qN: " PERGUNTAS A RESPONDER", qOk: "TODAS RESPONDIDAS" },
+      en: { f1: " FIELD TO REVIEW", fN: " FIELDS TO REVIEW", fOk: "ALL CONFIRMED", q1: " QUESTION TO ANSWER", qN: " QUESTIONS TO ANSWER", qOk: "ALL ANSWERED" },
+      es: { f1: " CAMPO POR REVISAR", fN: " CAMPOS POR REVISAR", fOk: "TODO CONFIRMADO", q1: " PREGUNTA POR RESPONDER", qN: " PREGUNTAS POR RESPONDER", qOk: "TODAS RESPONDIDAS" } }[String(lang).slice(0, 2) === "en" ? "en" : String(lang).slice(0, 2) === "es" ? "es" : "pt"];
+    const pendBadge = (n, one, many, ok) => n > 0
+      ? { label: n + (n === 1 ? one : many), isPend: true, isOk: false, fg: "var(--warn)", bg: "var(--surf)", line: "var(--warn)", hdrBg: "var(--warnBg)" }
+      : { label: ok, isPend: false, isOk: true, fg: "var(--pos)", bg: "var(--posBg)", line: "color-mix(in srgb, var(--pos) 34%, transparent)", hdrBg: "transparent" };
+    const specPend = specFields.filter((x) => x && (x.tag === t.tagSuggested || x.tag === t.tagMissing)).length;
+
     const totalNum = cur("valor") + cur("frete");
     const revised = ["valor", "frete"].filter((id) => s.edited[id]).length;
 
@@ -1362,11 +1409,12 @@ class Component extends DCLogic {
       triageCount: t.triageCount(SM.triage),
       triage: multi && SM.triageRows ? SM.triageRows.map((r) => ({ reason: t[r.r], detail: t[r.d], count: consNf.format(r.n) })) : [],
       entries: multi ? SM.entries.map((e, i) => ({
-        state: t.consStates[e.st], stColor: CONS_ST[e.st],
+        state: t.consStates[e.st], stColor: CONS_ST[e.st], stBg: CONS_ST[e.st].replace(")", "Bg)"), stLine: "color-mix(in srgb, " + CONS_ST[e.st] + " 34%, transparent)",
+        segs: [0, 1, 2, 3].map((k) => ({ abbr: (lang === "en" ? ["P","A","IF","EF"] : lang === "es" ? ["P","E","FI","FE"] : ["P","A","FI","FE"])[k], bg: k === e.paf ? CONS_PAF[k].c : "var(--line2)", fg: k === e.paf ? CONS_PAF[k].c : "var(--ink3)" })),
         paf: CONS_PAF[e.paf].c, pafSoft: CONS_PAF[e.paf].s, pafLine: CONS_PAF[e.paf].l, pafLabel: t.consPaf[e.paf],
         subcat: t[e.sub], key: e.key.join(" · "),
         total: consMoney(e.v), occLabel: t.consOcc(consNf.format(e.occ)),
-        open: !!s.consOpen[i], caret: s.consOpen[i] ? "–" : "+",
+        open: !!s.consOpen[i], caret: s.consOpen[i] ? "−" : "+",
         toggle: () => this.setState((st) => ({ consOpen: Object.assign({}, st.consOpen, { [i]: !st.consOpen[i] }) })),
         sample: e.sample.map((r) => ({ ref: r[0], v: r[1] })),
         sampleNote: t.consSampleNote(consNf.format(e.occ))
@@ -1380,7 +1428,7 @@ class Component extends DCLogic {
       projOpen: s.projOpen,
       projBg: s.projOpen ? "var(--surf2)" : "transparent",
       toggleProj: () => this.setState((st) => ({ projOpen: !st.projOpen })),
-      isDark: theme === "dark", isLight: theme !== "dark",
+      dateLang: lang, isDark: theme === "dark", isLight: theme !== "dark",
       toggleTheme: () => { const nx = theme === "light" ? "dark" : "light"; writeTheme(nx); this.setState({ theme: nx }); },
       c: CHROME[lang] || CHROME["pt-BR"],
       userOpen: this.state.userOpen,
@@ -1402,7 +1450,7 @@ class Component extends DCLogic {
         label: sm.label, note: sm.note,
         bg: s.sample === sm.key ? "var(--acc)" : "var(--bg)",
         fg: s.sample === sm.key ? "var(--accInk)" : "var(--ink2)",
-        on: () => this.setState({ sample: sm.key, phase: "idle", step: 0, consOpen: { 0: true } })
+        on: () => this.setState({ sample: sm.key, phase: "idle", step: 0, consOpen: {} })
       })),
 
       showConsolidation: phase === "result" || phase === "saved",
@@ -1428,6 +1476,10 @@ class Component extends DCLogic {
 
       acctFields: acctFields,
       specFields: specFields,
+      paf,
+      acctBadge: pendBadge(acctPend, PB.f1, PB.fN, PB.fOk),
+      specBadge: pendBadge(specPend, PB.f1, PB.fN, PB.fOk),
+      clarBadge: pendBadge(2 - answered, PB.q1, PB.qN, PB.qOk),
       acctPendLabel: acctPend === 0 ? t.acctOk : acctPend + (acctPend === 1 ? t.onePendField : t.manyPendFields),
       acctPendColor: acctPend === 0 ? "var(--pos)" : "var(--warn)",
       catPair: selValue.cat + " · " + selValue.sub,

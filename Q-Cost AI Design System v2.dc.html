@@ -14,7 +14,7 @@
 <style>
   :root{
     --bg:#FBFBFA;--surf:#FFFFFF;--surf2:#F3F3F2;--line:#E6E6E4;--line2:#D4D4D1;
-    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;
+    --ink:#131313;--ink2:#5E5E5C;--ink3:#6F6F6D;--ph:#A2A29F;
     --acc:#131313;--accInk:#FFFFFF;--sig:#79621F;--sigBg:#F6F4EF;
     --pos:#2F6260;--neg:#7E3F4A;--warn:#79621F;--info:#46597A;
     --posBg:#F0F4F4;--negBg:#F6F2F2;--warnBg:#F6F4EF;--infoBg:#F2F3F6;
@@ -25,7 +25,7 @@
   }
   [data-theme="dark"]{
     --bg:#0A0A0A;--surf:#0F0F0F;--surf2:#151515;--line:#1F1F1F;--line2:#2B2B2B;
-    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;
+    --ink:#F0F0F0;--ink2:#9A9A9A;--ink3:#8E8E8E;--ph:#5E5E5E;
     --acc:#F0F0F0;--accInk:#0A0A0A;--sig:#C3A653;--sigBg:#201D13;
     --pos:#5E9B98;--neg:#C2848D;--warn:#C3A653;--info:#8B9DBE;
     --posBg:#141B1B;--negBg:#20191A;--warnBg:#201D13;--infoBg:#1A1C20;
@@ -39,6 +39,14 @@
   a:hover{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
   *:focus-visible{outline:1px solid var(--sig);outline-offset:3px}
   input,select,button{font-family:'Archivo',system-ui,sans-serif}
+  ::placeholder{color:var(--ph);font-weight:300;font-style:italic;opacity:1}
+  ::-webkit-input-placeholder{color:var(--ph);font-weight:300;font-style:italic}
+  @media (max-width:680px){
+    header nav{order:3;flex:1 1 100% !important;flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none}
+    header [data-hdrtools]{margin-left:auto}
+    header [data-usermenu]{position:fixed !important;top:auto !important;left:8px !important;right:8px !important;min-width:0 !important;margin-top:8px;max-height:calc(100dvh - 130px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+    header [data-usermenu] a{display:flex !important;align-items:center;min-height:44px;padding-top:0 !important;padding-bottom:0 !important}
+  }
 </style>
 <template id="__bundler_thumbnail" data-bg-color="#FBFBFA">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
@@ -385,7 +393,7 @@
               <option>Curitiba (PR)</option>
             </select>
           </div>
-          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Rótulo em DM Mono 10px caixa alta, <span style="font-family:'DM Mono',monospace">gap:7px</span>. Fundo transparente, borda <span style="font-family:'DM Mono',monospace">--line2</span>.</p>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Rótulo em DM Mono 10px caixa alta, <span style="font-family:'DM Mono',monospace">gap:7px</span>. Fundo transparente, borda <span style="font-family:'DM Mono',monospace">--line2</span>. Campo somente leitura mantém a borda e não recebe foco de edição.</p>
         </div>
 
         <div style="border-right:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
@@ -466,6 +474,148 @@
 
     <section style="display:flex;flex-direction:column;gap:18px">
       <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
+        <h2 style="margin:0;font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Padrões de interface</h2>
+        <span style="font-size:11.5px;color:var(--ink3)">Consolidados a partir dos testes de uso · setembro de 2026</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));border:1px solid var(--line)">
+        <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Placeholder × valor</span>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Vazio · exemplo</label>
+            <input type="text" placeholder="Ex.: CC-4820 · Usinagem" style="font-family:'DM Mono',monospace;font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Preenchido</label>
+            <input type="text" value="CC-4820 · Usinagem" readonly="readonly" style="font-family:'DM Mono',monospace;font-size:13px;height:34px;padding:0 10px;border:1px solid var(--line2);background:transparent;color:var(--ink);width:100%;box-sizing:border-box">
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Placeholder é exemplo, nunca valor: <span style="font-family:'DM Mono',monospace">--ph</span>, peso 300, itálico, prefixo “Ex.:”. Valor em <span style="font-family:'DM Mono',monospace">--ink</span>, peso 400. Informação obrigatória vai no rótulo ou na ajuda, não no placeholder.</p>
+        </div>
+
+        <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Controles do cabeçalho</span>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px"><div style="display:flex;gap:1px;background:var(--line)"><span style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;display:flex;align-items:center;background:var(--acc);color:var(--accInk)">PT</span><span style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;display:flex;align-items:center;background:var(--bg);color:var(--ink2)">EN</span><span style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;display:flex;align-items:center;background:var(--bg);color:var(--ink2)">ES</span></div><span aria-label="Tema claro" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box;font-family:'DM Mono',monospace;font-size:10px">AC</span><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)">claro</span></div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="display:flex;gap:1px;background:var(--line)"><span style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;display:flex;align-items:center;background:var(--acc);color:var(--accInk)">PT</span><span style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;display:flex;align-items:center;background:var(--bg);color:var(--ink2)">EN</span><span style="font-family:'DM Mono',monospace;font-size:11px;height:28px;padding:0 9px;display:flex;align-items:center;background:var(--bg);color:var(--ink2)">ES</span></div><span aria-label="Tema escuro" style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></span><span style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box;font-family:'DM Mono',monospace;font-size:10px">AC</span><span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3)">escuro</span></div>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Três controles de 28px, quadrados, borda <span style="font-family:'DM Mono',monospace">--line2</span>. O ícone mostra o destino: lua no claro, sol no escuro, traço 1.75 em <span style="font-family:'DM Mono',monospace">currentColor</span>. Hover: borda <span style="font-family:'DM Mono',monospace">--ink3</span>. No mobile sobem para 38px.</p>
+        </div>
+
+        <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Rótulo de estágio</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px"><span style="display:inline-flex;align-items:center;gap:6px;height:21px;padding:0 8px;border:1px solid color-mix(in srgb, var(--pos) 34%, transparent);background:var(--posBg);color:var(--pos);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;white-space:nowrap"><span style="width:5px;height:5px;background:var(--pos);display:block;flex:none"></span>EM OPERAÇÃO</span><span style="display:inline-flex;align-items:center;gap:6px;height:21px;padding:0 8px;border:1px solid color-mix(in srgb, var(--warn) 34%, transparent);background:var(--warnBg);color:var(--warn);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;white-space:nowrap"><span style="width:5px;height:5px;background:var(--warn);display:block;flex:none"></span>EM IMPLANTAÇÃO</span><span style="display:inline-flex;align-items:center;gap:6px;height:21px;padding:0 8px;border:1px solid color-mix(in srgb, var(--info) 34%, transparent);background:var(--infoBg);color:var(--info);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;white-space:nowrap"><span style="width:5px;height:5px;background:var(--info);display:block;flex:none"></span>ROADMAP</span><span style="display:inline-flex;align-items:center;gap:6px;height:21px;padding:0 8px;border:1px solid var(--line2);background:var(--surf2);color:var(--ink3);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.05em;white-space:nowrap"><span style="width:5px;height:5px;background:var(--ink3);display:block;flex:none"></span>NÃO OFERECEMOS</span></div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Estado de compromisso na Central de Confiança. Usa as cores de sistema, nunca as PAF. Texto sempre presente: a cor não comunica sozinha.</p>
+        </div>
+
+        <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Esclarecimento solicitado</span>
+          <div style="border:1px solid color-mix(in srgb, var(--warn) 34%, transparent);background:var(--warnBg);padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--warn)">Pergunta da IA · 1 de 2</span>
+            <span style="font-size:12.5px;line-height:1.55;color:var(--ink)">O retrabalho incluiu troca de ferramenta ou só mão de obra?</span>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Fundo <span style="font-family:'DM Mono',monospace">--warnBg</span>, borda <span style="font-family:'DM Mono',monospace">--warn</span> a 34%, rótulo em <span style="font-family:'DM Mono',monospace">--warn</span>. Mesmo bloco em Novo Evento e Revisar Evento.</p>
+        </div>
+
+        <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Campo de data</span>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <label style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Data do evento</label>
+            <dc-import name="Q-Cost AI Campo Data" value="{{ dsDate }}" on-change="{{ onDsDate }}" lang="pt-BR" hint-size="100%,34px"></dc-import>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Digitação livre com máscara <span style="font-family:'DM Mono',monospace">dd/mm/aaaa</span> (en: mm/dd/yyyy) e botão de calendário colado ao campo. Semana começa na segunda; hoje com contorno, selecionado em <span style="font-family:'DM Mono',monospace">--acc</span>. Data impossível marca a borda em <span style="font-family:'DM Mono',monospace">--neg</span>. Componente: <span style="font-family:'DM Mono',monospace">Q-Cost AI Campo Data</span>.</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));border:1px solid var(--line)">
+        <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Barra de abas</span>
+          <div style="display:flex;flex-wrap:wrap;gap:4px 2px"><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink);color:var(--ink)">Painel</span><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid transparent;color:var(--ink2)">Eventos</span><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid transparent;color:var(--ink2)">Custos</span><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid transparent;color:var(--ink2)">Auditoria</span><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid transparent;color:var(--ink2)">Alertas</span><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid transparent;color:var(--ink2)">Relatórios</span></div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Ordem fixa em toda tela autenticada. Eventos abre Novo Evento; a fila de trabalho vive no Painel. Integrações saiu da barra e fica no menu da conta.</p>
+        </div>
+        <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Menu da conta</span>
+          <div style="border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:6px 0;max-width:260px">
+            <span style="display:block;padding:8px 14px 10px;border-bottom:1px solid var(--line)"><span style="display:block;font-size:12.5px">Ana Ribeiro Camargo</span><span style="display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);margin-top:3px">Gerente da qualidade</span></span>
+            <span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Meu perfil</span><span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Organização e plantas</span><span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Equipe e permissões</span><span style="display:block;height:1px;background:var(--line);margin:6px 0"></span><span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Integrações</span><span style="display:block;height:1px;background:var(--line);margin:6px 0"></span><span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Central de Ajuda e Treinamento</span><span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Central de Confiança</span><span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Assinatura e faturas</span><span style="display:block;height:1px;background:var(--line);margin:6px 0"></span><span style="display:block;padding:8px 14px;font-size:12.5px;color:var(--ink2)">Sair</span>
+          </div>
+          <p style="margin:0;font-size:11.5px;line-height:1.6;color:var(--ink3);margin-top:auto">Quatro grupos separados por linha: conta e organização · integrações · ajuda e contrato · sair. É o único lugar com sombra no cabeçalho.</p>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--line)">
+        <div style="padding:13px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Sequência de seções do evento</span>
+          <span style="font-size:11.5px;color:var(--ink3)">Novo Evento e Revisar Evento · mesmos nomes, mesma ordem</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))">
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">01</span>
+            <span style="font-size:12.5px">Envio</span>
+            <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">Origem, momento, autor e chamada de origem. Gravado pela plataforma, sem campo de entrada.</span>
+          </div>
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">02</span>
+            <span style="font-size:12.5px">Conteúdo recebido</span>
+            <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">Documento, payload ou texto enviado, com os anexos.</span>
+          </div>
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">03</span>
+            <span style="font-size:12.5px">Contabilização do evento</span>
+            <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">Contrato fixo de campos contábeis em tabela de três colunas. Centro de custo somente leitura, vindo do cadastro PAF.</span>
+          </div>
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">04</span>
+            <span style="font-size:12.5px">Dados do evento</span>
+            <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">Campos da subcategoria; a coluna Efeito marca o que soma no total.</span>
+          </div>
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">05</span>
+            <span style="font-size:12.5px">Ocorrências agrupadas</span>
+            <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">Registros lidos no documento que compõem o total.</span>
+          </div>
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">06</span>
+            <span style="font-size:12.5px">Esclarecimentos solicitados</span>
+            <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">Perguntas da IA em bloco âmbar. Só uma pessoa responde.</span>
+          </div>
+          <div style="border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums">07</span>
+            <span style="font-size:12.5px">Decisão</span>
+            <span style="font-size:11.5px;line-height:1.6;color:var(--ink3)">Aprovar e contabilizar · Rejeitar evento.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));border:1px solid var(--line)">
+        <div style="border-right:1px solid var(--line);padding:18px;display:flex;justify-content:center;background:var(--surf2)">
+          <div style="width:260px;max-width:100%;border:1px solid var(--line2);background:var(--bg);display:flex;flex-direction:column">
+            <div style="padding:10px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)">
+              <span style="font-size:12px;font-weight:500;letter-spacing:-0.02em">Q&#8209;Cost<span style="color:var(--sig)"> AI</span></span>
+              <span style="margin-left:auto;display:flex;gap:6px"><span style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></span><span style="width:28px;height:28px;border:1px solid var(--line2);background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0;box-sizing:border-box;font-family:'DM Mono',monospace;font-size:9.5px;border-color:var(--ink)">AC</span></span>
+            </div>
+            <div style="display:flex;gap:2px;padding:0 8px;border-bottom:1px solid var(--line);overflow:hidden"><span style="font-size:11px;padding:7px 8px;white-space:nowrap;border-bottom:1px solid var(--ink);color:var(--ink)">Painel</span><span style="font-size:11px;padding:7px 8px;white-space:nowrap;border-bottom:1px solid transparent;color:var(--ink2)">Eventos</span><span style="font-size:11px;padding:7px 8px;white-space:nowrap;border-bottom:1px solid transparent;color:var(--ink2)">Custos</span><span style="font-size:11px;padding:7px 8px;white-space:nowrap;border-bottom:1px solid transparent;color:var(--ink2)">Auditoria</span></div>
+            <div style="margin:8px;border:1px solid var(--line2);background:var(--surf);box-shadow:0 10px 30px rgba(0,0,0,0.14);padding:4px 0">
+              <span style="display:flex;align-items:center;min-height:36px;padding:0 12px;font-size:11.5px;color:var(--ink2)">Meu perfil</span><span style="display:flex;align-items:center;min-height:36px;padding:0 12px;font-size:11.5px;color:var(--ink2)">Organização e plantas</span><span style="display:flex;align-items:center;min-height:36px;padding:0 12px;font-size:11.5px;color:var(--ink2)">Equipe e permissões</span>
+              <span style="display:block;height:1px;background:var(--line);margin:4px 0"></span>
+              <span style="display:flex;align-items:center;min-height:36px;padding:0 12px;font-size:11.5px;color:var(--ink3)">…</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:18px;display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink3)">Mobile · até 680px</span>
+          <ul style="margin:0;padding:0 0 0 16px;display:flex;flex-direction:column;gap:9px;font-size:12.5px;line-height:1.6;color:var(--ink2)">
+            <li>Linha 1: marca à esquerda; idioma, tema e conta à direita.</li>
+            <li>Linha 2: abas em faixa única com rolagem horizontal, sem quebra.</li>
+            <li>Menu da conta vira folha fixa com 8px de margem lateral, altura limitada à tela e rolagem interna.</li>
+            <li>Alvo de toque: 44px nos itens de menu, 38px nos controles do cabeçalho, 34–36px em campo e botão.</li>
+            <li>Tabela larga rola dentro do próprio contêiner; a página nunca rola na horizontal.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px">
         <h2 style="margin:0;font-family:'DM Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">Princípios</h2>
         <span style="font-size:11.5px;color:var(--ink3)">O que sustenta as decisões acima</span>
       </div>
@@ -485,7 +635,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1320}}">
 class Component extends DCLogic {
-  state = { theme: "light", seg: 1 };
+  state = { theme: "light", seg: 1, dsDate: "19/09/2026" };
 
   renderVals() {
     const dark = this.state.theme === "dark";
@@ -599,9 +749,11 @@ class Component extends DCLogic {
         { cat:"Falha externa", catColor:P.paf[3], cost:"R$ 1.827.420", share:"38,0%", delta:"−5,7%", deltaColor:P.pos }
       ],
 
+      dsDate: this.state.dsDate,
+      onDsDate: (e) => this.setState({ dsDate: e.target.value }),
       principles: [
         { title:"A linha carrega a estrutura", body:"Bordas de 1px e divisores no lugar de sombra. Sombra só em elemento flutuante: 0 10px 30px rgba(0,0,0,0.14)." },
-        { title:"Geometria quadrada", body:"Raio de 0 a 2px em tudo. Nenhum formato pílula, nenhum avatar circular. A única exceção é o marcador do seletor de tema." },
+        { title:"Geometria quadrada", body:"Raio de 0 a 2px em tudo. Nenhum formato pílula, nenhum avatar circular, sem exceção. Tema e conta usam o mesmo botão quadrado de 28px." },
         { title:"Peso leve", body:"Quanto maior o texto, mais leve. Título de página em 200, número de KPI em 300, interface em 400. Peso 500 é ênfase pontual." },
         { title:"Números em mono", body:"DM Mono com figuras tabulares para moeda, percentual, data, código e contador. Alinhamento à direita em coluna de valor." },
         { title:"Multilíngue por conteúdo", body:"Rótulo nunca tem largura fixa. Botão e badge crescem na horizontal e truncam com reticências, sem alterar altura. Prever 30–40% de expansão em pt-BR e es." },

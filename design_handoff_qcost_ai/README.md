@@ -28,6 +28,29 @@ Cada arquivo tem duas partes: o template (markup entre `<x-dc>` e `</x-dc>`) e u
 
 A referência viva é `Q-Cost AI Design System v2.dc.html` (paleta, tipografia, componentes) e `Q-Cost AI Fundacoes v2.dc.html` (princípios e regras de aplicação). Leia as duas antes de implementar.
 
+### Placeholder de campo
+
+Placeholder é exemplo, nunca valor. Para não ser confundido com dado preenchido: cor `--ph` (mais clara que `--ink3`), peso 300 e itálico. Valor digitado segue em `--ink`, peso 400, sem itálico.
+
+```css
+::placeholder{color:var(--ph);font-weight:300;font-style:italic;opacity:1}
+```
+
+### Campo de data (`Q-Cost AI Campo Data.dc.html`)
+
+Componente único para toda data digitável: Data do evento (Novo Evento, Revisar Evento), vigência (Editor PAF) e período personalizado (Painel, Custos).
+- Digitação manual com máscara: `dd/mm/aaaa` em pt-BR e es, `mm/dd/yyyy` em en. Barras inseridas automaticamente, teclado numérico no mobile.
+- Botão de calendário (Lucide `calendar`) colado à direita do campo, mesma borda. Abre um popover fixo de 256px: navegação mês a mês, semana começando na segunda, hoje com contorno `--ink3`, selecionado em `--acc`/`--accInk`, dias de outro mês em `--ph`. Rodapé: Hoje · Limpar.
+- Fecha com clique fora, Esc, rolagem ou seleção. Abre para cima quando falta espaço abaixo.
+- Data completa porém impossível (31/02) marca a borda em `--neg` com a mensagem "Data inválida".
+- Contrato: `value` + `onChange({target:{value}})`; `format="iso"` troca o valor para `aaaa-mm-dd` (filtros de período).
+
+### Cabeçalho no mobile (≤ 680 px)
+
+- Linha 1: marca à esquerda, idioma, tema e conta à direita. Linha 2: abas em faixa única com rolagem horizontal.
+- Menu da conta vira folha fixa com 8 px de margem lateral, abaixo do botão, com altura máxima da viewport e rolagem interna. Itens com 44 px de altura mínima.
+- Tabelas largas ficam dentro de contêiner com `overflow-x:auto`; a página em si nunca rola na horizontal.
+
 ### Princípio
 
 Densidade informacional alta com calma visual. **A estrutura vem de linhas de 1px, não de sombras nem de blocos coloridos.** Superfícies raramente são cartões flutuantes: são regiões delimitadas por bordas compartilhadas, frequentemente em grade contínua (`gap:0` com `border-right` entre células). Cor é quase ausente; quando aparece, carrega significado.
@@ -39,7 +62,7 @@ Definidos como variáveis CSS em `:root`, alternados por `[data-theme="dark"]`. 
 **Tema claro**
 ```css
 --bg:#FBFBFA; --surf:#FFFFFF; --surf2:#F3F3F2; --line:#E6E6E4; --line2:#D4D4D1;
---ink:#131313; --ink2:#5E5E5C; --ink3:#6F6F6D;
+--ink:#131313; --ink2:#5E5E5C; --ink3:#6F6F6D; --ph:#A2A29F;
 --acc:#131313; --accInk:#FFFFFF; --sig:#79621F; --sigBg:#F6F4EF;
 --pos:#2F6260; --neg:#7E3F4A; --warn:#79621F; --info:#46597A;
 --posBg:#F0F4F4; --negBg:#F6F2F2; --warnBg:#F6F4EF; --infoBg:#F2F3F6;
@@ -54,7 +77,7 @@ Definidos como variáveis CSS em `:root`, alternados por `[data-theme="dark"]`. 
 **Tema escuro**
 ```css
 --bg:#0A0A0A; --surf:#0F0F0F; --surf2:#151515; --line:#1F1F1F; --line2:#2B2B2B;
---ink:#F0F0F0; --ink2:#9A9A9A; --ink3:#8E8E8E;
+--ink:#F0F0F0; --ink2:#9A9A9A; --ink3:#8E8E8E; --ph:#5E5E5E;
 --acc:#F0F0F0; --accInk:#0A0A0A; --sig:#C3A653; --sigBg:#201D13;
 --pos:#5E9B98; --neg:#C2848D; --warn:#C3A653; --info:#8B9DBE;
 --posBg:#141B1B; --negBg:#20191A; --warnBg:#201D13; --infoBg:#1A1C20;
@@ -158,7 +181,7 @@ Carregadas do Google Fonts:
 
 ### Geometria e superfície
 
-- Raio **0 a 2px** em tudo. Nenhum formato pílula. O marcador do seletor de tema é a única exceção circular.
+- Raio **0 a 2px** em tudo. Nenhum formato pílula, sem exceção. Botões de tema e conta: 28px, quadrados, borda `--line2`.
 - Superfície: `background: var(--surf)`, `border: 1px solid var(--line)`. Sombra **somente** em elemento flutuante (dropdown, modal): `0 10px 30px rgba(0,0,0,0.14)`. Nenhuma sombra em conteúdo estático.
 - Faixas de KPI: grade `repeat(auto-fit, minmax(min(100%,162px),1fr))` com `gap:0`, bordas compartilhadas e `border-right` entre células.
 - Espaçamentos responsivos com `clamp()` — ex. `padding: clamp(20px,2.4vw,28px) clamp(16px,1.8vw,22px)`, `gap: clamp(14px,2vw,24px)`.
@@ -291,6 +314,8 @@ Ordem fixa, nomes idênticos nas duas telas:
 4. **Dados do evento** — campos específicos da subcategoria, com a coluna "Efeito" marcando o que soma no total.
 5. **Ocorrências agrupadas** — registros lidos no documento que compõem o total.
 6. **Esclarecimentos solicitados** — blocos âmbar (`--warn` / `--warnBg`) com as perguntas da IA.
+**Aviso de pendência** — as três seções que pedem ação (Contabilização do evento, Dados do evento, Esclarecimentos solicitados) mostram no cabeçalho o mesmo selo: ícone de alerta, contagem e texto em `--warn` peso 500, borda `--warn` sobre `--surf`, e o cabeçalho da seção em `--warnBg`. Zerada a pendência, o selo vira "TUDO CONFIRMADO" / "TODAS RESPONDIDAS" em `--pos` com ícone de check e o cabeçalho volta ao neutro.
+
 7. **Barra de decisão** — "Aprovar e contabilizar" (primária) / "Rejeitar evento" (destrutiva).
 
 ### 7. Custos (`Q-Cost AI Custos v2.dc.html`)
