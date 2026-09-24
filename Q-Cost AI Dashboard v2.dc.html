@@ -587,7 +587,7 @@ const DICT = {
 
 class Component extends DCLogic {
   state = {
-    lang: null, theme: readTheme(), period: "quarter", filter: "all",
+    lang: null, theme: readTheme(), period: "year", filter: "all",
     chartOpen: (function () { try { return window.innerWidth >= 720; } catch (e) { return true; } })(),
     from: "2026-07-01", to: "2026-09-30", preset: "q",
     userOpen: false

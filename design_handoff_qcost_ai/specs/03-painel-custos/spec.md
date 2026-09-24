@@ -20,7 +20,8 @@ Ref.: `README.md › Telas 4 e 7`, `› Cor de negócio vs. cor de sistema`, `�
 
 ### Custos
 - **PNL-AC-10** Filtros: planta e período (mês, trimestre, ano, personalizado com Campo Data em ISO).
-- **PNL-AC-11** Árvore PAF expansível categoria → subcategoria → evento, com recuo por nível e `--surf2` nas linhas aninhadas.
+- **PNL-AC-11** Árvore PAF expansível categoria → subcategoria → evento, com recuo por nível e `--surf2` nas linhas aninhadas. Eventos listados por data de contabilização, do mais recente para o mais antigo.
+- **PNL-AC-11a** O código do evento é link para Revisar Evento em modo consulta (`?ev=<id>&mode=consulta`): somente leitura, sem barra de decisão, com faixa "Consulta · evento contabilizado", histórico de versões (mais recente primeiro) e atalho para a Auditoria já filtrada pelo evento (`?q=<id>`). Correção exige reabrir o evento, gerando versão Ajustado.
 - **PNL-AC-12** Custo por fornecedor externo e interno e por origem (Upload/API/MCP) usam a escala neutra `--c1…--c4`, não cores PAF.
 
 ### Cor de negócio

@@ -277,7 +277,8 @@
                       <sc-for list="{{ s.evRows }}" as="e" hint-placeholder-count="2">
                         <tr>
                           <td style="padding:9px 14px 9px 66px;border-bottom:1px solid var(--line)">
-                            <div style="font-family:'DM Mono',monospace;font-size:11.5px;color:var(--ink2)">{{ e.id }}</div>
+                            <sc-if value="{{ e.isLink }}" hint-placeholder-val="{{ true }}"><a href="{{ e.href }}" title="{{ e.linkTitle }}" style="font-family:'DM Mono',monospace;font-size:11.5px;color:var(--ink);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px" style-hover="text-decoration-color:var(--ink)">{{ e.id }}</a></sc-if>
+                            <sc-if value="{{ e.rest }}" hint-placeholder-val="{{ false }}"><div style="font-family:'DM Mono',monospace;font-size:11.5px;color:var(--ink2)">{{ e.id }}</div></sc-if>
                             <div style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3);margin-top:4px">{{ e.meta }}</div>
                           </td>
                           <td style="padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;font-family:'DM Mono',monospace;font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap">{{ e.value }}</td>
@@ -540,9 +541,9 @@ function makeEvents(seedKey, cost, count, t, nfI, df) {
       value: cost * topShare * (w / sum),
       share: topShare * (w / sum),
       status: t.evStatus[si], statusColor: EV_STATUS[si].c,
-      rest: false
+      rest: false, ts: new Date(2026, month - 1, day).getTime() + (hh % 86400000)
     };
-  }).sort((a, b) => b.value - a.value);
+  }).sort((a, b) => b.ts - a.ts);
   if (rest > 0) {
     out.push({
       id: "+ " + (nfI || nfInt).format(rest) + (rest === 1 ? t.otherEvent : t.otherEvents),
@@ -647,7 +648,7 @@ const DICT = {
     plantNames:{all:"todas as plantas",cwb:"Curitiba (PR)",joi:"Joinville (SC)",bet:"Betim (MG)"},
     plantNotes:["Maior participação de falha externa","Refugo concentrado na usinagem","Melhor razão prevenção/falha"],
     plantSelected:"Planta selecionada",
-    grouped:"Agrupados — abra a aba de eventos para detalhar",
+    grouped:"Agrupados — abra a aba de eventos para detalhar", openEvent:"Consultar o histórico do evento",
     evStatus:["Rascunho","Em revisão","Pendente","Provisório","Confirmado","Ajustado","Cancelado"],
     evOrigin:["Upload de PDF","Planilha importada","Texto livre","API — ERP","MCP — QMS"],
     otherEvent:" outro evento", otherEvents:" outros eventos",
@@ -689,7 +690,7 @@ const DICT = {
     plantNames:{all:"all plants",cwb:"Curitiba (PR)",joi:"Joinville (SC)",bet:"Betim (MG)"},
     plantNotes:["Largest share of external failure","Scrap concentrated in machining","Best prevention-to-failure ratio"],
     plantSelected:"Selected plant",
-    grouped:"Grouped — open the events tab for detail",
+    grouped:"Grouped — open the events tab for detail", openEvent:"View event history",
     evStatus:["Draft","Under review","Pending","Provisional","Confirmed","Adjusted","Cancelled"],
     evOrigin:["PDF upload","Imported spreadsheet","Free text","API — ERP","MCP — QMS"],
     otherEvent:" other event", otherEvents:" other events",
@@ -731,7 +732,7 @@ const DICT = {
     plantNames:{all:"todas las plantas",cwb:"Curitiba (PR)",joi:"Joinville (SC)",bet:"Betim (MG)"},
     plantNotes:["Mayor participación de fallo externo","Chatarra concentrada en el mecanizado","Mejor razón prevención/fallo"],
     plantSelected:"Planta seleccionada",
-    grouped:"Agrupados — abra la pestaña de eventos para detallar",
+    grouped:"Agrupados — abra la pestaña de eventos para detallar", openEvent:"Consultar el historial del evento",
     evStatus:["Borrador","En revisión","Pendiente","Provisional","Confirmado","Ajustado","Cancelado"],
     evOrigin:["Carga de PDF","Planilla importada","Texto libre","API — ERP","MCP — QMS"],
     otherEvent:" otro evento", otherEvents:" otros eventos",
@@ -763,7 +764,7 @@ const CHROME = {
 };
 
 class Component extends DCLogic {
-  state = { theme: readTheme(), userOpen: false, projOpen: false, period: "quarter", plant: "all", from: "2026-07-01", to: "2026-09-30", preset: null, open: { 0: true, 2: true }, subOpen: {}, supOpen: { "ext-0": true } };
+  state = { theme: readTheme(), userOpen: false, projOpen: false, period: "month", plant: "all", from: "2026-07-01", to: "2026-09-30", preset: null, open: { 0: true, 2: true }, subOpen: {}, supOpen: { "ext-0": true } };
 
   renderVals() {
     const s = this.state;
@@ -848,7 +849,10 @@ class Component extends DCLogic {
               id: e.id, meta: e.rest ? t.grouped : e.date + " · " + e.plant + " · " + e.origin,
               value: money(e.value), share: pct(e.share * 100, 0),
               status: e.status, statusColor: e.statusColor,
-              events: e.rest ? nf.format(e.count) : "1"
+              events: e.rest ? nf.format(e.count) : "1",
+              rest: !!e.rest, isLink: !e.rest,
+              href: "Q-Cost AI Revisar Evento v2.dc.html?ev=" + encodeURIComponent(e.id) + "&mode=consulta",
+              linkTitle: t.openEvent
             })) : []
           };
         })

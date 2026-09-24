@@ -4,7 +4,12 @@ Ref.: `README.md › Telas 11–15`; arquivos `Auditoria v2`, `Regras de Alerta 
 
 ## Auditoria
 - **GOV-AC-01** Trilha imutável; nenhum registro pode ser editado ou apagado por qualquer papel.
-- **GOV-AC-02** Filtros: usuário, tipo de ação, categoria PAF, planta, origem (IA/manual), período.
+- **GOV-AC-02** Filtros principais: busca por ID, hash ou texto da justificativa; período do registro (7, 30, 90 dias, todo o histórico ou personalizado com data de início e fim no Campo Data, com validação de fim antes do início); competência contábil (separada da data do registro, para teste de corte). Filtros secundários em "Mais filtros": categoria PAF, objeto, tipo de ação, usuário, autoria (IA/manual), planta, tipo de fornecedor, fornecedor, cliente, centro de custo, subcategoria PAF (restrita à categoria escolhida), origem do envio (Upload, API REST, MCP), moeda (convertido para a moeda da organização ou já nela) e faixa de valor contabilizado (mínimo e máximo, formato do locale).
+- **GOV-AC-02a** Verificações de auditoria (combinam por OU entre si e por E com os demais filtros), cada uma com contagem e descrição da regra: lançamento retroativo (data do evento mais de 45 dias anterior ao envio), alteração de valor, após fechamento, mesmo autor e aprovador, exclusão ou rejeição, correção sobre a IA, cadastro e permissões. Registros que se enquadram mostram as marcas na linha.
+- **GOV-AC-02e** A tela abre com período "Últimos 30 dias". A lista é paginada (10, 25 ou 50 por página, padrão 10), com faixa "1–10 de N", anterior/próxima e números com reticências (primeira, última e vizinhas da atual). Qualquer mudança de filtro volta para a página 1; a página nunca fica fora do total.
+- **GOV-AC-02d** O detalhe de um registro de evento mostra os dados da contabilização: data do evento, subcategoria, centro de custo, fornecedor e tipo, cliente, origem do envio, valor contabilizado e moeda (com a moeda de origem quando convertido).
+- **GOV-AC-02b** Clicar no ID de um registro filtra todas as versões dele em todo o histórico.
+- **GOV-AC-02c** Filtros aplicados aparecem como chips removíveis; a exportação grava os critérios de filtro junto com o hash de cada registro.
 - **GOV-AC-03** Cada linha expande com antes/depois, justificativa e hash do registro.
 - **GOV-AC-04** O diff textual é neutro; cor PAF só no badge da coluna Categoria.
 

@@ -69,8 +69,8 @@
       </a>
       <nav style="flex:1 1 200px;display:flex;flex-wrap:wrap;gap:4px 2px;align-items:center">
         <a href="Q-Cost AI Dashboard v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav1 }}</a>
-        <span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav2 }}</span>
-        <a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a>
+        <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}"><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav2 }}</span></sc-if><sc-if value="{{ consult }}" hint-placeholder-val="{{ false }}"><a href="Q-Cost AI Novo Evento v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav2 }}</a></sc-if>
+        <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}"><a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav3 }}</a></sc-if><sc-if value="{{ consult }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;padding:6px 11px;border-bottom:1px solid var(--ink)">{{ c.nav3 }}</span></sc-if>
         <a href="Q-Cost AI Auditoria v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav4 }}</a>
         <a href="Q-Cost AI Regras de Alerta v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav6 }}</a>
         <a href="Q-Cost AI Relatorios v2.dc.html" style="font-size:13px;color:var(--ink2);padding:6px 11px;border-bottom:1px solid transparent" style-hover="color:var(--ink);text-decoration:none;border-bottom-color:var(--line2)">{{ c.nav5 }}</a>
@@ -115,16 +115,52 @@
 
     <div style="display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between">
       <div style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:11px">
-        <a href="Q-Cost AI Dashboard v2.dc.html" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)" style-hover="color:var(--ink)">&larr; {{ t.backQueue }}</a>
+        <a href="{{ backHref }}" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink3)" style-hover="color:var(--ink)">&larr; {{ backLabel }}</a>
         <h1 style="margin:0;font-size:clamp(26px,3.6vw,40px);font-weight:200;line-height:1.14;letter-spacing:-0.03em">{{ ev.title }}</h1>
         <p style="margin:0;font-size:13px;line-height:1.7;color:var(--ink2);max-width:74ch;text-wrap:pretty">{{ ev.lead }}</p>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:9px;flex:none;align-items:center">
+        <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}">
         <sc-for list="{{ queueNav }}" as="q" hint-placeholder-count="3">
           <button type="button" onClick="{{ q.pick }}" style="font-family:'DM Mono',monospace;font-size:10.5px;height:30px;padding:0 11px;border:1px solid {{ q.border }};background:{{ q.bg }};color:{{ q.fg }};cursor:pointer;white-space:nowrap">{{ q.label }}</button>
         </sc-for>
+        </sc-if>
       </div>
     </div>
+
+    <sc-if value="{{ consult }}" hint-placeholder-val="{{ false }}">
+      <section style="border:1px solid var(--line);border-left:2px solid var(--info);background:var(--infoBg);padding:14px 17px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between">
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:0;flex:1 1 320px">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--info)">{{ consultKickerLine }}</span>
+          <span style="font-size:12.5px;line-height:1.6;color:var(--ink2);max-width:86ch">{{ t.consultNote }}</span>
+        </div>
+        <a href="{{ auditHref }}" style="font-size:12.5px;height:34px;padding:0 14px;border:1px solid var(--line2);display:inline-flex;align-items:center;color:var(--ink);background:var(--surf);white-space:nowrap" style-hover="border-color:var(--ink3);text-decoration:none">{{ t.consultAudit }}</a>
+      </section>
+      <section aria-label="{{ t.histTitle }}" style="border:1px solid var(--line);background:var(--surf)">
+        <div style="padding:13px 17px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between">
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.histTitle }}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:10.5px;color:var(--ink3)">{{ histCountLabel }}</span>
+        </div>
+        <ol style="list-style:none;margin:0;padding:0">
+          <sc-for list="{{ history }}" as="hv" hint-placeholder-count="3">
+            <li style="display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr);gap:6px 18px;padding:13px 17px;border-bottom:1px solid var(--line)">
+              <div style="display:flex;flex-direction:column;gap:3px;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink2);font-variant-numeric:tabular-nums">
+                <span>{{ hv.when }}</span>
+                <span style="font-size:10px;color:var(--ink3)">{{ hv.ver }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <div style="display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center">
+                  <span style="width:6px;height:6px;background:{{ hv.color }};display:block;flex:none"></span>
+                  <span style="font-size:13px;color:var(--ink)">{{ hv.action }}</span>
+                  <span style="font-size:12px;color:var(--ink3)">· {{ hv.who }}</span>
+                </div>
+                <span style="font-size:12px;line-height:1.6;color:var(--ink2);text-wrap:pretty">{{ hv.note }}</span>
+              </div>
+            </li>
+          </sc-for>
+        </ol>
+      </section>
+    </sc-if>
 
     <section aria-label="{{ t.provTitle }}" style="display:flex;flex-direction:column;gap:10px">
       <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;justify-content:space-between">
@@ -171,6 +207,7 @@
       </div>
     </section>
 
+    <fieldset disabled="{{ consult }}" style="border:0;margin:0;padding:0;min-width:0;display:flex;flex-direction:column;gap:clamp(22px,3vw,34px)">
     <section style="border:1px solid var(--line);background:var(--surf);display:flex;flex-direction:column">
       <div style="background:{{ acctBadge.hdrBg }};padding:13px 17px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
         <span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3)">{{ t.acctTitle }}</span>
@@ -311,6 +348,8 @@
       </section>
     </sc-if>
 
+    </fieldset>
+
     <section aria-label="{{ t.occTitle }}" style="border:1px solid var(--line);background:var(--surf)">
       <button type="button" onClick="{{ occ.toggle }}" style="width:100%;text-align:left;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:15px clamp(14px,2vw,20px);border:none;background:transparent;color:var(--ink);cursor:pointer" style-hover="background:var(--surf2)">
         <span style="display:flex;flex-wrap:wrap;gap:9px 14px;align-items:baseline">
@@ -385,6 +424,7 @@
       </sc-if>
     </section>
 
+    <fieldset disabled="{{ consult }}" style="border:0;margin:0;padding:0;min-width:0;display:flex;flex-direction:column;gap:clamp(22px,3vw,34px)">
     <section style="border:1px solid var(--line);border-left:2px solid var(--warn);background:var(--warnBg);padding:clamp(16px,2vw,20px);display:flex;flex-direction:column;gap:12px">
       <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px"><span style="font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--warn)">{{ t.clarifyTitle }}</span><span role="status" style="display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 10px;border:1px solid {{ clarBadge.line }};background:{{ clarBadge.bg }};color:{{ clarBadge.fg }};font-family:'DM Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:0.05em;white-space:nowrap;font-variant-numeric:tabular-nums"><sc-if value="{{ clarBadge.isPend }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></sc-if><sc-if value="{{ clarBadge.isOk }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;flex:none"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>{{ clarBadge.label }}</span></div>
       <p style="margin:0;font-size:13px;line-height:1.65;color:var(--ink2);max-width:82ch">{{ ev.question }}</p>
@@ -396,11 +436,21 @@
       <span style="font-size:11.5px;line-height:1.65;color:var(--ink3);max-width:82ch">{{ ev.clarifyNote }}</span>
     </section>
 
+    </fieldset>
+
+    <sc-if value="{{ consult }}" hint-placeholder-val="{{ false }}">
+      <section style="border:1px solid var(--line);background:var(--surf);padding:clamp(16px,2vw,20px);display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <a href="Q-Cost AI Custos v2.dc.html" style="font-size:13px;height:38px;padding:0 18px;background:var(--acc);color:var(--accInk);display:inline-flex;align-items:center;white-space:nowrap" style-hover="opacity:0.88;text-decoration:none">{{ t.backCosts }}</a>
+        <a href="{{ auditHref }}" style="font-size:13px;height:38px;padding:0 15px;border:1px solid var(--line2);color:var(--ink);display:inline-flex;align-items:center;white-space:nowrap" style-hover="border-color:var(--ink3);text-decoration:none">{{ t.consultAudit }}</a>
+      </section>
+    </sc-if>
+    <sc-if value="{{ notConsult }}" hint-placeholder-val="{{ true }}">
     <section style="border:1px solid var(--line);background:var(--surf);padding:clamp(16px,2vw,20px);display:flex;flex-wrap:wrap;gap:12px;align-items:center">
       <button type="button" onClick="{{ approve }}" disabled="{{ approveDisabled }}" style="font-size:13px;height:38px;padding:0 18px;border:none;background:{{ approveBg }};color:{{ approveFg }};cursor:{{ approveCursor }};white-space:nowrap">{{ approveLabel }}</button>
       <button type="button" onClick="{{ reject }}" style="font-size:13px;height:38px;padding:0 15px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;white-space:nowrap" style-hover="border-color:var(--neg);color:var(--neg)">{{ t.reject }}</button>
       <span style="font-size:11.5px;line-height:1.6;color:var(--ink3);flex:1 1 260px">{{ footNote }}</span>
     </section>
+    </sc-if>
 
     <sc-if value="{{ preview }}" hint-placeholder-val="{{ false }}">
       <div style="position:fixed;inset:0;background:rgba(0,0,0,0.42);display:flex;align-items:center;justify-content:center;padding:24px;z-index:80">
@@ -727,6 +777,9 @@ const DICT = {
     rejectKicker: "Cancelar evento", rejectConfirm: "Levar este evento para Cancelado?",
     rejectConfirmNote: "O evento sai da apuração e a transição fica registrada na trilha de auditoria. A ação não é desfeita nesta tela.",
     rejectBack: "Voltar", rejectConfirmBtn: "Cancelar evento",
+    backCosts:"Voltar para Custos", consultLead:"Evento aprovado e contabilizado. Consulte abaixo o envio, a contabilização, as ocorrências e o histórico de versões.", consultKicker:"Consulta · evento contabilizado", consultNote:"Somente leitura. Corrigir um evento contabilizado exige reabri-lo, o que gera nova versão (Ajustado) na trilha de auditoria.", consultAudit:"Abrir na Auditoria",
+    histTitle:"Histórico do evento", histCount:" versões", hCreate:"Criação", hEdit:"Edição", hApprove:"Aprovação · Confirmado", hAi:"Motor de IA",
+    hCreateNote:"Envio lido pela IA; contabilização gerada como Rascunho com valor proposto.", hEditNote:"Centro de custo confirmado e valor de uma ocorrência corrigido conforme o documento.", hApproveNote:"Aprovado e lançado na competência 09/2026.",
     cancelledNote: "Evento cancelado. Sai da apuração de setembro de 2026; a transição Pendente → Cancelado está na trilha de auditoria.",
     acctTitle: "Contabilização do evento", acctOk: "TUDO CONFIRMADO",
     acctNote: "Contrato fixo de contabilização: todo evento carrega estes campos, sempre os mesmos. É o que entra na apuração e no razão.",
@@ -907,6 +960,9 @@ const DICT = {
     rejectKicker: "Cancel event", rejectConfirm: "Move this event to Cancelled?",
     rejectConfirmNote: "The event leaves the accounting period and the transition is recorded in the audit trail. This cannot be undone on this screen.",
     rejectBack: "Back", rejectConfirmBtn: "Cancel event",
+    backCosts:"Back to Costs", consultLead:"Event approved and accounted. Below are the submission, the accounting entry, the occurrences and the version history.", consultKicker:"View · accounted event", consultNote:"Read-only. Correcting an accounted event requires reopening it, which creates a new version (Adjusted) in the audit trail.", consultAudit:"Open in Audit trail",
+    histTitle:"Event history", histCount:" versions", hCreate:"Creation", hEdit:"Edit", hApprove:"Approval · Confirmed", hAi:"AI engine",
+    hCreateNote:"Submission read by the AI; entry generated as Draft with a proposed amount.", hEditNote:"Cost center confirmed and one occurrence amount corrected per the document.", hApproveNote:"Approved and posted to period 09/2026.",
     cancelledNote: "Event cancelled. It leaves the September 2026 accounting; the Pending → Cancelled transition is in the audit trail.",
     acctTitle: "Event accounting", acctOk: "ALL CONFIRMED",
     acctNote: "Fixed accounting contract: every event carries these fields, always the same ones. This is what posts to the period and to the ledger.",
@@ -1087,6 +1143,9 @@ const DICT = {
     rejectKicker: "Cancelar evento", rejectConfirm: "¿Llevar este evento a Cancelado?",
     rejectConfirmNote: "El evento sale del cierre y la transición queda registrada en la pista de auditoría. No se deshace en esta pantalla.",
     rejectBack: "Volver", rejectConfirmBtn: "Cancelar evento",
+    backCosts:"Volver a Costos", consultLead:"Evento aprobado y contabilizado. Consulte abajo el envío, la contabilización, las ocurrencias y el historial de versiones.", consultKicker:"Consulta · evento contabilizado", consultNote:"Solo lectura. Corregir un evento contabilizado exige reabrirlo, lo que genera una nueva versión (Ajustado) en la pista de auditoría.", consultAudit:"Abrir en Auditoría",
+    histTitle:"Historial del evento", histCount:" versiones", hCreate:"Creación", hEdit:"Edición", hApprove:"Aprobación · Confirmado", hAi:"Motor de IA",
+    hCreateNote:"Envío leído por la IA; contabilización generada como Borrador con valor propuesto.", hEditNote:"Centro de costo confirmado e importe de una ocurrencia corregido según el documento.", hApproveNote:"Aprobado y registrado en el período 09/2026.",
     cancelledNote: "Evento cancelado. Sale del cierre de septiembre de 2026; la transición Pendiente → Cancelado está en la pista de auditoría.",
     acctTitle: "Contabilización del evento", acctOk: "TODO CONFIRMADO",
     acctNote: "Contrato fijo de contabilización: todo evento lleva estos campos, siempre los mismos. Es lo que entra en el cierre y en el mayor.",
@@ -1230,17 +1289,21 @@ function sub3(s, map) {
   return out;
 }
 
+function consultFromUrl() {
+  try { const p = new URLSearchParams(window.location.search); return p.get("mode") === "consulta" ? (p.get("ev") || "EV") : null; } catch (e) { return null; }
+}
 function evIndexFromUrl() {
   try {
     const q = new URLSearchParams(window.location.search).get("ev");
     if (!q) return 0;
     const i = EVENTS.findIndex((e) => e.id === q);
-    return i < 0 ? 0 : i;
+    if (i >= 0) return i;
+    return consultFromUrl() ? Array.from(q).reduce((a, c) => a + c.charCodeAt(0), 0) % EVENTS.length : 0;
   } catch (e) { return 0; }
 }
 
 class Component extends DCLogic {
-  state = { theme: readTheme(), lang: null, userOpen: false, fxRate: null, idx: evIndexFromUrl(), values: {}, amounts: {}, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: false, cancelled: false, confirmOpen: false };
+  state = { consult: consultFromUrl(), theme: readTheme(), lang: null, userOpen: false, fxRate: null, idx: evIndexFromUrl(), values: {}, amounts: {}, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: consultFromUrl() !== null, cancelled: false, confirmOpen: false };
 
   renderVals() {
     const s = this.state;
@@ -1404,7 +1467,7 @@ class Component extends DCLogic {
       kicker: PAFK[0], name: P.cats[catIdx], sub: subList[subIdx], color: "var(--paf" + (pafIdx + 1) + ")",
       segs: [0, 1, 2, 3].map((k) => ({ abbr: PAFK[1][k], bg: k === pafIdx ? "var(--paf" + (k + 1) + ")" : "var(--line2)", fg: k === pafIdx ? "var(--paf" + (k + 1) + ")" : "var(--ink3)" }))
     };
-    const acctPend = acctFields.filter((x) => x && (x.tag === t.tagSuggested || x.tag === t.tagMissing)).length;
+    const acctPend = s.consult !== null ? 0 : acctFields.filter((x) => x && (x.tag === t.tagSuggested || x.tag === t.tagMissing)).length;
 
     const PB = { pt: { f1: " CAMPO PARA REVISAR", fN: " CAMPOS PARA REVISAR", fOk: "TUDO CONFIRMADO", q1: " PERGUNTA A RESPONDER", qN: " PERGUNTAS A RESPONDER", qOk: "TODAS RESPONDIDAS" },
       en: { f1: " FIELD TO REVIEW", fN: " FIELDS TO REVIEW", fOk: "ALL CONFIRMED", q1: " QUESTION TO ANSWER", qN: " QUESTIONS TO ANSWER", qOk: "ALL ANSWERED" },
@@ -1412,7 +1475,7 @@ class Component extends DCLogic {
     const pendBadge = (n, one, many, ok) => n > 0
       ? { label: n + (n === 1 ? one : many), isPend: true, isOk: false, fg: "var(--warn)", bg: "var(--surf)", line: "var(--warn)", hdrBg: "var(--warnBg)" }
       : { label: ok, isPend: false, isOk: true, fg: "var(--pos)", bg: "var(--posBg)", line: "color-mix(in srgb, var(--pos) 34%, transparent)", hdrBg: "transparent" };
-    const specPend = specFields.filter((x) => x && (x.tag === t.tagSuggested || x.tag === t.tagMissing)).length;
+    const specPend = s.consult !== null ? 0 : specFields.filter((x) => x && (x.tag === t.tagSuggested || x.tag === t.tagMissing)).length;
 
     const centro = s.values.centro !== undefined ? s.values.centro : ccDefault;
     const blocked = !String(centro).trim();
@@ -1608,11 +1671,11 @@ class Component extends DCLogic {
         bg: r.i === s.idx ? "var(--acc)" : "transparent",
         fg: r.i === s.idx ? "var(--accInk)" : "var(--ink2)",
         border: r.i === s.idx ? "var(--acc)" : "var(--line2)",
-        pick: () => this.setState({ idx: r.i, values: {}, amounts: {}, fxRate: null, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: false, cancelled: false, confirmOpen: false })
+        pick: () => this.setState({ idx: r.i, values: {}, amounts: {}, fxRate: null, edited: {}, answer: null, occOpen: false, occQuery: "", occSort: "ref", occPage: 0, occSel: {}, dropped: {}, preview: null, previewDim: 3, previewValue: null, previewReason: "reasonWrongPlant", approved: consultFromUrl() !== null, cancelled: false, confirmOpen: false })
       })),
 
       reg: [
-        { k: t.regId, v: E.id, sub: t.regOrg, isPlain: true },
+        { k: t.regId, v: s.consult || E.id, sub: t.regOrg, isPlain: true },
         { k: t.provOrigin, v: t.channels[E.ch], sub: TE.channelNote, isBadge: true, fg: tone.color, bg: tone.bg, line: tone.line },
         { k: t.provWho, v: TE.sender, sub: TE.senderMeta, isPlain: true },
         { k: t.provWhen, v: ago, sub: stampOf(E.at), isPlain: true },
@@ -1623,7 +1686,7 @@ class Component extends DCLogic {
       ],
 
       ev: {
-        title: TE.title, lead: TE.lead,
+        title: TE.title, lead: s.consult !== null ? t.consultLead : TE.lead,
         channel: t.channels[E.ch], channelNote: TE.channelNote,
         chColor: tone.color, chBg: tone.bg, chLine: tone.line,
         ago: ago, stamp: stampOf(E.at),
@@ -1662,7 +1725,7 @@ class Component extends DCLogic {
       paf,
       acctBadge: pendBadge(acctPend, PB.f1, PB.fN, PB.fOk),
       specBadge: pendBadge(specPend, PB.f1, PB.fN, PB.fOk),
-      clarBadge: pendBadge(s.answer ? 0 : 1, PB.q1, PB.qN, PB.qOk),
+      clarBadge: pendBadge((s.answer || s.consult !== null) ? 0 : 1, PB.q1, PB.qN, PB.qOk),
       acctPendLabel: acctPend === 0 ? t.acctOk : acctPend + (acctPend === 1 ? t.onePend : t.manyPend),
       acctPendColor: acctPend === 0 ? "var(--pos)" : "var(--warn)",
 
@@ -1674,6 +1737,21 @@ class Component extends DCLogic {
         pick: () => this.setState({ answer: label })
       })),
 
+      consult: s.consult !== null, notConsult: s.consult === null,
+      consultKickerLine: t.consultKicker + " · " + (s.consult || ""),
+      auditHref: "Q-Cost AI Auditoria v2.dc.html?q=" + encodeURIComponent(s.consult || ""),
+      backHref: s.consult !== null ? "Q-Cost AI Custos v2.dc.html" : "Q-Cost AI Dashboard v2.dc.html",
+      backLabel: s.consult !== null ? t.backCosts : t.backQueue,
+      history: (function () {
+        const L = String(lang || "pt-BR");
+        const hdf = new Intl.DateTimeFormat(L.slice(0, 2) === "en" ? "en-US" : L.slice(0, 2) === "es" ? "es-MX" : "pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+        return [
+          { ver: "v3", when: hdf.format(new Date(2026, 8, 3)) + " · 16:40", action: t.hApprove, who: "Paulo Grimaldi", note: t.hApproveNote, color: "var(--pos)" },
+          { ver: "v2", when: hdf.format(new Date(2026, 8, 2)) + " · 11:02", action: t.hEdit, who: "Ana Ribeiro Camargo", note: t.hEditNote, color: "var(--warn)" },
+          { ver: "v1", when: hdf.format(new Date(2026, 8, 2)) + " · 09:14", action: t.hCreate, who: t.hAi, note: t.hCreateNote, color: "var(--info)" }
+        ];
+      })(),
+      histCountLabel: "3" + t.histCount,
       approveLabel: s.approved ? t.approved : t.approve,
       approveDisabled: s.cancelled || allRows.length === 0,
       approveBg: (s.cancelled || allRows.length === 0) ? "var(--surf2)" : s.approved ? "var(--posBg)" : blocked ? "var(--surf2)" : "var(--acc)",
