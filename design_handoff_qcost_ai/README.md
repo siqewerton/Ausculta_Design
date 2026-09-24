@@ -8,6 +8,10 @@ O público é diretoria industrial, gerência de qualidade e controladoria. A op
 
 24 arquivos de design, três idiomas (pt-BR / en / es), tema claro e escuro.
 
+## Specs para SDD
+
+A pasta `specs/` traz a constituição do produto e uma spec por domínio, com critérios de aceite numerados que remetem a este README. Comece por `CLAUDE.md` e `specs/README.md`.
+
 ## Sobre os arquivos deste pacote
 
 Os arquivos em `design_files/` são **referências de design criadas em HTML** — protótipos que mostram aparência e comportamento pretendidos, **não código de produção para copiar**.

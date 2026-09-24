@@ -4,6 +4,13 @@ Registro das decisões de design para atualizar SDD e discovery. Mais recente no
 
 ## 2026-09-24
 
+### Pacote SDD
+- Adicionados `CLAUDE.md` e `specs/` (constituição, índice e sete specs com critérios de aceite rastreáveis, mais o modelo de dados do evento).
+- `design_files/` sincronizado com a versão atual das telas.
+
+### Contabilizações geradas (Novo Evento)
+- Ações acima das linhas; ocorrências recolhidas por padrão; estado em selo do sistema; classificação PAF em régua P · A · FI · FE com categoria em cor e subcategoria em itálico, à direita do total.
+
 ### Aviso de pendência (Novo Evento e Revisar Evento)
 - O aviso "N campos para revisar" passa a aparecer também em Dados do evento (base da soma) e em Esclarecimentos solicitados ("N perguntas a responder").
 - Mais evidente: selo com ícone, peso 500 e borda `--warn`; cabeçalho da seção pendente em `--warnBg`. Resolvido, o selo fica verde com check.
