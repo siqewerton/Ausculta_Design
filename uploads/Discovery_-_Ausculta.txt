@@ -1,0 +1,336 @@
+SIQ · Spec Driven Development
+Discovery — Ausculta
+AI Scribe + PIMS veterinário local-first — extensão do ecossistema Long Life Pet
+Codinome interno anterior: PIMS Scribe
+Versão: 2.0
+Data: 28/09/2026
+Nome sujeito à busca formal de marca e domínio antes do lançamento público (ver claude/ausculta-nome-e-decisao.md)
+Relação com o Long Life Pet: produto companheiro, com projeto de design próprio no Claude Design (ver B.6)
+Modelo de operação: standalone, integrado nativo ao Long Life Pet, ou plugado a PIMS de terceiros via MCP/API
+Stack decidida: PWA local-first (Next.js + Tailwind, Vercel), Edge AI on-device (Transformers.js), servidor MCP nativo (ver B.1)
+Como ler este documento: a Parte A (visão de negócio) descreve o problema, os modelos de operação e o backlog priorizado — leitura recomendada para investidores e liderança de produto. A Parte B (arquitetura e decisões técnicas) descreve a stack, os requisitos e a integração com o Long Life Pet — leitura recomendada para a liderança técnica. Este discovery assume como já decididas as regras de negócio e o modelo de segurança do discovery do Long Life Pet (autenticação, RLS por owner, cofre de segredos) e não as repete — aponta para elas quando relevante.
+Resumo executivo
+Médicos-veterinários gastam até 40% do tempo útil da consulta preenchendo prontuário manualmente. No atendimento volante — campo, estábulo, domicílio — ou em hospitais de alta complexidade, a falta de conectividade ou a necessidade de manter as mãos livres no paciente torna inviável usar um sistema em nuvem no momento do atendimento. O resultado é anotação em papel, retrabalho noturno, fadiga crônica e subnotificação clínica.
+O Ausculta é um módulo de prontuário inteligente, local-first e 100% operável offline: captura passivamente o áudio da consulta, filtra ruído de fundo e estrutura automaticamente um rascunho SOAP (Subjetivo, Objetivo, Avaliação, Plano) diretamente no dispositivo do veterinário. Nenhuma nota entra no prontuário oficial sem revisão e aprovação humana — a IA nunca diagnostica, prescreve ou finaliza um registro sozinha.
+O diferencial estratégico é operar em três modos sem forçar migração de sistema: standalone (qualquer veterinário, qualquer clínica); integrado nativamente ao Long Life Pet (recebe o prontuário do pet antes da visita e devolve a evolução aprovada depois); ou plugado a um PIMS de terceiros via API REST/GraphQL (adaptação FHIR para veterinária) e um servidor MCP nativo — o mesmo protocolo que a Anthropic usa para conectar agentes de IA a ferramentas externas.
+Este discovery recomenda tratar o Ausculta como um projeto de design separado do Long Life Pet no Claude Design — mesmo sendo um produto irmão — porque atende veterinários que podem nunca ter conta no Long Life Pet, e sua interface é de &quot;ferramenta de campo&quot; (gravação de voz, revisão SOAP, alto contraste, uso com luvas), bem distinta da navegação do app consumidor. O vínculo entre os dois produtos é de dados, não de tela — ver B.6.
+Parte A — Visão de negócio
+A.1 Visão do produto
+O Ausculta transforma o tablet ou smartphone do veterinário em um residente clínico invisível: ouve a consulta, ignora ruído de fundo (latidos, maquinário), e redige o prontuário estruturado no padrão SOAP — permitindo que o profissional mantenha contato visual com o tutor e a contenção física do paciente, em vez de atuar como digitador.
+Não é mais um software de prontuário na nuvem — o mercado de PIMS já está saturado de ERPs fragmentados. A disrupção é o desacoplamento da interface de anotação: o Ausculta funciona como núcleo do atendimento clínico e exporta dados sanitários e financeiros, já formatados, para o laboratório, a recepção e o setor de faturamento — do Long Life Pet ou de qualquer outro PIMS já em uso na clínica.
+A.2 O problema
+Para o veterinário
+Até 40% do tempo útil da consulta perdido em preenchimento manual;
+Atendimento em campo (rural, domiciliar) e em centros cirúrgicos sem roteador — sem alternativa em nuvem no momento do atendimento;
+Anotações em papel acumuladas para o fim do dia — retrabalho noturno e fadiga crônica;
+Subnotificação de dados clínicos essenciais por falta de tempo;
+Teto claro de faturamento — o tempo perdido com documentação é tempo que não vira consulta.
+Para a clínica e o ecossistema de PIMS
+Ecossistema de PIMS fechado e fragmentado — difícil adotar IA sem migração completa de sistema;
+Risco jurídico por prontuário incompleto ou tardio em caso de auditoria ou processo;
+Integrações &quot;ponto a ponto&quot; com fornecedores de IA são custosas e frágeis.
+A.3 Casos de uso primários
+Veterinários volantes (equinos, bovinos, atendimento domiciliar) — operação integral sem internet; transcrição e estruturação ocorrem no hardware local, eliminando anotação em papel;
+Hospitais de alta complexidade — o profissional mantém mãos e olhos no paciente durante contenção e exame físico, enquanto o app ouve e documenta ativamente;
+Interoperabilidade B2B — o módulo funciona acoplado a sistemas PIMS legados já existentes na clínica (gestão de faturamento/estoque), sem exigir substituição.
+A.4 Modelos de operação e integração
+O mesmo Ausculta opera em três modos, escolhidos pelo veterinário ou pela clínica — não são versões diferentes do produto, é o mesmo core com origem/destino de dados diferente:
+Modo
+Como funciona
+Owner do prontuário
+Standalone
+Paciente cadastrado manualmente no próprio Ausculta; nota fica local até o veterinário exportar/sincronizar.
+O veterinário/clínica que usa o Ausculta
+Integrado ao Long Life Pet
+Prontuário do pet é pré-carregado antes da visita agendada; nota aprovada retorna automaticamente ao prontuário do pet.
+O responsável cadastrado no Long Life Pet (modelo B.10 preservado)
+Integrado a PIMS terceiro
+Conecta via API REST/GraphQL (FHIR-vet) e servidor MCP nativo ao sistema já usado pela clínica.
+O PIMS terceiro — o Ausculta nunca retém o dado como dono
+Esta decisão de arquitetura — nunca o Ausculta se tornar owner do dado clínico, em nenhum dos três modos — é o que permite oferecer o produto como hub agnóstico sem entrar em conflito com o modelo de isolamento por owner já decidido no Long Life Pet (B.10). Ver B.6 para o contrato de integração.
+A entrada para os três modos é uma única landing page pública, com um bloco de valor dedicado a cada público (&quot;já uso o Long Life Pet&quot;, &quot;uso outro PIMS&quot;, &quot;não uso nenhum PIMS hoje&quot;) — nenhum modo exige que o visitante se explique duas vezes ou preencha um formulário genérico antes de entender a proposta de valor. Ver o PRD de Design — Ausculta (claude/prd-design-ausculta.md) para o detalhamento de tela: é o documento único que junta o prompt de protótipo com os trechos deste discovery e do PRD que afetam a UX.
+A.5 Relação com o Long Life Pet
+O Ausculta é um produto companheiro do Long Life Pet, não um módulo dentro dele. Um veterinário já cadastrado e validado (CRMV/SISCAD) no Long Life Pet pode ativar o modo integrado sem novo cadastro; a integração é de dados (prontuário do pet vai e volta), nunca de interface — as duas experiências continuam sendo produtos visualmente e funcionalmente distintos, com protótipos separados no Claude Design (ver B.6).
+A.6 Papéis e personas
+Dr. Marcelo — veterinário equino, visitante de primeira vez (sem PIMS hoje)
+Nunca usou um PIMS — anota em caderno de campo. Chega à landing por indicação de outro veterinário, reconhece-se no bloco &quot;não uso nenhum PIMS hoje&quot;, e segue para o cadastro standalone sem precisar entender a arquitetura por trás.
+Carlos — médico-veterinário volante, 29 anos (mesma persona do Long Life Pet)
+Já usa o Long Life Pet como fonte de agenda e prontuário. Jornada com o Ausculta: abre o app antes da visita → prontuário do pet já carregado (modo integrado) → grava a consulta em campo, sem internet → revisa e aprova o SOAP → a nota volta ao prontuário do pet no Long Life Pet.
+Dra. Renata — veterinária de hospital de alta complexidade, sem conta no Long Life Pet
+Usa o Ausculta em modo standalone ou conectado ao PIMS já contratado pelo hospital. Jornada: cadastra o paciente (ou recebe do PIMS terceiro via MCP) → grava a consulta com as mãos livres para a contenção → revisa e aprova o SOAP → a nota sincroniza com o sistema do hospital.
+Responsável técnico / administrador da clínica parceira
+Audita que toda nota gerada por IA foi revisada e aprovada por um veterinário antes de virar registro oficial — mesmo papel de auditoria já formalizado no discovery do Long Life Pet (A.14.3/B.8).
+A.7 Proposta de valor
+Eixo
+Valor entregue
+Proteção jurídica
+Registros SOAP detalhados em tempo real pela IA protegem a clínica de processos por omissão de informação, com auditoria impecável.
+Aumento de capacidade
+Recuperar os ~10 minutos perdidos por consulta pode viabilizar até 20% mais atendimentos diários com a mesma equipe, ou reduzir horas extras.
+Interoperabilidade descomplicada
+Servidor MCP nativo permite que agentes de IA de terceiros leiam o histórico e sugiram exames ou laudos no futuro, sem integração ponto a ponto.
+Continuidade sem lock-in
+A clínica não precisa abandonar o PIMS atual para ganhar IA — o Ausculta se pluga, não substitui.
+A.8 Compliance e limites de comunicação
+A IA do Ausculta estrutura um rascunho — nunca emite diagnóstico, prescrição ou conclusão clínica autônoma; essas ações continuam exclusivas do médico-veterinário, alinhado ao mesmo limite já estabelecido para a IA do Long Life Pet (B.6). Toda nota gerada carrega o disclosure &quot;Rascunho gerado por IA — revise antes de aprovar&quot; e exige o gesto explícito de aprovação antes de entrar no prontuário oficial.
+Consentimento de gravação — obrigatório antes de iniciar a captura de áudio, registrado com usuário, data e hora, reaproveitando o desenho de consentimento já usado no Long Life Pet (LGPD);
+Áudio clínico como dado sensível — criptografado em trânsito e em repouso, com política de retenção e descarte definida antes do lançamento (ver B.7);
+CFMV — o disclosure e o gesto de aprovação humana seguem o mesmo racional já usado para IA e para o disclosure de idade clínica no Long Life Pet (B.4.7/B.6): estimativa ou rascunho assistido nunca é apresentado como diagnóstico.
+A.9 Hipóteses de negócio e sinais de validação
+H1 — Viabilidade técnica offline
+A captura e transcrição via Edge AI não causam superaquecimento nem esgotam a memória em dispositivos móveis padrão. Sinal de validação: sessão de consulta completa (15-30 min) sem falha em pelo menos 3 modelos de dispositivo de referência.
+H2 — Integridade da sincronização
+O registro SOAP gerado offline sincroniza sem corromper a base centralizada. Sinal de validação: zero perda ou duplicação de dado em 100 sincronizações de teste com conflito simulado.
+H3 — Interoperabilidade via MCP
+Um cliente externo consegue ler um prontuário recém-gerado consultando o servidor MCP. Sinal de validação: leitura bem-sucedida e auditável por um cliente MCP de terceiro, respeitando o modelo de owner/interseção (B.10).
+H4 — Adoção pelo veterinário volante
+Veterinários preferem o Ausculta a anotação em papel/app genérico de gravação. Sinal de validação: ≥70% dos veterinários piloto usam o Ausculta em pelo menos 80% das consultas após 30 dias.
+H5 — Valor comercial para a clínica parceira
+A economia de tempo se traduz em mais atendimentos ou menos hora extra. Sinal de validação: aumento mensurável de consultas/dia por veterinário piloto, sem aumento de jornada.
+A.10 Backlog de funcionalidades priorizado
+Backlog único, sem classificação de MVP/piloto ou fases fixas — mesma convenção adotada no discovery do Long Life Pet (A.19 lá).
+Funcionalidade
+Prioridade
+Racional
+Captura offline + transcrição edge (Whisper quantizado)
+Alta
+Núcleo do produto — testa H1
+Estruturação automática do rascunho SOAP
+Alta
+Sem isso não há redução de tempo de documentação
+Tela de consentimento obrigatória antes da gravação
+Alta
+Compliance LGPD — bloqueante
+Sincronização CRDT com a nuvem
+Alta
+Testa H2 — sem isso o modo offline não é confiável
+Aprovação humana obrigatória antes de gravar no prontuário
+Alta
+Regra inegociável de segurança clínica (A.8)
+Modo integrado ao Long Life Pet (pré-carga + retorno de prontuário)
+Alta
+Habilita o principal caso de uso do time interno
+Landing page com 3 portas de entrada (LLP / outro PIMS / standalone)
+Alta
+Ponto único de aquisição para os três públicos — ver A.11
+Rastreabilidade de evidência (Linked Evidence)
+Alta
+Onda 1 do estudo de mercado — baixo esforço, alto alinhamento com a arquitetura já offline-first (A.11)
+Alertas farmacológicos e calculadora de dose por espécie/peso
+Alta
+Onda 1 — segurança clínica de maior valor percebido (A.11)
+Templates especializados por espécie (grande porte, exóticos, silvestres)
+Alta
+Onda 1 — nicho pouco disputado, alinhado ao caso de uso primário (volante) (A.11)
+Servidor MCP nativo (leitura auditável por terceiros)
+Média
+Testa H3 — valor de interoperabilidade
+Adaptação FHIR-vet (API REST/GraphQL para PIMS terceiros)
+Média
+Habilita o modo B2B com clínicas fora do Long Life Pet
+Painel de auditoria (quem aprovou, quando, nota original vs. editada)
+Média
+Proteção jurídica (A.7) — sobrepõe a Auditoria de Compliance da Onda 2 (A.11)
+Voice-to-Invoice (faturamento por voz)
+Média
+Onda 2 do estudo de mercado — maior ROI direto, mas exige consistência forte (B.2b), não é bloqueante do core
+Sugestão de diagnóstico diferencial apoiada em literatura (cloud)
+Baixa
+Exige base de evidência madura; sem diagnóstico autônomo (A.8)
+Resumo de alta automático para o tutor
+Baixa
+Reaproveita o SOAP já gerado; baixo esforço mas não bloqueante (A.11)
+Recall/retorno automatizado e painel de ROI
+Baixa
+Diferenciais de retenção/expansão — não fazem parte da validação inicial (A.11)
+Leitura/emissão de laudo de imagem via MCP por agente externo
+Baixa
+Visão futura citada no pitch — não faz parte desta primeira entrega
+A.11 Panorama competitivo e priorização de features
+Estudo de mercado dedicado (ver Fontes) mapeou dois movimentos paralelos: PIMS tradicionais incorporando IA nativa (Digitail, Vetspire, Shepherd, Provet Cloud, Covetrus Pulse) e AI Scribes &quot;camada fina&quot; agnósticos de PIMS (CoVet). No Brasil, a IA aplicada ao ato clínico ainda é incipiente (Melea, KronosVet) — uma janela competitiva real. Conclusão do estudo: o diferencial arquitetural do Ausculta (offline-first, CRDT, hub agnóstico via MCP) não é replicado nativamente por nenhum concorrente relevante — a maioria é 100% cloud-dependente. O risco não é tecnológico, é de paridade de features clínicas: um produto que só transcreve perde para quem já embute diagnóstico e faturamento por voz.
+Onda
+Features
+Racional de sequenciamento
+Onda 1 (nesta entrega)
+Linked Evidence · Alertas farmacológicos/dose · Templates por espécie
+Baixo esforço, alto alinhamento com a arquitetura offline-first já decidida — cobrem paridade competitiva e o nicho de volante (equinos/bovinos)
+Onda 2 (próxima)
+Voice-to-Invoice · Auditoria de compliance
+Maior esforço (exige consistência forte para faturamento, B.2b) e maior ROI direto — fica para depois do core validado
+Backlog futuro
+Diagnóstico diferencial · Resumo de alta ao tutor · Recall automatizado · Painel de ROI · Multilíngue
+Diferenciais de retenção/expansão e de posicionamento — fora do escopo da primeira validação (ver PRD, Out of Scope)
+Detalhamento completo das 12 features avaliadas, com esforço estimado e impacto competitivo por item, está no relatório de mercado anexado (ver Fontes) — este discovery reproduz apenas a síntese de sequenciamento.
+Parte B — Arquitetura e decisões técnicas
+Esta parte assume as decisões de negócio da Parte A como dadas e descreve como o Ausculta é construído, operado e integrado — inclusive com o Long Life Pet.
+B.1 Stack tecnológica decidida
+Decisão: PWA local-first construído em Next.js + Tailwind CSS, hospedado na Vercel — mesma plataforma de deploy já decidida para o Long Life Pet (ADR-009/010 lá), reaproveitando conhecimento operacional do time.
+Camada
+Tecnologia
+Justificativa
+Frontend / App
+Next.js + Tailwind CSS
+Hospedagem nativa na Vercel como PWA; mobile-first; geração rápida de UI via IA.
+Persistência local
+RxDB + SQLite
+Sincronização bidirecional e offline-first robusto desde o dia 1.
+Motor AI (Edge)
+Transformers.js
+Roda modelos (ex. Whisper) nativamente no navegador/app via WebAssembly/WebGPU, sem custo de nuvem e preservando privacidade do áudio.
+Motor AI (Cloud)
+Vercel AI SDK
+Orquestração padronizada de chamadas a LLMs comerciais quando há rede disponível.
+Integração MCP
+MCP TS SDK
+Implementado como serverless function na Vercel para expor dados a agentes externos com segurança e auditoria.
+B.2 Arquitetura do módulo Ausculta
+O processamento é dividido entre dispositivo (Edge) e nuvem, conforme a disponibilidade de rede — o Ausculta nunca bloqueia o atendimento esperando conectividade.
+Processo
+Modo offline (Edge)
+Modo online (Cloud)
+Captura
+Filtro acústico ativo para ruído local; processamento isolado no hardware.
+Upload em background do áudio original, encriptado, para análise posterior.
+Transcrição
+Modelos quantizados via WebGPU/WASM no navegador/app.
+Transcrição paralela via API para refinamento semântico, se necessário.
+Estruturação
+Rascunho SOAP via SLMs (Small Language Models) no dispositivo.
+LLMs de fronteira extraem sintomas, histórico e aplicam terminologia padronizada.
+Decisão clínica
+Alertas farmacológicos básicos via banco relacional embarcado (SQLite).
+Sugestão de diagnósticos diferenciais apoiada em literatura veterinária — sempre não autônoma (A.8).
+B.2b Modelo de consistência por domínio de dado (CRDT)
+Nem todo dado do prontuário tem o mesmo risco clínico em caso de conflito — por isso a sincronização não usa um único modelo de CRDT, mas um arquétipo por tipo de campo (detalhamento técnico anexado pelo usuário, ver Fontes).
+Arquétipo CRDT
+Aplicação clínica
+Estratégia de resolução
+LWW-Register (Last-Write-Wins)
+Nome do tutor, telefone, campos demográficos
+Timestamp decide o valor mais recente — divergência raramente tem implicação clínica grave
+OR-Set (Observed-Remove Set)
+Lista de medicações e alergias
+Rastreia adições/remoções por ID único; adição sempre prevalece sobre remoção, por segurança
+MVR (Multi-Value Register)
+Resultados de exame, sinais vitais, texto SOAP concorrente (Plano/Avaliação)
+Preserva todos os valores concorrentes para revisão manual do veterinário — nunca sobrescreve uma decisão clínica silenciosamente
+Consistência por módulo: eventual para notas clínicas gerais (Subjetivo/Objetivo); causal para plano terapêutico/prescrições (a prescrição só faz sentido depois do diagnóstico que a originou); forte para faturamento e controle de estoque de medicamentos controlados — por isso o módulo financeiro (fora do escopo desta primeira entrega, ver PRD) usa fila transacional com idempotência por ID, não o CRDT permissivo do restante do prontuário.
+Regra de ouro: uma vez que CRDTs estão ativados numa coleção (RxDB CRDT Plugin), nenhuma escrita direta via modify()/incrementalModify() é permitida — apenas updateCRDT()/insertCRDT(). Este é um requisito não funcional a documentar explicitamente no handoff Inovação → Engenharia (B.8), para que desenvolvedores futuros não quebrem a garantia de merge determinístico.
+B.3 Requisitos funcionais
+RF-001 — Captura offline
+O sistema deve capturar e transcrever áudio de consulta sem conexão de rede.
+RF-002 — Estruturação SOAP
+O sistema deve estruturar automaticamente o rascunho em Subjetivo, Objetivo, Avaliação e Plano.
+RF-003 — Consentimento
+O sistema deve bloquear o início da gravação até o consentimento ser confirmado e registrado.
+RF-004 — Revisão e aprovação
+O sistema deve exigir um gesto explícito de aprovação humana antes de gravar a nota no prontuário oficial.
+RF-005 — Sincronização CRDT
+O sistema deve sincronizar dados locais e remotos sem conflito de versão quando a conectividade retornar.
+RF-006 — Modo integrado ao Long Life Pet
+O sistema deve pré-carregar o prontuário do pet agendado e devolver a evolução aprovada ao prontuário de origem.
+RF-007 — Modo standalone
+O sistema deve permitir cadastro manual de paciente e operação sem qualquer integração externa.
+RF-008 — Interoperabilidade via API/MCP
+O sistema deve expor e consumir dados clínicos via API REST/GraphQL (FHIR-vet) e servidor MCP nativo.
+RF-009 — Auditoria
+O sistema deve registrar quem aprovou cada nota, quando, e manter o histórico entre rascunho original e versão editada.
+RF-010 — Isolamento por owner
+O sistema nunca deve reter um prontuário como próprio owner — o owner é sempre o Long Life Pet, o PIMS terceiro ou a clínica standalone, conforme o modo (A.4).
+RF-011 — Rastreabilidade de evidência (Linked Evidence)
+Cada frase gerada no SOAP deve manter um link para o trecho exato do áudio/transcrição que a originou, exposto na UI como &quot;ver origem&quot;.
+RF-012 — Alerta farmacológico e dose
+O sistema deve verificar automaticamente a dose sugerida contra o limite por espécie e peso do paciente, emitindo alerta editável antes da aprovação da nota.
+B.4 Requisitos não funcionais
+Desempenho e confiabilidade
+Captura e transcrição locais não podem causar superaquecimento nem esgotar memória em dispositivo móvel padrão (H1);
+Zero corrupção ou duplicação de dado em sincronização com conflito (H2);
+Funcionamento pleno em modo avião, do início ao fim de uma consulta.
+Segurança e privacidade
+Criptografia do áudio em trânsito e em repouso;
+Consentimento obrigatório e auditável antes de qualquer gravação;
+Nenhum dado clínico retido com o Ausculta como owner, em nenhum modo de operação (A.4);
+Autenticação e autorização do veterinário herdadas do Long Life Pet ou do PIMS terceiro — o Ausculta não reimplementa validação profissional (Assumptions do PRD).
+Usabilidade
+Interface mobile-first, alto contraste, operável com luvas — alvo de toque mínimo de 48×48px;
+Indicadores de estado sempre visíveis: offline/online, gravando, sincronizando, aprovado.
+B.5 Interoperabilidade e protocolos
+APIs REST/GraphQL — endpoints bidirecionais adotando uma adaptação do padrão FHIR para veterinária, mapeando raças, espécies e código SNOMED CT;
+Model Context Protocol (MCP) — servidor MCP nativo, permitindo que agentes de IA de terceiros consultem históricos e escrevam evoluções de forma segura e auditável, eliminando integrações ponto a ponto;
+Sincronização CRDT (Conflict-free Replicated Data Types) — conflitos de edição resolvidos matematicamente no banco local, mesclando atualizações de forma transparente com a nuvem central.
+B.6 Integração com o Long Life Pet — decisão de projeto separado
+Decisão: o Ausculta tem um protótipo próprio no Claude Design, separado do Long Life Pet.dc.html — não uma aba ou tela nova dentro do app existente.
+Racional: o Ausculta atende um público que pode nunca ter conta no Long Life Pet (veterinário de hospital usando PIMS terceiro, veterinário autônomo em modo standalone) — forçar todo esse público a passar pela interface do app consumidor do Long Life Pet seria incoerente com o próprio modelo de hub agnóstico do produto. Além disso, a interface é fundamentalmente diferente: uma ferramenta de campo (gravação de voz, waveform, revisão de texto clínico, alto contraste para uso com luvas) tem uma gramática visual e uma arquitetura de informação distintas da navegação de um app de assinatura para tutores.
+O vínculo entre os dois produtos é de dados, não de tela:
+Antes da visita — quando o modo integrado está ativo, o Long Life Pet envia ao Ausculta o prontuário do pet agendado (identificação, histórico relevante, alergias, medicamentos em uso);
+Depois da visita — o Ausculta devolve ao Long Life Pet a nota SOAP já aprovada pelo veterinário, que passa a integrar o prontuário do pet como um novo registro de atendimento;
+Owner preservado — em nenhum momento o Ausculta se torna owner do dado; o modelo de isolamento por owner e RLS já decidido no Long Life Pet (B.10 lá) continua sendo a fonte da verdade para quem pode acessar o quê;
+Autenticação reaproveitada — um veterinário já validado (CRMV/SISCAD) no Long Life Pet não passa por nova validação para usar o modo integrado (B.8 lá).
+Consequência prática: a spec técnica do modo integrado deve tratar o contrato de envio/recebimento de prontuário como uma integração entre dois sistemas com fronteiras de dados claras — não como uma feature interna de nenhum dos dois produtos.
+B.7 Segurança e privacidade do áudio clínico
+Consentimento — registrado com usuário, data, hora e finalidade, antes de qualquer gravação (RF-003);
+Criptografia — em trânsito (TLS) e em repouso, tanto para o áudio original quanto para a transcrição;
+Retenção e descarte — política de retenção do áudio original a definir antes do lançamento (recomendação: reter apenas até a aprovação da nota, depois descartar, mantendo somente o texto estruturado — a confirmar com jurídico);
+Minimização — o áudio bruto nunca trafega para fora do dispositivo em modo offline; em modo online, o upload é opcional e apenas para refinamento semântico.
+B.8 Critérios de handoff (Inovação → Engenharia)
+O experimento é considerado maduro para repasse à engenharia principal quando comprovar:
+A captura e transcrição via Edge AI não causam superaquecimento nem esgotam memória em dispositivos móveis padrão (H1);
+O registro SOAP gerado offline sincroniza sem corromper a base de dados centralizada (H2);
+Um cliente externo consegue ler um prontuário recém-gerado consultando o servidor MCP, respeitando o modelo de owner/interseção (H3, B.10 do Long Life Pet);
+O modo integrado ao Long Life Pet troca o prontuário nos dois sentidos (envio antes da visita, retorno depois) sem erro em pelo menos um ciclo completo de teste ponta a ponta;
+O merge CRDT de um conflito real entre dois dispositivos com o mesmo paciente resolve corretamente para cada um dos três arquétipos — LWW, OR-Set, MVR — sem perda de dado de segurança (ver B.2b).
+B.9 Registro de decisões técnicas
+Decisão
+Resumo
+Detalhado em
+ADR sugerido
+Projeto de design separado do Long Life Pet
+Protótipo próprio no Claude Design; vínculo é de dados, não de tela
+B.6
+ADR-PS-001
+Stack PWA local-first na Vercel
+Next.js + Tailwind, RxDB/SQLite, Transformers.js, Vercel AI SDK
+B.1
+ADR-PS-002
+Edge AI para captura e transcrição
+Processamento on-device via Transformers.js/WebGPU
+B.2
+ADR-PS-003
+Sincronização via CRDT
+Resolução matemática de conflito, sem etapa manual de merge
+B.5
+ADR-PS-004
+Interoperabilidade via MCP + FHIR-vet
+Hub agnóstico; nenhuma integração ponto a ponto
+B.5
+ADR-PS-005
+Owner do prontuário nunca é o Ausculta
+Preserva o modelo de RLS por owner já decidido no Long Life Pet
+B.6
+ADR-PS-006
+Aprovação humana obrigatória
+IA nunca finaliza, diagnostica ou prescreve sozinha
+A.8 / B.3 (RF-004)
+ADR-PS-007
+Consistência CRDT por domínio de dado
+LWW para cadastro, OR-Set p/ alergia-medicação, MVR p/ diagnóstico-plano; faturamento fora do CRDT
+B.2b
+ADR-PS-008
+Priorização de features por onda (mercado)
+Onda 1: Linked Evidence, alertas de dose, templates por espécie. Onda 2: voice-to-invoice, auditoria de compliance
+A.11
+ADR-PS-009
+Nome de trabalho: Ausculta
+Pendente de busca formal de marca (INPI/USPTO/WIPO) e domínio antes do lançamento público
+Capa / claude/ausculta-nome-e-decisao.md
+ADR-PS-010
+Fontes
+1. Documento de Discovery — Plataforma PIMS + AI Scribe (Arquitetura Local-First), SIQ Systems (material anexado pelo usuário)
+2. Pitch Estratégico — O Futuro do Prontuário Veterinário (material anexado pelo usuário)
+3. Discovery — Long Life Pet v1.0 (Parte B, seções B.6, B.8, B.10) — modelo de autenticação, cofre de segredos e RLS por owner reaproveitado por referência
+4. PRD — Ausculta (este engagement) — critérios de aceitação e escopo desta primeira entrega
+5. Relatório de Estudo de Mercado — PIMS + AI Scribe Veterinário, SIQ Systems (material anexado pelo usuário) — panorama competitivo e priorização de features (A.11)
+6. Detalhamento Técnico — Arquitetura Offline-First e CRDT, complemento ao Discovery (material anexado pelo usuário) — modelo de consistência por domínio de dado (B.2b)
+7. Nome da plataforma — decisão (claude/ausculta-nome-e-decisao.md) — racional de naming e pendência de busca formal de marca
+8. PRD de Design — Ausculta (claude/prd-design-ausculta.md) — documento único para colar no Claude Design: prompt de telas + contexto de UX curado deste discovery e do PRD
+9. Metodologia — PRD de Design (claude/metodologia-prd-de-design.md) — regra de curadoria e template do artefato PRD de Design no pipeline SDD

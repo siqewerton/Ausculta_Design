@@ -3,13 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./splash.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-  <script src="splash.js"></script>
   <script src="i18n.js"></script>
   <link rel="stylesheet" href="styles.css">
   <script src="./image-slot.js"></script>
@@ -409,12 +407,12 @@ class Component extends DCLogic {
       entries,
       steps: [
         { n: '1', icon: 'file-check', title: 'Confirme o consentimento', copy: 'O responsável ou a clínica autoriza a gravação. Fica registrado com data, hora e finalidade.' },
-        { n: '2', icon: 'mic', title: 'Atenda com as mãos livres', copy: 'O Ausculta ouve a consulta, filtra latidos e maquinário e transcreve no próprio dispositivo.' },
+        { n: '2', icon: 'mic', title: 'Atenda com as mãos livres', copy: 'O Ausculta ouve a consulta, filtra latidos e maquinário e transcreve no próprio aparelho.' },
         { n: '3', icon: 'list-checks', title: 'Revise o rascunho SOAP', copy: 'Cada frase leva ao trecho de áudio de origem. Doses acima do limite para espécie e peso geram alerta.' },
         { n: '4', icon: 'circle-check', title: 'Aprove e sincronize', copy: 'A nota só entra no prontuário com o seu toque em Aprovar, no Long Life Pet, no seu PIMS ou na sua conta.' }
       ].map(s => ({ ...s, mask: IC(s.icon) })),
       personas: [
-        { tag: 'Sem internet', title: 'Atendimento volante', who: 'Equinos, bovinos, domicílio', copy: 'Grave no estábulo ou no pasto, sem sinal. O SOAP fica pronto no dispositivo e sincroniza quando a rede voltar. Nada de caderno de campo.' },
+        { tag: 'Sem internet', title: 'Atendimento volante', who: 'Equinos, bovinos, domicílio', copy: 'Grave no estábulo ou no pasto, sem sinal. O SOAP fica pronto no aparelho e sincroniza quando a rede voltar. Nada de caderno de campo.' },
         { tag: 'Mãos livres', title: 'Hospital de alta complexidade', who: 'Contenção, exame físico, centro cirúrgico', copy: 'Mãos e olhos no paciente. O Ausculta documenta enquanto você examina, mesmo atrás de paredes sem roteador.' },
         { tag: 'Sem migração', title: 'Clínica com PIMS', who: 'Equipe com sistema de gestão já contratado', copy: 'Mantenha o sistema atual. O Ausculta se conecta por MCP ou API e devolve a nota aprovada ao prontuário.' }
       ],
@@ -428,7 +426,7 @@ class Component extends DCLogic {
       trust: [
         { icon: 'user-check', title: 'A IA não diagnostica nem prescreve', copy: 'Ela redige um rascunho. Diagnóstico, prescrição e aprovação são sempre do veterinário.' },
         { icon: 'file-check', title: 'Consentimento antes de gravar', copy: 'Registrado com usuário, data, hora e finalidade, em linha com a LGPD.' },
-        { icon: 'lock', title: 'Áudio criptografado', copy: 'Em trânsito e em repouso. No modo offline, o áudio não sai do dispositivo.' },
+        { icon: 'lock', title: 'Áudio criptografado', copy: 'Em trânsito e em repouso. No modo offline, o áudio não sai do aparelho.' },
         { icon: 'database', title: 'Prontuários guardados com segurança', copy: 'O Ausculta armazena seus prontuários com criptografia e backup. A titularidade é sua, e você exporta tudo quando quiser.' },
         { icon: 'history', title: 'Auditoria completa', copy: 'Quem aprovou, quando, e o que mudou entre o rascunho e a versão final.' }
       ].map(t => ({ ...t, mask: IC(t.icon) })),

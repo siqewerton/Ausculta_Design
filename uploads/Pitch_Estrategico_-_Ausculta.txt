@@ -1,0 +1,42 @@
+SIQ · Spec Driven Development — Pitch Estratégico
+O Fim da Era do &quot;Digitador de Luxo&quot;
+Devolvendo o foco do médico veterinário para o paciente, onde quer que ele esteja.
+Ausculta — codinome interno anterior: PIMS Scribe. Nome sujeito à busca formal de marca e domínio antes do lançamento público (ver claude/ausculta-nome-e-decisao.md).
+O médico veterinário passa anos dominando fisiologia e cirurgia para, na prática diária, atuar como um digitador. A cada consulta de vinte minutos, perdem-se outros dez transcrevendo históricos, sintomas e planos terapêuticos.
+Se o atendimento for no campo, em um estábulo ou em um centro cirúrgico com paredes espessas e sem roteador, o cenário piora: anotações em papel se acumulam para o fim do dia, gerando fadiga crônica, subnotificação de dados clínicos essenciais e um teto claro e limitante na capacidade de faturamento do profissional.
+Nossa solução transforma o tablet ou smartphone do veterinário em um residente clínico invisível. Através de um motor de Inteligência Artificial otimizado para o dispositivo físico (Edge AI), o sistema ouve ativamente a consulta, ignora ruídos de fundo como latidos ou maquinário, e redige automaticamente o prontuário estruturado no padrão SOAP — permitindo que o profissional mantenha o contato visual com o tutor e a contenção física do animal.
+▎ Operação 100% Offline
+Funciona no &quot;modo avião&quot;. O processamento de voz ocorre no próprio hardware do dispositivo. A sincronização usa um modelo de CRDT por domínio de dado — cadastro, alergias/medicação e plano terapêutico, cada um com sua própria estratégia de merge — garantindo que nenhum dado de segurança se perca mesmo num conflito real entre dois dispositivos.
+▎ Hub Agnóstico
+Não forçamos o abandono de sistemas atuais. Através da tecnologia MCP (Model Context Protocol) e APIs, plugamos nossa inteligência nos sistemas de gestão já usados pela clínica.
+Uma landing, três portas de entrada
+O Ausculta parte de uma única landing page pública que reconhece três públicos diferentes sem forçar nenhum deles a se explicar duas vezes. É vendável e usável independentemente do Long Life Pet — essa é uma decisão estratégica, não uma limitação: quanto mais aberto o Ausculta, maior o mercado endereçável, num momento em que a IA clínica ainda é incipiente no mercado brasileiro (Vetwork, SimplesVet, PetSys, KronosVet) — uma janela competitiva real.
+Já uso o Long Life Pet
+Conecta com um clique — o prontuário do pet chega pronto antes da visita, e a nota volta sozinha depois.
+Uso outro PIMS
+Não troca de sistema — o Ausculta se pluga ao PIMS atual via MCP/API, sem migração.
+Não uso nenhum PIMS hoje
+Começa só com o Ausculta — prontuário, agenda básica e faturamento simples, sem depender de mais nada.
+Pitch Estratégico — Ausculta · Página 1 de 2
+O Valor Estratégico do Ausculta
+Entregar apenas mais um software de prontuário na nuvem não resolve o problema base: a usabilidade da medicina em campo. O mercado já está saturado de ERPs fragmentados.
+A disrupção que propomos é o desacoplamento da interface de anotação. O veterinário pode usar nosso Ausculta como o núcleo central do seu atendimento clínico, enquanto nosso sistema exporta os dados sanitários e financeiros de forma perfeitamente formatada para o laboratório, a recepcionista e o setor de faturamento.
+▎ Proteção Jurídica
+Com registros SOAP redigidos em tempo real pela IA — cada frase rastreável ao trecho exato do áudio que a originou (Linked Evidence) e sempre revisada e aprovada por um veterinário antes de virar registro oficial — a clínica se protege de processos por omissão de informação, com auditorias clínicas impecáveis.
+▎ Aumento de Receita
+Recuperar os 10 minutos perdidos com anotações a cada consulta significa que o hospital veterinário pode agendar até 20% a mais de atendimentos diários com a mesma equipe, ou reduzir drasticamente as horas extras.
+Por que agora — janela competitiva real
+Players internacionais (Digitail, Vetspire, Shepherd, Covetrus Pulse) já embutem IA, mas nenhum é offline-first nem interoperável via MCP; no Brasil a IA clínica ainda é incipiente (Vetwork, SimplesVet, PetSys, KronosVet). As três features priorizadas para a primeira entrega — Linked Evidence, alerta farmacológico/dose por espécie e templates por espécie — foram escolhidas por serem, ao mesmo tempo, as de maior diferenciação competitiva e as de menor esforço, por já estarem alinhadas à arquitetura offline-first decidida (relatório de estudo de mercado em anexo).
+Interoperabilidade Descomplicada (MCP)
+Somos dos primeiros a adotar o Model Context Protocol na veterinária. Isso significa que, no futuro, agentes externos de IA poderão ler o histórico do nosso prontuário para sugerir exames ou emitir laudos de raio-x automaticamente, com segurança e sem necessidade de desenvolvimento complexo.
+Onde isso se encaixa no Long Life Pet
+O Ausculta é um produto companheiro do Long Life Pet, com protótipo e projeto de design próprios — partindo de sua própria landing page pública, não de uma tela nova dentro do app existente. O vínculo é de dados: o veterinário do Long Life Pet abre o Ausculta já com o prontuário do pet da visita carregado, e a nota aprovada volta automaticamente ao prontuário — sem que o Ausculta se torne, em nenhum momento, dono desse dado. É esse desenho que permite ao mesmo produto também vender, pela mesma landing, para clínicas fora do ecossistema Long Life Pet — a maior parte do mercado brasileiro hoje.
+Estamos eliminando o atrito da documentação médica e devolvendo horas úteis ao dia. A tecnologia não deve se intrometer entre o médico e o paciente — ela deve ouvir, registrar e desaparecer.
+Próxima validação
+Captura e transcrição em campo sem superaquecer nem esgotar memória em dispositivo móvel padrão;
+Sincronização offline → nuvem sem corromper a base de dados centralizada;
+Merge de conflito real entre dois dispositivos no mesmo prontuário resolve corretamente para os três arquétipos CRDT — LWW, OR-Set, MVR — sem perda de dado de segurança;
+Leitura auditável de um prontuário recém-gerado por um cliente MCP externo;
+Ciclo completo do modo integrado — prontuário enviado antes da visita, evolução aprovada devolvida depois — sem erro, no Long Life Pet.
+Esses cinco pontos são os critérios de handoff de Inovação para Engenharia (ver Discovery — Ausculta, B.8) e o ponto de partida do protótipo interativo a ser construído no Claude Design (PRD de Design em anexo — claude/prd-design-ausculta.md).
+Pitch Estratégico — Ausculta · Página 2 de 2

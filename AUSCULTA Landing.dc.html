@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/organic-9771c27e-fddd-4d5f-969c-b6a997805ac7/styles.css">
+  <script src="_ds/organic-9771c27e-fddd-4d5f-969c-b6a997805ac7/_ds_bundle.js"></script>
+  <title>AUSCULTA</title>
+  <style>
+    body { margin: 0; text-wrap: pretty; overflow-x: clip; background: var(--color-bg); }
+    a { color: var(--color-accent-700); }
+    a:hover { color: var(--color-accent-800); }
+  </style>
+</helmet>
+<div style="min-height: 100vh; color: var(--color-text); font-family: var(--font-body);">
+  <nav class="nav" style="padding-inline: max(clamp(20px, 5vw, 72px), calc((100% - 1200px) / 2 + clamp(20px, 5vw, 72px)));">
+    <span class="nav-brand">AUSCULTA</span>
+    <a href="#como">Como funciona</a>
+    <a href="#recursos">Recursos</a>
+    <a href="#contato">Contato</a>
+    <button type="button" class="btn btn-primary">Agendar conversa</button>
+  </nav>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 72px);">
+
+    <section style="position: relative; padding: 112px 0 84px;">
+      <sc-if value="{{ showDecor }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; right: 0; top: -200px; width: 420px; height: 420px; border-radius: 50%; background: var(--color-accent-2-200); z-index: -1; pointer-events: none;"></div>
+        <div style="position: absolute; right: 300px; top: 150px; width: 90px; height: 90px; border-radius: 50%; background: var(--color-accent-200); z-index: -1; pointer-events: none;"></div>
+      </sc-if>
+      <h1 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(40px, 5.8vw, 76px); line-height: 1.08; margin: 0 0 0 -0.028em; max-width: 14ch;">
+        <span style="display: block;">Escute sua equipe.</span>
+        <span style="display: block;">Aja no que importa.</span>
+      </h1>
+      <p style="font-size: 17px; line-height: 28px; max-width: 58ch; margin: 36px 0 0;">AUSCULTA é uma plataforma de escuta contínua para organizações: pesquisas curtas e frequentes, respostas anônimas e leituras claras para que líderes saibam o que mudar primeiro.</p>
+      <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: 28px;">
+        <button type="button" class="btn btn-primary">Agendar conversa</button>
+        <a href="#como" class="btn btn-ghost" style="text-decoration: none;">Ver como funciona</a>
+      </div>
+    </section>
+
+    <sc-if value="{{ showSteps }}" hint-placeholder-val="{{ true }}">
+      <section id="como" style="padding: 28px 0 84px;">
+        <span style="display: block; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--color-accent-700); margin-bottom: 28px;">Como funciona</span>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; align-items: start;">
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="width: 88px; height: 88px; border-radius: 50%; background: var(--color-accent-100); display: grid; place-content: center; font-family: var(--font-heading); font-size: 36px; color: var(--color-accent-700);">1</div>
+            <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 1.1; margin: 0;">Pergunte pouco</h2>
+            <p style="font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 34ch;">Ciclos de cinco perguntas, enviados por e-mail ou WhatsApp. Leva dois minutos para responder.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 20px; padding-top: 28px;">
+            <div style="width: 88px; height: 88px; border-radius: 50%; background: var(--color-accent-2-100); display: grid; place-content: center; font-family: var(--font-heading); font-size: 36px; color: var(--color-accent-2-700);">2</div>
+            <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 1.1; margin: 0;">Ouça com cuidado</h2>
+            <p style="font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 34ch;">Respostas anônimas, agrupadas por tema. Nenhum resultado aparece para grupos com menos de cinco pessoas.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="width: 88px; height: 88px; border-radius: 50%; background: var(--color-accent-200); display: grid; place-content: center; font-family: var(--font-heading); font-size: 36px; color: var(--color-accent-700);">3</div>
+            <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 1.1; margin: 0;">Responda de volta</h2>
+            <p style="font-size: 15.5px; line-height: 28px; margin: 0; color: color-mix(in srgb, var(--color-text) 78%, transparent); max-width: 34ch;">Cada líder recebe três prioridades e um espaço para contar à equipe o que vai mudar.</p>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <section id="recursos" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 56px; align-items: center; padding: 56px 0 84px;">
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <span style="font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--color-accent-700);">O que o líder vê</span>
+        <h2 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 32px; line-height: 1.2; margin: 0; max-width: 18ch;">Uma leitura, não uma planilha</h2>
+        <p style="font-size: 15.5px; line-height: 28px; margin: 0; max-width: 48ch; color: color-mix(in srgb, var(--color-text) 78%, transparent);">Os resultados chegam como um resumo curto: o que melhorou, o que piorou e onde começar. Os números completos ficam a um clique.</p>
+      </div>
+      <div class="card elev-md" style="border-radius: calc(2 * var(--radius-lg)); padding: 32px; display: flex; flex-direction: column; gap: 20px; max-width: 460px; justify-self: end; width: 100%; box-sizing: border-box;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span class="card-kicker" style="margin: 0;">Ciclo de setembro · Operações</span>
+          <span class="tag tag-accent-2">82% responderam</span>
+        </div>
+        <sc-for list="{{ themes }}" as="t" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 600;">
+              <span>{{ t.name }}</span>
+              <span style="color: var(--color-neutral-700);">{{ t.label }}</span>
+            </div>
+            <div style="height: 12px; border-radius: 999px; background: var(--color-neutral-200); overflow: hidden;">
+              <div style="height: 100%; border-radius: 999px; width: {{ t.pct }}; background: {{ t.color }};"></div>
+            </div>
+          </div>
+        </sc-for>
+        <p style="margin: 0; font-size: 14.5px; line-height: 24px; padding: 16px 20px; border-radius: var(--radius-lg); background: var(--color-accent-100); color: var(--color-accent-900);">Comece por aqui: a carga de trabalho caiu 9 pontos desde julho.</p>
+      </div>
+    </section>
+
+    <section id="contato" style="padding: 0 0 56px;">
+      <div style="background: var(--color-accent-2-100); border-radius: calc(2 * var(--radius-lg)); padding: 56px clamp(24px, 4vw, 64px); display: flex; flex-direction: column; gap: 20px;">
+        <h3 style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 26px; line-height: 1.2; margin: 0;">Comece com um ciclo piloto</h3>
+        <p style="font-size: 15.5px; line-height: 28px; margin: 0; max-width: 58ch; color: color-mix(in srgb, var(--color-text) 78%, transparent);">Deixe seu e-mail e montamos o primeiro ciclo com você, para uma área da empresa.</p>
+        <div style="display: flex; gap: var(--space-3); max-width: 480px; flex-wrap: wrap;">
+          <input class="input" type="email" placeholder="voce@empresa.com.br" aria-label="E-mail" style="flex: 1; min-width: 200px;">
+          <button type="button" class="btn btn-primary">Quero o piloto</button>
+        </div>
+      </div>
+    </section>
+
+    <footer style="padding: 28px 0 56px; font-size: 13px; color: color-mix(in srgb, var(--color-text) 70%, transparent);">© 2026 AUSCULTA</footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showDecor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showSteps&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showDecor: this.props.showDecor ?? true,
+      showSteps: this.props.showSteps ?? true,
+      themes: [
+        { name: 'Reconhecimento', label: '+6', pct: '74%', color: 'var(--color-accent-2)' },
+        { name: 'Clareza de metas', label: '+2', pct: '63%', color: 'var(--color-accent-2-400)' },
+        { name: 'Carga de trabalho', label: '−9', pct: '41%', color: 'var(--color-accent)' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
