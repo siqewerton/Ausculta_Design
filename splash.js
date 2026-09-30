@@ -14,7 +14,7 @@
     '@media (prefers-reduced-motion: reduce){#aus-splash img,#aus-splash i:after{animation:none}}';
   var st = document.createElement('style'); st.textContent = css; (document.head || d).appendChild(st);
   var el = document.createElement('div'); el.id = 'aus-splash'; el.setAttribute('role', 'status'); el.setAttribute('aria-label', 'Carregando');
-  el.innerHTML = '<img alt="" src="assets/logo/ausculta-mark-diafragma.svg"><i></i>';
+  el.innerHTML = '<img alt="" src="' + ((window.__resources && window.__resources.logoMark) || 'assets/logo/ausculta-mark-diafragma.svg') + '"><i></i>';
   d.appendChild(el);
   function hide() { if (done) return; done = true; el.classList.add('out'); setTimeout(function () { el.remove(); }, 260); }
   function ready() {
