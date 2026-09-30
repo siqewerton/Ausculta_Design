@@ -31,17 +31,21 @@
   <header style="position: sticky; top: 0; z-index: 30; background: var(--surface-100); border-bottom: 1px solid var(--border);">
     <div style="max-width: 960px; margin: 0 auto; min-height: 64px; padding: var(--space-2) var(--space-4); display: flex; align-items: center; gap: var(--space-3);">
       <sc-if value="{{ showBack }}">
-        <button type="button" onClick="{{ back }}" aria-label="{{ backAria }}" title="{{ backAria }}" style="flex: 0 1 auto; min-width: 0; max-width: 60%; min-height: 48px; margin-left: calc(-1 * var(--space-3)); padding: 0 var(--space-3); border: none; background: none; color: var(--ink); border-radius: var(--radius-full); cursor: pointer; display: flex; align-items: center; gap: var(--space-2); font: 600 16px/22px var(--font-sans);" style-hover="background: var(--brand-subtle);">
+        <button type="button" onClick="{{ back }}" aria-label="{{ backAria }}" title="{{ backAria }}" style="flex: 0 1 auto; min-width: 0; max-width: 60%; min-width: 48px; min-height: 48px; margin-left: calc(-1 * var(--space-3)); padding: 0 var(--space-3); justify-content: center; border: none; background: none; color: var(--ink); border-radius: var(--radius-full); cursor: pointer; display: flex; align-items: center; gap: var(--space-2); font: 600 16px/22px var(--font-sans);" style-hover="background: var(--brand-subtle);">
           <span style="width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat;"></span>
-          <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ backLabel }}</span>
+          <sc-if value="{{ backFull }}" hint-placeholder-val="{{ true }}"><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ backLabel }}</span></sc-if>
         </button>
         <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
           <sc-if value="{{ hasHeaderTitle }}">
-            <div style="display: flex; flex-direction: column; padding-left: var(--space-3); border-left: 1px solid var(--border);">
-              <strong style="font: 700 16px/22px var(--font-sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ headerTitle }}</strong>
-              <sc-if value="{{ headerSub }}"><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ headerSub }}</span></sc-if>
+            <div style="display: flex; align-items: center; gap: var(--space-3); min-width: 0;">
+              <span aria-hidden="true" style="width: 40px; height: 40px; flex: none; border-radius: var(--radius-full); background: var(--brand-subtle); color: var(--brand-strong); display: grid; place-items: center; font: 600 17px/1 var(--font-display);">{{ headerInitial }}</span>
+              <div style="display: flex; flex-direction: column; min-width: 0;">
+                <strong style="font: 600 18px/22px var(--font-display); letter-spacing: -0.005em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ headerTitle }}</strong>
+                <sc-if value="{{ headerSub }}"><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ headerSub }}</span></sc-if>
+              </div>
             </div>
           </sc-if>
+          <sc-if value="{{ hasScrollTitle }}"><strong aria-hidden="true" style="font: 600 17px/22px var(--font-sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: opacity .18s ease, transform .18s ease; opacity: {{ scrollTitleOp }}; transform: translateY({{ scrollTitleY }});">{{ scrollTitle }}</strong></sc-if>
         </div>
       </sc-if>
       <sc-if value="{{ showLogo }}" hint-placeholder-val="{{ true }}">
@@ -270,14 +274,14 @@
     </sc-if>
 
     <sc-if value="{{ isScribe }}">
-      <div data-screen-label="Gravação" style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div data-screen-label="Gravação" ref="{{ scribeRef }}" style="display: flex; flex-direction: column; gap: var(--space-3);">
         <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-3);">
           <button type="button" onClick="{{ cycleNet }}" title="Simular mudança de rede" style="min-height: 48px; padding: 0 var(--space-4); border-radius: var(--radius-full); border: 2px solid {{ net.border }}; background: {{ net.bg }}; color: {{ net.fg }}; display: inline-flex; align-items: center; gap: var(--space-2); font: 600 14px/20px var(--font-sans); cursor: pointer;">
             <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: {{ net.mask }}; mask: {{ net.mask }};"></span>{{ net.label }}</button>
           <span style="font: 500 16px/22px var(--font-mono); font-variant-numeric: tabular-nums;">{{ clock }}</span>
         </div>
         <sc-if value="{{ isRec }}" hint-placeholder-val="{{ true }}">
-  <div style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; gap: var(--space-3); padding: var(--space-4);">
+  <div style="flex: 1 1 0; min-height: min-content; background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; gap: var(--space-3); padding: var(--space-4);">
             <div aria-hidden="true" style="height: 80px; display: flex; align-items: center; justify-content: center; gap: 4px;">
               <sc-for list="{{ bars }}" as="b" hint-placeholder-count="36"><span style="width: 4px; border-radius: var(--radius-full); background: {{ barColor }}; height: {{ b.h }}; transition: height .12s ease;"></span></sc-for>
             </div>
@@ -285,7 +289,7 @@
           </div>
         </sc-if>
         <sc-if value="{{ isPaused }}">
-          <div style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4) var(--space-4);">
+          <div style="flex: 1 1 0; min-height: min-content; background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; gap: var(--space-2); padding: var(--space-3) var(--space-4) var(--space-4);">
             <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);">
               <span style="display: inline-flex; align-items: center; gap: var(--space-2); font: 600 14px/20px var(--font-sans); color: var(--ink);"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--warning, var(--accent-warm-text));"></span>Gravação pausada</span>
               <span style="font: 500 13px/18px var(--font-mono); font-variant-numeric: tabular-nums; color: var(--ink-muted);">{{ pbClock }}</span>
@@ -300,9 +304,8 @@
             </div>
           </div>
         </sc-if>
-        <span style="display: flex; align-items: center; justify-content: center; gap: var(--space-2); font-size: 13px; line-height: 18px; color: var(--ink-muted);">
-          <span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat;"></span>Transcrição rodando localmente no dispositivo{{ micNote }}</span>
-        <sc-if value="{{ micFramed }}"><a href="{{ selfUrl }}" target="_blank" rel="noopener" style="align-self: center; display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-4); margin-top: calc(-1 * var(--space-3)); border-radius: var(--radius-full); background: var(--brand-subtle); color: var(--brand-strong); font: 600 13px/18px var(--font-sans); text-decoration: none;"><span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/external-link.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/external-link.svg) center/contain no-repeat;"></span>Abrir em nova aba para usar o microfone</a></sc-if>
+        <span style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 var(--space-2); font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center;">
+          <span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat;"></span>Transcrição rodando localmente no dispositivo<sc-if value="{{ micDenied }}"><span>·</span><span>Microfone bloqueado, áudio simulado.</span><sc-if value="{{ micFramed }}"><a href="{{ selfUrl }}" target="_blank" rel="noopener" style="color: var(--brand); font-weight: 600;">Abrir em nova aba</a></sc-if></sc-if></span>
         <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-4);">
           <div style="position: relative; width: 88px; height: 88px; display: grid; place-items: center;">
             {{ fabPulse }}
@@ -2557,7 +2560,18 @@ class Component extends DCLogic {
     if (pct >= 100) { this.logStep(p.mode === 'local' ? 'Rascunho gerado pela IA do dispositivo (offline)' : 'Rascunho gerado pela IA na nuvem'); const done = { proc: null, procMode: p.mode };
       if (s.screen === 'proc') this.go('review', { ...done, active: null, dose: 'pending', editing: null }); else { this.setState(done); this.flash('Rascunho da consulta pronto para revisão'); } }
     else this.setState({ proc: { ...p, pct } }); }
-  componentDidUpdate() { try { this.micSync(); } catch (e) {} }
+  syncHdrTitle() {
+    const h = document.querySelector('[data-screen-label] h1'); const t = h ? h.textContent.trim() : '';
+    const show = !!h && h.getBoundingClientRect().bottom < 72;
+    if (t !== (this.state.hdrTitle || '') || show !== !!this.state.hdrShow) this.setState({ hdrTitle: t, hdrShow: show });
+  }
+  componentDidUpdate() { try { this.micSync(); } catch (e) {} if (!this._hdrOn) { this._hdrOn = () => this.syncHdrTitle(); window.addEventListener('scroll', this._hdrOn, { passive: true }); } this.syncHdrTitle(); if (this.state.screen === 'scribe') this.fitScribe(); }
+  fitScribe() {
+    const el = this.scribeEl; if (!el || !el.isConnected) return;
+    const top = el.getBoundingClientRect().top + window.scrollY, h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    const v = Math.max(0, Math.floor(h - top - 24)) + 'px'; if (el.style.height !== v) { el.style.height = v; el.style.minHeight = 'min-content'; }
+    if (!this._fitOn) { this._fitOn = () => this.fitScribe(); window.addEventListener('resize', this._fitOn); window.visualViewport && window.visualViewport.addEventListener('resize', this._fitOn); }
+  }
   micSync() {
     const ps = this._prev || {}; this._prev = { screen: this.state.screen, recording: this.state.recording };
     const on = this.state.screen === 'scribe' && this.state.recording, was = ps.screen === 'scribe' && ps.recording;
@@ -3145,7 +3159,7 @@ class Component extends DCLogic {
       theme, mainWidth: flow || st.screen === 'patient' || st.screen === 'owner' || st.screen === 'cancel' ? '560px' : ['settings', 'org', 'team', 'trust', 'help', 'integrations'].includes(st.screen) ? '720px' : '960px', mainPadBottom: flow ? 'var(--space-8)' : '120px',
       showBack: flow || ['patient', 'owner', 'billing', 'cancel', 'settings', 'org', 'team', 'trust', 'help', 'integrations'].includes(st.screen) || pages.includes(st.screen), showLogo: !(flow || ['patient', 'owner', 'billing', 'cancel', 'settings', 'org', 'team', 'trust', 'help', 'integrations'].includes(st.screen) || pages.includes(st.screen)),
       showAvatar: !flow, showNav: !flow, back, backLabel, backAria: 'Voltar para ' + backLabel,
-      hasHeaderTitle: ['consent', 'scribe', 'proc', 'review'].includes(st.screen), headerTitle: titles[st.screen] || '',
+      hasHeaderTitle: ['consent', 'scribe', 'proc', 'review'].includes(st.screen), headerTitle: titles[st.screen] || '', headerInitial: ((titles[st.screen] || '').trim()[0] || '').toUpperCase(), backFull: false, hasScrollTitle: !['consent', 'scribe', 'proc', 'review'].includes(st.screen) && !!st.hdrTitle, scrollTitle: st.hdrTitle || '', scrollTitleOp: st.hdrShow ? 1 : 0, scrollTitleY: st.hdrShow ? '0' : '6px',
       headerSub: ['consent', 'scribe', 'review'].includes(st.screen) && cur ? [cur.species, cur.age, cur.weight].filter(Boolean).join(' · ') : '',
       hasOrigin: !!originName && ['consent', 'scribe', 'review'].includes(st.screen), originName,
       initials: ini(acct.name), vetName: vet.name, vetCrmv: vet.crmv, vetPlan: `Plano ${curPlanObj.name}${st.sub === 'paused' ? ' · pausado' : st.sub === 'canceled' ? ' · cancelado' : ''}${isTeamPlan ? ' · ' + ROLES[myRole].label : ''}`,
@@ -3204,7 +3218,7 @@ class Component extends DCLogic {
       bars: Array.from({ length: 36 }, (_, i) => { const lv = this.lv || []; if (this.an && lv.length) { const v = lv[lv.length - 36 + i] || 0; return { h: st.recording ? Math.round(6 + Math.min(1, v * 1.6) * 66) + 'px' : '6px' }; } return { h: st.recording ? Math.round(8 + Math.abs(Math.sin(st.tick * 0.9 + i * 0.7) * Math.cos(st.tick * 0.37 + i * 0.23)) * 64) + 'px' : '6px' }; }),
       barColor: st.recording ? 'var(--danger)' : 'var(--border-strong)', recStatus: st.recording ? 'Gravando a consulta' : 'Gravação pausada', statusColor: st.recording ? 'var(--danger)' : 'var(--ink-muted)',
       fabPulse, toggleRec: () => this.setState(st.recording ? { recording: false, pbPos: 0, pbPlaying: false } : { recording: true, pbPlaying: false }),
-      ...this.pbVals(st), micNote: st.mic === 'denied' ? ' · microfone bloqueado, áudio simulado' : '', micFramed: st.mic === 'denied' && window.top !== window, selfUrl: location.href, fabLabel: st.recording ? 'Pausar gravação' : 'Retomar gravação',
+      ...this.pbVals(st), scribeRef: this.scribeRef || (this.scribeRef = el => { this.scribeEl = el; this.fitScribe(); }), micDenied: st.mic === 'denied', micFramed: st.mic === 'denied' && window.top !== window, selfUrl: location.href, fabLabel: st.recording ? 'Pausar gravação' : 'Retomar gravação',
       fabBg: st.recording ? 'var(--danger)' : 'var(--surface-000)', fabFg: st.recording ? 'var(--on-danger)' : 'var(--danger)', fabBorder: st.recording ? 'var(--danger)' : 'var(--border-strong)', fabShadow: st.recording ? 'var(--shadow-fab)' : 'var(--shadow-card)', fabMask: IC(st.recording ? 'pause' : 'mic'),
       generate: () => { const dur = fmt(Math.max(st.elapsed, 402)); if (st.net === 'offline') { this.setState({ proc: { pid: st.pid, mode: 'local', pct: 0, dur, size: '5,8 MB' } }); this.logStep('Áudio salvo no dispositivo · processamento pela IA local iniciado (offline)'); this.go('proc', { recording: false }); } else { this.logStep(`Rascunho gerado pela IA na nuvem · áudio de ${dur}`); this.go('review', { recording: false, active: null, dose: 'pending', editing: null, procMode: 'cloud' }); } },
       soap: soapV, hasActive: !!act, segLeft: act ? (act.a / TOTAL * 100) + '%' : '0%', segWidth: act ? Math.max(2, (act.b - act.a) / TOTAL * 100) + '%' : '0%',
