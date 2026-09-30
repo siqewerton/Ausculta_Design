@@ -1,0 +1,27 @@
+/* Ausculta — cor. Todos os pares checados por contraste WCAG 2 na fonte. */
+:root {
+  --surface-100:#F1EFEA; --surface-000:#FFFFFF; --ink:#1B2420; --ink-muted:#5C6660;
+  --border:#D9D4C9; --border-strong:#8C8377;
+  --brand:#1F5C73; --brand-strong:#15414F; --on-brand:#FFFFFF; --brand-subtle:#E4EEF1;
+  --accent-warm:#A8611C; --accent-warm-text:#8B4E14; --on-accent-warm:#FFFFFF; --accent-warm-subtle:#FBF0E2;
+  --success:#1E7A46; --on-success:#FFFFFF; --success-subtle:#E4F0E7;
+  --danger:#B23A2E; --on-danger:#FFFFFF; --danger-subtle:#F5E2DF;
+
+  /* aliases semânticos */
+  --surface-page: var(--surface-100);
+  --surface-card: var(--surface-000);
+  --text-body: var(--ink);
+  --text-secondary: var(--ink-muted);
+  --link: var(--brand);
+  --link-hover: var(--brand-strong);
+  --focus-ring: var(--brand);
+  --recording: var(--danger);
+}
+[data-theme="dark"] {
+  --surface-100:#141B1C; --surface-000:#1D2624; --ink:#F2EFE9; --ink-muted:#A9B0AC;
+  --border:#33403D; --border-strong:#6C7A76;
+  --brand:#5FA8BE; --brand-strong:#7EC0D3; --on-brand:#0E1F24; --brand-subtle:#132428;
+  --accent-warm:#D68A4A; --accent-warm-text:#D68A4A; --on-accent-warm:#0E1F24; --accent-warm-subtle:#2A2118;
+  --success:#4FA873; --on-success:#0E1F24; --success-subtle:#122A1D;
+  --danger:#E08476; --on-danger:#0E1F24; --danger-subtle:#2E1714;
+}

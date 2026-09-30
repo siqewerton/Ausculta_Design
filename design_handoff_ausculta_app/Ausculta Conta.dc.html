@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./splash.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <script src="splash.js"></script>
+  <script src="i18n.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Ausculta — criar conta ou entrar</title>
+  <style>
+    body { margin: 0; }
+    input::placeholder, textarea::placeholder { color: var(--ink-muted); opacity: .7; font-weight: 400; font-style: italic; }
+    input:not([type=file]):not([type=date]):not(:placeholder-shown), textarea:not(:placeholder-shown) { font-weight: 500 !important; }
+    a { color: var(--brand); } a:hover { color: var(--brand-strong); }
+    @keyframes aus-pulse { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.7); opacity: 0; } }
+  </style>
+</helmet>
+<div data-theme="{{ theme }}" style="min-height: 100vh; background: var(--surface-100); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 24px;">
+
+  <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="0 Landing" style="max-width: 1160px; margin: 0 auto; padding: 0 var(--space-4);">
+      <header style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 72px;">
+        <span style="font: 600 26px/32px var(--font-display);">Ausculta</span>
+        <button type="button" onClick="{{ goLogin }}" style="min-height: 48px; padding: 0 var(--space-4); border: none; background: none; color: var(--brand); font: 600 16px/20px var(--font-sans); cursor: pointer; border-radius: var(--radius-lg);" style-hover="background: var(--brand-subtle); color: var(--brand-strong);">Já tem conta? Entrar</button>
+      </header>
+
+      <section style="padding: var(--space-16) 0 var(--space-12); display: flex; flex-direction: column; gap: var(--space-6); max-width: 760px;">
+        <span style="display: inline-flex; align-self: flex-start; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); background: var(--brand-subtle); color: var(--brand-strong); font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase;">
+          <span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi-off.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi-off.svg) center/contain no-repeat;"></span>
+          AI Scribe veterinário · 100% offline
+        </span>
+        <h1 style="margin: 0; font: 600 clamp(40px, 6vw, 56px)/1.07 var(--font-display); text-wrap: balance;">Termine a consulta com o prontuário pronto</h1>
+        <p style="margin: 0; font-size: 19px; line-height: 28px; color: var(--ink-muted); max-width: 58ch;">Chega de preencher prontuário no fim do expediente. O Ausculta ouve a consulta e escreve o rascunho do <abbr title="Subjetivo, Objetivo, Avaliação e Plano" style="text-decoration: underline dotted; text-decoration-color: var(--border-strong); text-underline-offset: 4px; cursor: help;">SOAP</abbr> no seu dispositivo, mesmo sem internet. Você revisa, aprova e segue para o próximo paciente.</p>
+      </section>
+
+      <section style="display: flex; flex-direction: column; gap: var(--space-6); padding-bottom: var(--space-16);">
+        <h2 style="margin: 0; font: 600 32px/38px var(--font-display);">Por onde você começa?</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--space-6);">
+          <sc-for list="{{ entries }}" as="e" hint-placeholder-count="3">
+            <article style="background: {{ e.bg }}; border-radius: var(--radius-lg); box-shadow: {{ e.shadow }}; padding: var(--space-8) var(--space-6) var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); border: 1px solid {{ e.border }};">
+              <span style="width: 48px; height: 48px; border-radius: var(--radius-full); background: var(--surface-100); color: var(--brand); display: grid; place-items: center;">
+                <span style="width: 24px; height: 24px; background: currentColor; -webkit-mask: {{ e.mask }}; mask: {{ e.mask }};"></span>
+              </span>
+              <sc-if value="{{ e.featured }}"><span style="align-self: flex-start; margin-top: calc(-1 * var(--space-2)); padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); background: var(--accent-warm); color: var(--on-accent-warm); font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase;">Comece por aqui</span></sc-if>
+              <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">{{ e.title }}</h3>
+              <p style="margin: 0; color: var(--ink-muted); flex: 1;">{{ e.copy }}</p>
+              <button type="button" onClick="{{ e.go }}" style="min-height: 48px; padding: 0 var(--space-6); border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: var(--space-2);" style-hover="background: var(--brand-strong);">
+                {{ e.cta }}
+                <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat;"></span>
+              </button>
+            </article>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--space-6); padding: var(--space-8) 0 var(--space-16);">
+        <sc-for list="{{ perks }}" as="p" hint-placeholder-count="4">
+          <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+            <span style="width: 24px; height: 24px; flex: none; margin-top: 2px; color: var(--accent-warm); background: currentColor; -webkit-mask: {{ p.mask }}; mask: {{ p.mask }};"></span>
+            <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+              <strong style="font: 700 16px/22px var(--font-sans);">{{ p.title }}</strong>
+              <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">{{ p.copy }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+
+      <dl aria-label="Siglas" style="margin: 0; padding: 0 0 var(--space-8); display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); font-size: 13px; line-height: 18px; color: var(--ink-muted); max-width: 900px;">
+        <div style="display: flex; gap: var(--space-1);"><dt style="font: 500 13px/18px var(--font-mono); color: var(--ink);">SOAP</dt><dd style="margin: 0;">Subjetivo, Objetivo, Avaliação e Plano — o formato do prontuário clínico</dd></div>
+        <div style="display: flex; gap: var(--space-1);"><dt style="font: 500 13px/18px var(--font-mono); color: var(--ink);">PIMS</dt><dd style="margin: 0;">sistema de gestão da clínica (prontuário, agenda, faturamento)</dd></div>
+        <div style="display: flex; gap: var(--space-1);"><dt style="font: 500 13px/18px var(--font-mono); color: var(--ink);">MCP</dt><dd style="margin: 0;">Model Context Protocol, padrão aberto que conecta a IA a outros sistemas</dd></div>
+        <div style="display: flex; gap: var(--space-1);"><dt style="font: 500 13px/18px var(--font-mono); color: var(--ink);">API REST</dt><dd style="margin: 0;">interface padrão para sistemas trocarem dados pela web</dd></div>
+        <div style="display: flex; gap: var(--space-1);"><dt style="font: 500 13px/18px var(--font-mono); color: var(--ink);">AI Scribe</dt><dd style="margin: 0;">assistente de IA que transcreve e organiza a consulta</dd></div>
+      </dl>
+
+      <footer style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: space-between; align-items: center; padding: var(--space-8) 0; border-top: 1px solid var(--border); color: var(--ink-muted); font-size: 13px; line-height: 18px;">
+        <span>Seus dados clínicos nunca ficam presos a um único sistema.</span>
+        <button type="button" onClick="{{ goLogin }}" style="min-height: 48px; padding: 0 var(--space-3); border: none; background: none; color: var(--ink-muted); font: 400 13px/18px var(--font-sans); text-decoration: underline; cursor: pointer;" style-hover="color: var(--brand);">Já tem conta? Entrar</button>
+      </footer>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isClinical }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width: 460px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; background: var(--surface-100);">
+      <header style="position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-2) var(--space-2) var(--space-1); min-height: 64px; background: var(--surface-100); border-bottom: 1px solid var(--border);">
+        <button type="button" onClick="{{ back }}" aria-label="{{ backAria }}" title="{{ backAria }}" style="flex: 0 1 auto; min-width: 0; max-width: 60%; min-height: 48px; padding: 0 var(--space-3); border: none; background: none; color: var(--ink); border-radius: var(--radius-full); cursor: pointer; display: flex; align-items: center; gap: var(--space-2); font: 600 16px/22px var(--font-sans);" style-hover="background: var(--brand-subtle);">
+          <span style="width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat;"></span>
+          <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ backLabel }}</span>
+        </button>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; padding-left: var(--space-3); border-left: 1px solid {{ titleRule }};">
+          <span style="font: 700 16px/22px var(--font-sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ headerTitle }}</span>
+          <sc-if value="{{ showPatientSub }}"><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">Canino · 6 anos · <span style="font-family: var(--font-mono); font-weight: 500;">32 kg</span></span></sc-if>
+        </div>
+        <sc-if value="{{ hasOrigin }}">
+          <span style="flex: none; padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); background: var(--brand-subtle); color: var(--brand-strong); font: 500 12px/16px var(--font-sans); letter-spacing: .02em;">via {{ originName }}</span>
+        </sc-if>
+      </header>
+
+      <sc-if value="{{ isAccount }}">
+        <main data-screen-label="0b Conta" style="flex: 1; padding: var(--space-6) var(--space-4) var(--space-8); display: flex; flex-direction: column; gap: var(--space-6);">
+          <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+            <h1 style="margin: 0; font: 700 24px/30px var(--font-sans);">{{ accountTitle }}</h1>
+            <p style="margin: 0; color: var(--ink-muted);">{{ accountSub }}</p>
+          </div>
+          <sc-if value="{{ sShowStepper }}">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+              <div style="display: grid; grid-template-columns: repeat({{ sStepsN }}, 1fr); gap: var(--space-1);"><sc-for list="{{ sBars }}" as="b" hint-placeholder-count="3"><span style="height: 4px; border-radius: var(--radius-full); background: {{ b.c }};"></span></sc-for></div>
+              <span style="font: 500 13px/18px var(--font-sans); color: var(--ink-muted);">{{ sStepLabel }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ sPlanStep }}">
+            <div role="radiogroup" aria-label="Plano" style="display: flex; flex-direction: column; gap: var(--space-3);">
+              <sc-for list="{{ sPlans }}" as="p" hint-placeholder-count="4">
+                <button type="button" role="radio" aria-checked="{{ p.on }}" onClick="{{ p.pick }}" style="padding: var(--space-4); display: flex; gap: var(--space-3); align-items: flex-start; text-align: left; border-radius: var(--radius-md); border: 2px solid {{ p.border }}; background: {{ p.bg }}; color: var(--ink); cursor: pointer; font: 400 14px/20px var(--font-sans);">
+                  <span aria-hidden="true" style="width: 20px; height: 20px; flex: none; margin-top: 2px; box-sizing: border-box; border-radius: var(--radius-full); border: 2px solid {{ p.ring }}; display: grid; place-items: center;"><span style="width: 10px; height: 10px; border-radius: var(--radius-full); background: {{ p.dot }};"></span></span>
+                  <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;">
+                    <span style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--space-2);"><strong style="font: 700 16px/22px var(--font-sans);">{{ p.name }}</strong><span style="font: 600 14px/20px var(--font-sans); font-variant-numeric: tabular-nums;">{{ p.price }}</span></span>
+                    <span style="color: var(--ink-muted);">{{ p.quota }}</span>
+                    <span style="color: var(--ink-muted);">{{ p.feat }}</span>
+                  </span>
+                </button>
+              </sc-for>
+            </div>
+            <label style="display: flex; flex-direction: column; gap: var(--space-2); font: 600 14px/20px var(--font-sans);">País onde você atende
+              <select value="{{ sCountry }}" onChange="{{ onSCountry }}" style="min-height: 48px; padding: 0 var(--space-4); border-radius: var(--radius-md); background: var(--surface-000); color: var(--ink); font: 400 16px/24px var(--font-sans); border: 2px solid var(--border-strong);"><sc-for list="{{ sCountryOpts }}" as="c"><option value="{{ c.k }}">{{ c.name }}</option></sc-for></select>
+              <span style="font-weight: 400; font-size: 13px; line-height: 18px; color: var(--ink-muted);">Define documentos, registro profissional e formas de pagamento.</span>
+              <span style="align-self: flex-start; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--brand-subtle); color: var(--brand-strong); font: 600 12px/18px var(--font-sans);">{{ sCurrency }}</span>
+            </label>
+            <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">Valores provisórios. Você pode mudar de plano quando quiser.</span>
+            <button type="button" onClick="{{ sNext }}" style="min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); cursor: pointer;" style-hover="background: var(--brand-strong);">{{ sNextLabel }}</button>
+          </sc-if>
+          <sc-if value="{{ sSentShow }}">
+            <div role="status" style="display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-4); border-radius: var(--radius-md); background: var(--success-subtle); border: 1px solid var(--success);">
+              <span style="width: 24px; height: 24px; flex: none; color: var(--success); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat;"></span>
+              <span style="display: flex; flex-direction: column; gap: var(--space-1);"><strong style="font: 600 16px/22px var(--font-sans); color: var(--success);">Proposta solicitada</strong><span style="font-size: 14px; line-height: 20px; color: var(--ink);">{{ sSentText }}</span></span>
+            </div>
+            <div role="note" style="display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--brand-subtle); border: 1px solid var(--brand);"><span style="width: 20px; height: 20px; flex: none; color: var(--brand); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/info.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/info.svg) center/contain no-repeat;"></span><span style="font-size: 14px; line-height: 20px;">Enquanto a proposta é preparada, sua conta funciona no plano Essencial. Quando o contrato for assinado, o plano Hospital é liberado sem perder nada.</span></div>
+            <button type="button" onClick="{{ sEnter }}" style="min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); cursor: pointer;" style-hover="background: var(--brand-strong);">Começar no plano Essencial</button>
+          </sc-if>
+          <sc-if value="{{ sDataStep }}">
+            <sc-if value="{{ sHasOrg }}">
+              <section style="display: flex; flex-direction: column; gap: var(--space-3);">
+                <h2 style="margin: 0; font: 700 17px/24px var(--font-sans);">{{ sOrgTitle }}</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--space-4);">
+              <sc-for list="{{ sOrgFields }}" as="f" hint-placeholder-count="3">
+                <label style="display: flex; flex-direction: column; gap: var(--space-2); font: 600 14px/20px var(--font-sans); min-width: 0;">{{ f.label }}
+                  <input type="text" inputMode="{{ f.im }}" value="{{ f.value }}" onChange="{{ f.change }}" placeholder="{{ f.ph }}" aria-invalid="{{ f.hasErr }}" style="min-height: 48px; padding: 0 var(--space-4); border: 2px solid {{ f.border }}; border-radius: var(--radius-md); background: var(--surface-000); color: var(--ink); font: 400 16px/24px var(--font-sans); width: 100%; box-sizing: border-box;">
+                  <sc-if value="{{ f.hasErr }}"><span role="alert" style="font: 500 13px/18px var(--font-sans); color: var(--danger);">{{ f.err }}</span></sc-if>
+                </label>
+              </sc-for>
+            </div>
+              </section>
+            </sc-if>
+            <sc-if value="{{ sHasPay }}">
+              <section style="display: flex; flex-direction: column; gap: var(--space-3);">
+                <h2 style="margin: 0; font: 700 17px/24px var(--font-sans);">Pagamento</h2>
+                <div role="radiogroup" style="display: flex; flex-wrap: wrap; gap: var(--space-2);"><sc-for list="{{ sPayOpts }}" as="o"><button type="button" role="radio" aria-checked="{{ o.on }}" onClick="{{ o.pick }}" style="min-height: 44px; padding: 0 var(--space-4); border-radius: var(--radius-full); border: 2px solid {{ o.border }}; background: {{ o.bg }}; color: {{ o.fg }}; font: 500 14px/20px var(--font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: var(--space-2);"><span aria-hidden="true" style="width: 16px; height: 16px; flex: none; box-sizing: border-box; border-radius: var(--radius-full); border: 2px solid {{ o.ring }}; display: grid; place-items: center;"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: {{ o.dot }};"></span></span>{{ o.label }}</button></sc-for></div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--space-4);">
+              <sc-for list="{{ sPayFields }}" as="f" hint-placeholder-count="3">
+                <label style="display: flex; flex-direction: column; gap: var(--space-2); font: 600 14px/20px var(--font-sans); min-width: 0;">{{ f.label }}
+                  <input type="text" inputMode="{{ f.im }}" value="{{ f.value }}" onChange="{{ f.change }}" placeholder="{{ f.ph }}" aria-invalid="{{ f.hasErr }}" style="min-height: 48px; padding: 0 var(--space-4); border: 2px solid {{ f.border }}; border-radius: var(--radius-md); background: var(--surface-000); color: var(--ink); font: 400 16px/24px var(--font-sans); width: 100%; box-sizing: border-box;">
+                  <sc-if value="{{ f.hasErr }}"><span role="alert" style="font: 500 13px/18px var(--font-sans); color: var(--danger);">{{ f.err }}</span></sc-if>
+                </label>
+              </sc-for>
+            </div>
+              </section>
+            </sc-if>
+            <sc-if value="{{ sHasInvite }}">
+              <label style="display: flex; flex-direction: column; gap: var(--space-2); font: 600 14px/20px var(--font-sans);">Convidar a equipe <span style="font-weight: 400; color: var(--ink-muted); font-size: 13px; line-height: 18px; margin-top: -6px;">Opcional. E-mails separados por vírgula; dá para fazer depois.</span>
+                <textarea value="{{ sInvite }}" onChange="{{ onSInvite }}" rows="2" placeholder="paulo@clinica.com.br, julia@clinica.com.br" style="width: 100%; box-sizing: border-box; padding: var(--space-3) var(--space-4); border: 2px solid var(--border-strong); border-radius: var(--radius-md); background: var(--surface-000); color: var(--ink); font: 400 16px/24px var(--font-sans); resize: vertical;"></textarea>
+              </label>
+            </sc-if>
+            <sc-if value="{{ sNote }}"><div role="note" style="display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--brand-subtle); border: 1px solid var(--brand);"><span style="width: 20px; height: 20px; flex: none; color: var(--brand); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/info.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/info.svg) center/contain no-repeat;"></span><span style="font-size: 14px; line-height: 20px;">{{ sNote }}</span></div></sc-if>
+            <button type="button" onClick="{{ sFinish }}" disabled="{{ sInvalid }}" style="opacity: {{ sOpacity }}; min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); cursor: pointer;" style-hover="background: var(--brand-strong);">{{ sFinishLabel }}</button>
+          </sc-if>
+          <sc-if value="{{ sAccountStep }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+            <label for="aus-ident" style="font: 600 16px/24px var(--font-sans);">E-mail ou celular</label>
+            <input id="aus-ident" type="text" inputmode="email" autocomplete="username" value="{{ ident }}" onChange="{{ onIdent }}" onBlur="{{ blurIdent }}" placeholder="{{ identPh }}" aria-invalid="{{ identError }}" style="min-height: 48px; padding: 0 var(--space-4); border: 2px solid {{ identBorder }}; border-radius: var(--radius-md); background: var(--surface-000); color: var(--ink); font: 400 16px/24px var(--font-sans);">
+            <sc-if value="{{ identHint }}">
+              <span style="display: flex; align-items: center; gap: var(--space-2); font-size: 13px; line-height: 18px; color: {{ identHintColor }};">
+                <span style="width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: {{ identHintMask }}; mask: {{ identHintMask }};"></span>{{ identHintText }}</span>
+            </sc-if>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+            <label for="aus-pass" style="font: 600 16px/24px var(--font-sans);">Senha</label>
+            <div style="position: relative; display: flex;">
+              <input id="aus-pass" type="{{ passType }}" autocomplete="{{ passAutocomplete }}" value="{{ pass }}" onChange="{{ onPass }}" onBlur="{{ blurPass }}" aria-invalid="{{ passError }}" style="flex: 1; min-width: 0; min-height: 48px; padding: 0 56px 0 var(--space-4); border: 2px solid {{ passBorder }}; border-radius: var(--radius-md); background: var(--surface-000); color: var(--ink); font: 400 16px/24px var(--font-sans);">
+              <button type="button" onClick="{{ toggleShowPass }}" aria-label="{{ showPassLabel }}" style="position: absolute; right: 0; top: 0; bottom: 0; width: 48px; border: none; background: none; color: var(--ink-muted); cursor: pointer; display: grid; place-items: center; border-radius: var(--radius-md);" style-hover="color: var(--brand);">
+                <span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: {{ showPassMask }}; mask: {{ showPassMask }};"></span>
+              </button>
+            </div>
+            <sc-if value="{{ isSignup }}">
+              <div style="display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--surface-000); border: 1px solid var(--border);">
+                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                  <div style="flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-1);">
+                    <sc-for list="{{ strengthBars }}" as="b" hint-placeholder-count="4"><span style="height: 6px; border-radius: var(--radius-full); background: {{ b.c }};"></span></sc-for>
+                  </div>
+                  <span style="font: 600 13px/18px var(--font-sans); color: {{ strengthColor }}; min-width: 72px; text-align: right;">{{ strengthLabel }}</span>
+                </div>
+                <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-1);">
+                  <sc-for list="{{ passRules }}" as="r" hint-placeholder-count="6">
+                    <li style="display: flex; align-items: center; gap: var(--space-2); font-size: 13px; line-height: 18px; color: {{ r.color }};">
+                      <span style="width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: {{ r.mask }}; mask: {{ r.mask }};"></span>{{ r.label }}</li>
+                  </sc-for>
+                </ul>
+              </div>
+            </sc-if>
+            <sc-if value="{{ loginPassError }}">
+              <span style="display: flex; align-items: center; gap: var(--space-2); font-size: 13px; line-height: 18px; color: var(--danger);">
+                <span style="width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-alert.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-alert.svg) center/contain no-repeat;"></span>Digite sua senha</span>
+            </sc-if>
+          </div>
+          <sc-if value="{{ isSignup }}">
+            <label style="display: flex; flex-direction: column; gap: var(--space-2); font: 600 16px/24px var(--font-sans);">{{ sLicLabel }}
+              <input type="text" placeholder="{{ sLicPh }}" style="min-height: 48px; padding: 0 var(--space-4); border: 2px solid var(--border-strong); border-radius: var(--radius-md); background: var(--surface-000); color: var(--ink); font: 500 16px/22px var(--font-mono);">
+            </label>
+          </sc-if>
+          <button type="button" onClick="{{ submitAccount }}" disabled="{{ accountInvalid }}" style="opacity: {{ accountOpacity }}; min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; cursor: pointer;" style-hover="background: var(--brand-strong);">{{ accountCta }}</button>
+          <button type="button" onClick="{{ toggleAuth }}" style="min-height: 48px; border: none; background: none; color: var(--brand); font: 600 16px/20px var(--font-sans); cursor: pointer; border-radius: var(--radius-lg);" style-hover="background: var(--brand-subtle);">{{ accountSwitch }}</button>
+          </sc-if>
+          <p style="margin: auto 0 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); display: flex; gap: var(--space-2);">
+            <span style="width: 16px; height: 16px; flex: none; margin-top: 1px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat;"></span>
+            Seus dados ficam nesta conta, isolados de qualquer outra clínica — nunca compartilhados sem sua ação.
+          </p>
+        </main>
+      </sc-if>
+
+      <sc-if value="{{ isConsent }}">
+        <main data-screen-label="1 Consentimento" style="flex: 1; padding: var(--space-6) var(--space-4) var(--space-8); display: flex; flex-direction: column; gap: var(--space-6);">
+          <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+            <h1 style="margin: 0; font: 700 24px/30px var(--font-sans);">Consentimento para gravar</h1>
+            <p style="margin: 0; color: var(--ink-muted);">A gravação desta consulta será usada somente para gerar o prontuário. Confirme quem autorizou.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <sc-for list="{{ consentOpts }}" as="o" hint-placeholder-count="2">
+              <button type="button" onClick="{{ o.start }}" aria-label="{{ o.aria }}" style="min-height: 76px; padding: var(--space-3) var(--space-4); display: flex; align-items: center; gap: var(--space-4); text-align: left; border-radius: var(--radius-lg); border: 2px solid {{ o.border }}; background: {{ o.bg }}; color: {{ o.fg }}; cursor: pointer; font: 400 16px/24px var(--font-sans);" style-hover="{{ o.hover }}">
+                <span style="width: 44px; height: 44px; flex: none; border-radius: var(--radius-full); background: {{ o.iconBg }}; color: {{ o.iconFg }}; display: grid; place-items: center;"><span style="width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/mic.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/mic.svg) center/contain no-repeat;"></span></span>
+                <span style="flex: 1; min-width: 0; display: flex; flex-direction: column;"><strong style="font: 600 17px/22px var(--font-sans);">{{ o.title }}</strong><span style="font-size: 13px; line-height: 18px; color: {{ o.sub }};">{{ o.copy }}</span></span>
+              </button>
+            </sc-for>
+          </div>
+          <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center;">Toque em quem autorizou para começar a gravar. Fica registrado com usuário, data e hora (LGPD).</span>
+        </main>
+      </sc-if>
+
+      <sc-if value="{{ isScribe }}">
+        <main data-screen-label="2 Active Scribe" style="flex: 1; padding: var(--space-6) var(--space-4); display: flex; flex-direction: column; gap: var(--space-6);">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-3);">
+            <button type="button" onClick="{{ cycleNet }}" title="Simular mudança de rede" style="min-height: 48px; padding: 0 var(--space-4); border-radius: var(--radius-full); border: 2px solid {{ net.border }}; background: {{ net.bg }}; color: {{ net.fg }}; display: inline-flex; align-items: center; gap: var(--space-2); font: 600 14px/20px var(--font-sans); cursor: pointer;">
+              <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: {{ net.mask }}; mask: {{ net.mask }};"></span>
+              {{ net.label }}
+            </button>
+            <span style="font: 500 16px/22px var(--font-mono); font-variant-numeric: tabular-nums;">{{ clock }}</span>
+          </div>
+
+          <div style="flex: 1; min-height: 220px; background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; gap: var(--space-4); padding: var(--space-6) var(--space-4);">
+            <div aria-hidden="true" style="height: 120px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+              <sc-for list="{{ bars }}" as="b" hint-placeholder-count="36">
+                <span style="width: 4px; border-radius: var(--radius-full); background: {{ barColor }}; height: {{ b.h }}; transition: height .12s ease;"></span>
+              </sc-for>
+            </div>
+            <span style="text-align: center; font: 600 16px/24px var(--font-sans); color: {{ statusColor }};">{{ recStatus }}</span>
+          </div>
+
+          <span style="display: flex; align-items: center; justify-content: center; gap: var(--space-2); font-size: 13px; line-height: 18px; color: var(--ink-muted);">
+            <span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat;"></span>
+            Transcrição rodando localmente no dispositivo
+          </span>
+
+          <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-6); padding-bottom: var(--space-4);">
+            <div style="position: relative; width: 88px; height: 88px; display: grid; place-items: center;">
+              {{ fabPulse }}
+              <button type="button" onClick="{{ toggleRec }}" disabled="{{ recDisabled }}" aria-label="{{ fabLabel }}" style="position: relative; width: 88px; height: 88px; border-radius: var(--radius-full); border: 3px solid {{ fabBorder }}; background: {{ fabBg }}; color: {{ fabFg }}; box-shadow: {{ fabShadow }}; cursor: pointer; display: grid; place-items: center;">
+                <span style="width: 36px; height: 36px; background: currentColor; -webkit-mask: {{ fabMask }}; mask: {{ fabMask }};"></span>
+              </button>
+            </div>
+            <sc-if value="{{ canGenerate }}">
+              <button type="button" onClick="{{ generate }}" style="width: 100%; min-height: 56px; border: 2px solid var(--brand); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; cursor: pointer;" style-hover="background: var(--brand-subtle); color: var(--brand-strong);">Encerrar consulta e gerar SOAP</button>
+            </sc-if>
+          </div>
+        </main>
+      </sc-if>
+
+      <sc-if value="{{ isReview }}">
+        <main data-screen-label="3 SOAP Review" style="flex: 1; display: flex; flex-direction: column;">
+          <div style="position: sticky; top: 64px; z-index: 2; padding: var(--space-3) var(--space-4); background: var(--surface-100);">
+            <div style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: var(--space-3) var(--space-4) var(--space-3) var(--space-3); display: flex; align-items: center; gap: var(--space-3);">
+              <button type="button" onClick="{{ togglePlay }}" aria-label="{{ playLabel }}" style="width: 48px; height: 48px; flex: none; border: none; border-radius: var(--radius-full); background: var(--brand); color: var(--on-brand); cursor: pointer; display: grid; place-items: center;" style-hover="background: var(--brand-strong);">
+                <span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: {{ playMask }}; mask: {{ playMask }};"></span>
+              </button>
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-2);">
+                <div style="position: relative; height: 8px; border-radius: var(--radius-full); background: var(--border);">
+                  <sc-if value="{{ hasActive }}"><span style="position: absolute; top: -4px; bottom: -4px; left: {{ segLeft }}; width: {{ segWidth }}; border-radius: var(--radius-full); background: var(--accent-warm); opacity: .45;"></span></sc-if>
+                  <span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ progress }}; border-radius: var(--radius-full); background: var(--brand);"></span>
+                </div>
+                <div style="display: flex; justify-content: space-between; gap: var(--space-2); font: 500 13px/18px var(--font-mono);">
+                  <span style="color: {{ playerNoteColor }}; font-family: var(--font-sans); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ playerNote }}</span>
+                  <span style="color: var(--ink-muted); flex: none;">{{ posLabel }} / 06:42</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding: var(--space-3) var(--space-4) var(--space-8); display: flex; flex-direction: column; gap: var(--space-6);">
+            <div role="note" style="display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); background: var(--accent-warm-subtle); border: 1px solid var(--accent-warm);">
+              <span style="width: 20px; height: 20px; flex: none; margin-top: 2px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/sparkles.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/sparkles.svg) center/contain no-repeat;"></span>
+              <span><strong style="font-weight: 600; color: var(--accent-warm-text);">Rascunho gerado por IA</strong> — revise antes de aprovar. A IA não diagnostica nem prescreve.</span>
+            </div>
+            <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); margin-top: calc(-1 * var(--space-3));">Toque em qualquer frase para ouvir o trecho de áudio que a originou.</span>
+
+            <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="4">
+              <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                <section style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); border: 1px solid var(--border); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) 0 0;">
+                    <h3 style="margin: 0; font: 700 16px/22px var(--font-sans); display: flex; align-items: center; gap: var(--space-2);"><span style="font: 500 13px/18px var(--font-mono); color: var(--brand);">{{ sec.letter }}</span>{{ sec.title }}</h3>
+                    <sc-if value="{{ sec.notEditing }}">
+                      <button type="button" onClick="{{ sec.edit }}" aria-label="Editar {{ sec.title }}" style="width: 48px; height: 48px; border: none; background: none; color: var(--ink-muted); border-radius: var(--radius-full); cursor: pointer; display: grid; place-items: center;" style-hover="background: var(--brand-subtle); color: var(--brand);">
+                        <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pencil.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pencil.svg) center/contain no-repeat;"></span>
+                      </button>
+                    </sc-if>
+                  </div>
+                  <sc-if value="{{ sec.notEditing }}">
+                    <p style="margin: 0; line-height: 28px;">
+                      <sc-for list="{{ sec.sentences }}" as="s">
+                        <span role="button" tabindex="0" onClick="{{ s.play }}" style="cursor: pointer; border-radius: 4px; padding: 2px 1px; background: {{ s.bg }}; text-decoration: underline dotted; text-decoration-color: {{ s.ul }}; text-underline-offset: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone;" style-hover="text-decoration-color: var(--brand); background: var(--brand-subtle);">{{ s.text }}</span>
+                        <span> </span>
+                      </sc-for>
+                    </p>
+                    <sc-if value="{{ sec.isEdited }}"><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">Editado por você · trechos de áudio mantidos</span></sc-if>
+                  </sc-if>
+                  <sc-if value="{{ sec.isEditing }}">
+                    <textarea value="{{ draft }}" onChange="{{ onDraft }}" rows="6" style="width: 100%; box-sizing: border-box; padding: var(--space-3); border: 2px solid var(--brand); border-radius: var(--radius-sm); background: var(--surface-000); color: var(--ink); font: 400 16px/24px var(--font-sans); resize: vertical;"></textarea>
+                    <div style="display: flex; gap: var(--space-3);">
+                      <button type="button" onClick="{{ saveEdit }}" style="flex: 1; min-height: 48px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); cursor: pointer;" style-hover="background: var(--brand-strong);">Salvar {{ sec.title }}</button>
+                      <button type="button" onClick="{{ cancelEdit }}" style="min-height: 48px; padding: 0 var(--space-4); border: 2px solid var(--border-strong); border-radius: var(--radius-lg); background: none; color: var(--ink); font: 600 16px/20px var(--font-sans); cursor: pointer;" style-hover="background: var(--brand-subtle);">Cancelar</button>
+                    </div>
+                  </sc-if>
+                </section>
+
+                <sc-if value="{{ sec.showDose }}">
+                  <div role="alert" style="border-radius: var(--radius-md); background: var(--accent-warm-subtle); border: 2px solid var(--accent-warm); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
+                    <div style="display: flex; gap: var(--space-3);">
+                      <span style="width: 24px; height: 24px; flex: none; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat;"></span>
+                      <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+                        <strong style="font-weight: 600; color: var(--accent-warm-text);">Dose sugerida acima do limite para o peso do paciente — revisar</strong>
+                        <span style="font: 500 13px/18px var(--font-mono); color: var(--ink);">Meloxicam · sugerido 0,4 mg/kg · limite 0,2 mg/kg (canino, 32 kg)</span>
+                      </div>
+                    </div>
+                    <sc-if value="{{ doseAdjusting }}">
+                      <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
+                        <span style="font-weight: 600;">Nova dose</span>
+                        <div style="display: flex; align-items: center; border: 2px solid var(--border-strong); border-radius: var(--radius-md); background: var(--surface-000);">
+                          <button type="button" onClick="{{ doseDown }}" aria-label="Diminuir" style="width: 48px; height: 48px; border: none; background: none; color: var(--ink); font: 700 20px/1 var(--font-sans); cursor: pointer;">−</button>
+                          <span style="min-width: 96px; text-align: center; font: 500 16px/22px var(--font-mono);">{{ doseLabel }} mg/kg</span>
+                          <button type="button" onClick="{{ doseUp }}" aria-label="Aumentar" style="width: 48px; height: 48px; border: none; background: none; color: var(--ink); font: 700 20px/1 var(--font-sans); cursor: pointer;">+</button>
+                        </div>
+                      </div>
+                      <button type="button" onClick="{{ applyDose }}" style="min-height: 48px; border: none; border-radius: var(--radius-lg); background: var(--accent-warm); color: var(--on-accent-warm); font: 600 16px/20px var(--font-sans); cursor: pointer;">Aplicar {{ doseLabel }} mg/kg no Plano</button>
+                    </sc-if>
+                    <sc-if value="{{ dosePending }}">
+                      <div style="display: flex; gap: var(--space-3);">
+                        <button type="button" onClick="{{ doseAccept }}" style="flex: 1; min-height: 48px; border: 2px solid var(--accent-warm); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--accent-warm-text); font: 600 16px/20px var(--font-sans); cursor: pointer;" style-hover="background: var(--accent-warm-subtle);">Aceitar</button>
+                        <button type="button" onClick="{{ doseAdjust }}" style="flex: 1; min-height: 48px; border: none; border-radius: var(--radius-lg); background: var(--accent-warm); color: var(--on-accent-warm); font: 600 16px/20px var(--font-sans); cursor: pointer;">Ajustar</button>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ sec.showDoseDone }}">
+                  <div style="display: flex; gap: var(--space-3); align-items: center; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--brand-subtle); color: var(--brand-strong);">
+                    <span style="width: 20px; height: 20px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pill.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pill.svg) center/contain no-repeat;"></span>
+                    <span style="font-size: 14px; line-height: 20px; font-weight: 500; flex: 1;">{{ doseDoneText }}</span>
+                    <button type="button" onClick="{{ doseReopen }}" style="min-height: 48px; padding: 0 var(--space-3); border: none; background: none; color: var(--brand); font: 600 14px/20px var(--font-sans); cursor: pointer; text-decoration: underline;">Rever</button>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ notApproved }}">
+              <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+                <button type="button" onClick="{{ approve }}" disabled="{{ approveDisabled }}" style="min-height: 64px; border: none; border-radius: var(--radius-lg); background: var(--success); color: var(--on-success); font: 700 17px/22px var(--font-sans); letter-spacing: .01em; cursor: pointer; opacity: {{ approveOpacity }}; display: flex; align-items: center; justify-content: center; gap: var(--space-2);">
+                  <span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat;"></span>
+                  Aprovar e Sincronizar Prontuário
+                </button>
+                <sc-if value="{{ approveDisabled }}"><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center;">Resolva o alerta de dose para aprovar.</span></sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ approved }}">
+              <div role="status" style="display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); border-radius: var(--radius-md); background: var(--success-subtle); border: 2px solid var(--success);">
+                <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+                  <span style="width: 24px; height: 24px; flex: none; color: var(--success); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat;"></span>
+                  <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+                    <strong style="font-weight: 700;">{{ syncMessage }}</strong>
+                    <span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">Buster · aprovado às {{ approvedAt }}</span>
+                  </div>
+                </div>
+                <button type="button" onClick="{{ restart }}" style="min-height: 48px; border: 2px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--ink); font: 600 16px/20px var(--font-sans); cursor: pointer;" style-hover="background: var(--brand-subtle);">Começar de novo</button>
+              </div>
+            </sc-if>
+          </div>
+        </main>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;,&quot;section&quot;:&quot;Tema&quot;},&quot;featuredEntry&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Long Life Pet&quot;,&quot;Outro PIMS&quot;,&quot;Não uso nenhum PIMS&quot;,&quot;Nenhum&quot;],&quot;default&quot;:&quot;Não uso nenhum PIMS&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Landing&quot;},&quot;pimsName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;PIMS da clínica&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Integração&quot;}}">
+const IC = n => `url(https://unpkg.com/lucide-static@0.460.0/icons/${n}.svg) center/contain no-repeat`;
+const TOTAL = 402;
+const fmt = s => { s = Math.max(0, Math.floor(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+const SOAP = [
+  { id: 'S', title: 'Subjetivo', s: [
+    ['Responsável relata claudicação no membro pélvico esquerdo há cinco dias.', 18, 26],
+    ['Piora após exercício e ao levantar pela manhã.', 31, 36],
+    ['Apetite e ingestão hídrica mantidos.', 44, 48]] },
+  { id: 'O', title: 'Objetivo', s: [
+    ['Peso 32 kg, temperatura retal 38,6 °C.', 92, 99],
+    ['Dor à manipulação do joelho esquerdo; teste de gaveta negativo.', 134, 141],
+    ['Auscultação cardiopulmonar sem alterações.', 168, 173]] },
+  { id: 'A', title: 'Avaliação', s: [
+    ['Hipótese discutida em consulta: processo inflamatório articular no joelho esquerdo.', 221, 230],
+    ['Veterinário solicita imagem para descartar lesão parcial de ligamento cruzado.', 236, 244]] },
+  { id: 'P', title: 'Plano', s: [
+    ['Meloxicam 0,4 mg/kg por via oral, uma vez ao dia, por 5 dias.', 301, 309],
+    ['Repouso com passeios curtos na guia.', 315, 319],
+    ['Radiografia do joelho esquerdo e retorno em 7 dias.', 326, 333]] }
+];
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+const COMMON = ['12345678', 'password', 'senha123', 'qwerty', 'abc12345', '11111111', 'ausculta'];
+function parseIdent(v, ctry) {
+  const t = v.trim();
+  if (!t) return { kind: null };
+  if (/[a-z@]/i.test(t)) return EMAIL_RE.test(t) ? { kind: 'email', ok: true } : { kind: 'email', ok: false, msg: 'E-mail inválido. Confira o formato: nome@dominio.com.br' };
+  let d = t.replace(/\D/g, '');
+  if (ctry && ctry !== 'BR') { const C = COUNTRIES[ctry] || COUNTRIES.XX, dial = (C.dial || '').replace(/\D/g, ''); const full = t.startsWith('+') ? d : dial + d; return full.length >= 8 && full.length <= 15 ? { kind: 'phone', ok: true, fmt: '+' + full } : { kind: 'phone', ok: false, msg: 'Celular inválido. Inclua o código do país e o número completo.' }; }
+  if (d.length === 13 && d.startsWith('55')) d = d.slice(2);
+  const ok = /^[1-9]{2}9\d{8}$/.test(d);
+  return ok ? { kind: 'phone', ok: true, fmt: `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}` }
+    : { kind: 'phone', ok: false, msg: 'Celular inválido. Use DDD + número com 9 dígitos, ex.: (11) 91234-5678' };
+}
+function passChecks(p, ident) {
+  const user = (ident || '').split('@')[0].toLowerCase();
+  return [
+    { k: 'len', label: 'Pelo menos 10 caracteres', ok: p.length >= 10 },
+    { k: 'up', label: 'Uma letra maiúscula', ok: /[A-ZÀ-Ý]/.test(p) },
+    { k: 'low', label: 'Uma letra minúscula', ok: /[a-zà-ÿ]/.test(p) },
+    { k: 'num', label: 'Um número', ok: /\d/.test(p) },
+    { k: 'sym', label: 'Um símbolo (ex.: ! @ # $ %)', ok: /[^A-Za-zÀ-ÿ0-9\s]/.test(p) },
+    { k: 'safe', label: 'Sem sequências comuns nem o seu e-mail', ok: !!p && !COMMON.some(c => p.toLowerCase().includes(c)) && !/(.)\1{3,}/.test(p) && !(user.length >= 4 && p.toLowerCase().includes(user)) }
+  ];
+}
+
+const fmtDoc = v => { const x = (v || '').replace(/\D/g, '').slice(0, 14); if (x.length <= 11) return x.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2'); return x.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2'); };
+const fmtCard = v => (v || '').replace(/\D/g, '').slice(0, 19).replace(/(\d{4})(?=\d)/g, '$1 ');
+const fmtExp = v => { const x = (v || '').replace(/\D/g, '').slice(0, 4); return x.length > 2 ? x.slice(0, 2) + '/' + x.slice(2) : x; };
+const fmtCvv = v => (v || '').replace(/\D/g, '').slice(0, 4);
+
+const COUNTRIES = {
+  BR: { name: 'Brasil', dial: '+55', org: ['CNPJ', '00.000.000/0000-00'], person: ['CPF', '000.000.000-00'], lic: ['CRMV', 'CRMV'], postal: ['CEP', '00000-000'], pay: ['card', 'boleto', 'pix'], uf: true },
+  AR: { name: 'Argentina', dial: '+54', org: ['CUIT', '00-00000000-0'], person: ['CUIL o DNI', '00-00000000-0'], lic: ['Matrícula profesional', 'MP'], postal: ['Código postal', 'A0000AAA'], pay: ['card'] },
+  US: { name: 'Estados Unidos', dial: '+1', org: ['EIN', '00-0000000'], person: null, lic: ['State veterinary license', 'Lic.'], postal: ['ZIP code', '00000'], pay: ['card'] },
+  MX: { name: 'México', dial: '+52', org: ['RFC', 'AAA000000XXX'], person: ['RFC', 'AAAA000000XXX'], lic: ['Cédula profesional', 'Céd.'], postal: ['Código postal', '00000'], pay: ['card'] },
+  CL: { name: 'Chile', dial: '+56', org: ['RUT', '00.000.000-X'], person: ['RUT', '00.000.000-X'], lic: ['Registro Colegio Médico Veterinario', 'Reg.'], postal: ['Código postal', '0000000'], pay: ['card'] },
+  CO: { name: 'Colombia', dial: '+57', org: ['NIT', '000.000.000-0'], person: ['Cédula', '0000000000'], lic: ['Tarjeta profesional', 'T.P.'], postal: ['Código postal', '000000'], pay: ['card'] },
+  PT: { name: 'Portugal', dial: '+351', org: ['NIF', '000000000'], person: ['NIF', '000000000'], lic: ['Cédula da Ordem', 'OMV'], postal: ['Código postal', '0000-000'], pay: ['card'] },
+  ES: { name: 'España', dial: '+34', org: ['CIF', 'X00000000'], person: ['NIF', '00000000X'], lic: ['Nº de colegiado', 'Col.'], postal: ['Código postal', '00000'], pay: ['card'] },
+  XX: { name: 'Outro país', dial: '', org: ['Documento fiscal', ''], person: ['Documento fiscal', ''], lic: ['Registro profissional', 'Reg.'], postal: ['Código postal', ''], pay: ['card'] }
+};
+const maskV = pat => v => { if (!pat) return v; const src = (v || '').toUpperCase().replace(/[^0-9A-Z]/g, ''); let out = '', j = 0; for (const c of pat) { if (j >= src.length) break; if ('0AX'.includes(c)) { out += src[j++]; } else out += c; } return out; };
+const maskOk = pat => v => !pat ? !!(v || '').trim() : (v || '').replace(/[^0-9A-Z]/gi, '').length === pat.replace(/[^0AX]/g, '').length;
+class Component extends DCLogic {
+  state = { sStep: 1, splan: 'free', sctry: (() => { let l = 'pt'; try { l = (window.AusI18n && AusI18n.get()) || localStorage.getItem('ausculta-lang') || 'pt'; } catch (e) {} return { pt: 'BR', en: 'US', es: 'AR' }[l] || 'BR'; })(), sd: {}, spay: 'card', sInvite: '', sTried: false, ident: '', pass: '', touched: {}, showPass: false, screen: 'account', mode: 'standalone', auth: 'signup', consentBy: null, consented: false,
+    recording: false, elapsed: 0, net: 'offline', tick: 0, playing: false, pos: 0, active: null,
+    dose: 'pending', doseVal: 2, edits: {}, editing: null, draft: '', approved: false, approvedAt: '' };
+
+  componentDidMount() {
+    const h = (location.hash || '').slice(1);
+    const deep = { llp: { screen: 'consent', mode: 'llp' }, pims: { screen: 'consent', mode: 'pims' }, standalone: { screen: 'account', mode: 'standalone', auth: 'signup' }, login: { screen: 'account', mode: 'standalone', auth: 'login' } }[h];
+    if (deep) { this.fromLanding = true; this.setState(deep); }
+    this.t = setInterval(() => {
+      const s = this.state;
+      if (s.screen === 'scribe' && s.recording) this.setState({ elapsed: s.elapsed + 0.15, tick: s.tick + 1 });
+      if (s.screen === 'review' && s.playing) {
+        let pos = s.pos + 0.15, playing = true;
+        const a = s.active && this.findSentence(s.active);
+        if (a && pos >= a.end) { pos = a.end; playing = false; }
+        if (pos >= TOTAL) { pos = TOTAL; playing = false; }
+        this.setState({ pos, playing });
+      }
+    }, 150);
+  }
+  componentWillUnmount() { clearInterval(this.t); clearTimeout(this.netT); }
+
+  findSentence(id) {
+    for (const sec of SOAP) for (let i = 0; i < sec.s.length; i++)
+      if (sec.id + i === id) return { sec: sec.title, start: sec.s[i][1], end: sec.s[i][2] };
+    return null;
+  }
+  finishSignup() { try { if (this.state.auth === 'signup') localStorage.setItem('ausculta-country', this.state.sctry); if (this.state.auth === 'signup') localStorage.setItem('ausculta-plan', this.state.splan === 'hospital' ? 'free' : this.state.splan); } catch (e) {} location.href = 'Ausculta App.dc.html#standalone'; }
+  go(screen, extra = {}) {
+    if (screen === 'landing') { location.href = 'index.html'; return; }
+    this.setState({ screen, ...extra }); window.scrollTo(0, 0);
+  }
+  doseText() { return (this.state.doseVal / 10).toFixed(1).replace('.', ','); }
+
+  renderVals() {
+    const st = this.state, p = this.props;
+    const pims = p.pimsName ?? 'PIMS da clínica';
+    const featured = p.featuredEntry ?? 'Não uso nenhum PIMS';
+    const originName = st.mode === 'llp' ? 'Long Life Pet' : st.mode === 'pims' ? pims : '';
+    const clinical = st.screen !== 'landing';
+
+    const entryDefs = [
+      { key: 'Long Life Pet', icon: 'link', title: 'Já uso o Long Life Pet', copy: 'Conecte com um clique. Seu prontuário chega pronto antes da visita, e a nota volta sozinha depois.', cta: 'Conectar ao Long Life Pet', go: () => this.go('consent', { mode: 'llp' }) },
+      { key: 'Outro PIMS', icon: 'plug-zap', title: 'Uso outro sistema (PIMS)', copy: 'Não troque de sistema. O Ausculta se pluga ao seu PIMS atual via integração segura, sem migração.', cta: 'Conectar meu PIMS', go: () => this.go('consent', { mode: 'pims' }) },
+      { key: 'Não uso nenhum PIMS', icon: 'stethoscope', title: 'Não uso nenhum PIMS hoje', copy: 'Comece só com o Ausculta. Prontuário SOAP, pacientes e responsáveis, medicamentos e exames, sem depender de outro sistema.', cta: 'Começar agora', go: () => this.go('account', { mode: 'standalone', auth: 'signup' }) }
+    ];
+    const ordered = [...entryDefs.filter(e => e.key === featured), ...entryDefs.filter(e => e.key !== featured)];
+    const entries = ordered.map(e => ({ ...e, mask: IC(e.icon), featured: e.key === featured,
+      bg: e.key === featured ? 'var(--accent-warm-subtle)' : 'var(--surface-000)',
+      border: e.key === featured ? 'var(--accent-warm)' : 'var(--border)',
+      shadow: e.key === featured ? 'none' : 'var(--shadow-card)' }));
+    const perks = [
+      { icon: 'wifi-off', title: 'Offline-first', copy: 'Grava e estrutura o SOAP sem internet, no campo ou no hospital.' },
+      { icon: 'network', title: 'Hub aberto (MCP e API REST)', copy: 'Seu PIMS ou seu chat de IA preferido acessa o Ausculta por MCP ou API REST. E o Ausculta também chama a API ou o MCP do fabricante do seu PIMS.' },
+      { icon: 'shield-check', title: 'Proteção jurídica', copy: 'Cada frase do prontuário ligada ao trecho de áudio de origem.' },
+      { icon: 'pill', title: 'Alerta de dose por espécie', copy: 'Aviso quando a dose sugerida passa do limite para espécie e peso.' }
+    ].map(x => ({ ...x, mask: IC(x.icon) }));
+
+    const titles = { account: '', consent: 'Buster — Golden Retriever', scribe: 'Buster — Golden Retriever', review: 'Buster — Golden Retriever' };
+    const backLabel = st.screen === 'account' ? (st.auth === 'signup' && st.sSent ? 'Pedido' : st.auth === 'signup' && st.sStep > 1 ? (st.sStep === 2 ? 'Plano' : 'Conta') : 'Início')
+      : st.screen === 'consent' ? (st.mode !== 'standalone' ? 'Início' : 'Conta') : st.screen === 'scribe' ? 'Consentimento' : st.screen === 'review' ? 'Gravação' : 'Voltar';
+    const back = () => {
+      if (st.screen === 'account' && st.auth === 'signup' && st.sSent) return this.setState({ sSent: false });
+      if (st.screen === 'account' && st.auth === 'signup' && st.sStep > 1) return this.setState({ sStep: st.sStep - 1 });
+      if (st.screen === 'account' || st.screen === 'consent' && st.mode !== 'standalone') return this.go('landing', { consented: false, consentBy: null, recording: false });
+      if (st.screen === 'consent') return this.go('account');
+      if (st.screen === 'scribe') return this.go('consent', { recording: false });
+      if (st.screen === 'review') return this.go('scribe', { playing: false });
+    };
+
+    const consentOpts = [{ k: 'tutor', title: 'Responsável autorizou', copy: 'Autorização verbal ou assinada · começa a gravar' }, { k: 'clinic', title: 'Clínica autorizou', copy: 'Sem responsável presente · começa a gravar' }]
+      .map((o, i) => ({ ...o, aria: o.title + ', iniciar gravação', start: () => this.go('scribe', { consentBy: o.k, consented: true, recording: true }),
+        border: i === 0 ? 'var(--brand)' : 'var(--border-strong)', bg: i === 0 ? 'var(--brand)' : 'var(--surface-000)', fg: i === 0 ? 'var(--on-brand)' : 'var(--ink)', sub: i === 0 ? 'var(--on-brand)' : 'var(--ink-muted)',
+        iconBg: i === 0 ? 'var(--surface-000)' : 'var(--danger-subtle, var(--brand-subtle))', iconFg: 'var(--danger)', hover: i === 0 ? 'background: var(--brand-strong); border-color: var(--brand-strong);' : 'background: var(--brand-subtle); border-color: var(--brand);' }));
+
+    const netMap = {
+      offline: { label: 'Offline Mode', icon: 'wifi-off', fg: 'var(--accent-warm-text)', bg: 'var(--accent-warm-subtle)', border: 'var(--accent-warm)' },
+      syncing: { label: 'Sincronizando', icon: 'refresh-cw', fg: 'var(--brand-strong)', bg: 'var(--brand-subtle)', border: 'var(--brand)' },
+      synced: { label: 'Sincronizado', icon: 'circle-check', fg: 'var(--success)', bg: 'var(--success-subtle)', border: 'var(--success)' }
+    };
+    const net = { ...netMap[st.net], mask: IC(netMap[st.net].icon) };
+    const cycleNet = () => {
+      clearTimeout(this.netT);
+      if (st.net === 'offline') { this.setState({ net: 'syncing' }); this.netT = setTimeout(() => this.setState({ net: 'synced' }), 1800); }
+      else this.setState({ net: 'offline' });
+    };
+
+    const bars = Array.from({ length: 36 }, (_, i) => {
+      if (!st.recording) return { h: '6px' };
+      const v = Math.abs(Math.sin(st.tick * 0.9 + i * 0.7) * Math.cos(st.tick * 0.37 + i * 0.23));
+      return { h: Math.round(8 + v * 104) + 'px' };
+    });
+    const recDisabled = !st.consented;
+    const fabPulse = st.recording ? React.createElement(React.Fragment, null,
+      React.createElement('span', { key: 1, style: { position: 'absolute', inset: 0, borderRadius: '50%', background: 'var(--danger)', animation: 'aus-pulse 1.4s ease-out infinite' } }),
+      React.createElement('span', { key: 2, style: { position: 'absolute', inset: 0, borderRadius: '50%', background: 'var(--danger)', animation: 'aus-pulse 1.4s ease-out .7s infinite' } })) : null;
+
+    const sections = SOAP.map(sec => {
+      const edited = st.edits[sec.id];
+      const sentences = sec.s.map(([text, start, end], i) => {
+        const id = sec.id + i;
+        let t = text;
+        if (sec.id === 'P' && i === 0 && st.dose === 'adjusted') t = `Meloxicam ${this.doseText()} mg/kg por via oral, uma vez ao dia, por 5 dias.`;
+        if (edited && edited[i] != null) t = edited[i];
+        const on = st.active === id;
+        return { text: t, bg: on ? 'var(--accent-warm-subtle)' : 'transparent', ul: on ? 'var(--accent-warm)' : 'var(--border-strong)',
+          play: () => this.setState({ active: id, pos: start, playing: true }) };
+      });
+      return { letter: sec.id, title: sec.title, sentences,
+        isEditing: st.editing === sec.id, notEditing: st.editing !== sec.id, isEdited: !!edited,
+        edit: () => this.setState({ editing: sec.id, draft: sentences.map(s => s.text).join('\n') }),
+        showDose: sec.id === 'P' && (st.dose === 'pending' || st.dose === 'adjusting'),
+        showDoseDone: sec.id === 'P' && (st.dose === 'accepted' || st.dose === 'adjusted') };
+    });
+    const act = st.active && this.findSentence(st.active);
+    const playerNote = act ? `Reproduzindo trecho ${fmt(act.start)}–${fmt(act.end)} · ${act.sec}` : 'Áudio completo da consulta';
+
+    const syncMessage = st.mode === 'llp' ? 'Prontuário atualizado no Long Life Pet'
+      : st.mode === 'pims' ? `Sincronizado com ${pims}` : 'Sincronizado com sua conta Ausculta — disponível em qualquer dispositivo';
+
+    return {
+      theme: p.theme ?? 'light',
+      isLanding: !clinical, isClinical: clinical,
+      isAccount: st.screen === 'account', isConsent: st.screen === 'consent', isScribe: st.screen === 'scribe', isReview: st.screen === 'review',
+      entries, perks,
+      goLogin: () => this.go('account', { mode: 'standalone', auth: 'login' }),
+      headerTitle: titles[st.screen] || '', titleRule: titles[st.screen] ? 'var(--border)' : 'transparent', backLabel, backAria: 'Voltar para ' + backLabel, showPatientSub: ['consent', 'scribe', 'review'].includes(st.screen),
+      hasOrigin: !!originName && st.screen !== 'account', originName, back,
+      isSignup: st.auth === 'signup', identPh: st.sctry === 'BR' ? 'voce@clinica.com.br ou (11) 91234-5678' : 'E-mail ou ' + ((COUNTRIES[st.sctry] || {}).dial || '+') + ' …',
+      ...(() => { const su = st.auth === 'signup', paid = st.splan !== 'free', N = paid ? 3 : 2, step = su ? st.sStep : 2;
+        const PL = [['free', 'Essencial', 'Grátis', 'Até 20 consultas por mês', 'Scribe offline, SOAP e alerta de dose'], ['pro', 'Profissional', { BR: 'R$ 49/mês', AR: 'ARS 14.900/mês' }[st.sctry] || 'US$ 9/mês', 'Até 300 consultas por mês', 'Exames e mídia, integração Long Life Pet'], ['clinic', 'Clínica', { BR: 'R$ 149/mês', AR: 'ARS 44.900/mês' }[st.sctry] || 'US$ 29/mês', 'Até 1.200 consultas · até 5 veterinários', 'Equipe, integração com seu PIMS, MCP e API'], ['hospital', 'Hospital', 'Sob consulta', 'Assentos definidos em contrato', 'Implantação dedicada e SLA']];
+        const pn = { free: 'Essencial', pro: 'Profissional', clinic: 'Clínica', hospital: 'Hospital' }[st.splan];
+        const sd = st.sd || {}, T = st.sTried, set = k => e => this.setState(s => ({ sd: { ...s.sd, [k]: e.target.value } }));
+        const need = (k, ok) => { const v = (sd[k] || '').trim(); return T && (!v ? 'Campo obrigatório' : ok && !ok(v) ? 'Confira este dado' : ''); };
+        const F = (k, label, ph, im, ok, fmt) => { const err = need(k, ok); return { _ok: ok, label, ph, im: im || 'text', value: sd[k] || '', change: fmt ? (e => this.setState(s => ({ sd: { ...s.sd, [k]: fmt(e.target.value) } }))) : set(k), err: err || '', hasErr: !!err, border: err ? 'var(--danger)' : 'var(--border-strong)' }; };
+        const dgt = v => v.replace(/\D/g, '');
+        const C = COUNTRIES[st.sctry] || COUNTRIES.XX, isBR = st.sctry === 'BR', dPat = (C.person || C.org)[1];
+        const docF = () => isBR ? F('doc', 'CPF ou CNPJ do titular', '000.000.000-00 ou 00.000.000/0000-00', 'numeric', v => [11, 14].includes(dgt(v).length), fmtDoc) : F('doc', `${(C.person || C.org)[0]} do titular`, dPat || 'Documento do titular', 'text', maskOk(dPat), maskV(dPat));
+        const orgDocF = () => isBR ? F('cnpj', 'CNPJ', '00.000.000/0000-00', 'numeric', v => dgt(v).length === 14, fmtDoc) : F('cnpj', C.org[0], C.org[1] || 'Número do documento fiscal', 'text', maskOk(C.org[1]), maskV(C.org[1]));
+        const org = st.splan === 'clinic' ? [F('orgName', 'Nome da clínica', 'Ex.: Clínica Veterinária Boa Vista'), orgDocF(), F('city', isBR ? 'Cidade e UF' : 'Cidade e região', isBR ? 'Ex.: Campinas, SP' : 'Ex.: Córdoba')]
+          : st.splan === 'hospital' ? [F('orgName', 'Nome da instituição', 'Ex.: Hospital Veterinário Central'), orgDocF(), F('vets', 'Número de veterinários', 'Ex.: 18', 'numeric', v => +dgt(v) > 0, v => v.replace(/\D/g, '').slice(0, 4)), F('phone', 'Telefone para contato', isBR ? '(11) 3456-7890' : (C.dial || '+') + ' …', 'tel', v => dgt(v).length >= (isBR ? 10 : 7), isBR ? (v => { const d = v.replace(/\D/g, '').slice(0, 11); return d.length <= 2 ? (d ? '(' + d : '') : d.length <= 6 ? '(' + d.slice(0, 2) + ') ' + d.slice(2) : d.length <= 10 ? '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6) : '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7); }) : (v => { const x = v.replace(/[^\d+ ]/g, ''); return x && !x.startsWith('+') && C.dial ? C.dial + ' ' + x : x; })), F('contactEmail', 'E-mail para a proposta', 'compras@hospital.com', 'email', v => /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)), F('city', isBR ? 'Cidade e UF' : 'Cidade e região', isBR ? 'Ex.: São Paulo, SP' : 'Ex.: Córdoba')] : [];
+        const payF = st.spay === 'card' ? [F('holder', 'Nome no cartão', 'Ex.: RENATA M MORAES'), F('card', 'Número do cartão', '0000 0000 0000 0000', 'numeric', v => dgt(v).length >= 13, fmtCard), F('exp', 'Validade', 'MM/AA', 'numeric', v => /^\d{2}\/\d{2}$/.test(v) && +v.slice(0, 2) >= 1 && +v.slice(0, 2) <= 12, fmtExp), F('cvv', 'CVV', '3 ou 4 dígitos', 'numeric', v => dgt(v).length >= 3, fmtCvv), docF()]
+          : [docF(), F('billEmail', 'E-mail para faturas', 'financeiro@clinica.com.br', 'email', v => /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v))];
+        const hasPay = ['pro', 'clinic'].includes(st.splan), all = [...org, ...(hasPay ? payF : [])];
+        const valid = k => { const f = all.find(x => x.label === k); return f; };
+        const missing = () => { const keys = [...(st.splan === 'clinic' ? ['orgName', 'cnpj', 'city'] : st.splan === 'hospital' ? ['orgName', 'cnpj', 'vets', 'phone', 'city'] : []), ...(hasPay ? (st.spay === 'card' ? ['holder', 'card', 'exp', 'cvv', 'doc'] : ['doc', 'billEmail']) : [])]; return keys.some(k => !(sd[k] || '').trim()); };
+        return { sShowStepper: su && !st.sSent, sStepsN: String(N), sBars: Array.from({ length: N }, (_, i) => ({ c: i < step ? 'var(--brand)' : 'var(--border)' })), sStepLabel: `Etapa ${step} de ${N} · ${step === 1 ? 'Plano' : step === 2 ? 'Conta' : st.splan === 'hospital' ? 'Instituição' : 'Assinatura'}`,
+          sPlanStep: su && step === 1, sAccountStep: !su || step === 2, sDataStep: su && step === 3 && !st.sSent,
+          sPlans: PL.map(([k, name, price, quota, feat]) => { const on = st.splan === k; return { name, price, quota, feat, on: on ? 'true' : 'false', pick: () => this.setState({ splan: k }), border: on ? 'var(--brand)' : 'var(--border)', bg: on ? 'var(--brand-subtle)' : 'var(--surface-000)', ring: on ? 'var(--brand)' : 'var(--border-strong)', dot: on ? 'var(--brand)' : 'transparent' }; }),
+          sNextLabel: `Continuar com o plano ${pn}`, sNext: () => { this.setState({ sStep: 2 }); window.scrollTo(0, 0); },
+          sCountry: st.sctry, sCurrency: 'Moeda de cobrança: ' + ({ BR: 'real (R$)', AR: 'peso argentino (ARS)' }[st.sctry] || 'dólar americano (US$)'), sCountryOpts: Object.entries(COUNTRIES).map(([k, c]) => ({ k, name: c.name })), onSCountry: e => this.setState({ sctry: e.target.value, spay: 'card' }), sLicLabel: isBR ? 'CRMV (opcional nesta versão)' : C.lic[0] + ' (opcional nesta versão)', sLicPh: ({ BR: 'SP-00000', US: 'CA · VET 000000', AR: 'Buenos Aires · MP 0000', ES: 'Madrid · 0000', MX: '00000000', PT: '0000' })[st.sctry] || 'Número do registro',
+          sHasOrg: org.length > 0, sOrgTitle: st.splan === 'hospital' ? 'Instituição' : 'Sua clínica', sOrgFields: org,
+          sHasPay: hasPay, sPayFields: payF, sPayOpts: [['card', 'Cartão de crédito'], ['boleto', 'Boleto'], ['pix', 'Pix']].filter(([k]) => C.pay.includes(k)).map(([k, label]) => { const on = st.spay === k; return { label, on: on ? 'true' : 'false', pick: () => this.setState({ spay: k }), border: on ? 'var(--brand)' : 'var(--border)', bg: on ? 'var(--brand-subtle)' : 'var(--surface-000)', fg: on ? 'var(--brand-strong)' : 'var(--ink)', ring: on ? 'var(--brand)' : 'var(--border-strong)', dot: on ? 'var(--brand)' : 'transparent' }; }),
+          sHasInvite: st.splan === 'clinic', sInvite: st.sInvite, onSInvite: e => this.setState({ sInvite: e.target.value }),
+          sNote: st.splan === 'hospital' ? 'Enquanto a proposta é preparada, sua conta funciona no plano Essencial.' : st.spay !== 'card' && hasPay ? 'O plano é ativado assim que o pagamento for confirmado. Até lá, a conta funciona no Essencial.' : '',
+          sInvalid: false, sOpacity: 1, sFinishLabel: st.splan === 'hospital' ? 'Enviar pedido e começar' : `Assinar o plano ${pn} e começar`,
+          sFinish: () => { const bad = all.some(f => !f.value.trim() || (f._ok && !f._ok(f.value.trim()))); if (bad) { this.setState({ sTried: true }); return; } if (st.splan === 'hospital') { this.setState({ sSent: true }); window.scrollTo(0, 0); return; } this.finishSignup(); },
+          sSentShow: su && step === 3 && !!st.sSent, sSentText: `Enviamos a confirmação para ${(sd.contactEmail || '').trim()}. Nossa equipe comercial entra em contato em até 4 horas pelo e-mail ou pelo telefone ${(sd.phone || '').trim()}.`, sEnter: () => this.finishSignup() }; })(),
+      accountTitle: st.auth !== 'signup' ? 'Entrar na sua conta Ausculta' : st.sSent ? 'Tudo certo' : st.sStep === 1 ? 'Escolha seu plano' : st.sStep === 2 ? 'Crie sua conta Ausculta' : ({ pro: 'Assinar o Profissional', clinic: 'Configurar sua clínica', hospital: 'Proposta para hospital' }[st.splan] || ''),
+      accountSub: st.auth === 'signup' && st.sSent ? 'Recebemos seu pedido. Enquanto isso, você já pode usar o Ausculta.' : st.auth === 'signup' && st.sStep === 1 ? 'Comece grátis no Essencial. Para trabalhar em equipe ou integrar ao seu sistema, escolha outro plano.' : st.auth === 'signup' && st.sStep === 3 ? ({ pro: 'Dados de pagamento para ativar o plano.', clinic: 'Dados da clínica e do pagamento. Você será o dono da conta.', hospital: 'O plano Hospital é contratado com a nossa equipe. Envie os dados e começamos a proposta.' }[st.splan] || '') : st.auth === 'signup' ? 'É o que guarda seus prontuários e permite abrir no celular, no tablet da recepção, ou onde você precisar.' : 'Use o e-mail da sua conta para recuperar seus prontuários neste dispositivo.',
+      accountCta: st.auth === 'signup' ? 'Criar conta e continuar' : 'Entrar e continuar',
+      accountSwitch: st.auth === 'signup' ? 'Já tem conta? Entrar' : 'Ainda não tem conta? Criar conta',
+      toggleAuth: () => this.setState({ auth: st.auth === 'signup' ? 'login' : 'signup' }),
+      ...(() => {
+        const signup = st.auth === 'signup';
+        const id = parseIdent(st.ident, st.sctry), idShow = st.touched.ident || (id.kind && id.ok);
+        const checks = passChecks(st.pass, st.ident), score = checks.filter(c => c.ok).length;
+        const passOk = signup ? score === checks.length : st.pass.length > 0;
+        const invalid = !id.ok || !passOk;
+        const lvl = !st.pass ? 0 : score <= 2 ? 1 : score <= 4 ? 2 : score === 5 ? 3 : 4;
+        const lvlColor = ['var(--border)', 'var(--danger)', 'var(--accent-warm)', 'var(--brand)', 'var(--success)'][lvl];
+        const identErr = st.touched.ident && id.kind && !id.ok || st.touched.ident && !id.kind;
+        return {
+          ident: st.ident, pass: st.pass,
+          onIdent: e => this.setState({ ident: e.target.value }),
+          blurIdent: () => this.setState({ touched: { ...st.touched, ident: true } }),
+          onPass: e => this.setState({ pass: e.target.value }),
+          blurPass: () => this.setState({ touched: { ...st.touched, pass: true } }),
+          identError: identErr ? 'true' : 'false',
+          identBorder: identErr ? 'var(--danger)' : id.ok ? 'var(--success)' : 'var(--border-strong)',
+          identHint: !!(idShow && (id.kind || st.touched.ident)),
+          identHintText: !id.kind ? 'Informe seu e-mail ou celular' : id.ok ? (id.kind === 'email' ? 'E-mail válido' : `Celular válido · ${id.fmt} · enviaremos um código por SMS`) : id.msg,
+          identHintColor: id.ok ? 'var(--success)' : 'var(--danger)',
+          identHintMask: IC(id.ok ? 'circle-check' : 'circle-alert'),
+          passType: st.showPass ? 'text' : 'password', passAutocomplete: signup ? 'new-password' : 'current-password',
+          toggleShowPass: () => this.setState({ showPass: !st.showPass }),
+          showPassLabel: st.showPass ? 'Ocultar senha' : 'Mostrar senha', showPassMask: IC(st.showPass ? 'eye-off' : 'eye'),
+          passError: st.touched.pass && !passOk ? 'true' : 'false',
+          passBorder: st.touched.pass && !passOk ? 'var(--danger)' : passOk && st.pass ? 'var(--success)' : 'var(--border-strong)',
+          loginPassError: !signup && st.touched.pass && !st.pass,
+          strengthBars: [1, 2, 3, 4].map(i => ({ c: i <= lvl ? lvlColor : 'var(--border)' })),
+          strengthLabel: ['', 'Fraca', 'Média', 'Boa', 'Forte'][lvl], strengthColor: lvl === 2 ? 'var(--accent-warm-text)' : lvlColor,
+          passRules: checks.map(c => ({ label: c.label, mask: IC(c.ok ? 'circle-check' : 'circle'), color: c.ok ? 'var(--success)' : (st.touched.pass ? 'var(--danger)' : 'var(--ink-muted)') })),
+          accountInvalid: invalid, accountOpacity: invalid ? 0.45 : 1,
+          submitAccount: () => { if (invalid) return this.setState({ touched: { ident: true, pass: true } }); if (signup && st.splan !== 'free') { this.setState({ sStep: 3, sTried: false }); window.scrollTo(0, 0); return; } this.finishSignup(); }
+        };
+      })(),
+      consentOpts, consentDisabled: !st.consentBy, consentOpacity: st.consentBy ? 1 : 0.45,
+      confirmConsent: () => st.consentBy && this.go('scribe', { consented: true, recording: true }),
+      net, cycleNet, clock: fmt(st.elapsed), bars,
+      barColor: st.recording ? 'var(--danger)' : 'var(--border-strong)',
+      recStatus: recDisabled ? 'Confirme o consentimento para gravar' : st.recording ? 'Gravando a consulta' : st.elapsed > 0 ? 'Gravação pausada' : 'Pronto para gravar',
+      statusColor: st.recording ? 'var(--danger)' : 'var(--ink-muted)',
+      fabPulse, recDisabled,
+      toggleRec: () => !recDisabled && this.setState({ recording: !st.recording }),
+      fabLabel: st.recording ? 'Pausar gravação' : 'Iniciar gravação',
+      fabBg: st.recording ? 'var(--danger)' : 'var(--surface-000)', fabFg: st.recording ? 'var(--on-danger)' : 'var(--danger)',
+      fabBorder: st.recording ? 'var(--danger)' : 'var(--border-strong)', fabShadow: st.recording ? 'var(--shadow-fab)' : 'var(--shadow-card)',
+      fabMask: IC(st.recording ? 'pause' : 'mic'),
+      canGenerate: st.elapsed > 0,
+      generate: () => this.go('review', { recording: false, pos: 0, active: null, playing: false }),
+      togglePlay: () => this.setState({ playing: !st.playing, active: st.playing ? st.active : (st.pos >= TOTAL ? null : st.active), pos: st.pos >= TOTAL ? 0 : st.pos }),
+      playLabel: st.playing ? 'Pausar' : 'Reproduzir', playMask: IC(st.playing ? 'pause' : 'play'),
+      progress: (st.pos / TOTAL * 100).toFixed(2) + '%', posLabel: fmt(st.pos),
+      hasActive: !!act, segLeft: act ? (act.start / TOTAL * 100) + '%' : '0%', segWidth: act ? Math.max(1.5, (act.end - act.start) / TOTAL * 100) + '%' : '0%',
+      playerNote, playerNoteColor: act ? 'var(--accent-warm-text)' : 'var(--ink-muted)',
+      sections, draft: st.draft,
+      onDraft: e => this.setState({ draft: e.target.value }),
+      saveEdit: () => this.setState({ edits: { ...st.edits, [st.editing]: st.draft.split('\n').filter(l => l.trim()) }, editing: null }),
+      cancelEdit: () => this.setState({ editing: null }),
+      dosePending: st.dose === 'pending', doseAdjusting: st.dose === 'adjusting', doseLabel: this.doseText(),
+      doseAccept: () => this.setState({ dose: 'accepted' }),
+      doseAdjust: () => this.setState({ dose: 'adjusting' }),
+      doseDown: () => this.setState({ doseVal: Math.max(1, st.doseVal - 1) }),
+      doseUp: () => this.setState({ doseVal: Math.min(4, st.doseVal + 1) }),
+      applyDose: () => this.setState({ dose: 'adjusted' }),
+      doseReopen: () => this.setState({ dose: 'pending' }),
+      doseDoneText: st.dose === 'accepted' ? 'Dose de 0,4 mg/kg mantida por decisão do veterinário' : `Dose ajustada para ${this.doseText()} mg/kg no Plano`,
+      notApproved: !st.approved, approved: st.approved,
+      approveDisabled: st.dose === 'pending' || st.dose === 'adjusting', approveOpacity: (st.dose === 'pending' || st.dose === 'adjusting') ? 0.45 : 1,
+      approve: () => { if (st.dose === 'pending' || st.dose === 'adjusting') return; const d = new Date(); this.setState({ approved: true, playing: false, approvedAt: String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0') }); },
+      syncMessage, approvedAt: st.approvedAt,
+      restart: () => this.go('landing', { mode: null, consentBy: null, consented: false, recording: false, elapsed: 0, net: 'offline', pos: 0, active: null, playing: false, dose: 'pending', doseVal: 2, edits: {}, editing: null, approved: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

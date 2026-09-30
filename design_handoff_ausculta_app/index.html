@@ -32,27 +32,23 @@
     @media (max-width: 960px) {
       [data-hbar] { gap: var(--space-2) !important; }
       [data-hactions] { display: contents !important; }
-      [data-hlogo] { order: 1; flex: 1 1 0 !important; min-width: 0; overflow: hidden; }
-      [data-hlogo] span { white-space: nowrap; }
+      [data-hlogo] { order: 1; flex: 1 1 auto; min-width: 0; }
       [data-hentrar] { order: 2; padding: 0 var(--space-2) !important; }
       [data-hcta] { order: 3; padding: 0 var(--space-4) !important; }
-      [data-hburger] { display: inline-grid !important; order: 4; margin-right: calc(-1 * var(--space-2)); }
-      [data-hcta] { padding: 0 var(--space-4) !important; }
+      [data-hburger] { display: inline-grid !important; order: 4; }
       [data-hnav], [data-hlang] { display: none !important; }
       header[data-open="1"] [data-hnav] { display: flex !important; order: 5; flex: 1 1 100% !important; flex-direction: column; gap: 0 !important; padding: var(--space-2) 0; border-top: 1px solid var(--border); }
       header[data-open="1"] [data-hnav] a { min-height: 52px !important; padding: 0 var(--space-2) !important; font-size: 17px; color: var(--ink) !important; border-radius: var(--radius-md) !important; }
       header[data-open="1"] [data-hlang] { display: flex !important; order: 6; margin: 0 0 var(--space-3); }
     }
-    @media (max-width: 480px) {
+    @media (max-width: 420px) {
       [data-cta-long] { display: none; }
       [data-cta-short] { display: inline; }
-    }
-    @media (max-width: 420px) {
       [data-hlogo] svg { width: 28px; height: 28px; }
       [data-hlogo] span { font-size: 21px !important; }
       [data-hlang] button { min-width: 36px !important; }
     }
-    @media (max-width: 379px) {
+    @media (max-width: 359px) {
       [data-hlogo] span { display: none; }
       [data-hbar] { padding-left: var(--space-3) !important; padding-right: var(--space-3) !important; }
     }
@@ -83,7 +79,7 @@
         <a data-hentrar="" href="Ausculta Conta.dc.html#login" style="min-height: 48px; display: inline-flex; align-items: center; white-space: nowrap; padding: 0 var(--space-3); color: var(--brand); font-weight: 600; text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-subtle);">Entrar</a>
         <a data-hcta="" href="#portas" style="min-height: 48px; display: inline-flex; align-items: center; white-space: nowrap; padding: 0 var(--space-6); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-strong); color: var(--on-brand);"><span data-cta-long="">Começar agora</span><span data-cta-short="">Começar</span></a>
       </div>
-      <button data-hburger="" type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-label="{{ menuLabel }}" style="width: 48px; height: 48px; flex: none; border: none; border-radius: var(--radius-full); background: transparent; color: var(--ink); cursor: pointer; place-items: center;" style-hover="background: var(--brand-subtle); color: var(--brand);"><sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><span style="display: block; width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/menu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/menu.svg) center/contain no-repeat;"></span></sc-if><sc-if value="{{ menuOpen }}"><span style="display: block; width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/x.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/x.svg) center/contain no-repeat;"></span></sc-if></button>
+      <button data-hburger="" type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-label="{{ menuLabel }}" style="width: 48px; height: 48px; flex: none; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--ink); cursor: pointer; place-items: center;"><sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><span style="display: block; width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/menu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/menu.svg) center/contain no-repeat;"></span></sc-if><sc-if value="{{ menuOpen }}"><span style="display: block; width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/x.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/x.svg) center/contain no-repeat;"></span></sc-if></button>
     </div>
   </header>
 
