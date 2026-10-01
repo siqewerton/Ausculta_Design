@@ -24,7 +24,8 @@
     input[type=date][data-empty="true"] { color: var(--ink-muted) !important; font-style: italic; }
     input[type=date][data-empty="true"]::-webkit-datetime-edit { opacity: .7; }
     input[type=date]:not([data-empty="true"]) { font-weight: 500 !important; }
-    @keyframes aus-pulse { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.7); opacity: 0; } }
+    @keyframes aus-pulse { 0% { transform: scale(1); opacity: .5; } 100% { transform: scale(1.32); opacity: 0; } }
+    @keyframes aus-eq { 0%, 100% { transform: scaleY(.45); } 50% { transform: scaleY(1); } }
   </style>
 </helmet>
 <div data-theme="{{ theme }}" style="min-height: 100vh; background: var(--surface-100); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 24px;">
@@ -298,22 +299,33 @@
           </sc-for>
         </div>
         <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center; margin-top: calc(-1 * var(--space-3));">Toque em quem autorizou para começar a gravar. Fica registrado com usuário, data e hora (LGPD).</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--border);">
+          <label style="box-sizing: border-box; min-height: 76px; padding: var(--space-3) var(--space-4); display: flex; align-items: center; gap: var(--space-4); border: 2px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--ink); cursor: pointer;" style-hover="border-color: var(--brand); background: var(--brand-subtle);">
+            <input type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.webm,.aac" onChange="{{ uploadAudio }}" style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></input>
+            <span style="width: 44px; height: 44px; flex: none; border-radius: var(--radius-full); background: var(--brand-subtle); color: var(--brand); display: grid; place-items: center;"><span style="width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/file-audio.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/file-audio.svg) center/contain no-repeat;"></span></span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column;"><strong style="font: 600 17px/22px var(--font-sans);">Enviar áudio já gravado</strong><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">Arquivo do dispositivo · MP3, M4A, WAV</span></span>
+            <span style="width: 18px; height: 18px; flex: none; color: var(--ink-muted); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/chevron-right.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/chevron-right.svg) center/contain no-repeat;"></span>
+          </label>
+          <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center;">Para quando o microfone falhar ou a consulta foi gravada em outro aparelho. Ao enviar, você confirma que houve autorização para gravar.</span>
+        </div>
       </div>
     </sc-if>
 
     <sc-if value="{{ isScribe }}">
       <div data-screen-label="Gravação" ref="{{ scribeRef }}" style="display: flex; flex-direction: column; gap: var(--space-3);">
         <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-3);">
-          <button type="button" onClick="{{ cycleNet }}" title="Simular mudança de rede" style="min-height: 48px; padding: 0 var(--space-4); border-radius: var(--radius-full); border: 2px solid {{ net.border }}; background: {{ net.bg }}; color: {{ net.fg }}; display: inline-flex; align-items: center; gap: var(--space-2); font: 600 14px/20px var(--font-sans); cursor: pointer;">
-            <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: {{ net.mask }}; mask: {{ net.mask }};"></span>{{ net.label }}</button>
+          <button type="button" onClick="{{ cycleNet }}" title="Simular mudança de rede" aria-label="{{ net.label }}" style="min-height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-full); border: 1px solid {{ net.border }}; background: {{ net.bg }}; color: {{ net.fg }}; display: inline-flex; align-items: center; gap: 6px; font: 600 13px/18px var(--font-sans); cursor: default;">
+            <span style="width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: {{ net.mask }}; mask: {{ net.mask }};"></span>{{ net.label }}</button>
           <span style="font: 500 16px/22px var(--font-mono); font-variant-numeric: tabular-nums;">{{ clock }}</span>
         </div>
+        
         <sc-if value="{{ isRec }}" hint-placeholder-val="{{ true }}">
-  <div style="flex: 1 1 0; min-height: min-content; background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; gap: var(--space-3); padding: var(--space-4);">
-            <div aria-hidden="true" style="height: 80px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+  <div style="flex: 1 1 auto; min-height: min-content; background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; justify-content: center; gap: var(--space-2); padding: var(--space-3);">
+            <div aria-hidden="true" style="height: clamp(48px, 12vh, 136px); overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 4px;">
               <sc-for list="{{ bars }}" as="b" hint-placeholder-count="36"><span style="width: 4px; border-radius: var(--radius-full); background: {{ barColor }}; height: {{ b.h }}; transition: height .12s ease;"></span></sc-for>
             </div>
-            <span style="text-align: center; font: 600 16px/24px var(--font-sans); color: {{ statusColor }};">{{ recStatus }}</span>
+            <div role="status" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px var(--space-2); text-align: center;">{{ recLogo }}<span style="font: 600 19px/24px var(--font-display); letter-spacing: -0.01em; color: var(--ink);">Ausculta</span><span style="font: 600 16px/24px var(--font-sans); color: var(--danger);">está gravando a consulta</span></div>
+            <sc-if value="{{ micDenied }}"><div role="alert" style="align-self: center; display: inline-flex; align-items: center; gap: 6px; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--danger-subtle); color: var(--danger); font: 600 12px/18px var(--font-sans);"><span style="width: 14px; height: 14px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/mic-off.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/mic-off.svg) center/contain no-repeat;"></span><span>Microfone bloqueado, áudio simulado.</span></div></sc-if>
           </div>
         </sc-if>
         <sc-if value="{{ isPaused }}">
@@ -344,18 +356,16 @@
             </sc-if>
           </div>
         </sc-if>
-        <sc-if value="{{ recNoteShow }}" hint-placeholder-val="{{ true }}"><span style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 var(--space-2); font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center;">
-          <span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat;"></span>Transcrição rodando localmente no dispositivo<sc-if value="{{ micDenied }}"><span>·</span><span>Microfone bloqueado, áudio simulado.</span><sc-if value="{{ micFramed }}"><a href="{{ selfUrl }}" target="_blank" rel="noopener" style="color: var(--brand); font-weight: 600;">Abrir em nova aba</a></sc-if></sc-if></span></sc-if>
+        
         <sc-if value="{{ hasRecAlert }}"><div role="alert" style="display: flex; align-items: center; gap: var(--space-2); min-height: 18px; font: 600 13px/18px var(--font-sans); color: var(--danger);"><span style="width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat;"></span><span style="flex: 1; min-width: 0; text-wrap: pretty;">{{ recAlertText }}</span><button type="button" onClick="{{ dismissRecAlert }}" style="flex: none; min-height: 44px; padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--danger); border-radius: var(--radius-full); background: var(--surface-000); color: var(--danger); font: 600 13px/18px var(--font-sans); cursor: pointer;"><span style="width: 14px; height: 14px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span>Entendi</button></div></sc-if>
-        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-4);">
-          <div style="position: relative; width: 88px; height: 88px; display: grid; place-items: center;">
+        
+        <div style="position: relative; width: 104px; height: 104px; flex: none; align-self: center; display: grid; place-items: center;">
             {{ fabPulse }}
-            <button type="button" onClick="{{ toggleRec }}" aria-label="{{ fabLabel }}" style="position: relative; width: 88px; height: 88px; border-radius: var(--radius-full); border: 3px solid {{ fabBorder }}; background: {{ fabBg }}; color: {{ fabFg }}; box-shadow: {{ fabShadow }}; cursor: pointer; display: grid; place-items: center;">
-              <span style="width: 36px; height: 36px; background: currentColor; -webkit-mask: {{ fabMask }}; mask: {{ fabMask }};"></span>
+            <button type="button" onClick="{{ toggleRec }}" aria-label="{{ fabLabel }}" style="position: relative; width: 104px; height: 104px; border-radius: var(--radius-full); border: 3px solid {{ fabBorder }}; background: {{ fabBg }}; color: {{ fabFg }}; box-shadow: {{ fabShadow }}; cursor: pointer; display: grid; place-items: center;">
+              <span style="width: 44px; height: 44px; background: currentColor; -webkit-mask: {{ fabMask }}; mask: {{ fabMask }};"></span>
             </button>
           </div>
-          <button type="button" onClick="{{ generate }}" style="width: 100%; min-height: 56px; border: 2px solid var(--brand); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; cursor: pointer;" style-hover="background: var(--brand-subtle); color: var(--brand-strong);">Encerrar consulta e gerar SOAP</button>
-        </div>
+        <button type="button" onClick="{{ generate }}" style="width: 100%; min-height: 64px; padding: 0 var(--space-4); text-wrap: balance; border: 2px solid var(--brand); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; cursor: pointer;" style-hover="background: var(--brand-subtle); color: var(--brand-strong);">Encerrar consulta e gerar SOAP</button>
       </div>
     </sc-if>
 
@@ -554,6 +564,10 @@
         <button type="button" onClick="{{ approve }}" disabled="{{ approveLocked }}" style="min-height: 64px; border: none; border-radius: var(--radius-lg); background: var(--success); color: var(--on-success); font: 700 17px/22px var(--font-sans); letter-spacing: .01em; cursor: pointer; opacity: {{ approveOpacity }}; display: flex; align-items: center; justify-content: center; gap: var(--space-2);">
           <span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat;"></span>Aprovar e Sincronizar Prontuário</button>
         <sc-if value="{{ approveLocked }}"><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center;">{{ approveHint }}</span></sc-if>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+          <button type="button" onClick="{{ reprocess }}" style="flex: 1 1 180px; min-height: 48px; padding: var(--space-2) var(--space-4); border: 2px solid var(--brand); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--brand); font: 600 15px/20px var(--font-sans); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: var(--space-2);" style-hover="background: var(--brand-subtle); color: var(--brand-strong);"><span style="width: 18px; height: 18px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/refresh-cw.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/refresh-cw.svg) center/contain no-repeat;"></span><span style="display: flex; flex-direction: column; align-items: flex-start; text-align: left;"><span>Refazer análise da IA</span><span style="font: 400 12px/16px var(--font-sans); color: var(--ink-muted);">{{ reprocessSub }}</span></span></button>
+          <button type="button" onClick="{{ deleteDraft }}" style="flex: 1 1 180px; min-height: 48px; padding: var(--space-2) var(--space-4); border: 2px solid var(--danger); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--danger); font: 600 15px/20px var(--font-sans); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: var(--space-2);" style-hover="background: var(--danger-subtle);"><span style="width: 18px; height: 18px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/trash-2.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/trash-2.svg) center/contain no-repeat;"></span>Apagar consulta</button>
+        </div>
         <span style="display: flex; gap: var(--space-2); justify-content: center; font-size: 13px; line-height: 18px; color: var(--ink-muted); text-align: center;"><span style="width: 14px; height: 14px; flex: none; margin-top: 2px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat;"></span>Ao aprovar, a consulta é assinada com seu nome, CRMV, data e horário e não pode mais ser alterada. Correções entram numa nova consulta.</span>
       </div>
     </sc-if>
@@ -2501,6 +2515,20 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ cfmOpen }}">
+    <div onClick="{{ cfmCancel }}" style="position: fixed; inset: 0; z-index: 70; background: rgba(27,36,32,.45);"></div>
+    <div role="alertdialog" aria-modal="true" aria-labelledby="cfm-title" aria-describedby="cfm-body" style="position: fixed; z-index: 71; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(420px, calc(100vw - 32px)); box-sizing: border-box; background: var(--surface-000); color: var(--ink); border-radius: var(--radius-lg); box-shadow: var(--shadow-card), 0 24px 60px rgba(27,36,32,.3); padding: var(--space-6) var(--space-4) var(--space-4); display: flex; flex-direction: column; gap: var(--space-4);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+        <span style="width: 48px; height: 48px; border-radius: var(--radius-full); background: {{ cfm.iconBg }}; color: {{ cfm.fg }}; display: grid; place-items: center;"><span style="width: 24px; height: 24px; background: currentColor; -webkit-mask: {{ cfm.mask }}; mask: {{ cfm.mask }};"></span></span>
+        <h2 id="cfm-title" style="margin: 0; font: 700 20px/26px var(--font-sans); text-wrap: pretty;">{{ cfm.title }}</h2>
+        <p id="cfm-body" style="margin: 0; font-size: 15px; line-height: 22px; color: var(--ink-muted); text-wrap: pretty;">{{ cfm.body }}</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+        <button type="button" onClick="{{ cfmOk }}" style="min-height: 56px; border: none; border-radius: var(--radius-lg); background: {{ cfm.fg }}; color: var(--on-brand); font: 600 16px/20px var(--font-sans); cursor: pointer;">{{ cfm.ok }}</button>
+        <button type="button" onClick="{{ cfmCancel }}" style="min-height: 48px; border: 2px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--ink); font: 600 15px/20px var(--font-sans); cursor: pointer;" style-hover="border-color: var(--brand); background: var(--brand-subtle);">Cancelar</button>
+      </div>
+    </div>
+  </sc-if>
   <sc-if value="{{ hasToast }}">
     <div role="status" style="position: fixed; left: 50%; transform: translateX(-50%); bottom: 104px; z-index: 50; max-width: calc(100vw - 32px); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--ink); color: var(--surface-100); font: 500 14px/20px var(--font-sans); box-shadow: var(--shadow-card);">{{ toast }}</div>
   </sc-if>
@@ -2721,7 +2749,8 @@ class Component extends DCLogic {
   fitScribe() {
     const el = this.scribeEl; if (!el || !el.isConnected) return;
     const top = el.getBoundingClientRect().top + window.scrollY, h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    const v = Math.max(0, Math.floor(h - top - 24)) + 'px'; if (el.style.height !== v) { el.style.height = v; el.style.minHeight = 'min-content'; }
+    const par = el.parentElement && el.parentElement.closest('main'), padB = par ? parseFloat(getComputedStyle(par).paddingBottom) || 0 : 24;
+    const v = Math.max(0, Math.floor(h - top - padB)) + 'px'; if (el.style.height !== v) { el.style.height = v; el.style.minHeight = 'min-content'; }
     if (!this._fitOn) { this._fitOn = () => this.fitScribe(); window.addEventListener('resize', this._fitOn); window.visualViewport && window.visualViewport.addEventListener('resize', this._fitOn); }
   }
   micSync() {
@@ -2955,6 +2984,7 @@ class Component extends DCLogic {
       ideaRedo: () => this.hs('hIdea', { done: false }),
       ideaList: list.map(i => ({ text: i.text, meta: i.area + ' · ' + i.at, status: ST[i.status][0], bg: ST[i.status][1], fg: ST[i.status][2] })) };
   }
+  ask(o) { this._cfmOk = o.onOk; this._cfmNo = o.onCancel; this.setState({ cfm: { title: o.title, body: o.body || '', ok: o.ok, danger: !!o.danger, icon: o.icon || (o.danger ? 'trash-2' : 'circle-help') } }); }
   flash(msg) { clearTimeout(this.toastT); this.setState({ toast: msg }); this.toastT = setTimeout(() => this.setState({ toast: null }), 2600); }
   patch(id, fn) { this.setState(s => ({ patients: s.patients.map(p => p.id === id ? fn(p) : p) }), () => this.savePatients()); }
   isIncomplete(p) { return REQUIRED.some(k => !p[k]); }
@@ -3048,8 +3078,8 @@ class Component extends DCLogic {
     const titles = { pick: 'Nova consulta', quick: 'Nova consulta', consent: cur ? `${cur.name}${cur.breed ? ' — ' + cur.breed : ''}` : '', scribe: cur ? `${cur.name}${cur.breed ? ' — ' + cur.breed : ''}` : '', review: cur ? `Revisão · ${cur.name}` : '', proc: cur ? `${cur.name}${cur.breed ? ' — ' + cur.breed : ''}` : '', patient: 'Prontuário', owner: 'Responsável', settings: 'Meu perfil', org: 'Configurações da conta', integrations: 'Integrações', help: 'Ajuda e treinamento', trust: 'Central de Confiança', billing: 'Assinatura', cancel: 'Cancelar assinatura', team: 'Equipe e permissões' };
     const histTop = (st.hist || [])[(st.hist || []).length - 1];
     const fallbackE = st.screen === 'owner' ? (st.ownerFrom ? { screen: 'patient', pid: st.ownerFrom, tab: 'responsavel' } : { screen: 'patients', pView: 'owners' })
-      : { screen: { pick: 'home', quick: 'pick', consent: 'pick', scribe: 'consent', review: 'scribe', patient: 'patients', cancel: 'billing', done: 'home' }[st.screen] || 'home' };
-    const backE = histTop || fallbackE;
+      : { screen: { pick: 'home', quick: 'pick', consent: 'pick', scribe: 'pick', review: 'pick', patient: 'patients', cancel: 'billing', done: 'home' }[st.screen] || 'home' };
+    const backE = st.screen === 'scribe' || (st.screen === 'review' && st.draftIdx == null) ? fallbackE : (histTop || fallbackE);
     const labelOf = e => { const n = { home: 'Painel', pick: 'Nova consulta', quick: 'Cadastro rápido', consent: 'Consentimento', scribe: 'Gravação', review: 'Revisão', billing: 'Assinatura', cancel: 'Cancelar assinatura', settings: 'Meu perfil', org: 'Configurações da conta', team: 'Equipe', trust: 'Central de Confiança', help: 'Ajuda', integrations: 'Integrações' };
       if (e.screen === 'patients') return e.pView === 'owners' ? 'Responsáveis' : 'Pacientes';
       if (e.screen === 'patient') { const p = P.find(x => x.id === e.pid); return p ? p.name : 'Paciente'; }
@@ -3060,6 +3090,16 @@ class Component extends DCLogic {
       if (st.screen === 'cancel' && (st.cStep || 1) > 1) return this.setState({ cStep: st.cStep - 1 });
       if (st.screen === 'trust' && st.trustView) { this.setState({ trustView: null }); window.scrollTo(0, 0); return; }
       if (st.screen === 'help' && st.helpView) { this.setState({ helpView: null }); window.scrollTo(0, 0); return; }
+      if (st.screen === 'scribe') { const leave = () => { this.logStep('Consulta cancelada antes de gerar o SOAP'); this.setState({ hist: (st.hist || []).filter(h => !['consent', 'scribe'].includes(h.screen)), elapsed: 0, recording: false }); this.go('pick', { recording: false }, { back: true }); };
+        if (st.elapsed > 0) { this.setState({ recording: false }); return this.ask({ title: 'Sair da consulta?', body: 'A gravação de ' + fmt(st.elapsed) + ' será descartada e não poderá ser recuperada.', ok: 'Sair e descartar gravação', danger: true, icon: 'log-out', onOk: leave }); }
+        return leave(); }
+      if (st.screen === 'review' && st.draftIdx == null && cur) {
+        const txt = soap.map(sec => sec.sentences.map(x => x.text).join(' '));
+        this.patch(cur.id, p => ({ ...p, consults: [{ date: TODAY, sync: 'pending', reason: (CASES[cur.species] || {}).reason || 'Claudicação membro pélvico', status: 'Rascunho', consentBy: st.consentBy, trail: st.trail, soap: soapOf(txt[0], txt[1], txt[2], txt[3]) }, ...p.consults] }));
+        this.setState({ hist: (st.hist || []).filter(h => !['consent', 'scribe', 'proc', 'review'].includes(h.screen)) });
+        this.go('pick', { recording: false, editing: null, active: null }, { back: true });
+        return this.flash('Rascunho salvo no prontuário de ' + cur.name);
+      }
       const e = backE;
       this.setState({ hist: histTop ? st.hist.slice(0, -1) : [] });
       this.go(e.screen, { recording: false, ...(e.pid !== undefined ? { pid: e.pid } : {}), ...(e.oid !== undefined ? { oid: e.oid } : {}), ...(e.tab ? { tab: e.tab } : {}), ...(e.pView ? { pView: e.pView } : {}), ...(e.ownerFrom !== undefined ? { ownerFrom: e.ownerFrom } : {}) }, { back: true });
@@ -3098,9 +3138,9 @@ class Component extends DCLogic {
     const rq = st.relinkQ || '';
     const ow = ownerById(st.oid);
 
-    const netMap = { offline: { label: 'Offline Mode', icon: 'wifi-off', fg: 'var(--accent-warm-text)', bg: 'var(--accent-warm-subtle)', border: 'var(--accent-warm)' },
+    const netMap = { offline: { label: 'Modo offline', icon: 'wifi-off', fg: 'var(--accent-warm-text)', bg: 'var(--accent-warm-subtle)', border: 'var(--accent-warm)' },
       syncing: { label: 'Sincronizando', icon: 'refresh-cw', fg: 'var(--brand-strong)', bg: 'var(--brand-subtle)', border: 'var(--brand)' },
-      synced: { label: 'Sincronizado', icon: 'circle-check', fg: 'var(--success)', bg: 'var(--success-subtle)', border: 'var(--success)' } };
+      synced: { label: 'Modo online', icon: 'wifi', fg: 'var(--success)', bg: 'var(--success-subtle)', border: 'var(--success)' } };
 
     let act = null, edBox = null;
     const draftC = st.screen === 'review' && st.draftIdx != null && cur ? cur.consults[st.draftIdx] : null;
@@ -3481,15 +3521,43 @@ class Component extends DCLogic {
       net: { ...netMap[st.net], mask: IC(netMap[st.net].icon) },
       cycleNet: () => { clearTimeout(this.netT); if (st.net === 'offline') { this.setState({ net: 'syncing' }); if (st.proc && st.proc.mode === 'local') { this.setState(s => ({ proc: { ...s.proc, mode: 'cloud' } })); this.logStep('Internet de volta · o processamento passou para a nuvem'); } this.netT = setTimeout(() => this.setState({ net: 'synced' }), 1800); } else this.setState({ net: 'offline' }); },
       clock: fmt(st.elapsed),
-      bars: Array.from({ length: 36 }, (_, i) => { const lv = this.lv || []; if (this.an && lv.length) { const v = lv[lv.length - 36 + i] || 0; return { h: st.recording ? Math.round(6 + Math.min(1, v * 1.6) * 66) + 'px' : '6px' }; } return { h: st.recording ? Math.round(8 + Math.abs(Math.sin(st.tick * 0.9 + i * 0.7) * Math.cos(st.tick * 0.37 + i * 0.23)) * 64) + 'px' : '6px' }; }),
+      bars: Array.from({ length: 36 }, (_, i) => { const lv = this.lv || []; if (this.an && lv.length) { const v = lv[lv.length - 36 + i] || 0; return { h: st.recording ? Math.round(8 + Math.min(1, v * 1.6) * 124) + 'px' : '6px' }; } return { h: st.recording ? Math.round(10 + Math.abs(Math.sin(st.tick * 0.9 + i * 0.7) * Math.cos(st.tick * 0.37 + i * 0.23)) * 122) + 'px' : '6px' }; }),
+      recLogo: (() => { const e = React.createElement, ring = { stroke: 'var(--brand)' }; return e('svg', { width: 28, height: 28, viewBox: '0 0 48 48', fill: 'none', strokeLinecap: 'round', 'aria-hidden': 'true', style: { flex: 'none' } },
+        e('circle', { cx: 22, cy: 26, r: 15, style: ring, strokeWidth: 5 }), e('path', { d: 'M33 15 C36 12 38 8.5 43 7', style: ring, strokeWidth: 5 }),
+        ...[[14, 23.5, 28.5], [18, 20, 32], [22, 17, 35], [26, 20, 32], [30, 23.5, 28.5]].map(([x, y1, y2], k) => e('path', { key: k, d: 'M' + x + ' ' + y1 + 'V' + y2, strokeWidth: 3.2, style: { stroke: 'var(--accent-warm)', transformBox: 'fill-box', transformOrigin: 'center', animation: 'aus-eq 1s ease-in-out ' + (k % 2 ? -0.5 : -k * 0.15) + 's infinite' } }))); })(),
       barColor: st.recording ? 'var(--danger)' : 'var(--border-strong)', recStatus: st.recording ? 'Gravando a consulta' : 'Gravação pausada', statusColor: st.recording ? 'var(--danger)' : 'var(--ink-muted)',
       fabPulse, toggleRec: () => this.setState(st.recording ? { recording: false, pbPos: 0, pbPlaying: false } : { recording: true, pbPlaying: false }),
       ...this.pbVals(st), ...(() => { const sS = (soap.find(x => x.letter === 'S') || { sentences: [] }).sentences.map(x => x.text).join(' ');
         const OC = [['Início', /começou|agud|crônic|súbit|depois de|desde/i], ['Local', /membro|joelho|casco|quarto|abdom|olho|ouvido|pele|boca/i], ['Duração', /há \S+ (dias?|semanas?|meses|horas?)|há (um|dois|três|cinco) /i], ['Caráter', /seca|produtiva|grumos|com alimento|bile|“/i], ['Fatores', /piora|melhora|após|ao levantar|exercício|treino/i], ['Evolução', /progress|piorando|melhorando|igual|estável/i], ['Horário', /vez(es)? ao dia|à noite|pela manhã|diariamente|horário/i], ['Gravidade', /grave|leve|moderad|não apoia|intens|prostra/i]];
         const got = OC.filter(([, re]) => re.test(sS)).map(x => x[0]), miss = OC.filter(([, re]) => !re.test(sS)).map(x => x[0]);
-        return { oldShow: !st.recording && st.elapsed > 1, oldCount: got.length + '/' + OC.length, oldBg: miss.length ? 'var(--accent-warm-subtle)' : 'var(--success-subtle)', oldFg: miss.length ? 'var(--ink-muted)' : 'var(--success)', oldDone: !miss.length, oldItems: OC.map(([label, re]) => { const ok = re.test(sS); return { label, state: label + (ok ? ': captado' : ': ainda não captado, vale perguntar'), bg: ok ? 'var(--success-subtle)' : 'var(--accent-warm-subtle)', fg: ok ? 'var(--success)' : 'var(--accent-warm-text)', mask: IC(ok ? 'check' : 'x') }; }), oldAria: 'Roteiro da história (OLDCHARTS): ' + (got.length ? 'captado ' + got.join(', ').toLowerCase() : 'nada captado') + (miss.length ? '; falta ' + miss.join(', ').toLowerCase() : '') }; })(), scribeRef: this.scribeRef || (this.scribeRef = el => { this.scribeEl = el; this.fitScribe(); }), micDenied: st.mic === 'denied', hasRecAlert: !!st.recAlert, recOk: !st.recAlert, recNoteShow: !st.recAlert && (st.recording || st.elapsed <= 1), recAlertText: st.recAlert || '', dismissRecAlert: () => this.setState({ recAlert: null }), micFramed: st.mic === 'denied' && window.top !== window, selfUrl: location.href, fabLabel: st.recording ? 'Pausar gravação' : 'Retomar gravação',
+        return { oldShow: !st.recording && st.elapsed > 1, oldCount: got.length + '/' + OC.length, oldBg: miss.length ? 'var(--accent-warm-subtle)' : 'var(--success-subtle)', oldFg: miss.length ? 'var(--ink-muted)' : 'var(--success)', oldDone: !miss.length, oldItems: OC.map(([label, re]) => { const ok = re.test(sS); return { label, state: label + (ok ? ': captado' : ': ainda não captado, vale perguntar'), bg: ok ? 'var(--success-subtle)' : 'var(--accent-warm-subtle)', fg: ok ? 'var(--success)' : 'var(--accent-warm-text)', mask: IC(ok ? 'check' : 'x') }; }), oldAria: 'Roteiro da história (OLDCHARTS): ' + (got.length ? 'captado ' + got.join(', ').toLowerCase() : 'nada captado') + (miss.length ? '; falta ' + miss.join(', ').toLowerCase() : '') }; })(), scribeRef: this.scribeRef || (this.scribeRef = el => { this.scribeEl = el; this.fitScribe(); }), micDenied: st.mic === 'denied', micOk: !(st.mic === 'denied'), hasRecAlert: !!st.recAlert, recOk: !st.recAlert, recNoteShow: !st.recAlert && (st.recording || st.elapsed <= 1), recAlertText: st.recAlert || '', dismissRecAlert: () => this.setState({ recAlert: null }), micFramed: st.mic === 'denied' && window.top !== window, selfUrl: location.href, fabLabel: st.recording ? 'Pausar gravação' : 'Retomar gravação',
       fabBg: st.recording ? 'var(--danger)' : 'var(--surface-000)', fabFg: st.recording ? 'var(--on-danger)' : 'var(--danger)', fabBorder: st.recording ? 'var(--danger)' : 'var(--border-strong)', fabShadow: st.recording ? 'var(--shadow-fab)' : 'var(--shadow-card)', fabMask: IC(st.recording ? 'pause' : 'mic'),
       generate: () => { const dur = fmt(Math.max(st.elapsed, 402)); if (st.net === 'offline') { this.setState({ proc: { pid: st.pid, mode: 'local', pct: 0, dur, size: '5,8 MB' } }); this.logStep('Áudio salvo no dispositivo · processamento pela IA local iniciado (offline)'); this.go('proc', { recording: false }); } else { this.logStep(`Rascunho gerado pela IA na nuvem · áudio de ${dur}`); this.go('review', { recording: false, active: null, dose: cur && CASES[cur.species] ? 'na' : 'pending', editing: null, procMode: 'cloud' }); } },
+      uploadAudio: e => { const file = e.target.files && e.target.files[0]; e.target.value = ''; if (!file || !cur) return;
+        if (!/^audio\//.test(file.type) && !/\.(mp3|m4a|wav|ogg|webm|aac)$/i.test(file.name)) return this.flash('Formato não suportado. Envie um arquivo de áudio.');
+        if (this.au) this.au.pause(); if (this.auUrl) URL.revokeObjectURL(this.auUrl);
+        this.auUrl = URL.createObjectURL(file); const au = new Audio(this.auUrl); au.preload = 'metadata'; this.au = au;
+        au.onended = () => this.setState({ pbPlaying: false, pbPos: isFinite(au.duration) ? au.duration : this.state.elapsed });
+        const size = (file.size / 1048576).toFixed(1).replace('.', ',') + ' MB', mode = st.net === 'offline' ? 'local' : 'cloud';
+        const start = sec => { const d = Math.max(1, Math.round(sec || 0));
+          this.logStep('Áudio enviado do dispositivo · ' + file.name + ' · ' + size + ' · autorização declarada pelo veterinário');
+          this.logStep(mode === 'local' ? 'Processamento pela IA local iniciado (offline)' : 'Processamento pela IA na nuvem iniciado');
+          this.setState({ consentBy: 'upload', elapsed: d, proc: { pid: cur.id, mode, pct: 0, dur: fmt(d), size } });
+          this.go('proc', { recording: false, draftIdx: null, edits: {}, sugg: {}, editing: null, active: null, evid: null }); };
+        let done = false; const go = s => { if (done) return; done = true; start(s); };
+        au.onloadedmetadata = () => go(isFinite(au.duration) ? au.duration : 0); au.onerror = () => go(0); setTimeout(() => go(0), 2500); },
+      reprocessSub: st.net === 'offline' ? 'Mesmo áudio · IA do dispositivo' : 'Mesmo áudio · IA na nuvem',
+      reprocess: () => { if (!cur) return; const dur = fmt(Math.max(st.elapsed, 402)), mode = st.net === 'offline' ? 'local' : 'cloud';
+        this.ask({ title: 'Refazer a análise da IA?', body: 'Uma nova análise do mesmo áudio substitui o rascunho atual e as suas edições.', ok: 'Refazer análise', icon: 'refresh-cw', onOk: () => {
+        if (st.draftIdx != null) this.patch(cur.id, p => ({ ...p, consults: p.consults.filter((c, i) => i !== st.draftIdx) }));
+        this.logStep(mode === 'local' ? 'Nova análise solicitada · IA do dispositivo (offline)' : 'Nova análise solicitada · IA na nuvem');
+        this.setState({ proc: { pid: cur.id, mode, pct: 0, dur, size: '5,8 MB' } });
+        this.go('proc', { draftIdx: null, edits: {}, sugg: {}, editing: null, active: null, evid: null }); } }); },
+      deleteDraft: () => { if (!cur) return; this.ask({ title: 'Apagar consulta não aprovada?', body: 'O áudio e o rascunho serão excluídos e não poderão ser recuperados.', ok: 'Apagar consulta', danger: true, onOk: () => {
+        if (st.draftIdx != null) this.patch(cur.id, p => ({ ...p, consults: p.consults.filter((c, i) => i !== st.draftIdx) }));
+        this.setState({ hist: (st.hist || []).filter(h => !['consent', 'scribe', 'proc', 'review'].includes(h.screen)), elapsed: 0 });
+        this.go('pick', { recording: false, draftIdx: null, editing: null, active: null }, { back: true });
+        this.flash('Consulta não aprovada apagada'); } }); },
       soap: soapV, hasActive: !!act, segLeft: act ? (act.a / TOTAL * 100) + '%' : '0%', segWidth: act ? Math.max(2, (act.b - act.a) / TOTAL * 100) + '%' : '0%',
       playerNote: act ? `Reproduzindo trecho ${fmt(act.a)}–${fmt(act.b)} · ${act.sec}` : `Áudio da consulta · ${fmt(Math.max(st.elapsed, 402))}`, noteColor: act ? 'var(--accent-warm-text)' : 'var(--ink-muted)',
       dosePending: !doseDone, doseDone, doseText: st.dose === 'accepted' ? 'Dose de 0,4 mg/kg mantida por decisão do veterinário' : 'Dose ajustada para 0,1 mg/kg no Plano',
@@ -3585,7 +3653,7 @@ class Component extends DCLogic {
       speciesChips: ['Canino', 'Felino', 'Equino', 'Bovino', 'Pequenos ruminantes', 'Silvestres e exóticos'].map(label => { const on = (d.species || []).includes(label); return { label, checked: on, on: on ? 'true' : 'false', ...pill(on), flip: () => setD('species', on ? d.species.filter(x => x !== label) : [...(d.species || []), label]) }; }),
       practiceOpts: [['solo', 'Autônomo ou volante'], ['clinic', 'Em clínica'], ['hospital', 'Em hospital']].map(([k, label]) => { const on = d.practice === k; return { label, on: on ? 'true' : 'false', pick: () => setD('practice', k), ...pill(on) }; }),
       showClinic: d.practice !== 'solo', isOrg: st.screen === 'org', orgCountry: ctry, countryOpts: Object.entries(COUNTRIES).map(([k, c]) => ({ k, name: c.name })),
-      onOrgCountry: e => { const v = e.target.value; const cm = 'Mudar o país de atuação para ' + COUNTRIES[v].name + '? Isso altera o formato do registro, a moeda e os documentos das próximas faturas.'; if (!window.confirm(window.AusI18n ? AusI18n.t(cm) : cm)) { this.forceUpdate(); return; } setD('country', v); try { localStorage.setItem('ausculta-country', v); } catch (x) {} this.flash('País atualizado · documentos e pagamentos seguem as regras de ' + COUNTRIES[v].name); },
+      onOrgCountry: e => { const v = e.target.value; this.forceUpdate(); this.ask({ title: 'Mudar o país de atuação para ' + COUNTRIES[v].name + '?', body: 'Isso altera o formato do registro, a moeda e os documentos das próximas faturas.', ok: 'Mudar país', icon: 'globe', onOk: () => { setD('country', v); try { localStorage.setItem('ausculta-country', v); } catch (x) {} this.flash('País atualizado · documentos e pagamentos seguem as regras de ' + COUNTRIES[v].name); } }); },
       showOrgCard: isTeamPlan, phonePh: isBR ? '(11) 98765-4321' : `${C.dial || '+'} …`, licLabel: isBR ? 'Registro no CRMV' : C.lic[0], licHasUF: !!R.list, ufs: R.list || [], ufVal: regOf(d), ufAria: R.aria || '', licPh: R.ph || 'Número de inscrição', licCols: !R.list ? 'minmax(0, 1fr)' : R.wide ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(96px, 120px) minmax(0, 1fr)', orgNotSolo: !(!isTeamPlan && (d.practice || 'solo') === 'solo'),
       orgTitle: 'Configurações da conta', orgIsTeam: isTeamPlan, orgNameLabel: st.plan === 'hospital' ? 'Nome do hospital' : 'Nome da clínica', orgNamePh: st.plan === 'hospital' ? 'Ex.: Hospital Veterinário Boa Vista' : 'Ex.: Clínica Veterinária Boa Vista', orgNameVal: d.clinic || '', onOrgName: e => setD('clinic', e.target.value),
       orgLead: isTeamPlan ? 'Valem para toda a equipe. Só o dono e os administradores editam.' : (isBR ? 'Valem para a sua conta. Os dados para a nota fiscal ficam em Assinatura e faturas.' : 'Valem para a sua conta. Os dados para a fatura ficam em Assinatura e faturas.'), goOrg: () => this.go('org'),
@@ -3900,6 +3968,9 @@ class Component extends DCLogic {
       cNext: () => { if (cStep === 2 && !st.cReason || cStep === 4 && !st.ack) return; if (cStep < 4) { this.setState({ cStep: cStep + 1 }); window.scrollTo(0, 0); } else { this.setState({ sub: 'canceled' }); this.go('billing'); this.flash('Assinatura cancelada · acesso até 30/09'); } },
       keepSub: () => { this.go('billing'); this.flash('Que bom que você fica'); },
       hasToast: !!st.toast, toast: st.toast || '',
+      cfmOpen: !!st.cfm, cfm: st.cfm ? { ...st.cfm, mask: IC(st.cfm.icon), fg: st.cfm.danger ? 'var(--danger)' : 'var(--brand)', iconBg: st.cfm.danger ? 'var(--danger-subtle)' : 'var(--brand-subtle)' } : { title: '', body: '', ok: '', mask: 'none', fg: 'var(--brand)', iconBg: 'var(--brand-subtle)' },
+      cfmOk: () => { const fn = this._cfmOk; this._cfmOk = this._cfmNo = null; this.setState({ cfm: null }); fn && fn(); },
+      cfmCancel: () => { const fn = this._cfmNo; this._cfmOk = this._cfmNo = null; this.setState({ cfm: null }); fn && fn(); },
       navHomeColor: st.screen === 'home' ? 'var(--brand)' : 'var(--ink-muted)', navPatColor: ['patients', 'patient'].includes(st.screen) ? 'var(--brand)' : 'var(--ink-muted)',
       navHomeCurrent: st.screen === 'home' ? 'page' : 'false', navPatCurrent: ['patients', 'patient'].includes(st.screen) ? 'page' : 'false'
     };
