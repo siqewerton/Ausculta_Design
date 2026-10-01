@@ -173,3 +173,90 @@ A fonte completa dos tokens está em `tokens/*.css`.
 - `support.js`: runtime do protótipo (não faz parte do produto).
 - `styles.css` e `tokens/`: tokens de cor, espaçamento, tipografia e fontes.
 - `assets/logo/`: marcas.
+
+
+---
+
+## Atualizações de 30/09/2026 (leia antes das seções acima)
+
+Esta seção substitui o que divergir nas seções anteriores.
+
+### Padrão de design obrigatório
+A regra completa está em `CLAUDE.md`, e os cartões de referência em `guidelines/patterns-actions.html`, `patterns-chips.html` e `patterns-alerts.html`.
+
+**Cores (um significado cada)**
+- Azul: ação, navegação e dado vindo do áudio.
+- Verde: confirmado pelo veterinário.
+- Laranja: atenção, precisa de decisão.
+- Vermelho: risco ao paciente ou perda de dados.
+- Cinza: neutro ou pendente.
+
+**Componentes**
+- **Botões:** primário de 56px (64px na aprovação) e secundário com contorno de 2px e 48px.
+- **Carimbo de ação:** pílula de 44px, borda de 2px e ícone de 14px. Nunca texto sublinhado como ação.
+- **Chip de estado (4 estados):** pendente cinza tracejado, confirmado verde, vindo do áudio azul, obrigatório vermelho tracejado com cadeado.
+- **Faixa de alerta:** no cabeçalho do paciente; vermelha para alergia, laranja para problema ativo e cadastro incompleto.
+- **Linha de sistema:** sincronização, conexão e modo de processamento ficam numa linha discreta no topo da tela, com texto de 13px cinza e só o ícone colorido.
+- **Selo de status:** 6px de raio.
+- **Link:** só para navegar ou expandir.
+
+### Revisão do SOAP
+- **Objetivo, exame por sistemas:**
+  - 10 sistemas em chips.
+  - Os não mencionados aparecem em cinza; um toque registra "normal ao exame". O atalho "Examinei: marcar os demais como normais" marca todos de uma vez.
+  - Na aprovação, o texto ganha "Sem alterações ao exame: …" e "Não mencionado: …".
+  - Os sistemas já registrados ficam recolhidos.
+- **Checklist por espécie:** vem do modelo de exame da espécie. A carência é obrigatória em ruminantes, suínos e aves e bloqueia a aprovação.
+- **Plano, os 6 elementos da prescrição:** fármaco, dose, via, frequência, duração e indicação.
+  - Mostra a dose total calculada.
+  - O que falta vem com sugestões de um toque.
+- **Avaliação, lista de problemas (POVMR):** chip do problema; ao aprovar, cria ou atualiza o problema.
+- **Casos por espécie:** felino (hiporexia), equino (AAEP) e bovino (mastite e carência). Os caninos mantêm o alerta de dose.
+
+### Gravação
+- **Áudio real:** MediaRecorder; ao pausar, o trecho gravado pode ser ouvido e navegado (onda, ±10s).
+- **Wake lock:** a tela fica ligada enquanto grava.
+- **Detecção de interrupção:**
+  - Cobre microfone encerrado ou mudo, falha do gravador e app em segundo plano.
+  - A interrupção aparece num aviso vermelho e fica registrada na trilha de auditoria.
+  - Requisito não funcional: "a gravação nunca perde áudio sem aviso".
+- **Subjetivo captado (OLDCHARTS), com a gravação pausada:** grade 4×2 com os 8 itens; ✓ verde para captado e ✕ laranja para o que falta.
+- **Altura:** a tela se ajusta à altura visível e o botão "Encerrar" nunca sai da tela (testado em 320×540).
+
+### Paciente
+- **Cabeçalho:** faixas de alergia, problema ativo (com "Marcar resolvido") e cadastro incompleto (lista o que falta; "Completar" abre a aba e foca o campo).
+- **Resumo clínico:**
+  - Desde a última consulta.
+  - Linha do tempo de 12 meses, com consultas, problemas e medicamentos.
+  - Evolução do peso, com faixa de ±5%.
+  - Cobertura do exame: grade de sistemas × consultas, com a descoberta das lacunas.
+- **Listas de pacientes e responsáveis:** em ordem alfabética.
+
+### Conta
+- **Configurações da conta** substitui "Dados da organização". Reúne o país de atuação, o nome da clínica (só nos planos Clínica e Hospital) e as espécies e modelos de exame.
+- **Modelos de exame:** a plataforma define 7 modelos por família de espécie. O usuário só escolhe o modelo para espécies que ele mesmo cria. Espécie nunca usada pode ser apagada; espécie já usada é desativada.
+- **Dados para a fatura** ficam em Assinatura e faturas:
+  - Pessoa física ou jurídica.
+  - Documento e CEP seguem o país de atuação.
+  - Vêm preenchidos a partir da criação de conta.
+
+### Landing
+- **Seção "Você conhece o SOAP. O Ausculta escreve o seu."** (#soap):
+  - quatro cartões S/O/A/P;
+  - o Plano que vira ação;
+  - "O que não está registrado, não foi feito";
+  - os limites da IA;
+  - campos por espécie (em breve).
+- **Menu no celular:** hambúrguer.
+- **Moldura do celular:** atualizada com a tela atual.
+- **Glossário:** inclui POVMR, OLDCHARTS, DAMNIT-V, ECC, TPC, CMT, AAEP e CRMV.
+
+### Infraestrutura do protótipo
+- **Tela de carregamento** (`splash.js`): a página fica oculta até tema, fontes, tradução e montagem estarem prontos.
+- **Traduções:** todas as strings em `i18n.js` (PT, EN e ES).
+
+### Arquivos novos ou alterados
+- `CLAUDE.md`
+- `backlog-discovery-soap.md` (itens ainda não implementados)
+- `guidelines/patterns-*.html`
+- `readme.md` (design system)

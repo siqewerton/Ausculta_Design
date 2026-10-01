@@ -1,0 +1,17 @@
+<!-- @dsCard group="Patterns" viewport="700x260" name="Chip de estado" subtitle="Toque alterna; 4 estados com ícone próprio" -->
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css">
+<style>body{padding:20px 24px;margin:0}*{box-sizing:border-box}.r{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.lbl{font:600 12px/16px var(--font-sans);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px}
+.c{min-height:44px;padding:0 12px;display:inline-flex;align-items:center;gap:6px;border-radius:var(--radius-full);font:600 13px/18px var(--font-sans);border:2px solid}
+.n{font:400 13px/18px var(--font-sans);color:var(--ink-muted);margin:4px 0 16px}</style></head><body>
+<p class="lbl">Chip de estado (toque alterna)</p>
+<div class="r">
+<span class="c" style="border-style:dashed;border-color:var(--border-strong);background:var(--surface-000);color:var(--ink-muted)"><span style="width:14px;height:14px;flex:none;background:currentColor;-webkit-mask:url(https://unpkg.com/lucide-static@0.460.0/icons/circle-dashed.svg) center/contain no-repeat;mask:url(https://unpkg.com/lucide-static@0.460.0/icons/circle-dashed.svg) center/contain no-repeat"></span>Não mencionado</span>
+<span class="c" style="border-color:var(--success);background:var(--success-subtle);color:var(--success)"><span style="width:14px;height:14px;flex:none;background:currentColor;-webkit-mask:url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;mask:url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat"></span>Normal ao exame</span>
+<span class="c" style="border-color:var(--brand);background:var(--brand-subtle);color:var(--brand-strong)"><span style="width:14px;height:14px;flex:none;background:currentColor;-webkit-mask:url(https://unpkg.com/lucide-static@0.460.0/icons/audio-lines.svg) center/contain no-repeat;mask:url(https://unpkg.com/lucide-static@0.460.0/icons/audio-lines.svg) center/contain no-repeat"></span>Registrado no áudio</span>
+<span class="c" style="border-style:dashed;border-color:var(--danger);background:var(--danger-subtle);color:var(--danger)"><span style="width:14px;height:14px;flex:none;background:currentColor;-webkit-mask:url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat;mask:url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat"></span>Período de carência</span>
+</div>
+<p class="n">Pendente = cinza tracejado · Confirmado = verde sólido · Vindo do áudio = azul sólido · Obrigatório = vermelho tracejado com cadeado (bloqueia a aprovação).</p>
+<p class="lbl">Pílula de escolha (rádio)</p>
+<div class="r"><span class="c" style="border-color:var(--brand);background:var(--brand-subtle);color:var(--brand-strong)">Pequenos animais</span><span class="c" style="border-color:var(--border);background:var(--surface-000);color:var(--ink)">Equinos</span><span class="c" style="border-color:var(--border);background:var(--surface-000);color:var(--ink)">Bovinos</span></div>
+</body></html>
