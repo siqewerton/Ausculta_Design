@@ -260,3 +260,50 @@ A regra completa está em `CLAUDE.md`, e os cartões de referência em `guidelin
 - `backlog-discovery-soap.md` (itens ainda não implementados)
 - `guidelines/patterns-*.html`
 - `readme.md` (design system)
+
+---
+
+## Atualizações de 01/10/2026 (leia antes das seções acima)
+
+Esta seção substitui o que divergir nas seções anteriores.
+
+### Gravação (tela 5)
+- **Ordem vertical:** linha de sistema (selo de rede à esquerda, relógio mono à direita) → cartão branco das ondas (cresce para ocupar o espaço livre) → botão do microfone centralizado → "Encerrar consulta e gerar SOAP" em largura total.
+- **Selo de rede** (aviso, não ação): pílula de 32px, borda de 1px, fundo *-subtle, ícone de 16px e texto 600 13px. Estados: "Modo offline" (`wifi-off`, laranja), "Sincronizando" (`refresh-cw`, azul), "Modo online" (`wifi`, verde). No protótipo, o toque simula a troca de rede; em produção, é só leitura.
+- **Ondas:** 36 barras de 4px, gap de 4px, vermelhas (`--danger`) gravando. A área tem altura `clamp(48px, 12vh, 136px)`, e as barras vão até cerca de 130px.
+- **Linha da marca no cartão:** marca Ausculta de 28px com as 5 barras laranja animadas (equalizador: `scaleY` 0,45→1→0,45 em 1s, ease-in-out, fases defasadas, `transform-origin: center`), "Ausculta" em Fraunces 600 19px (`--ink`) e "está gravando a consulta" em Public Sans 600 16px (`--danger`). Pode quebrar em duas linhas.
+- **Microfone bloqueado:** selo de status dentro do cartão, abaixo da linha da marca (raio de 6px, `--danger-subtle`, texto `--danger` 600 12px, ícone `mic-off` de 14px): "Microfone bloqueado, áudio simulado."
+- **Removidas:** a linha "Transcrição rodando localmente no dispositivo" e o link "Abrir em nova aba".
+- **Botão do microfone:** 104px, ícone de 44px; pulso de 2 anéis (escala 1→1,32, opacidade 0,5→0, 1,4s, o segundo com atraso de 0,7s).
+- **"Encerrar consulta e gerar SOAP":** secundário, largura total, altura mínima de 64px.
+- **Altura da tela:** altura visível − topo do container − **padding inferior real do `<main>`** (lido do CSS computado, 32px), e não mais 24px fixos. Cabe sem rolar em 320×540.
+- **"Gravação pausada":** continua laranja (pausa voluntária = atenção). Vermelho fica para gravando e interrupção involuntária.
+
+### Navegação de volta (seta ←)
+- **Gravação:** volta para "Nova consulta" (escolha de paciente), sem passar pelo Consentimento. Com áudio gravado, pede confirmação ("Sair da consulta?", ação vermelha "Sair e descartar gravação") e pausa a gravação enquanto o diálogo está aberto. Registra "Consulta cancelada antes de gerar o SOAP".
+- **Revisão de consulta nova:** volta para "Nova consulta" e salva o SOAP como **Rascunho** no prontuário (toast "Rascunho salvo no prontuário de [nome]"). A revisão de um rascunho retomado continua voltando ao prontuário.
+
+### Revisão SOAP: ações secundárias
+Abaixo de "Aprovar e Sincronizar Prontuário", lado a lado (quebram em coluna se não couber; mínimo 180px cada, 48px de altura, contorno de 2px, fundo branco):
+- **"Refazer análise da IA"** (azul, `refresh-cw`), com subtítulo 12px "Mesmo áudio · IA do dispositivo" (offline) ou "Mesmo áudio · IA na nuvem" (online). Confirma, remove o rascunho anterior, zera edições e vai para Processando.
+- **"Apagar consulta"** (vermelho, `trash-2`). Confirma, remove a consulta não aprovada (áudio e rascunho), volta para "Nova consulta" e mostra o toast "Consulta não aprovada apagada".
+
+### Diálogo de confirmação (novo componente)
+Substitui todas as janelas nativas do navegador (`window.confirm`); não restou nenhuma no app.
+- Overlay `rgba(27,36,32,.45)`; tocar fora cancela. Cartão centralizado, `min(420px, 100vw − 32px)`, raio `--radius-lg`, padding de 24/16/16px, gap de 16px, `role="alertdialog"`.
+- Ícone de 24px num círculo de 48px (`--brand-subtle`/`--brand`; destrutivo: `--danger-subtle`/`--danger`), título 700 20px/26px, texto 15px/22px `--ink-muted`.
+- Botão de confirmação preenchido de 56px (azul ou vermelho) e "Cancelar" secundário de 48px (contorno de 2px `--border-strong`).
+- Usos: sair da gravação, refazer análise, apagar consulta e mudar país de atuação (no cancelar, o seletor volta ao valor anterior).
+
+### Consentimento: enviar áudio já gravado
+- Abaixo do texto de LGPD, separado por uma borda superior de 1px `--border`: botão secundário com a **mesma altura dos dois de consentimento (76px, `box-sizing: border-box`)**, contorno de 2px `--border-strong`, ícone `file-audio` num círculo de 44px `--brand-subtle`, título 600 17px "Enviar áudio já gravado", subtítulo 13px "Arquivo do dispositivo · MP3, M4A, WAV" e `chevron-right`.
+- Texto de apoio: "Para quando o microfone falhar ou a consulta foi gravada em outro aparelho. Ao enviar, você confirma que houve autorização para gravar."
+- **Fluxo:** seletor de arquivo (`audio/*`) → valida o formato → lê a duração → registra na trilha (nome, tamanho, "autorização declarada pelo veterinário") → Processando (IA local se offline, nuvem se online) → Revisão. `consentBy = 'upload'`.
+- **Protótipo:** o SOAP gerado ainda é o caso de exemplo; em produção, transcrever o arquivo enviado.
+
+### i18n
+- Todas as strings novas estão em `i18n.js` (PT, EN e ES). "Offline Mode" (antes fixo em inglês) virou "Modo offline".
+- Strings com dados variáveis usam padrões regex em `P`: "A gravação de MM:SS será descartada…", "Rascunho salvo no prontuário de [nome]" e "Mudar o país de atuação para [país]?".
+
+### Arquivos alterados
+- `Ausculta App.dc.html`, `Ausculta App.html` (bundle offline regerado) e `i18n.js`.
