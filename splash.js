@@ -7,6 +7,7 @@
   var css = 'html:not(.aus-ready){background:' + bg + '}html:not(.aus-ready) body{visibility:hidden}#aus-splash{position:fixed;inset:0;z-index:2147483000;background:' + bg + ';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .22s ease}' +
     '#aus-splash.out{opacity:0;pointer-events:none}' +
     '#aus-splash img{width:56px;height:56px;animation:aus-sp-breathe 1.6s ease-in-out infinite}' +
+    '#aus-splash p{margin:0;font:600 17px/24px Fraunces,Georgia,serif;color:' + (dark ? '#B7C2BF' : '#5B6461') + ';text-align:center;padding:0 24px}' +
     '#aus-splash i{display:block;width:96px;height:3px;border-radius:3px;background:' + line + ';overflow:hidden;position:relative}' +
     '#aus-splash i:after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;border-radius:3px;background:' + brand + ';animation:aus-sp-bar 1.1s ease-in-out infinite}' +
     '@keyframes aus-sp-breathe{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.06);opacity:1}}' +
@@ -14,7 +15,8 @@
     '@media (prefers-reduced-motion: reduce){#aus-splash img,#aus-splash i:after{animation:none}}';
   var st = document.createElement('style'); st.textContent = css; (document.head || d).appendChild(st);
   var el = document.createElement('div'); el.id = 'aus-splash'; el.setAttribute('role', 'status'); el.setAttribute('aria-label', 'Carregando');
-  el.innerHTML = '<img alt="" src="' + ((window.__resources && window.__resources.logoMark) || 'assets/logo/ausculta-mark-diafragma.svg') + '"><i></i>';
+  el.innerHTML = '<img alt="" src="' + ((window.__resources && window.__resources.logoMark) || 'assets/logo/ausculta-mark-diafragma.svg') + '"><p></p><i></i>';
+  try { var lg = localStorage.getItem('ausculta-lang') || 'pt'; el.querySelector('p').textContent = { pt: 'O cuidado começa na escuta.', en: 'Care begins with listening.', es: 'El cuidado empieza en la escucha.' }[lg] || 'O cuidado começa na escuta.'; } catch (e) {}
   d.appendChild(el);
   var guard = new MutationObserver(function () { if (!done && !el.isConnected) d.appendChild(el); if (!st.isConnected) (document.head || d).appendChild(st); });
   guard.observe(d, { childList: true, subtree: true });

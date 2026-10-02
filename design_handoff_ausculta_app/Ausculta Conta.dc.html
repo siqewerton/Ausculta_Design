@@ -107,6 +107,7 @@
           <div style="display: flex; flex-direction: column; gap: var(--space-2);">
             <h1 style="margin: 0; font: 700 24px/30px var(--font-sans);">{{ accountTitle }}</h1>
             <p style="margin: 0; color: var(--ink-muted);">{{ accountSub }}</p>
+            <sc-if value="{{ accountTrust }}"><p style="margin: var(--space-1) 0 0; font: 600 17px/24px var(--font-display);">A IA ouve. Você decide.</p></sc-if>
           </div>
           <sc-if value="{{ sShowStepper }}">
             <div style="display: flex; flex-direction: column; gap: var(--space-2);">
@@ -637,7 +638,7 @@ class Component extends DCLogic {
           sSentShow: su && step === 3 && !!st.sSent, sSentText: `Enviamos a confirmação para ${(sd.contactEmail || '').trim()}. Nossa equipe comercial entra em contato em até 4 horas pelo e-mail ou pelo telefone ${(sd.phone || '').trim()}.`, sEnter: () => this.finishSignup() }; })(),
       accountTitle: st.auth !== 'signup' ? 'Entrar na sua conta Ausculta' : st.sSent ? 'Tudo certo' : st.sStep === 1 ? 'Escolha seu plano' : st.sStep === 2 ? 'Crie sua conta Ausculta' : ({ pro: 'Assinar o Profissional', clinic: 'Configurar sua clínica', hospital: 'Proposta para hospital' }[st.splan] || ''),
       accountSub: st.auth === 'signup' && st.sSent ? 'Recebemos seu pedido. Enquanto isso, você já pode usar o Ausculta.' : st.auth === 'signup' && st.sStep === 1 ? 'Comece grátis no Essencial. Para trabalhar em equipe ou integrar ao seu sistema, escolha outro plano.' : st.auth === 'signup' && st.sStep === 3 ? ({ pro: 'Dados de pagamento para ativar o plano.', clinic: 'Dados da clínica e do pagamento. Você será o dono da conta.', hospital: 'O plano Hospital é contratado com a nossa equipe. Envie os dados e começamos a proposta.' }[st.splan] || '') : st.auth === 'signup' ? 'É o que guarda seus prontuários e permite abrir no celular, no tablet da recepção, ou onde você precisar.' : 'Use o e-mail da sua conta para recuperar seus prontuários neste dispositivo.',
-      accountCta: st.auth === 'signup' ? 'Criar conta e continuar' : 'Entrar e continuar',
+      accountCta: st.auth === 'signup' ? 'Criar conta e continuar' : 'Entrar e continuar', accountTrust: !st.sSent,
       accountSwitch: st.auth === 'signup' ? 'Já tem conta? Entrar' : 'Ainda não tem conta? Criar conta',
       toggleAuth: () => this.setState({ auth: st.auth === 'signup' ? 'login' : 'signup' }),
       ...(() => {

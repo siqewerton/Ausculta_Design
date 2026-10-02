@@ -1,6 +1,6 @@
 # Handoff: Ausculta: AI Scribe para veterinários (app + landing + conta)
 
-> **Versão de 01/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
+> **Versão de 02/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
 
 ## Visão geral
 O Ausculta grava a consulta veterinária (com consentimento), transcreve (na nuvem com internet, ou no próprio aparelho sem internet ou quando a clínica escolhe) e gera um rascunho de prontuário **SOAP**, que o médico veterinário revisa, ajusta e aprova. Ele pode funcionar sozinho ou integrado ao PIMS da clínica (ex.: Long Life Pet). O pacote cobre três peças:
@@ -485,3 +485,79 @@ Fontes: `prd-design-ausculta-configuracao-ia-e-audio.md` e `prd-design-ausculta-
   - contagens ("Mostrando X de Y", "Ver todas… (N)").
 - **Dados de exemplo:** textos clínicos do protótipo e nomes de raças e regiões ficam em PT, porque são dados e não interface.
 - **320 px:** os componentes novos usam flex-wrap, minmax(0, 1fr) e reticências no nome da área. Nenhum tem largura fixa acima de 320 px. Na fila, o selo de etapa pode quebrar linha em idiomas com textos mais longos.
+
+
+---
+
+## Atualizações de 02/10/2026 (leia antes das seções acima)
+
+Esta seção substitui o que divergir nas seções anteriores. O padrão completo está em `padrao-de-design.md` (regras 6 a 12).
+
+### Família de selos e balões (cor = significado)
+- **Selo verde (concluído, sem ação):** retângulo de 28px (`box-sizing: border-box`), raio de 6px, fundo `--success-subtle`, borda de 1px `--success`, ícone de 14px, texto 600 12px. Ex.: "Com internet", "IA do aparelho pronta", "Tudo sincronizado · hora".
+- **Selo laranja "Precisa da sua atenção · N"** (`bell-dot`, total em Plex Mono, chevron): reúne no topo da tela tudo o que pede ação. Fechado por padrão; ao tocar, abre logo abaixo um painel laranja com uma linha de 48px por item (ícone de 18px, texto 600 14px e carimbo laranja à direita). Itens em andamento usam ícone azul. Some sem itens.
+- **Balão vermelho "Falta para aprovar"** com bico apontando para o botão "Aprovar e Sincronizar Prontuário" desabilitado: lista o que bloqueia (dose, alergia, campo obrigatório por espécie). Cada linha rola até o item e o destaca.
+- **Balão verde "Registrado"** na tela de aprovado, com a frase "A história de [paciente] continua daqui."
+- Os selos ocupam 28px visuais dentro de um alvo de 44px (margem de −8px). Espaço até o conteúdo abaixo: 16px.
+
+### Revisão SOAP
+- **Selo único de processamento:** "Processado na nuvem · há N min" (ou "no aparelho", "no aparelho e na nuvem"), com `shield-check` e chevron. Abre no lugar um painel verde com transcrição, análise e guarda do áudio (substitui a janela inferior).
+- **Aviso "Rascunho gerado por IA"** fica acima do player.
+- **Player de áudio:** barra de progresso (toque para pular, trecho da frase ativa em laranja), legenda do trecho e tempo "MM:SS / MM:SS" em mono, e controles centralizados iguais aos da gravação pausada (−10s, play/pausa azul de 44px, +10s, gap de 24px). Reproduzir destaca a frase falada no SOAP; tocar numa frase leva o áudio ao início dela.
+- **Player não fica fixo.** Ao rolar e o player sair da tela, aparece no cabeçalho uma pílula azul (play/pausa, tempo, mini barra, seta para voltar ao player). Some ao voltar para o player.
+- **Cabeçalho:** só o nome do paciente, sem o prefixo "Revisão".
+
+### Nova consulta: ordem dos pacientes ("provável próxima consulta")
+1. Retorno hoje ou atrasado até 3 dias (do "retorno em N dias" do Plano aprovado): selo laranja "Retorno hoje" / "Retorno atrasado · dd/mm".
+2. Rascunho de hoje (selo laranja), depois atendidos nos últimos 30 dias sem retorno marcado (selo cinza "Última consulta · dd/mm"), do mais recente ao mais antigo.
+3. Demais em ordem alfabética (selo cinza "Retorno previsto · dd/mm" ou "Última consulta · dd/mm").
+- Ao buscar: primeiro quem começa com o termo, depois alfabético. Busca com 64px, a mesma altura do botão "Primeira consulta".
+
+### Painel e momentos de respiro (ensaio sobre o nome)
+- Abaixo de "Bom dia, Nome", em Fraunces 600 17px cinza: "Nenhum prontuário esperando por você." (fila vazia) ou "Hoje você ouviu N consultas. Todas registradas." (após 17h). Some com itens na fila.
+- Splash: "O cuidado começa na escuta." · Paciente sem consultas: "A primeira consulta começa a história." · Login e criação de conta: "A IA ouve. Você decide."
+
+### Landing (`index.html`)
+- Hero: "Ausculta, do latim *auscultare*: ouvir atentamente." · h1 "O cuidado começa na escuta." · subtítulo "Termine a consulta com o prontuário pronto".
+- Novas seções: "O que a consulta revela" (editorial), "O que merece ficar registrado" (antes dos números), "A IA ouve. Você decide." (antes de Segurança) e "Ouvir é cuidar duas vezes" (antes do CTA).
+- CTA final: "Comece a escrever menos. Comece a escutar melhor." com o botão "Experimentar o Ausculta". Rodapé: "Ausculta. Ouve a consulta. Organiza o cuidado."
+- Celular do hero atualizado com a tela de gravação atual.
+
+### Outros
+- Links "Ver todos… (N)" sem sublinhado.
+- Vocabulário: "responsável", nunca "tutor" (ES "responsable", EN "owner").
+- Todas as strings novas em `i18n.js` (PT, EN e ES).
+
+### Arquivos alterados
+- `Ausculta App.dc.html`, `Ausculta Conta.dc.html`, `index.html`, `i18n.js`, `splash.js`, `padrao-de-design.md`, `image-slot.js` (novo no pacote).
+- `Ausculta App.html` (bundle offline) **não foi regerado** nesta rodada: use os `.dc.html` servidos por HTTP.
+
+
+---
+
+## Atualizações de 02/10/2026, segunda rodada (leia antes das seções acima)
+
+### Revisão SOAP · Objetivo: Sinais vitais e Sinais de inflamação
+- **Cartão "Sinais vitais"** (acima do "Exame por sistemas"), com parâmetros por espécie: pequenos animais T, FC, FR, PA, TPC, mucosas, hidratação, ECC, ECM, dor; equinos T, FC, FR, TPC, mucosas, hidratação, ECC, dor; bovinos T, FC, FR, mucosas, hidratação, ECC.
+- **Extração:** valores ditos em voz alta no Objetivo (regex por parâmetro, `VDEF`). Ex.: "frequência cardíaca 96 bpm", "TPC menor que 2 segundos", "ECC 6 de 9", "escore de dor Glasgow 6 de 24".
+- **Faixas de referência por espécie** (`VRANGE`, de exemplo, a validar pela equipe clínica): valor fora da faixa gera selo laranja "FC 210 bpm · acima da faixa de referência (Felino 120–180 bpm)" e continua visível mesmo com os registrados recolhidos.
+- **Obrigatórios** (`VREQ`): T e FC para equinos e bovinos. Pendentes bloqueiam a aprovação e entram no balão "Falta para aprovar".
+- **Sinais de inflamação por região** (joelho, membro, quarto mamário, orelha…): calor, rubor, aumento de volume, dor e perda de função; pelo menos 2 sinais na mesma região para o bloco aparecer.
+- **Lacunas** ("Sinais vitais não mencionados: …", "Joelho esquerdo: rubor não mencionado") vão para o selo laranja "Precisa da sua atenção".
+
+### Padrão único dos dois cartões (Sinais vitais e Exame por sistemas)
+- Chips de 44px: azul sólido = registrado no áudio (toque toca o trecho); verde = registrado pelo veterinário; cinza tracejado = não mencionado; vermelho tracejado com cadeado = obrigatório para a espécie.
+- Contador "N de M registrados". Já registrados ficam recolhidos ("Mostrar N já registrados" / "Recolher os já registrados").
+- Pendente resolve no toque: no exame marca "normal ao exame"; nos sinais vitais abre um campo para o valor medido ("Registrar", "Cancelar", "Remover"). O valor informado entra no texto do Objetivo ao aprovar.
+- ECC e escore de dor saíram do modelo de exame de pequenos animais (estão nos sinais vitais).
+
+### Resumo clínico
+- Novo bloco **"Sinais vitais registrados"**: último valor de cada parâmetro, data, seta de tendência, valor anterior, faixa de referência; laranja se fora da faixa. Extraído do Objetivo das consultas aprovadas (mesma técnica do peso), ordenado por data.
+
+### Landing: "Tudo o que o Ausculta ouve por você" (#ouve)
+- Tabela O quê / Por quê / Como, com link "O que a IA ouve" no menu. "Já no Ausculta" (22 recursos em 5 grupos, prévia com 7 destaques e "Ver todos os recursos (22)") e "Próximas fases" (9). No celular as colunas viram blocos com rótulos de 10px.
+- Siglas: incluídas T, FC, FR, PA, ECM e WSAVA.
+
+### Antes de produção
+- Validar com veterinários da SIQ as faixas de referência e as formas de falar ECC, ECM e escore de dor.
+- `Ausculta App.html` (bundle offline) não foi regerado: use os `.dc.html` servidos por HTTP.

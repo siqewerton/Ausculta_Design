@@ -115,6 +115,7 @@ Criado a pedido do usuário (rodada 1, `Ausculta Logo.dc.html`). Recomendado: **
 - `guidelines/`: cards de espécime (Colors, Type, Spacing, Brand, Patterns)
 - `Ausculta Conta.dc.html`: criação de conta (plano, conta, dados do plano) e login
 - `assets/logo/`: símbolos SVG
-- `Ausculta Landing v2.dc.html`: landing pública
+- `index.html`: landing pública (versão oficial; toda nova versão parte daqui)
+- `Ausculta Landing antes do ensaio.dc.html`: cópia de segurança do landing antes do ensaio sobre o nome
 - `Ausculta Logo.dc.html`: exploração de logo
 - `SKILL.md`
