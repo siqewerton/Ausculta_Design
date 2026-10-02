@@ -36,7 +36,7 @@
           AI Scribe veterinário · 100% offline
         </span>
         <h1 style="margin: 0; font: 600 clamp(40px, 6vw, 56px)/1.07 var(--font-display); text-wrap: balance;">Termine a consulta com o prontuário pronto</h1>
-        <p style="margin: 0; font-size: 19px; line-height: 28px; color: var(--ink-muted); max-width: 58ch;">Chega de preencher prontuário no fim do expediente. O Ausculta ouve a consulta e escreve o rascunho do <abbr title="Subjetivo, Objetivo, Avaliação e Plano" style="text-decoration: underline dotted; text-decoration-color: var(--border-strong); text-underline-offset: 4px; cursor: help;">SOAP</abbr> no seu dispositivo, mesmo sem internet. Você revisa, aprova e segue para o próximo paciente.</p>
+        <p style="margin: 0; font-size: 19px; line-height: 28px; color: var(--ink-muted); max-width: 58ch;">Chega de preencher prontuário no fim do expediente. O Ausculta ouve a consulta e escreve o rascunho do <abbr title="Subjetivo, Objetivo, Avaliação e Plano" style="text-decoration: underline dotted; text-decoration-color: var(--border-strong); text-underline-offset: 4px; cursor: help;">SOAP</abbr> e funciona mesmo sem internet, analisando no próprio aparelho. Você revisa, aprova e segue para o próximo paciente.</p>
       </section>
 
       <section style="display: flex; flex-direction: column; gap: var(--space-6); padding-bottom: var(--space-16);">
@@ -223,11 +223,12 @@
             </label>
           </sc-if>
           <button type="button" onClick="{{ submitAccount }}" disabled="{{ accountInvalid }}" style="opacity: {{ accountOpacity }}; min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; cursor: pointer;" style-hover="background: var(--brand-strong);">{{ accountCta }}</button>
+          <sc-if value="{{ isSignup }}"><p style="margin: 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); text-wrap: pretty;">Durante o piloto, os dados ficam fora do Brasil. Você escolhe onde o áudio é transcrito e guardado em Configurações da conta. <a href="Ausculta App.dc.html#trust" style="color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 3px;">Ver na Central de Confiança</a></p></sc-if>
           <button type="button" onClick="{{ toggleAuth }}" style="min-height: 48px; border: none; background: none; color: var(--brand); font: 600 16px/20px var(--font-sans); cursor: pointer; border-radius: var(--radius-lg);" style-hover="background: var(--brand-subtle);">{{ accountSwitch }}</button>
           </sc-if>
           <p style="margin: auto 0 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); display: flex; gap: var(--space-2);">
             <span style="width: 16px; height: 16px; flex: none; margin-top: 1px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/lock.svg) center/contain no-repeat;"></span>
-            Seus dados ficam nesta conta, isolados de qualquer outra clínica — nunca compartilhados sem sua ação.
+            Seus dados ficam nesta conta, isolados de qualquer outra clínica.
           </p>
         </main>
       </sc-if>
@@ -271,7 +272,7 @@
 
           <span style="display: flex; align-items: center; justify-content: center; gap: var(--space-2); font-size: 13px; line-height: 18px; color: var(--ink-muted);">
             <span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/cpu.svg) center/contain no-repeat;"></span>
-            Transcrição rodando localmente no dispositivo
+            Transcrevendo a consulta
           </span>
 
           <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-6); padding-bottom: var(--space-4);">

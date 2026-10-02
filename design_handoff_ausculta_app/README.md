@@ -1,7 +1,9 @@
 # Handoff: Ausculta: AI Scribe para veterinários (app + landing + conta)
 
+> **Versão de 01/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
+
 ## Visão geral
-O Ausculta grava a consulta veterinária (com consentimento), transcreve no próprio dispositivo (funciona offline) e gera um rascunho de prontuário **SOAP**, que o médico veterinário revisa, ajusta e aprova. Ele pode funcionar sozinho ou integrado ao PIMS da clínica (ex.: Long Life Pet). O pacote cobre três peças:
+O Ausculta grava a consulta veterinária (com consentimento), transcreve (na nuvem com internet, ou no próprio aparelho sem internet ou quando a clínica escolhe) e gera um rascunho de prontuário **SOAP**, que o médico veterinário revisa, ajusta e aprova. Ele pode funcionar sozinho ou integrado ao PIMS da clínica (ex.: Long Life Pet). O pacote cobre três peças:
 - **Landing** (`index.html`): marketing, com escolha de entrada (Long Life Pet, outro PIMS, sem PIMS).
 - **Conta** (`Ausculta Conta.dc.html`): criação de conta e login.
 - **App** (`Ausculta App.dc.html`): o produto (atendimento, pacientes, conta, ajuda, confiança).
@@ -173,6 +175,9 @@ A fonte completa dos tokens está em `tokens/*.css`.
 - `support.js`: runtime do protótipo (não faz parte do produto).
 - `styles.css` e `tokens/`: tokens de cor, espaçamento, tipografia e fontes.
 - `assets/logo/`: marcas.
+- `padrao-de-design.md`: padrão de design obrigatório (cópia do `CLAUDE.md` do projeto).
+- `Padrão de abas.dc.html` e `Padrão de listas longas.dc.html`: estudos que definiram o seletor de área (regra 10) e as listas longas (regra 12).
+- `prd/`: PRDs de design aplicados nesta versão.
 
 
 ---
@@ -307,3 +312,176 @@ Substitui todas as janelas nativas do navegador (`window.confirm`); não restou 
 
 ### Arquivos alterados
 - `Ausculta App.dc.html`, `Ausculta App.html` (bundle offline regerado) e `i18n.js`.
+
+---
+
+## Atualizações de 01/10/2026, segunda rodada (leia antes das seções acima)
+
+Esta seção substitui o que divergir nas seções anteriores.
+
+### Gravação: ondas
+- A área das ondas ocupa o espaço livre do cartão: `flex: 1 1 0`, com `min-height` de 48px e `max-height` de 240px (substitui o `clamp(48px, 12vh, 136px)`).
+- A altura das barras acompanha a altura da área e o volume real do microfone, com sensibilidade maior. Em celulares altos, as ondas crescem em vez de sobrar espaço em branco.
+
+### Gravação: faixa de interrupção de áudio
+Aparece quando o áudio pode ter sido interrompido: app em segundo plano, microfone pausado pelo sistema (ligação, por exemplo), microfone desconectado ou falha no gravador.
+- Segue o padrão de faixa de alerta vermelha: fundo `--danger-subtle`, raio `--radius-lg` e padding de 12px (16px à esquerda).
+- Ícone `triangle-alert` de 18px, alinhado à primeira linha do texto.
+- Texto 600 14px/20px `--danger`, `text-wrap: pretty`, com base flexível de 180px.
+- Exemplo de texto: "Áudio pode ter sido interrompido: app em segundo plano às 12:53 · 2 s. Confira o trecho antes de aprovar."
+- **Espaços não separáveis** (U+00A0) em "às 12:53" e "2 s": o número nunca se separa da unidade.
+- Carimbo "Entendi" (`check`, 44px, borda de 2px `--danger`, fundo branco) com `margin-left: auto`. A linha usa `flex-wrap`; em telas estreitas o carimbo passa para baixo do texto, alinhado à direita.
+
+### Consentimento: gravar com o gravador do celular
+Nova ação secundária entre "Enviar áudio já gravado" e o texto de apoio. Mesmo estilo e altura (76px, contorno de 2px `--border-strong`, círculo de 44px `--brand-subtle` com ícone `smartphone`, `chevron-right`).
+- Título: "Gravar com o gravador do celular".
+- Subtítulo: "Continua com a tela apagada · envie ao terminar".
+- **Android e desktop:** campo de arquivo `<input type="file" accept="audio/*" capture>`. Abre o gravador do aparelho (ou uma lista de apps, conforme o fabricante). O arquivo volta pelo mesmo fluxo de "Enviar áudio já gravado" (`uploadAudio`).
+- **iPhone e iPad** (detectados pelo user agent, ou `MacIntel` com toque): o Safari não abre o app Gravador, então o toque abre um diálogo de instruções.
+  - Sobretítulo "iPhone" e título 700 21px "Gravar com o app Gravador".
+  - Texto de apoio: "O Gravador continua gravando com a tela apagada ou em outro app."
+  - Lista de 3 passos, cada um com o número em mono num círculo de 28px `--brand-subtle`:
+    1. "Abra o app Gravador": "Toque no botão vermelho e conduza a consulta normalmente."
+    2. "Salve em Arquivos": "Ao terminar, toque na gravação, depois em ••• › Salvar em Arquivos."
+    3. "Envie ao Ausculta": "Volte aqui e toque em Escolher gravação."
+  - Primário "Escolher gravação" (56px, `file-audio`), que abre o seletor de arquivo e fecha o diálogo ao escolher. Secundário "Fechar" (48px).
+  - O passo 2 é necessário porque o seletor de arquivos do iPhone só mostra o app Arquivos.
+- Abrir as instruções fica registrado na trilha ("Instruções do app Gravador abertas").
+
+### Limite de gravação em segundo plano (contexto para o app nativo)
+- **Safari (aba):** o microfone continua com a tela apagada e ao trocar de app.
+- **Atalho "Abrir como App Web" do iOS:** o sistema suspende o microfone em segundo plano. Nenhuma permissão ou manifesto resolve.
+- **Até o app nativo:**
+  - Criar o atalho com "Abrir como App Web" desligado (abre no Safari).
+  - Ou usar o gravador do celular (seção acima).
+- **App nativo (Capacitor ou similar):** gravar com código nativo, não com `getUserMedia` dentro do WebView. Só o modo de áudio em segundo plano não basta, porque o WebView é suspenso mesmo assim.
+  - **iOS:** `UIBackgroundModes: audio`, `AVAudioSession` em modo de gravação e gravador nativo.
+  - **Android:** serviço em primeiro plano do tipo `microphone`, com a permissão `FOREGROUND_SERVICE_MICROPHONE` e uma notificação fixa.
+  - **O plugin precisa expor:** iniciar, pausar, retomar e parar; nível de volume (para as ondas); eventos de interrupção (para a faixa acima); e arquivo salvo em partes durante a consulta.
+
+### i18n
+- As strings novas (gravador do celular e diálogo do iPhone) estão em `i18n.js` (PT, EN e ES).
+
+### Arquivos alterados
+- `Ausculta App.dc.html`, `Ausculta App.html` (bundle offline regerado) e `i18n.js`.
+- O padrão de design obrigatório continua em `padrao-de-design.md`.
+
+
+## Atualização: captura e IA (PRD de design, 01/10/2026)
+Fonte: `Ausculta App.dc.html` (versão única; a anterior foi substituída). `Ausculta App.html` é o bundle offline regerado.
+
+### Regra das IAs (Configurações da conta)
+- Cartão "IAs usadas nas análises": chips "IA na nuvem" e "IA do aparelho", as duas marcadas por padrão.
+- É uma regra da conta, não do perfil. Editam o dono e os administradores (no plano individual, o dono). Os demais veem a regra só para leitura em "IA no aparelho", com "Definido pelo dono da conta".
+- Desmarcar abre um diálogo laranja com as consequências e um motivo obrigatório ("Outro" exige texto). A mudança vai para a atividade recente da Central de Confiança.
+- A última IA marcada não pode ser desmarcada: a faixa laranja explica o motivo.
+- Comportamento por configuração (`aiMode` no protótipo):
+  - Ambas: nuvem quando online, aparelho quando offline.
+  - Só nuvem: offline não há análise.
+  - Só aparelho: sempre no aparelho; sem a IA instalada, não há análise.
+
+### Consultas sem análise
+- Quando não há IA disponível, "Encerrar consulta e gerar SOAP" abre o diálogo "Guardar sem análise" ou "Continuar gravando".
+- O Painel ganha o cartão "N consultas aguardando análise da IA", com "Analisar" por consulta e "Analisar todas". Sem IA disponível, o carimbo fica desabilitado e mostra o motivo.
+- No prontuário do paciente, a consulta aparece com o selo "Aguardando análise".
+- Quando a internet volta, um toast com "Ver" leva ao Painel.
+- O Consentimento mostra uma faixa laranja nos três casos da seção 4 do PRD. Não bloqueia nada.
+
+### Perfil → grupo "Captura e IA"
+O grupo aparece em Meu perfil e no menu da conta, com três telas:
+- **Minha voz:** consentimento biométrico próprio, leitura de 20 s, resultado bom ou com ruído, e depois refazer ou excluir.
+- **IA no aparelho:** estados não instalada, baixando (com pausa), instalada, apagada pelo navegador e sem espaço; chip "Baixar só no Wi-Fi". Na conta "Só aparelho" aparecem a linha "Nova versão" e o texto de que nenhum dado de consulta é enviado, e "Remover" some.
+- **Microfone e captação:** escolha do microfone, aviso de Bluetooth, teste de 5 s com resultado e preferência de manter a tela ligada.
+
+### Revisão SOAP
+- Cada frase mostra o falante. Frases seguidas do mesmo falante ficam sob um rótulo só.
+- Tocar no rótulo abre uma folha com três pílulas e "Confirmar". No editor de cada frase também há as pílulas de falante.
+- Quando a troca muda a frase entre Subjetivo e Objetivo, ela é movida e aparece o toast "Frase movida para …" com "Desfazer". A troca entra na trilha da consulta.
+- Pílulas SOAP e Transcrição. A transcrição mostra horário, falante e texto; tocar numa fala destaca o trecho.
+- Trecho com áudio ruim: selo "Confira este trecho" com o carimbo "Ouvir". No protótipo, é a segunda frase do Subjetivo.
+- Sem voz cadastrada, a linha de sistema "Cadastre sua voz…" aparece uma única vez.
+- O subtítulo e o estado desabilitado de "Refazer análise da IA" seguem a configuração da conta.
+
+### Outros
+- **Equipe:** selo "Voz cadastrada" ou "Sem voz" e contador de veterinários com voz.
+- **Configurações da conta:** cartão "Vocabulário da clínica".
+- **Central de Confiança:** cartão "Quem processa seus dados", com fornecedor, região e retenção. Os valores ainda não definidos aparecem como "A confirmar".
+- **Tweaks do protótipo:** `aiPolicy` (ambas, nuvem, aparelho) e `deviceAi` (instalada, nao-instalada, baixando, apagada, sem-espaco).
+- **i18n:** todas as strings novas estão em `i18n.js` (PT, EN e ES).
+
+
+## Atualização: seletor de área (01/10/2026)
+- Abas, controle segmentado e pílulas usados para navegar entre áreas da mesma tela foram trocados por um único componente, o **seletor em lista**.
+- Onde aparece:
+  - Pacientes: Pacientes ou Responsáveis.
+  - Prontuário: Consultas, Medicação, Exames, Notas, Dados do paciente e Dados do responsável. Os dois "Dados" deixaram de ser uma sub-aba.
+  - Revisão SOAP: SOAP ou Transcrição.
+- Botão de 48px com ícone, nome da área, "N de M" e chevron. O menu abre em lista logo abaixo, com ícone, nome, contagem e marca de seleção, e fecha ao escolher uma área ou tocar fora.
+- Nova regra 10 no padrão de design (`CLAUDE.md`).
+
+
+## Atualização: discurso de onde os dados ficam (01/10/2026)
+Os textos foram alinhados ao que a stack do piloto faz com os dados.
+- **Hospedagem:** Vercel, com banco Neon e arquivos no Vercel Blob, na região [Estados Unidos — confirmar].
+- **Fornecedores de IA:** transcrição na nuvem [a definir]; análise do texto pela Anthropic (Claude).
+- **Condição:** "no aparelho" e "local" só aparecem junto da condição que torna isso verdade (sem internet, ou conta "só no aparelho").
+- **Telas alteradas:**
+  - Landing (hero, passos, atendimento volante, demo e o item "Você escolhe a IA" com link para a Central de Confiança).
+  - Conta: linha do piloto abaixo do botão "Criar conta"; tirado "nunca compartilhados sem sua ação".
+  - App, Processando: texto conforme a configuração de IA da conta.
+  - App, Central de Confiança: selo "Piloto", região, fornecedores e linha "fora do Brasil".
+  - App, Ajuda: perguntas "Funciona sem internet?" e "Onde ficam meus dados?".
+- **Documentos legais:** Política de privacidade, Termos de uso e Relatório de segurança, em PT, EN e ES.
+- **Pendências:** promessas que dependem de contrato aparecem como [a confirmar]: não treinar modelos, retenção do provedor, AES-256 em repouso e backup diário.
+- **Link direto:** `Ausculta App.dc.html#trust` abre a Central de Confiança.
+
+
+## Atualização: processamento assíncrono (01/10/2026)
+- **Fila "Aguardando sua revisão"** no Painel:
+  - Ordem: primeiro os rascunhos prontos (cartão laranja, selo "Pronto para revisão"), do mais antigo para o mais recente. Depois as consultas em processamento (cartão tracejado, selo azul "Em transcrição do áudio" ou "Em análise do SOAP pela IA", com %), também do mais antigo para o mais recente.
+  - Cada cartão mostra há quanto tempo está na fila ("agora", "há 3 minutos", "há 2 horas", "ontem"), atualizado a cada 10 s.
+  - Acima da lista, a linha de sistema "N consultas em processamento".
+- **Processamento em segundo plano:** quando o veterinário sai da tela Processando ("Atender outro paciente enquanto isso"), o processamento continua. Ao terminar, aparece o toast "rascunho pronto para revisão", com o carimbo "Revisar".
+- **Revisão:** a linha "Processado pela IA…" mostra há quanto tempo o rascunho ficou pronto.
+- **No produto:** a fila deve vir do servidor. Os estados são gravada → transcrição (ASR) → análise da IA → regras do SOAP → pronto. O aviso de pronto deve vir por notificação push ou em tempo real.
+
+
+## Atualização: listas longas (01/10/2026)
+- Cada lista tem uma prévia curta e o link "Ver todas… (N)", que abre a lista completa no próprio prontuário. A lista completa tem a seta ← para voltar, busca, filtros com contagem, grupos por mês e "Mostrar mais 20".
+- Na fila do Painel, os 5 primeiros aparecem e "Ver fila completa (N)" expande a lista no lugar.
+- O paciente Buster tem um histórico fictício longo, só para demonstração (não é salvo).
+- A regra entrou como item 12 em `padrao-de-design.md`.
+
+
+## Atualização: configuração de IA, transcrição e guarda do áudio + Central de Confiança (01/10/2026)
+Fontes: `prd-design-ausculta-configuracao-ia-e-audio.md` e `prd-design-ausculta-central-de-confianca.md`.
+- **Configurações da conta:**
+  - Cartão "Análise das consultas por IA": chips das IAs e, sob "IA na nuvem", o bloco recuado "Transcrição do áudio" (Na nuvem / No aparelho).
+  - Cartão novo "Guarda do áudio": Cifrado na nuvem / Apagar após a aprovação / Só no aparelho.
+  - Regras entre as escolhas:
+    - Transcrição no aparelho trava a IA do aparelho.
+    - Guarda só no aparelho força a transcrição no aparelho e desabilita a opção na nuvem.
+    - A última IA marcada não pode ser desmarcada.
+  - Diálogo laranja com consequências e motivo para tudo que remove capacidade. Diálogo simples, sem motivo, para o que devolve. Tudo vai para a trilha de auditoria.
+- **Consentimento:** linha de sistema com onde a consulta será transcrita e analisada e como o áudio será guardado.
+- **Processando:** etapas "Transcrevendo no aparelho/na nuvem…" e "Analisando…". Com transcrição no aparelho e internet, o processamento é feito em modo misto (transcrição no aparelho, análise na nuvem).
+- **Revisão:** linha de sistema com "Transcrito… · analisado… · áudio…" e há quanto tempo. Um toque abre uma folha com o detalhe e o link para a Central. O subtítulo de "Refazer análise" segue a configuração.
+- **Prontuário:**
+  - Selo cinza "Áudio apagado" com a guarda "apagar após a aprovação".
+  - Selo cinza "Áudio no aparelho que gravou" com a guarda "só no aparelho", em consultas de outros dias.
+- **Central de Confiança:**
+  - Novos cartões no topo: "Como esta conta trata os dados" (selo Piloto e carimbo Alterar) e "Onde os dados ficam".
+  - "Quem processa seus dados" marca cada fornecedor como "Usado nesta conta" ou "Não usado nesta conta".
+  - Retenção do áudio conforme a configuração. AES-256 e backup diário marcados como [a confirmar].
+- **Landing, Ajuda, documentos legais e Conta:** textos do PRD da Central de Confiança.
+- **Tweaks novos:** `transcricao` (nuvem, aparelho) e `guardaAudio` (nuvem, apagar, aparelho).
+
+
+## Revisão de responsividade e i18n (01/10/2026)
+- **Textos da interface:** todas as strings das funções novas estão traduzidas para EN e ES em `i18n.js`, inclusive as que o app monta em tempo real:
+  - trilha de auditoria da configuração;
+  - etapas da fila;
+  - "Rascunho de DD/MM";
+  - contagens ("Mostrando X de Y", "Ver todas… (N)").
+- **Dados de exemplo:** textos clínicos do protótipo e nomes de raças e regiões ficam em PT, porque são dados e não interface.
+- **320 px:** os componentes novos usam flex-wrap, minmax(0, 1fr) e reticências no nome da área. Nenhum tem largura fixa acima de 320 px. Na fila, o selo de etapa pode quebrar linha em idiomas com textos mais longos.

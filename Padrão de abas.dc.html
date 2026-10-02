@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="styles.css">
+  <style>body { margin: 0; background: var(--surface-100); color: var(--ink); font-family: var(--font-sans); } a { color: var(--brand); } a:hover { color: var(--brand-strong); }</style>
+</helmet>
+
+<section data-screen-label="Turno 4 · Controle segmentado" style="padding: var(--space-12) var(--space-8) 0; display: flex; flex-direction: column; gap: var(--space-8);">
+  <div style="max-width: 760px; display: flex; flex-direction: column; gap: var(--space-2);">
+    <h1 style="margin: 0; font: 600 32px/40px var(--font-display);">Controle segmentado</h1>
+    <p style="margin: 0; font-size: 16px; line-height: 24px; color: var(--ink-muted); text-wrap: pretty;">Um desenho de base, mais refinado que o de hoje, e três jeitos de lidar com muitas áreas. Pacientes e Revisão SOAP (2 áreas) ficam iguais nas três opções; muda só o Prontuário (5 áreas). Toque para alternar.</p>
+  </div>
+
+  <div style="max-width: 760px; background: var(--surface-000); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
+    <h2 style="margin: 0; font: 700 17px/24px var(--font-sans);">Desenho de base</h2>
+    <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--space-1); font-size: 15px; line-height: 22px;">
+      <li style="text-wrap: pretty;">Trilho com fundo neutro suave e 4px de respiro. O segmento ativo é branco, com sombra leve, e desliza até a área tocada.</li>
+      <li style="text-wrap: pretty;">Os segmentos têm a mesma largura, 44px de altura e texto de 14px em peso 600. A área ativa fica em tinta escura; as inativas, em cinza.</li>
+      <li style="text-wrap: pretty;">Contagem em Plex Mono 12px. Pendência é um ponto laranja de 6px, nunca um número sobre o ícone.</li>
+      <li style="text-wrap: pretty;">Sem borda, para não se confundir com carimbo, pílula de escolha ou botão secundário.</li>
+    </ul>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: flex-start;">
+    <sc-for list="{{ options4 }}" as="op" hint-placeholder-count="3">
+      <div id="{{ op.id }}" style="width: 400px; display: flex; flex-direction: column; gap: var(--space-4);">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);">
+          <span style="min-width: 32px; height: 32px; padding: 0 var(--space-2); box-sizing: border-box; border-radius: var(--radius-sm); background: var(--ink); color: var(--surface-000); display: grid; place-items: center; font: 600 14px/1 var(--font-mono);">{{ op.id }}</span>
+          <strong style="font: 700 19px/26px var(--font-sans);">{{ op.name }}</strong>
+          <sc-if value="{{ op.rec }}"><span style="padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--brand-subtle); color: var(--brand-strong); font: 600 12px/18px var(--font-sans);">Recomendado</span></sc-if>
+        </div>
+        <p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty;">{{ op.desc }}</p>
+
+        <div style="width: 360px; background: var(--surface-100); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-6);">
+          <sc-for list="{{ op.cases }}" as="cs" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+              <span style="font: 600 11px/14px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">{{ cs.where }}</span>
+              <div role="tablist" aria-label="{{ cs.where }}" style="position: relative; display: grid; grid-template-columns: {{ cs.cols }}; gap: 4px; padding: 4px; border-radius: 14px; background: color-mix(in oklch, var(--ink) 7%, var(--surface-100));">
+                <sc-if value="{{ cs.slide }}"><span aria-hidden="true" style="position: absolute; top: 4px; bottom: 4px; left: 4px; width: {{ cs.indW }}; transform: {{ cs.indX }}; border-radius: 10px; background: var(--surface-000); box-shadow: 0 1px 2px rgba(27,36,32,.10), 0 2px 8px rgba(27,36,32,.06); transition: transform .28s cubic-bezier(.3,.7,.2,1);"></span></sc-if>
+                <sc-for list="{{ cs.tabs }}" as="t">
+                  <button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="position: relative; grid-column: {{ t.span }}; min-width: 0; min-height: {{ cs.h }}; padding: 0 var(--space-1); display: flex; flex-direction: {{ cs.dir }}; align-items: center; justify-content: center; gap: {{ cs.gap }}; border: none; border-radius: 10px; background: {{ t.bg }}; box-shadow: {{ t.sh }}; color: {{ t.fg }}; font: 600 {{ cs.fs }}/16px var(--font-sans); cursor: pointer; transition: color .2s;">
+                    <sc-if value="{{ cs.icons }}"><span style="position: relative; display: inline-flex;"><span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: {{ t.mask }}; mask: {{ t.mask }};"></span><sc-if value="{{ t.dot }}"><span style="position: absolute; top: -1px; right: -3px; width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--accent-warm);"></span></sc-if></span></sc-if>
+                    <span style="display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; min-width: 0;">{{ t.label }}<sc-if value="{{ t.hasCount }}"><span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ t.count }}</span></sc-if><sc-if value="{{ t.dotText }}"><span style="width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--accent-warm);"></span></sc-if><sc-if value="{{ t.isMore }}"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/chevron-down.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/chevron-down.svg) center/contain no-repeat;"></span></sc-if></span>
+                  </button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ cs.moreOpen }}">
+                <div role="menu" style="border-radius: var(--radius-md); background: var(--surface-000); box-shadow: var(--shadow-card), 0 12px 32px rgba(27,36,32,.12); overflow: hidden;">
+                  <sc-for list="{{ cs.more }}" as="m">
+                    <button type="button" role="menuitemradio" aria-checked="{{ m.sel }}" onClick="{{ m.pick }}" style="width: 100%; min-height: 48px; padding: 0 var(--space-4); display: flex; align-items: center; gap: var(--space-3); border: none; border-bottom: 1px solid var(--border); background: none; color: var(--ink); font: 400 15px/20px var(--font-sans); cursor: pointer; text-align: left;">
+                      <span style="width: 20px; height: 20px; flex: none; color: var(--ink-muted); background: currentColor; -webkit-mask: {{ m.mask }}; mask: {{ m.mask }};"></span>
+                      <span style="flex: 1;">{{ m.label }}</span>
+                      <sc-if value="{{ m.on }}"><span style="width: 18px; height: 18px; flex: none; color: var(--brand); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span></sc-if>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="height: 40px; border-radius: var(--radius-sm); background: var(--surface-000); display: flex; align-items: center; padding: 0 var(--space-3); font-size: 13px; color: var(--ink-muted);">{{ cs.current }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); font-size: 14px; line-height: 20px;">
+          <sc-for list="{{ op.pros }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--success); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+          <sc-for list="{{ op.cons }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section data-screen-label="Turno 3 · Pílulas com ações" style="padding: var(--space-12) var(--space-8) 0; display: flex; flex-direction: column; gap: var(--space-8);">
+  <div style="max-width: 760px; display: flex; flex-direction: column; gap: var(--space-2);">
+    <h1 style="margin: 0; font: 600 32px/40px var(--font-display);">Pílulas de área ao lado de ações</h1>
+    <p style="margin: 0; font-size: 16px; line-height: 24px; color: var(--ink-muted); text-wrap: pretty;">Duas telas reais com tudo que aparece junto: pílulas de área, carimbos de ação, pílulas de escolha e o botão primário. A <a href="#3a">3a</a> mostra o desenho de hoje; <a href="#3b">3b</a> e <a href="#3c">3c</a> mudam só a pílula de área para ela se separar das ações. Toque nas pílulas de área para alternar.</p>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: flex-start;">
+    <sc-for list="{{ options3 }}" as="op" hint-placeholder-count="3">
+      <div id="{{ op.id }}" style="width: 760px; max-width: 100%; display: flex; flex-direction: column; gap: var(--space-4);">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);">
+          <span style="min-width: 32px; height: 32px; padding: 0 var(--space-2); box-sizing: border-box; border-radius: var(--radius-sm); background: var(--ink); color: var(--surface-000); display: grid; place-items: center; font: 600 14px/1 var(--font-mono);">{{ op.id }}</span>
+          <strong style="font: 700 19px/26px var(--font-sans);">{{ op.name }}</strong>
+          <sc-if value="{{ op.rec }}"><span style="padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--brand-subtle); color: var(--brand-strong); font: 600 12px/18px var(--font-sans);">Recomendado</span></sc-if>
+        </div>
+        <p style="margin: 0; max-width: 720px; font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty;">{{ op.desc }}</p>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-6); align-items: flex-start;">
+
+          <div style="width: 360px; min-height: 640px; background: var(--surface-100); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-4);">
+            <span style="font: 600 11px/14px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">Revisão SOAP</span>
+            <strong style="font: 600 22px/28px var(--font-display);">Thor · Golden, 6 anos</strong>
+            <div role="note" style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 14px/20px var(--font-sans);">
+              <span style="flex: 1 1 160px; min-width: 0;">Peso não mencionado no áudio</span>
+              <button type="button" style="min-height: 44px; padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--accent-warm-text); border-radius: var(--radius-full); background: var(--surface-000); color: var(--accent-warm-text); font: 600 13px/18px var(--font-sans); cursor: pointer;"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pencil.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pencil.svg) center/contain no-repeat;"></span>Registrar</button>
+            </div>
+            <div role="tablist" aria-label="Modo da revisão" style="display: flex; flex-wrap: wrap; gap: {{ op.railGap }}; padding: {{ op.railPad }}; border-radius: var(--radius-full); background: {{ op.railBg }}; align-self: {{ op.railAlign }};">
+              <sc-for list="{{ op.rev }}" as="t"><button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="flex: {{ op.railFlex }}; min-height: 44px; padding: 0 var(--space-4); display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: {{ t.bw }} solid {{ t.border }}; border-radius: var(--radius-full); background: {{ t.bg }}; box-shadow: {{ t.sh }}; color: {{ t.fg }}; font: 600 14px/18px var(--font-sans); cursor: pointer; white-space: nowrap;"><span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: {{ t.mask }}; mask: {{ t.mask }};"></span>{{ t.label }}</button></sc-for>
+            </div>
+            <div style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
+              <strong style="font: 700 15px/20px var(--font-sans);">S · Subjetivo</strong>
+              <span style="display: inline-flex; align-items: center; gap: 6px; font: 600 12px/16px var(--font-sans); color: var(--ink-muted);"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/user.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/user.svg) center/contain no-repeat;"></span>Responsável</span>
+              <p style="margin: 0; font-size: 15px; line-height: 24px;">Claudicação no membro pélvico esquerdo há cinco dias. Piora após exercício.</p>
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2);">
+                <span style="display: inline-flex; align-items: center; gap: 4px; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 12px/18px var(--font-sans);">Confira este trecho</span>
+                <button type="button" style="min-height: 44px; padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--brand); border-radius: var(--radius-full); background: var(--surface-000); color: var(--brand); font: 600 13px/18px var(--font-sans); cursor: pointer;"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/play.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/play.svg) center/contain no-repeat;"></span>Ouvir</button>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+              <span style="font: 600 14px/20px var(--font-sans);">Quem falou</span>
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                <sc-for list="{{ spk }}" as="o"><span style="min-height: 44px; padding: 0 var(--space-4); display: inline-flex; align-items: center; gap: var(--space-2); border-radius: var(--radius-full); border: 2px solid {{ o.border }}; background: {{ o.bg }}; color: {{ o.fg }}; font: 600 14px/20px var(--font-sans);"><span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: {{ o.mask }}; mask: {{ o.mask }};"></span>{{ o.label }}</span></sc-for>
+              </div>
+            </div>
+            <span style="margin-top: auto; min-height: 64px; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); display: flex; align-items: center; justify-content: center; font: 600 16px/20px var(--font-sans);">Aprovar e assinar</span>
+          </div>
+
+          <div style="width: 360px; min-height: 640px; background: var(--surface-100); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-4);">
+            <span style="font: 600 11px/14px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">Prontuário do paciente</span>
+            <strong style="font: 600 22px/28px var(--font-display);">Thor · Golden, 6 anos</strong>
+            <div role="note" style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); background: var(--danger-subtle); color: var(--danger); font: 600 14px/20px var(--font-sans);"><span style="width: 18px; height: 18px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat;"></span>Alergia a dipirona</div>
+            <div role="tablist" aria-label="Áreas do prontuário" style="display: flex; flex-wrap: wrap; gap: {{ op.railGap }}; padding: {{ op.railPad }}; border-radius: {{ op.railRadius }}; background: {{ op.railBg }};">
+              <sc-for list="{{ op.chart }}" as="t"><button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="min-height: 44px; padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; border: {{ t.bw }} solid {{ t.border }}; border-radius: var(--radius-full); background: {{ t.bg }}; box-shadow: {{ t.sh }}; color: {{ t.fg }}; font: 600 14px/18px var(--font-sans); cursor: pointer; white-space: nowrap;">{{ t.label }}<sc-if value="{{ t.dot }}"><span style="width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--accent-warm);"></span></sc-if></button></sc-for>
+            </div>
+            <div style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
+              <div style="display: flex; align-items: baseline; gap: var(--space-3);"><span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">28/09</span><strong style="font-weight: 600;">Claudicação</strong></div>
+              <span style="align-self: flex-start; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 12px/18px var(--font-sans);">Rascunho</span>
+              <button type="button" style="align-self: flex-start; min-height: 44px; padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--brand); border-radius: var(--radius-full); background: var(--surface-000); color: var(--brand); font: 600 13px/18px var(--font-sans); cursor: pointer;"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/file-pen-line.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/file-pen-line.svg) center/contain no-repeat;"></span>Retomar revisão</button>
+            </div>
+            <div style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2);">
+              <div style="display: flex; align-items: baseline; gap: var(--space-3);"><span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">12/08</span><strong style="font-weight: 600;">Vacinação anual</strong></div>
+              <span style="align-self: flex-start; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--success-subtle); color: var(--success); font: 600 12px/18px var(--font-sans);">Aprovado</span>
+            </div>
+            <span style="margin-top: auto; min-height: 56px; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); display: flex; align-items: center; justify-content: center; font: 600 16px/20px var(--font-sans);">Nova consulta</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); max-width: 720px; font-size: 14px; line-height: 20px;">
+          <sc-for list="{{ op.pros }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--success); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+          <sc-for list="{{ op.cons }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section data-screen-label="Turno 2 · Outras direções" style="padding: var(--space-12) var(--space-8) 0; display: flex; flex-direction: column; gap: var(--space-8);">
+  <div style="max-width: 760px; display: flex; flex-direction: column; gap: var(--space-2);">
+    <h1 style="margin: 0; font: 600 32px/40px var(--font-display);">Outras direções</h1>
+    <p style="margin: 0; font-size: 16px; line-height: 24px; color: var(--ink-muted); text-wrap: pretty;">Três alternativas às opções <a href="#1a">1a</a>, <a href="#1b">1b</a> e <a href="#1c">1c</a>, com os mesmos três casos. Toque para alternar.</p>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: flex-start;">
+    <sc-for list="{{ options2 }}" as="op" hint-placeholder-count="3">
+      <div id="{{ op.id }}" style="width: 400px; display: flex; flex-direction: column; gap: var(--space-4);">
+        <div style="display: flex; align-items: center; gap: var(--space-3);">
+          <span style="min-width: 32px; height: 32px; padding: 0 var(--space-2); box-sizing: border-box; border-radius: var(--radius-sm); background: var(--ink); color: var(--surface-000); display: grid; place-items: center; font: 600 14px/1 var(--font-mono);">{{ op.id }}</span>
+          <strong style="font: 700 19px/26px var(--font-sans);">{{ op.name }}</strong>
+        </div>
+        <p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty;">{{ op.desc }}</p>
+        <div style="width: 360px; background: var(--surface-100); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-6);">
+          <sc-for list="{{ op.cases }}" as="cs" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+              <span style="font: 600 11px/14px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">{{ cs.where }}</span>
+
+              <sc-if value="{{ op.isGhost }}">
+                <div role="tablist" aria-label="{{ cs.where }}" style="display: flex; gap: var(--space-1);">
+                  <sc-for list="{{ cs.tabs }}" as="t">
+                    <button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="flex: {{ cs.flex }}; min-width: 0; min-height: {{ cs.h }}; padding: 0 var(--space-3); display: flex; flex-direction: {{ cs.dir }}; align-items: center; justify-content: center; gap: {{ cs.gap }}; border: none; border-radius: var(--radius-md); background: {{ t.ghostBg }}; color: {{ t.ghostFg }}; font: 600 {{ cs.fs }}/18px var(--font-sans); cursor: pointer; white-space: nowrap;">
+                      <sc-if value="{{ cs.icons }}"><span style="position: relative; display: inline-flex;"><span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: {{ t.mask }}; mask: {{ t.mask }};"></span><sc-if value="{{ t.dot }}"><span style="position: absolute; top: -2px; right: -4px; width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--accent-warm); box-shadow: 0 0 0 2px var(--surface-100);"></span></sc-if></span></sc-if>
+                      <span style="display: inline-flex; align-items: baseline; gap: 6px;">{{ t.label }}<sc-if value="{{ t.hasCount }}"><span style="font: 500 12px/16px var(--font-mono); opacity: .75;">{{ t.count }}</span></sc-if></span>
+                    </button>
+                  </sc-for>
+                </div>
+                <div style="height: 40px; border-radius: var(--radius-sm); background: var(--surface-000); display: flex; align-items: center; padding: 0 var(--space-3); font-size: 13px; color: var(--ink-muted);">{{ cs.current }}</div>
+              </sc-if>
+
+              <sc-if value="{{ op.isSpy }}">
+                <div style="border-radius: var(--radius-md); background: var(--surface-000); overflow: hidden;">
+                  <div role="tablist" aria-label="{{ cs.where }}" style="display: flex; justify-content: {{ cs.spyJustify }}; gap: {{ cs.spyGap }}; padding: 0 var(--space-3); border-bottom: 1px solid var(--border); background: var(--surface-000);">
+                    <sc-for list="{{ cs.tabs }}" as="t">
+                      <button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="min-height: 44px; padding: 0; margin-bottom: -1px; display: inline-flex; align-items: center; gap: 4px; border: none; border-bottom: 2px solid {{ t.line }}; background: none; color: {{ t.fg }}; font: 600 {{ cs.spyFs }}/16px var(--font-sans); cursor: pointer; white-space: nowrap;">{{ t.label }}<sc-if value="{{ t.dot }}"><span style="width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--accent-warm);"></span></sc-if></button>
+                    </sc-for>
+                  </div>
+                  <div style="padding: var(--space-2) var(--space-3) var(--space-3); display: flex; flex-direction: column; gap: var(--space-2);">
+                    <sc-for list="{{ cs.tabs }}" as="t">
+                      <div style="display: flex; flex-direction: column; gap: 4px; padding: var(--space-1) 0; opacity: {{ t.spyOp }};"><strong style="font: 600 13px/18px var(--font-sans);">{{ t.label }}</strong><span style="height: 8px; width: 80%; border-radius: var(--radius-full); background: var(--border);"></span></div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ op.isSheet }}">
+                <button type="button" onClick="{{ cs.toggle }}" aria-expanded="{{ cs.openStr }}" style="min-height: 48px; padding: 0 var(--space-3); display: flex; align-items: center; gap: var(--space-3); border: 2px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--ink); font: 600 15px/20px var(--font-sans); cursor: pointer; text-align: left;">
+                  <span style="width: 20px; height: 20px; flex: none; color: var(--brand); background: currentColor; -webkit-mask: {{ cs.curMask }}; mask: {{ cs.curMask }};"></span>
+                  <span style="flex: 1; min-width: 0;">{{ cs.curLabel }}</span>
+                  <span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ cs.pos }}</span>
+                  <span style="width: 18px; height: 18px; flex: none; color: var(--ink-muted); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/chevron-down.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/chevron-down.svg) center/contain no-repeat;"></span>
+                </button>
+                <sc-if value="{{ cs.open }}">
+                  <div role="menu" style="border-radius: var(--radius-md); background: var(--surface-000); box-shadow: var(--shadow-card); overflow: hidden;">
+                    <sc-for list="{{ cs.tabs }}" as="t">
+                      <button type="button" role="menuitemradio" aria-checked="{{ t.sel }}" onClick="{{ t.pickClose }}" style="width: 100%; min-height: 48px; padding: 0 var(--space-3); display: flex; align-items: center; gap: var(--space-3); border: none; border-bottom: 1px solid var(--border); background: none; color: var(--ink); font: 400 15px/20px var(--font-sans); cursor: pointer; text-align: left;">
+                        <span style="width: 20px; height: 20px; flex: none; color: var(--ink-muted); background: currentColor; -webkit-mask: {{ t.mask }}; mask: {{ t.mask }};"></span>
+                        <span style="flex: 1;">{{ t.label }}</span>
+                        <sc-if value="{{ t.hasCount }}"><span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ t.count }}</span></sc-if>
+                        <sc-if value="{{ t.dot }}"><span style="width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--accent-warm);"></span></sc-if>
+                        <sc-if value="{{ t.on }}"><span style="width: 18px; height: 18px; flex: none; color: var(--brand); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span></sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); font-size: 14px; line-height: 20px;">
+          <sc-for list="{{ op.pros }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--success); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+          <sc-for list="{{ op.cons }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section data-screen-label="Turno 1 · Padrão de abas" style="padding: var(--space-12) var(--space-8); display: flex; flex-direction: column; gap: var(--space-8);">
+  <div style="max-width: 760px; display: flex; flex-direction: column; gap: var(--space-2);">
+    <h1 style="margin: 0; font: 600 32px/40px var(--font-display);">Navegação entre áreas da mesma tela</h1>
+    <p style="margin: 0; font-size: 16px; line-height: 24px; color: var(--ink-muted); text-wrap: pretty;">Hoje são três desenhos para a mesma função: trocar de área dentro de uma tela. Cada opção abaixo aplica um único padrão nos três casos (Pacientes, Prontuário e Revisão SOAP), em largura de 360px. Toque para alternar.</p>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: flex-start;">
+    <sc-for list="{{ options }}" as="op" hint-placeholder-count="3">
+      <div id="{{ op.id }}" style="width: 400px; display: flex; flex-direction: column; gap: var(--space-4);">
+        <div style="display: flex; align-items: center; gap: var(--space-3);">
+          <span style="min-width: 32px; height: 32px; padding: 0 var(--space-2); box-sizing: border-box; border-radius: var(--radius-sm); background: var(--ink); color: var(--surface-000); display: grid; place-items: center; font: 600 14px/1 var(--font-mono);">{{ op.id }}</span>
+          <strong style="font: 700 19px/26px var(--font-sans);">{{ op.name }}</strong>
+          <sc-if value="{{ op.rec }}"><span style="padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--brand-subtle); color: var(--brand-strong); font: 600 12px/18px var(--font-sans);">Recomendado</span></sc-if>
+        </div>
+        <p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty;">{{ op.desc }}</p>
+
+        <div style="width: 360px; background: var(--surface-100); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-4); box-sizing: border-box; display: flex; flex-direction: column; gap: var(--space-6);">
+          <sc-for list="{{ op.cases }}" as="cs" hint-placeholder-count="3">
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+              <span style="font: 600 11px/14px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">{{ cs.where }}</span>
+
+              <sc-if value="{{ op.isTabs }}">
+                <div role="tablist" aria-label="{{ cs.where }}" style="display: flex; border-bottom: 1px solid var(--border);">
+                  <sc-for list="{{ cs.tabs }}" as="t">
+                    <button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="flex: 1 1 0; min-width: 0; min-height: {{ cs.h }}; padding: 0 var(--space-1); margin-bottom: -1px; display: flex; flex-direction: {{ cs.dir }}; align-items: center; justify-content: center; gap: {{ cs.gap }}; border: none; border-bottom: 2px solid {{ t.line }}; background: none; color: {{ t.fg }}; font: 600 14px/18px var(--font-sans); cursor: pointer;">
+                      <sc-if value="{{ cs.icons }}"><span style="position: relative; display: inline-flex;"><span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: {{ t.mask }}; mask: {{ t.mask }};"></span><sc-if value="{{ t.dot }}"><span style="position: absolute; top: -2px; right: -4px; width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--accent-warm); box-shadow: 0 0 0 2px var(--surface-100);"></span></sc-if></span></sc-if>
+                      <span style="display: inline-flex; align-items: baseline; gap: 6px; white-space: nowrap; font-size: {{ cs.fs }};">{{ t.label }}<sc-if value="{{ t.hasCount }}"><span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ t.count }}</span></sc-if></span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ op.isSeg }}">
+                <div role="tablist" aria-label="{{ cs.where }}" style="display: flex; gap: 2px; padding: 4px; border-radius: var(--radius-lg); background: var(--border);">
+                  <sc-for list="{{ cs.tabs }}" as="t">
+                    <button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 2px; display: flex; align-items: center; justify-content: center; gap: 4px; border: none; border-radius: var(--radius-md); background: {{ t.segBg }}; box-shadow: {{ t.segSh }}; color: {{ t.fg }}; font: 600 {{ cs.segFs }}/16px var(--font-sans); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ t.label }}<sc-if value="{{ t.hasCount }}"><span style="font: 500 11px/16px var(--font-mono); color: var(--ink-muted);">{{ t.count }}</span></sc-if></button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ op.isPills }}">
+                <div role="tablist" aria-label="{{ cs.where }}" style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+                  <sc-for list="{{ cs.tabs }}" as="t">
+                    <button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="min-height: 44px; padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; border: 2px solid {{ t.pillBorder }}; border-radius: var(--radius-full); background: {{ t.pillBg }}; color: {{ t.pillFg }}; font: 600 14px/18px var(--font-sans); cursor: pointer;"><span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: {{ t.mask }}; mask: {{ t.mask }};"></span>{{ t.label }}<sc-if value="{{ t.hasCount }}"><span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ t.count }}</span></sc-if></button>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <div style="height: 40px; border-radius: var(--radius-sm); background: var(--surface-000); display: flex; align-items: center; padding: 0 var(--space-3); font-size: 13px; color: var(--ink-muted);">{{ cs.current }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: var(--space-1); font-size: 14px; line-height: 20px;">
+          <sc-for list="{{ op.pros }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--success); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+          <sc-for list="{{ op.cons }}" as="p"><span style="display: flex; gap: var(--space-2);"><span style="flex: none; width: 16px; height: 16px; margin-top: 2px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat;"></span><span style="text-wrap: pretty;">{{ p }}</span></span></sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="max-width: 760px; background: var(--surface-000); border-radius: var(--radius-md); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
+    <h2 style="margin: 0; font: 700 19px/26px var(--font-sans);">Regra proposta para o CLAUDE.md (opção <a href="#1a">1a</a>)</h2>
+    <ol style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--space-2); font-size: 15px; line-height: 22px;">
+      <li style="text-wrap: pretty;"><strong>Abas</strong> trocam de área dentro da mesma tela. Texto 14px 600; aba ativa em tinta escura com sublinhado azul de 2px; inativas em cinza; linha de base de 1px.</li>
+      <li style="text-wrap: pretty;">Todas as abas cabem na largura, divididas por igual. Nunca rolagem horizontal. Até 3 abas: só texto, 48px. De 4 a 5 abas: ícone de 22px sobre o texto, 64px.</li>
+      <li style="text-wrap: pretty;">Contagem em IBM Plex Mono 12px cinza ao lado do rótulo. Algo que precisa de atenção ganha um ponto laranja de 8px no ícone, nunca um número sobre o ícone.</li>
+      <li style="text-wrap: pretty;">Pílula de escolha continua só para escolher um valor de formulário (espécie, microfone, motivo). Não serve para navegar.</li>
+      <li style="text-wrap: pretty;">Mais de 5 áreas viram menu em lista (regra 10).</li>
+    </ol>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const IC = n => `url(https://unpkg.com/lucide-static@0.460.0/icons/${n}.svg) center/contain no-repeat`;
+const CASES = [
+  { k: 'list', where: 'Pacientes', icons: false, tabs: [['Pacientes', '22', 'paw-print'], ['Responsáveis', '10', 'users']] },
+  { k: 'chart', where: 'Prontuário do paciente', icons: true, tabs: [['Consultas', '', 'stethoscope', true], ['Medicação', '', 'pill', true], ['Exames', '', 'image', true], ['Notas', '', 'message-square'], ['Dados', '', 'id-card']] },
+  { k: 'rev', where: 'Revisão SOAP', icons: false, tabs: [['SOAP', '', 'file-text'], ['Transcrição', '', 'message-square-text']] }
+];
+const OPTS = [
+  { id: '1a', kind: 'tabs', rec: true, name: 'Abas sublinhadas', desc: 'Texto com sublinhado azul na aba ativa. Com 4 ou 5 abas, o ícone entra sobre o texto para caber em 320px.',
+    pros: ['Leve: sem caixas nem bordas extras', 'O mesmo componente nos três casos, já usado no Prontuário', 'Não se confunde com pílula de escolha nem com botão'], cons: ['Duas alturas (48px e 64px), conforme o número de abas'] },
+  { id: '1b', kind: 'seg', name: 'Controle segmentado', desc: 'Trilho cinza com o segmento ativo em branco, como hoje em Pacientes.',
+    pros: ['Muito claro com 2 ou 3 opções', 'Uma altura só'], cons: ['Com 5 abas o texto fica apertado e perde os ícones', 'Mais peso visual no topo da tela'] },
+  { id: '1c', kind: 'pills', name: 'Pílulas', desc: 'Pílulas com ícone, como hoje na Revisão SOAP.',
+    pros: ['Reaproveita a pílula do padrão'], cons: ['Confunde navegação com escolha de valor (regra 5)', 'Com 5 abas quebra em duas linhas'] }
+];
+const OPTS4 = [
+  { id: '4a', mode: 'wrap', name: 'Quebra em duas linhas', desc: 'Com mais de 3 áreas, o trilho vira uma grade de duas linhas (3 em cima, 2 embaixo). Os segmentos mantêm o tamanho e o texto inteiro.',
+    pros: ['Todas as áreas à vista, um toque', 'Mantém o tamanho e o texto de 14px'], cons: ['Ocupa duas linhas (cerca de 100px) no topo do Prontuário', 'Os segmentos de baixo ficam mais largos que os de cima'] },
+  { id: '4b', mode: 'icons', rec: true, name: 'Ícone sobre o texto', desc: 'Com mais de 3 áreas, cada segmento mostra o ícone com o rótulo embaixo, em 12px. As 5 cabem numa linha em 320px, e o segmento branco desliza.',
+    pros: ['Uma linha só, um toque', 'O ícone ajuda a reconhecer a área sem ler', 'Mesmo componente; só muda a densidade'], cons: ['Rótulo em 12px', 'Segmento mais alto (60px) que nas telas de 2 áreas'] },
+  { id: '4c', mode: 'more', name: 'Três áreas e "Mais"', desc: 'As 3 áreas mais usadas ficam no trilho; as outras entram em "Mais", que abre um menu em lista. Ao escolher uma delas, o nome dela aparece no lugar de "Mais".',
+    pros: ['Uma linha, texto de 14px', 'O menu em lista segue a regra 10'], cons: ['Notas e Dados ficam a dois toques', 'É preciso decidir quais áreas ficam visíveis'] }
+];
+const OPTS3 = [
+  { id: '3a', style: 'now', name: 'Pílula de hoje', desc: 'A pílula de área tem a mesma borda de 2px dos carimbos e das pílulas de escolha. Repare como SOAP/Transcrição, Quem falou e Ouvir parecem do mesmo tipo.',
+    pros: ['Um toque para trocar de área'], cons: ['Área, escolha e ação se confundem', 'No Prontuário, 5 pílulas quebram em duas linhas'] },
+  { id: '3b', style: 'solid', name: 'Pílula de área preenchida, sem borda', desc: 'Inativa em cinza preenchido; ativa em tinta escura com texto branco. Sem borda, ela não se confunde com nada que tem contorno de 2px (carimbos, escolhas e botão secundário).',
+    pros: ['Um toque para trocar de área', 'Contraste forte: dá para saber em que área se está sem ler', 'Regra simples: com borda é ação ou escolha; sem borda é área'], cons: ['Tinta escura é uma cor nova na interface', 'No Prontuário, 5 pílulas quebram em duas linhas'] },
+  { id: '3c', style: 'rail', rec: true, name: 'Pílulas num trilho', desc: 'As pílulas de área ficam juntas dentro de um trilho cinza; a ativa é branca com sombra. O trilho agrupa as áreas e as separa visualmente das ações.',
+    pros: ['Um toque para trocar de área', 'Lê como uma única peça de navegação, nunca como botões soltos', 'Usa só cores que o app já tem'], cons: ['No Prontuário, 5 pílulas quebram em duas linhas dentro do trilho'] }
+];
+const OPTS2 = [
+  { id: '2a', kind: 'ghost', name: 'Abas suaves', desc: 'A aba ativa ganha um fundo azul-claro, sem borda nem sublinhado. As inativas ficam só em texto cinza.',
+    pros: ['A mais leve de todas: nada em volta das inativas', 'Área de toque clara mesmo sem borda'], cons: ['Fica parecida com a pílula de escolha selecionada', 'Com 5 abas precisa de ícone, como a 1a'] },
+  { id: '2b', kind: 'spy', name: 'Página contínua com âncoras', desc: 'As áreas viram seções da mesma página, uma abaixo da outra. A barra fixa no topo marca a seção visível e, ao tocar, rola até ela.',
+    pros: ['Nada fica escondido: dá para rolar e ver tudo', 'Bom para o Prontuário, que se lê de cima a baixo'], cons: ['Não serve para SOAP e Transcrição, que são duas visões do mesmo conteúdo', 'Com 5 áreas, a barra de texto aperta em 320px'] },
+  { id: '2c', kind: 'sheet', name: 'Seletor em lista', desc: 'Um botão mostra a área atual. Ao tocar, abre um menu em lista (ícone, texto e marca), como o menu da conta.',
+    pros: ['Mesmo desenho do menu da conta (regra 10)', 'Cabe qualquer número de áreas'], cons: ['As outras áreas ficam escondidas', 'Trocar de área custa dois toques'] }
+];
+class Component extends DCLogic {
+  state = { sel: { '1a': {}, '1b': {}, '1c': {} }, open: null };
+  renderVals() {
+    const st = this.state;
+    const sel2 = (id, k) => ((st.sel[id] || {})[k]) || 0;
+    const pick2 = (id, k, i, extra) => this.setState(s => ({ sel: { ...s.sel, [id]: { ...(s.sel[id] || {}), [k]: i } }, ...(extra || {}) }));
+    const navT = (o, k, list) => list.map(([label, icon, dot], i) => { const on = i === sel2(o.id, k), s = o.style;
+      const v = s === 'now' ? { bw: '2px', border: on ? 'var(--brand)' : 'var(--border-strong)', bg: on ? 'var(--brand-subtle)' : 'var(--surface-000)', fg: on ? 'var(--brand-strong)' : 'var(--ink)', sh: 'none' }
+        : s === 'solid' ? { bw: '0', border: 'transparent', bg: on ? 'var(--ink)' : 'var(--border)', fg: on ? 'var(--surface-000)' : 'var(--ink)', sh: 'none' }
+        : { bw: '0', border: 'transparent', bg: on ? 'var(--surface-000)' : 'transparent', fg: on ? 'var(--ink)' : 'var(--ink-muted)', sh: on ? 'var(--shadow-card)' : 'none' };
+      return { label, mask: IC(icon), dot: !!dot, sel: on ? 'true' : 'false', ...v, pick: () => pick2(o.id, k, i) }; });
+    const C4 = [
+      { k: 'p4', where: 'Pacientes', tabs: [['Pacientes', '22', 'paw-print'], ['Responsáveis', '10', 'users']] },
+      { k: 'r4', where: 'Revisão SOAP', tabs: [['SOAP', '', 'file-text'], ['Transcrição', '', 'message-square-text']] },
+      { k: 'c4', where: 'Prontuário do paciente', many: true, tabs: [['Consultas', '', 'stethoscope', true], ['Medicação', '', 'pill', true], ['Exames', '', 'image', true], ['Notas', '', 'message-square'], ['Dados', '', 'id-card']] }];
+    const seg = on => ({ bg: on ? 'var(--surface-000)' : 'transparent', sh: on ? '0 1px 2px rgba(27,36,32,.10), 0 2px 8px rgba(27,36,32,.06)' : 'none', fg: on ? 'var(--ink)' : 'var(--ink-muted)' });
+    const options4 = OPTS4.map(o => ({ ...o, rec: !!o.rec, cases: C4.map(c => {
+      const cur = sel2(o.id, c.k), n = c.tabs.length, mode = c.many ? o.mode : 'slide', openKey = o.id + c.k, moreOpen = st.open === openKey;
+      const base = { where: c.where, current: 'Área: ' + c.tabs[cur][0], moreOpen: false, more: [], icons: false, h: '44px', dir: 'row', gap: '0', fs: '14px', slide: false, cols: `repeat(${n}, minmax(0, 1fr))` };
+      const T = (label, count, icon, dot, i, extra) => ({ label, count, hasCount: !!count, mask: IC(icon), dot: !!dot, dotText: false, isMore: false, span: 'auto', sel: i === cur ? 'true' : 'false', ...seg(false), fg: i === cur ? 'var(--ink)' : 'var(--ink-muted)', pick: () => pick2(o.id, c.k, i, { open: null }), ...(extra || {}) });
+      if (mode === 'slide') return { ...base, slide: true, indW: `calc((100% - 8px - ${(n - 1) * 4}px) / ${n})`, indX: `translateX(calc(${cur} * (100% + 4px)))`, tabs: c.tabs.map(([l, ct, ic, d], i) => T(l, ct, ic, d, i, { dotText: !!d })) };
+      if (mode === 'icons') return { ...base, slide: true, icons: true, h: '60px', dir: 'column', gap: '4px', fs: '12px', indW: `calc((100% - 8px - ${(n - 1) * 4}px) / ${n})`, indX: `translateX(calc(${cur} * (100% + 4px)))`, tabs: c.tabs.map(([l, ct, ic, d], i) => T(l, ct, ic, d, i)) };
+      if (mode === 'wrap') return { ...base, cols: 'repeat(6, minmax(0, 1fr))', tabs: c.tabs.map(([l, ct, ic, d], i) => T(l, ct, ic, d, i, { dotText: !!d, span: i < 3 ? 'span 2' : 'span 3', ...seg(i === cur) })) };
+      const vis = 3, inMore = cur >= vis;
+      return { ...base, cols: 'repeat(4, minmax(0, 1fr))', moreOpen,
+        tabs: [...c.tabs.slice(0, vis).map(([l, ct, ic, d], i) => T(l, ct, ic, d, i, { dotText: !!d, ...seg(i === cur) })),
+          { label: inMore ? c.tabs[cur][0] : 'Mais', count: '', hasCount: false, mask: IC('ellipsis'), dot: false, dotText: false, isMore: true, span: 'auto', sel: inMore ? 'true' : 'false', ...seg(inMore), pick: () => this.setState({ open: moreOpen ? null : openKey }) }],
+        more: c.tabs.slice(vis).map(([l, ct, ic], j) => ({ label: l, mask: IC(ic), on: cur === vis + j, sel: cur === vis + j ? 'true' : 'false', pick: () => pick2(o.id, c.k, vis + j, { open: null }) })) };
+    }) }));
+    return {
+      options4,
+      spk: [['Responsável', 'user', true], ['Veterinário', 'stethoscope'], ['Outra pessoa', 'users']].map(([label, ic, on]) => ({ label, mask: IC(ic), border: on ? 'var(--brand)' : 'var(--border-strong)', bg: on ? 'var(--brand-subtle)' : 'var(--surface-000)', fg: on ? 'var(--brand-strong)' : 'var(--ink)' })),
+      options3: OPTS3.map(o => { const rail = o.style === 'rail';
+        return { ...o, rec: !!o.rec, railBg: rail ? 'var(--border)' : 'transparent', railPad: rail ? '4px' : '0', railGap: rail ? '2px' : 'var(--space-2)', railRadius: rail ? 'var(--radius-lg)' : '0', railAlign: rail ? 'stretch' : 'flex-start', railFlex: rail ? '1 1 0' : '0 0 auto',
+          rev: navT(o, 'rev3', [['SOAP', 'file-text'], ['Transcrição', 'message-square-text']]),
+          chart: navT(o, 'chart3', [['Consultas', 'stethoscope', true], ['Medicação', 'pill', true], ['Exames', 'image', true], ['Notas', 'message-square'], ['Dados', 'id-card']]) }; }),
+      options2: OPTS2.map(o => ({ ...o, isGhost: o.kind === 'ghost', isSpy: o.kind === 'spy', isSheet: o.kind === 'sheet',
+        cases: CASES.map(c => { const cur = sel2(o.id, c.k), icons = o.kind === 'ghost' && c.icons, many = c.tabs.length > 3, open = st.open === o.id + c.k;
+          return { where: c.where, icons, flex: icons || !many ? '1 1 0' : '0 0 auto', h: icons ? '60px' : '44px', dir: icons ? 'column' : 'row', gap: icons ? '4px' : '0', fs: icons ? '12px' : '14px', spyFs: many ? '13px' : '14px', spyJustify: many ? 'space-between' : 'flex-start', spyGap: many ? '0' : 'var(--space-4)',
+            current: 'Área: ' + c.tabs[cur][0], curLabel: c.tabs[cur][0], curMask: IC(c.tabs[cur][2]), pos: (cur + 1) + ' de ' + c.tabs.length,
+            open, openStr: open ? 'true' : 'false', toggle: () => this.setState({ open: open ? null : o.id + c.k }),
+            tabs: c.tabs.map(([label, count, icon, dot], i) => { const on = i === cur;
+              return { label, count, hasCount: !!count, mask: IC(icon), dot: !!dot, on, sel: on ? 'true' : 'false',
+                fg: on ? 'var(--ink)' : 'var(--ink-muted)', line: on ? 'var(--brand)' : 'transparent',
+                ghostBg: on ? 'var(--brand-subtle)' : 'transparent', ghostFg: on ? 'var(--brand-strong)' : 'var(--ink-muted)', spyOp: on ? 1 : 0.45,
+                pick: () => pick2(o.id, c.k, i), pickClose: () => pick2(o.id, c.k, i, { open: null }) }; }) }; }) })),
+      options: OPTS.map(o => ({ ...o, rec: !!o.rec, isTabs: o.kind === 'tabs', isSeg: o.kind === 'seg', isPills: o.kind === 'pills',
+        cases: CASES.map(c => { const cur = (st.sel[o.id] || {})[c.k] || 0, icons = o.kind === 'tabs' && c.icons;
+          return { where: c.where, icons, h: icons ? '64px' : '48px', dir: icons ? 'column' : 'row', gap: icons ? '4px' : '0', fs: icons ? '13px' : '14px', segFs: c.tabs.length > 3 ? '12px' : '14px',
+            current: 'Área: ' + c.tabs[cur][0],
+            tabs: c.tabs.map(([label, count, icon, dot], i) => { const on = i === cur;
+              return { label, count, hasCount: !!count, mask: IC(icon), dot: !!dot, sel: on ? 'true' : 'false',
+                fg: on ? 'var(--ink)' : 'var(--ink-muted)', line: on ? 'var(--brand)' : 'transparent',
+                segBg: on ? 'var(--surface-000)' : 'transparent', segSh: on ? 'var(--shadow-card)' : 'none',
+                pillBorder: on ? 'var(--brand)' : 'var(--border-strong)', pillBg: on ? 'var(--brand-subtle)' : 'var(--surface-000)', pillFg: on ? 'var(--brand-strong)' : 'var(--ink)',
+                pick: () => this.setState(s => ({ sel: { ...s.sel, [o.id]: { ...(s.sel[o.id] || {}), [c.k]: i } } })) }; }) }; }) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

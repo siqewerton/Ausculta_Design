@@ -19,6 +19,17 @@
   var guard = new MutationObserver(function () { if (!done && !el.isConnected) d.appendChild(el); if (!st.isConnected) (document.head || d).appendChild(st); });
   guard.observe(d, { childList: true, subtree: true });
   function hide() { if (done) return; done = true; guard.disconnect(); d.classList.add('aus-ready'); el.classList.add('out'); setTimeout(function () { el.remove(); }, 260); }
+  function sheetLoaded(sh, depth) {
+    if (!sh) return false; var rules; try { rules = sh.cssRules; } catch (e) { return true; }
+    if (!rules || depth > 3) return true;
+    for (var i = 0; i < rules.length; i++) { var r = rules[i]; if (r.type === 3 && (!r.styleSheet || !sheetLoaded(r.styleSheet, depth + 1))) return false; }
+    return true;
+  }
+  function sheetsReady() {
+    var ls = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < ls.length; i++) if (!sheetLoaded(ls[i].sheet, 0)) return false;
+    return true;
+  }
   function ready() {
     var lang = 'pt'; try { lang = localStorage.getItem('ausculta-lang') || 'pt'; } catch (e) {}
     var root = document.querySelector('[data-theme]');
@@ -26,13 +37,15 @@
       && !/\{\{\s*[\w.$]+\s*\}\}/.test((document.body && document.body.innerText || '').slice(0, 4000));
     var styled = rendered && !!getComputedStyle(root).getPropertyValue('--brand').trim();
     var translated = lang === 'pt' || d.hasAttribute('data-i18n-ready');
-    var busy = !!document.querySelector('[data-dc-placeholder], [data-hint-placeholder]');
-    return styled && rendered && translated && !busy && Date.now() - t0 > 150;
+    var busy = !!document.querySelector('[data-dc-placeholder], [data-hint-placeholder], x-dc, helmet');
+    return styled && rendered && translated && !busy && sheetsReady() && Date.now() - t0 > 150;
   }
   (function check() {
     if (done) return;
     if (ready()) { (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () { setTimeout(hide, 80); }); return; }
     setTimeout(check, 50);
   })();
-  setTimeout(hide, 4000);
+  // Hard cap only as a last resort, so a slow network never leaves the page blank forever.
+  setTimeout(hide, 15000);
+  window.addEventListener('pageshow', function (e) { if (e.persisted) hide(); });
 })();
