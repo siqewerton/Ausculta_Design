@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./splash.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <script src="splash.js"></script>
+  <script src="i18n.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="./image-slot.js"></script>
+  <title>Ausculta · O cuidado começa na escuta.</title>
+  <style>
+    body { margin: 0; } html { scroll-behavior: smooth; }
+    a { color: var(--brand); } a:hover { color: var(--brand-strong); }
+    [data-cta-short] { display: none; }
+    [data-hburger] { display: none; }
+    @media (max-width: 640px) { [data-hero] { padding-top: var(--space-8) !important; padding-bottom: var(--space-12) !important; gap: var(--space-8) !important; } }
+    @media (min-width: 600px) { [data-soap-grid], [data-plan-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+    @media (min-width: 1100px) { [data-soap-grid], [data-plan-grid] { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+    [data-hub-v] { display: none; }
+    @media (max-width: 640px) {
+      [data-hub] { flex-direction: column; align-items: stretch !important; gap: var(--space-3) !important; padding: var(--space-6) var(--space-4) !important; }
+      [data-hub-src] { flex-direction: row !important; }
+      [data-hub-src] > span { flex: 1 1 0; min-width: 0; font-size: 15px; }
+      [data-hub-conn] { flex-direction: row !important; justify-content: center; gap: var(--space-2) !important; }
+      [data-hub-h] { display: none; }
+      [data-hub-v] { display: block; }
+      [data-hub-core] { padding: var(--space-4) var(--space-6) !important; font-size: 26px !important; }
+    }
+    @media (max-width: 960px) {
+      [data-hbar] { gap: var(--space-2) !important; }
+      [data-hactions] { display: contents !important; }
+      [data-hlogo] { order: 1; flex: 1 1 0 !important; min-width: 0; overflow: hidden; }
+      [data-hlogo] span { white-space: nowrap; }
+      [data-hentrar] { order: 2; padding: 0 var(--space-2) !important; }
+      [data-hcta] { order: 3; padding: 0 var(--space-4) !important; }
+      [data-hburger] { display: inline-grid !important; order: 4; margin-right: calc(-1 * var(--space-2)); }
+      [data-hcta] { padding: 0 var(--space-4) !important; }
+      [data-hnav], [data-hlang] { display: none !important; }
+      header[data-open="1"] [data-hnav] { display: flex !important; order: 5; flex: 1 1 100% !important; flex-direction: column; gap: 0 !important; padding: var(--space-2) 0; border-top: 1px solid var(--border); }
+      header[data-open="1"] [data-hnav] a { min-height: 52px !important; padding: 0 var(--space-2) !important; font-size: 17px; color: var(--ink) !important; border-radius: var(--radius-md) !important; }
+      header[data-open="1"] [data-hlang] { display: flex !important; order: 6; margin: 0 0 var(--space-3); }
+    }
+    [data-rm-lab] { display: none; }
+    @media (max-width: 720px) { [data-rm-row] { grid-template-columns: minmax(0, 1fr) !important; gap: var(--space-3) !important; } [data-rm-row] > div { gap: 2px !important; } [data-rm-head] { display: none !important; } [data-rm-lab] { display: block; } }
+    @media (max-width: 480px) {
+      [data-cta-long] { display: none; }
+      [data-cta-short] { display: inline; }
+    }
+    @media (max-width: 420px) {
+      [data-hlogo] svg { width: 28px; height: 28px; }
+      [data-hlogo] span { font-size: 21px !important; }
+      [data-hlang] button { min-width: 36px !important; }
+    }
+    @media (max-width: 379px) {
+      [data-hlogo] span { display: none; }
+      [data-hbar] { padding-left: var(--space-3) !important; padding-right: var(--space-3) !important; }
+    }
+  </style>
+</helmet>
+<div data-theme="{{ theme }}" style="background: var(--surface-100); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 24px;">
+
+  <header data-open="{{ menuFlag }}" style="position: sticky; top: 0; z-index: 20; background: var(--surface-100); border-bottom: 1px solid var(--border);">
+    <div data-hbar="" style="max-width: 1200px; margin: 0 auto; padding: var(--space-2) var(--space-4); display: flex; align-items: center; gap: var(--space-4) var(--space-6); flex-wrap: wrap; min-height: 64px;">
+      <a data-hlogo="" href="#topo" style="display: flex; align-items: center; gap: var(--space-2); color: var(--ink); text-decoration: none;">
+        <sc-if value="{{ markA }}" hint-placeholder-val="{{ true }}"><svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke-linecap="round" aria-hidden="true"><circle cx="22" cy="26" r="15" style="stroke: var(--brand);" stroke-width="5"></circle><path d="M33 15 C36 12 38 8.5 43 7" style="stroke: var(--brand);" stroke-width="5"></path><path d="M14 23.5v5M18 20v12M22 17v18M26 20v12M30 23.5v5" style="stroke: var(--accent-warm);" stroke-width="3.2"></path></svg></sc-if>
+        <sc-if value="{{ markB }}"><svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 42 L24 6 L40 42" style="stroke: var(--brand);" stroke-width="5.5"></path><path d="M4 30 H14 L18 22 L23 37 L27 26 L30 30 H44" style="stroke: var(--accent-warm);" stroke-width="3.5"></path></svg></sc-if>
+        <sc-if value="{{ markC }}"><svg width="34" height="34" viewBox="0 0 48 48" fill="none" stroke-linecap="round" aria-hidden="true"><path d="M10 27 A13 13 0 0 1 23 40 M10 18 A22 22 0 0 1 32 40 M10 9 A31 31 0 0 1 41 40" style="stroke: var(--brand);" stroke-width="4.5"></path><circle cx="11" cy="39" r="4.5" style="fill: var(--accent-warm);"></circle></svg></sc-if>
+        <span style="font: 600 24px/1 var(--font-display); letter-spacing: -0.01em;">Ausculta</span>
+      </a>
+      <nav data-hnav="" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 0 var(--space-2);">
+        <a href="#como" style="min-height: 48px; display: inline-flex; align-items: center; padding: 0 var(--space-3); color: var(--ink-muted); text-decoration: none; font-weight: 500; border-radius: var(--radius-lg);" style-hover="color: var(--ink); background: var(--brand-subtle);" onClick="{{ closeMenu }}">Como funciona</a>
+        <a href="#ouve" style="min-height: 48px; display: inline-flex; align-items: center; padding: 0 var(--space-3); color: var(--ink-muted); text-decoration: none; font-weight: 500; border-radius: var(--radius-lg);" style-hover="color: var(--ink); background: var(--brand-subtle);" onClick="{{ closeMenu }}">O que a IA ouve</a>
+        <a href="#quem" style="min-height: 48px; display: inline-flex; align-items: center; padding: 0 var(--space-3); color: var(--ink-muted); text-decoration: none; font-weight: 500; border-radius: var(--radius-lg);" style-hover="color: var(--ink); background: var(--brand-subtle);" onClick="{{ closeMenu }}">Para quem</a>
+        <a href="#integracoes" style="min-height: 48px; display: inline-flex; align-items: center; padding: 0 var(--space-3); color: var(--ink-muted); text-decoration: none; font-weight: 500; border-radius: var(--radius-lg);" style-hover="color: var(--ink); background: var(--brand-subtle);" onClick="{{ closeMenu }}">Integrações</a>
+        <a href="#seguranca" style="min-height: 48px; display: inline-flex; align-items: center; padding: 0 var(--space-3); color: var(--ink-muted); text-decoration: none; font-weight: 500; border-radius: var(--radius-lg);" style-hover="color: var(--ink); background: var(--brand-subtle);" onClick="{{ closeMenu }}">Segurança</a>
+      </nav>
+      <div data-hactions="" style="display: flex; gap: var(--space-2); align-items: center;">
+        <div data-hlang="" role="group" aria-label="Idioma" style="display: flex; padding: 2px; border-radius: var(--radius-full); border: 1px solid var(--border);">
+          <sc-for list="{{ langs }}" as="l" hint-placeholder-count="3">
+            <button type="button" onClick="{{ l.pick }}" aria-pressed="{{ l.on }}" style="min-width: 44px; height: 44px; border: none; border-radius: var(--radius-full); background: {{ l.bg }}; color: {{ l.fg }}; font: 500 13px/18px var(--font-mono); cursor: pointer;" style-hover="color: var(--brand);">{{ l.code }}</button>
+          </sc-for>
+        </div>
+        <a data-hentrar="" href="Ausculta Conta.dc.html#login" style="min-height: 48px; display: inline-flex; align-items: center; white-space: nowrap; padding: 0 var(--space-3); color: var(--brand); font-weight: 600; text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-subtle);">Entrar</a>
+        <a data-hcta="" href="#portas" style="min-height: 48px; display: inline-flex; align-items: center; white-space: nowrap; padding: 0 var(--space-6); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-strong); color: var(--on-brand);"><span data-cta-long="">Começar agora</span><span data-cta-short="">Começar</span></a>
+      </div>
+      <button data-hburger="" type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" aria-label="{{ menuLabel }}" style="width: 48px; height: 48px; flex: none; border: none; border-radius: var(--radius-full); background: transparent; color: var(--ink); cursor: pointer; place-items: center;" style-hover="background: var(--brand-subtle); color: var(--brand);"><sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><span style="display: block; width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/menu.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/menu.svg) center/contain no-repeat;"></span></sc-if><sc-if value="{{ menuOpen }}"><span style="display: block; width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/x.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/x.svg) center/contain no-repeat;"></span></sc-if></button>
+    </div>
+  </header>
+
+  <section id="topo" data-hero="" data-screen-label="Hero" style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: var(--space-12); align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-3); align-items: flex-start; margin-bottom: var(--space-4);">
+        <div style="display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap;">
+          <span style="position: relative; width: 96px; height: 96px; flex: none;">
+            <span style="position: absolute; inset: 0; border-radius: var(--radius-full); background: var(--brand); color: var(--on-brand); display: grid; place-items: center;">
+              <span style="width: 52px; height: 52px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/stethoscope.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/stethoscope.svg) center/contain no-repeat;"></span>
+            </span>
+            <span style="position: absolute; right: -10px; bottom: -6px; width: 44px; height: 44px; border-radius: var(--radius-full); background: var(--accent-warm); color: var(--on-accent-warm); border: 3px solid var(--surface-100); display: grid; place-items: center;">
+              <span style="width: 24px; height: 24px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/paw-print.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/paw-print.svg) center/contain no-repeat;"></span>
+            </span>
+          </span>
+          <span style="display: flex; flex-direction: column; gap: var(--space-1);">
+            <strong style="font: 600 26px/32px var(--font-display); letter-spacing: -0.01em;">AI Scribe para veterinários</strong>
+            <span style="font: 500 16px/22px var(--font-sans); color: var(--brand);">Prontuário SOAP ao fim da consulta</span>
+        <span style="display: inline-flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font: 500 13px/18px var(--font-sans); color: var(--ink-muted);">
+          <span style="width: 16px; height: 16px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi-off.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi-off.svg) center/contain no-repeat;"></span>
+          Funciona sem internet
+        </span>
+          </span>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+        <span style="font: 500 15px/22px var(--font-sans); color: var(--ink-muted);">Ausculta, do latim <em style="font-family: var(--font-display); font-weight: 600;">auscultare</em>: ouvir atentamente.</span>
+        <h1 style="margin: 0; font: 600 clamp(40px, 5.6vw, 64px)/1.05 var(--font-display); text-wrap: balance;">O cuidado começa na escuta.</h1>
+        <p style="margin: 0; font: 600 clamp(22px, 2.4vw, 28px)/1.25 var(--font-display); color: var(--ink-muted); text-wrap: balance;">Termine a consulta com o prontuário pronto</p>
+      </div>
+      <p style="margin: 0; font-size: 19px; line-height: 28px; color: var(--ink-muted); max-width: 54ch;">Chega de preencher prontuário no fim do expediente. O Ausculta ouve a consulta e escreve o rascunho do <abbr title="Subjetivo, Objetivo, Avaliação e Plano" style="text-decoration: underline dotted; text-decoration-color: var(--border-strong); text-underline-offset: 4px; cursor: help;">SOAP</abbr> e funciona mesmo sem internet, analisando no próprio aparelho. Você revisa, aprova e segue para o próximo paciente.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-3);">
+        <a href="#portas" style="min-height: 56px; display: inline-flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-8); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-strong); color: var(--on-brand);">Começar agora
+          <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat;"></span>
+        </a>
+        <a href="#como" style="min-height: 56px; display: inline-flex; align-items: center; padding: 0 var(--space-6); border: 2px solid var(--border-strong); color: var(--ink); font: 600 16px/20px var(--font-sans); text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-subtle); color: var(--ink);">Ver como funciona</a>
+      </div>
+      <span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">Modo avião · aprovação humana obrigatória · LGPD</span>
+    </div>
+
+    <div aria-hidden="true" style="display: flex; justify-content: center;">
+      <div style="width: 100%; max-width: 340px; padding: 12px; border-radius: 44px; background: var(--ink); box-shadow: var(--shadow-card);">
+        <div style="border-radius: 34px; overflow: hidden; background: var(--surface-100); display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-6) var(--space-4) var(--space-3); border-bottom: 1px solid var(--border);">
+            <span style="width: 22px; height: 22px; flex: none; color: var(--ink); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg) center/contain no-repeat;"></span>
+            <span style="width: 36px; height: 36px; flex: none; border-radius: var(--radius-full); background: var(--brand-subtle); color: var(--brand-strong); display: grid; place-items: center; font: 600 16px/1 var(--font-display);">B</span>
+            <div style="display: flex; flex-direction: column; min-width: 0;">
+              <strong style="font: 600 16px/20px var(--font-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Buster — Golden Retriever</strong>
+              <span style="font-size: 12px; line-height: 16px; color: var(--ink-muted);">Canino · 6 anos · <span style="font-family: var(--font-mono); font-weight: 500;">32 kg</span></span>
+            </div>
+          </div>
+          <div style="padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-3);">
+              <span style="min-height: 32px; padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; border-radius: var(--radius-full); border: 1px solid var(--accent-warm); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 13px/18px var(--font-sans);"><span style="width: 16px; height: 16px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi-off.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi-off.svg) center/contain no-repeat;"></span>Modo offline</span>
+              <span style="font: 500 16px/22px var(--font-mono); font-variant-numeric: tabular-nums;">03:42</span>
+            </div>
+            <div style="background: var(--surface-000); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: var(--space-6) var(--space-3) var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
+              <div style="height: 120px; display: flex; align-items: center; justify-content: center; gap: 3px;">
+                <sc-for list="{{ waveBars }}" as="b" hint-placeholder-count="30"><span style="width: 3px; border-radius: var(--radius-full); background: var(--danger); height: {{ b }};"></span></sc-for>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px var(--space-2); text-align: center;">
+                <svg width="24" height="24" viewBox="0 0 48 48" fill="none" stroke-linecap="round" aria-hidden="true"><circle cx="22" cy="26" r="15" style="stroke: var(--brand);" stroke-width="5"></circle><path d="M33 15 C36 12 38 8.5 43 7" style="stroke: var(--brand);" stroke-width="5"></path><path d="M14 23.5v5M18 20v12M22 17v18M26 20v12M30 23.5v5" style="stroke: var(--accent-warm);" stroke-width="3.2"></path></svg>
+                <span style="font: 600 17px/22px var(--font-display); letter-spacing: -0.01em; color: var(--ink);">Ausculta</span>
+                <span style="font: 600 14px/22px var(--font-sans); color: var(--danger);">está gravando a consulta</span>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: center; padding: var(--space-2) 0;">
+              <span style="width: 96px; height: 96px; border-radius: var(--radius-full); border: 3px solid var(--danger); background: var(--danger); color: var(--on-danger); box-shadow: var(--shadow-fab); display: grid; place-items: center; box-sizing: border-box;"><span style="width: 40px; height: 40px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat;"></span></span>
+            </div>
+            <span style="min-height: 56px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 var(--space-3); border: 2px solid var(--brand); border-radius: var(--radius-lg); background: var(--surface-000); color: var(--brand); font: 600 15px/20px var(--font-sans); margin-bottom: var(--space-2);">Encerrar consulta e gerar SOAP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="escuta" data-screen-label="O que a consulta revela" style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; justify-content: center;">
+    <div style="max-width: 680px; display: flex; flex-direction: column; gap: var(--space-6);">
+      <span style="font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase; color: var(--accent-warm-text);">O que a consulta revela</span>
+      <p style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.2 var(--font-display); text-wrap: balance;">Antes de qualquer hipótese, existe uma escuta.</p>
+      <p style="margin: 0; font-size: 19px; line-height: 30px; color: var(--ink-muted); text-wrap: pretty;">Existe o responsável tentando explicar uma mudança pequena: “ele não quer comer como antes”. Existe um silêncio entre uma respiração e outra. Existe um dado do exame, uma observação do veterinário, um detalhe que parece pequeno — até deixar de ser.</p>
+      <p style="margin: 0; font-size: 19px; line-height: 30px; color: var(--ink-muted); text-wrap: pretty;">Na medicina veterinária, o paciente não conta a própria história. Ela precisa ser encontrada: no que o responsável percebeu, no que o corpo mostra e no que a experiência clínica reconhece.</p>
+      <p style="margin: var(--space-4) 0 0; padding-top: var(--space-6); border-top: 2px solid var(--brand); font: 600 clamp(24px, 2.8vw, 32px)/1.25 var(--font-display); text-wrap: balance;">Auscultar é prestar atenção ao que ainda não está escrito.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="Prova" style="background: var(--surface-000); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4) 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--space-6) var(--space-12);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display); text-wrap: balance;">O que merece ficar registrado</h2>
+        <p style="margin: 0; font: 600 clamp(20px, 2.2vw, 24px)/1.3 var(--font-display); color: var(--ink-muted);">Uma consulta não termina quando o paciente sai da sala.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-4); font-size: 17px; line-height: 27px; text-wrap: pretty;">
+        <p style="margin: 0; color: var(--ink-muted);">Ela continua no prontuário: no histórico que permitirá entender uma evolução, na prescrição que precisa estar completa, na mudança de peso que ganhará significado meses depois, no retorno que depende de uma anotação clara para começar de onde a última consulta parou.</p>
+        <p style="margin: 0; color: var(--ink-muted);">Mas registrar tudo exige tempo — justamente quando a atenção deveria permanecer no paciente.</p>
+        <p style="margin: 0;">O Ausculta transforma a conversa clínica em um rascunho SOAP organizado, revisável e conectado ao que foi dito. Para que o veterinário passe menos tempo reconstruindo a consulta e mais tempo cuidando do próximo caso.</p>
+      </div>
+    </div>
+    <div style="max-width: 1200px; margin: 0 auto; padding: var(--space-12) var(--space-4) var(--space-16); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--space-12); align-items: end;">
+<div style="max-width: 1200px; margin: 0 auto; padding: var(--space-12) var(--space-4) var(--space-16); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--space-12); align-items: end;">
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <span style="font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase; color: var(--accent-warm-text);">O problema</span>
+        <div style="font: 600 clamp(88px, 14vw, 152px)/0.9 var(--font-display); color: var(--brand); letter-spacing: -0.02em;">40%</div>
+        <p style="margin: 0; font: 600 clamp(22px, 2.4vw, 28px)/1.3 var(--font-display); max-width: 26ch;">do tempo útil da consulta vai para o preenchimento manual do prontuário.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+        <sc-for list="{{ stats }}" as="st" hint-placeholder-count="3">
+          <div style="display: flex; gap: var(--space-4); align-items: baseline; padding-bottom: var(--space-4); border-bottom: 1px solid var(--border);">
+            <span style="flex: none; min-width: 96px; font: 600 32px/38px var(--font-display); color: var(--ink);">{{ st.v }}</span>
+            <span style="color: var(--ink-muted);">{{ st.k }}</span>
+          </div>
+        </sc-for>
+        <span style="font-size: 12px; line-height: 16px; color: var(--ink-muted);">Estimativas do Discovery e do Pitch Estratégico Ausculta (SIQ, 2026).</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="portas" data-screen-label="Portas" style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; flex-direction: column; gap: var(--space-8);">
+    <div style="display: flex; flex-direction: column; gap: var(--space-2); max-width: 640px;">
+      <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display);">Por onde você começa?</h2>
+      <p style="margin: 0; color: var(--ink-muted); font-size: 17px; line-height: 26px;">Escolha a sua situação. Nenhuma delas exige trocar de sistema ou preencher formulário antes de experimentar.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--space-6);">
+      <sc-for list="{{ entries }}" as="e" hint-placeholder-count="3">
+        <article style="background: {{ e.bg }}; border: 2px solid {{ e.border }}; border-radius: var(--radius-lg); box-shadow: {{ e.shadow }}; padding: var(--space-8) var(--space-6) var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-3);">
+            <span style="width: 48px; height: 48px; border-radius: var(--radius-full); background: var(--surface-100); color: var(--brand); display: grid; place-items: center;"><span style="width: 24px; height: 24px; background: currentColor; -webkit-mask: {{ e.mask }}; mask: {{ e.mask }};"></span></span>
+            <sc-if value="{{ e.featured }}"><span style="padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); background: var(--accent-warm); color: var(--on-accent-warm); font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase;">Comece por aqui</span></sc-if>
+          </div>
+          <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">{{ e.title }}</h3>
+          <p style="margin: 0; color: var(--ink-muted); flex: 1;">{{ e.copy }}</p>
+          <a href="{{ e.href }}" style="min-height: 48px; display: flex; align-items: center; justify-content: center; gap: var(--space-2); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-strong); color: var(--on-brand);">{{ e.cta }}
+            <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat;"></span></a>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="como" data-screen-label="Como funciona" style="background: var(--brand-subtle);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; flex-direction: column; gap: var(--space-8);">
+      <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display); max-width: 22ch;">Da sala de exame ao prontuário em quatro passos</h2>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: var(--space-6);">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+          <li style="background: var(--surface-000); border-radius: var(--radius-lg); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font: 600 32px/1 var(--font-display); color: var(--brand);">{{ s.n }}</span>
+              <span style="width: 24px; height: 24px; color: var(--accent-warm); background: currentColor; -webkit-mask: {{ s.mask }}; mask: {{ s.mask }};"></span>
+            </div>
+            <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">{{ s.title }}</h3>
+            <p style="margin: 0; color: var(--ink-muted);">{{ s.copy }}</p>
+          </li>
+        </sc-for>
+      </ol>
+    </div>
+  </section>
+
+  <section id="soap" data-screen-label="SOAP" style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; flex-direction: column; gap: var(--space-12);">
+    <div style="display: flex; flex-direction: column; gap: var(--space-4); max-width: 760px;">
+      <span style="display: inline-flex; align-items: center; gap: var(--space-2); font: 600 13px/18px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--accent-warm-text);"><span style="width: 18px; height: 18px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/paw-print.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/paw-print.svg) center/contain no-repeat;"></span>Para quem não pode falar</span>
+      <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display); text-wrap: balance;">Você conhece o SOAP. O Ausculta escreve o seu.</h2>
+      <p style="margin: 0; font-size: 18px; line-height: 28px; color: var(--ink-muted); text-wrap: pretty;">Você aprendeu a fazer um SOAP completo, mas na correria ele sai com lacunas, e o seu paciente não pode contar o que sente. O Ausculta escreve o SOAP que você faria com tempo, a partir do que você disse na consulta, e a decisão clínica continua sendo sua.</p>
+      <p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty;">O SOAP é a ferramenta de evolução do prontuário orientado a problemas, proposto por Lawrence Weed nos anos 1960 e adaptado à veterinária como POVMR. As quatro seções não se misturam: o relato do responsável não vai para o Objetivo, e interpretação clínica só entra na Avaliação.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <span style="font: 600 12px/16px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">Caso Buster · Golden Retriever, 6 anos, 32 kg</span>
+      <div data-soap-grid="" style="display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4); align-items: start;">
+        <sc-for list="{{ soapCards }}" as="c" hint-placeholder-count="4">
+          <article style="min-width: 0; background: var(--surface-000); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: var(--space-6) var(--space-4); display: flex; flex-direction: column; gap: var(--space-4);">
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+              <span aria-hidden="true" style="width: 48px; height: 48px; flex: none; border-radius: var(--radius-full); background: var(--brand); color: var(--on-brand); display: grid; place-items: center; font: 600 24px/1 var(--font-display);">{{ c.letter }}</span>
+              <div style="min-width: 0; display: flex; flex-direction: column;"><h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">{{ c.name }}</h3><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">{{ c.sub }}</span></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span style="font: 600 12px/16px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">O que exige</span><p style="margin: 0; font-size: 15px; line-height: 22px; text-wrap: pretty;">{{ c.need }}</p></div>
+            <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span style="font: 600 12px/16px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted);">No Ausculta</span><p style="margin: 0; font-size: 15px; line-height: 22px; text-wrap: pretty;">{{ c.does }}</p></div>
+            <figure style="margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--surface-100); display: flex; flex-direction: column; gap: var(--space-2);">
+              <figcaption style="display: flex; align-items: center; gap: var(--space-2); font: 500 12px/16px var(--font-sans); color: var(--ink-muted);"><span style="width: 14px; height: 14px; flex: none; color: var(--brand); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/audio-lines.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/audio-lines.svg) center/contain no-repeat;"></span>Frase ligada ao trecho de áudio</figcaption>
+              <blockquote style="margin: 0; font-size: 15px; line-height: 22px; color: var(--ink);">{{ c.ex }}</blockquote>
+            </figure>
+            <sc-if value="{{ c.hasNote }}"><span style="display: flex; gap: var(--space-2); align-items: flex-start; font: 500 13px/18px var(--font-sans); color: var(--brand-strong);"><span style="width: 16px; height: 16px; flex: none; margin-top: 1px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/link-2.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/link-2.svg) center/contain no-repeat;"></span>{{ c.note }}</span></sc-if>
+            <sc-if value="{{ c.hasWarn }}"><span role="note" style="display: flex; gap: var(--space-2); align-items: flex-start; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 13px/18px var(--font-sans);"><span style="width: 16px; height: 16px; flex: none; margin-top: 1px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/triangle-alert.svg) center/contain no-repeat;"></span>{{ c.warn }}</span></sc-if>
+            <button type="button" onClick="{{ c.toggle }}" aria-expanded="{{ c.expanded }}" style="min-height: 48px; margin: 0 calc(-1 * var(--space-2)); padding: 0 var(--space-2); display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); border: none; border-top: 1px solid var(--border); border-radius: 0; background: transparent; color: var(--brand); font: 600 15px/20px var(--font-sans); text-align: left; cursor: pointer;" style-hover="color: var(--brand-strong);">{{ c.toggleLabel }}<span style="width: 20px; height: 20px; flex: none; background: currentColor; -webkit-mask: {{ c.chev }}; mask: {{ c.chev }};"></span></button>
+            <sc-if value="{{ c.open }}">
+              <div style="display: flex; flex-direction: column; gap: var(--space-3); margin-top: calc(-1 * var(--space-2));">
+                <sc-for list="{{ c.details }}" as="d">
+                  <div style="display: flex; flex-direction: column; gap: 2px;"><strong style="font: 600 14px/20px var(--font-sans);">{{ d.t }}</strong><span style="font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty;">{{ d.d }}</span></div>
+                </sc-for>
+                <sc-if value="{{ c.hasSoon }}"><div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px dashed var(--border);"><span style="flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 12px/16px var(--font-sans); letter-spacing: .02em;"><span style="width: 12px; height: 12px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/clock.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/clock.svg) center/contain no-repeat;"></span>Em breve</span><span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">{{ c.soon }}</span></div></sc-if>
+              </div>
+            </sc-if>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-6); padding: var(--space-8) var(--space-4); border-radius: var(--radius-lg); background: var(--brand-subtle);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-2); max-width: 680px;">
+        <h3 style="margin: 0; font: 600 clamp(24px, 2.6vw, 30px)/1.2 var(--font-display);">O Plano que vira ação</h3>
+        <p style="margin: 0; color: var(--ink-muted); text-wrap: pretty;">O SOAP deixa de ser só registro. Cada subdivisão do Plano vira uma ação no prontuário do paciente.</p>
+      </div>
+      <div data-plan-grid="" style="display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-4);">
+        <sc-for list="{{ planActs }}" as="a" hint-placeholder-count="4">
+          <div style="min-width: 0; background: var(--surface-000); border-radius: var(--radius-md); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3);">
+            <div style="display: flex; align-items: center; gap: var(--space-2);"><span style="padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--brand); color: var(--on-brand); font: 500 13px/18px var(--font-mono);">{{ a.k }}</span><strong style="font: 700 16px/22px var(--font-sans);">{{ a.title }}</strong></div>
+            <p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); text-wrap: pretty;">{{ a.need }}</p>
+            <span style="display: flex; gap: var(--space-2); align-items: flex-start; font-size: 14px; line-height: 20px; color: var(--ink); text-wrap: pretty;"><span style="width: 18px; height: 18px; flex: none; margin-top: 1px; color: var(--brand); background: currentColor; -webkit-mask: {{ a.mask }}; mask: {{ a.mask }};"></span>{{ a.does }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: var(--space-6); align-items: stretch;">
+      <div style="background: var(--surface-000); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: var(--space-6) var(--space-4); display: flex; flex-direction: column; gap: var(--space-4);">
+        <h3 style="margin: 0; font: 600 clamp(22px, 2.4vw, 26px)/1.25 var(--font-display);">“O que não está registrado, não foi feito”</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 22px; color: var(--ink-muted); text-wrap: pretty;">O prontuário é documento médico-legal. Um sistema examinado e não anotado pode ser lido como exame não feito, por isso achados normais também precisam estar escritos. O Ausculta trata cada consulta assim:</p>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-3);">
+          <sc-for list="{{ docItems }}" as="it" hint-placeholder-count="5"><li style="display: flex; gap: var(--space-3); align-items: flex-start; font-size: 15px; line-height: 22px;"><span style="width: 20px; height: 20px; flex: none; margin-top: 1px; color: var(--success); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat;"></span>{{ it }}</li></sc-for>
+        </ul>
+      </div>
+      <div style="background: var(--brand); color: var(--on-brand); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-4); display: flex; flex-direction: column; gap: var(--space-4);">
+        <h3 style="margin: 0; font: 600 clamp(22px, 2.4vw, 26px)/1.25 var(--font-display);">Você continua no comando</h3>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-4);">
+          <sc-for list="{{ aiLimits }}" as="l" hint-placeholder-count="3"><li style="display: flex; gap: var(--space-3); align-items: flex-start;"><span style="width: 40px; height: 40px; flex: none; border-radius: var(--radius-full); border: 2px solid currentColor; display: grid; place-items: center;"><span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: {{ l.mask }}; mask: {{ l.mask }};"></span></span><span style="min-width: 0; display: flex; flex-direction: column; gap: 2px;"><strong style="font: 700 16px/22px var(--font-sans);">{{ l.t }}</strong><span style="font-size: 15px; line-height: 22px;">{{ l.d }}</span></span></li></sc-for>
+        </ul>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3);"><h3 style="margin: 0; font: 600 clamp(22px, 2.4vw, 26px)/1.25 var(--font-display);">Campos por espécie</h3><span style="flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 12px/16px var(--font-sans); letter-spacing: .02em;"><span style="width: 12px; height: 12px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/clock.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/clock.svg) center/contain no-repeat;"></span>Em breve</span></div>
+      <p style="margin: 0; max-width: 680px; color: var(--ink-muted); text-wrap: pretty;">O SOAP continua em quatro seções para qualquer paciente. O modelo da espécie muda o que a IA procura dentro de cada uma.</p>
+      <div role="radiogroup" aria-label="Espécie" style="display: flex; flex-wrap: wrap; gap: var(--space-2);">
+        <sc-for list="{{ spTabs }}" as="t" hint-placeholder-count="4"><button type="button" role="radio" aria-checked="{{ t.on }}" onClick="{{ t.pick }}" style="min-height: 48px; padding: 0 var(--space-4); border-radius: var(--radius-full); border: 2px solid {{ t.border }}; background: {{ t.bg }}; color: {{ t.fg }}; font: 600 15px/20px var(--font-sans); cursor: pointer;">{{ t.label }}</button></sc-for>
+      </div>
+      <ul style="margin: 0; padding: var(--space-4); list-style: none; border-radius: var(--radius-md); background: var(--surface-000); border: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--space-3);">
+        <sc-for list="{{ spFields }}" as="f" hint-placeholder-count="3"><li style="display: flex; gap: var(--space-3); align-items: flex-start; font-size: 15px; line-height: 22px;"><span style="width: 8px; height: 8px; flex: none; margin-top: 7px; border-radius: var(--radius-full); background: var(--accent-warm);"></span>{{ f }}</li></sc-for>
+      </ul>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4);">
+      <a href="#portas" style="min-height: 56px; display: inline-flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-6); border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; text-decoration: none;" style-hover="background: var(--brand-strong); color: var(--on-brand);">Começar agora<span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg) center/contain no-repeat;"></span></a>
+      <span style="font-size: 14px; line-height: 20px; color: var(--ink-muted);">Você revisa e aprova cada consulta.</span>
+    </div>
+  </section>
+
+  <section id="ouve" data-screen-label="O que a IA ouve" style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; flex-direction: column; gap: var(--space-8);">
+    <div style="display: flex; flex-direction: column; gap: var(--space-3); max-width: 720px;">
+      <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display); text-wrap: balance;">Tudo o que o Ausculta ouve por você</h2>
+      <p style="margin: 0; color: var(--ink-muted); font-size: 17px; line-height: 26px; text-wrap: pretty;">A IA ouve a consulta inteira e transforma o que foi dito em registro, alerta ou ação. Você revisa e decide.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4);"><span style="align-self: flex-start; box-sizing: border-box; height: 28px; padding: 0 var(--space-2); display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; background: var(--success-subtle); border: 1px solid var(--success); color: var(--success); font: 600 12px/16px var(--font-sans);"><span style="width: 14px; height: 14px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/circle-check.svg) center/contain no-repeat;"></span>Já no Ausculta</span><span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">{{ rmNowCount }}</span></div>
+      <div data-rm-head="" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.3fr); gap: var(--space-6); padding-bottom: var(--space-2); font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase; color: var(--ink-muted);"><span>O quê</span><span>Por quê</span><span>Como</span></div>
+      <sc-for list="{{ rmNow }}" as="r" hint-placeholder-count="6">
+        <sc-if value="{{ r.hasCat }}"><div style="margin-top: var(--space-8); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--brand-subtle); display: flex; align-items: center; gap: var(--space-3);"><span style="width: 36px; height: 36px; flex: none; border-radius: var(--radius-full); background: var(--brand); color: var(--on-brand); display: grid; place-items: center;"><span style="width: 18px; height: 18px; background: currentColor; -webkit-mask: {{ r.catMask }}; mask: {{ r.catMask }};"></span></span><span style="font: 600 20px/26px var(--font-display); color: var(--brand-strong); letter-spacing: -0.005em;">{{ r.cat }}</span></div></sc-if>
+        <div data-rm-row="" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.3fr); gap: var(--space-2) var(--space-6); padding: var(--space-4) 0; border-top: 1px solid var(--border);">
+                <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span data-rm-lab="" style="font: 600 10px/14px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--brand); opacity: .8;">O quê</span><strong style="font: 600 16px/22px var(--font-sans); text-wrap: pretty;">{{ r.w }}</strong></div>
+                <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span data-rm-lab="" style="font: 600 10px/14px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--brand); opacity: .8;">Por quê</span><span style="text-wrap: pretty;">{{ r.p }}</span></div>
+                <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span data-rm-lab="" style="font: 600 10px/14px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--brand); opacity: .8;">Como</span><span style="text-wrap: pretty;">{{ r.c }}</span></div>
+              </div>
+      </sc-for>
+      <button type="button" onClick="{{ rmToggle }}" aria-expanded="{{ rmExpanded }}" style="min-height: 48px; padding: 0; border: none; border-top: 1px solid var(--border); background: none; color: var(--brand); font: 600 15px/20px var(--font-sans); text-align: left; cursor: pointer;" style-hover="color: var(--brand-strong);">{{ rmToggleLabel }}</button>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4);"><span style="align-self: flex-start; box-sizing: border-box; height: 28px; padding: 0 var(--space-2); display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; background: var(--surface-000); border: 1px solid var(--border-strong); color: var(--ink-muted); font: 600 12px/16px var(--font-sans);"><span style="width: 14px; height: 14px; flex: none; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/calendar-clock.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/calendar-clock.svg) center/contain no-repeat;"></span>Próximas fases</span><span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">{{ rmNextCount }}</span></div>
+      <div data-rm-head="" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.3fr); gap: var(--space-6); padding-bottom: var(--space-2); font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase; color: var(--ink-muted);"><span>O quê</span><span>Por quê</span><span>Como</span></div>
+      <sc-for list="{{ rmNext }}" as="r" hint-placeholder-count="4">
+        <div data-rm-row="" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.3fr); gap: var(--space-2) var(--space-6); padding: var(--space-4) 0; border-top: 1px solid var(--border);">
+                <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span data-rm-lab="" style="font: 600 10px/14px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--brand); opacity: .8;">O quê</span><strong style="font: 600 16px/22px var(--font-sans); text-wrap: pretty;">{{ r.w }}</strong></div>
+                <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span data-rm-lab="" style="font: 600 10px/14px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--brand); opacity: .8;">Por quê</span><span style="text-wrap: pretty;">{{ r.p }}</span></div>
+                <div style="display: flex; flex-direction: column; gap: var(--space-1);"><span data-rm-lab="" style="font: 600 10px/14px var(--font-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--brand); opacity: .8;">Como</span><span style="text-wrap: pretty;">{{ r.c }}</span></div>
+              </div>
+      </sc-for>
+    </div>
+    <p style="margin: 0; font: 600 17px/24px var(--font-display);">A IA não diagnostica. Não prescreve. Não assina.</p>
+  </section>
+
+  <section id="quem" data-screen-label="Para quem" style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; flex-direction: column; gap: var(--space-8);">
+    <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display); max-width: 24ch;">Feito para onde a consulta acontece de verdade</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--space-6);">
+      <sc-for list="{{ personas }}" as="p" hint-placeholder-count="3">
+        <div style="display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-4); border-top: 2px solid var(--brand);">
+          <span style="align-self: flex-start; padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 12px/16px var(--font-sans); letter-spacing: .02em;">{{ p.tag }}</span>
+          <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">{{ p.title }}</h3>
+          <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">{{ p.who }}</span>
+          <p style="margin: 0;">{{ p.copy }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Hoje x Ausculta" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-4) var(--space-16);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card);">
+      <div style="background: var(--surface-000); padding: var(--space-8) var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+        <h3 style="margin: 0; font: 700 19px/26px var(--font-sans); color: var(--ink-muted);">Hoje</h3>
+        <sc-for list="{{ before }}" as="b" hint-placeholder-count="5">
+          <div style="display: flex; gap: var(--space-3); color: var(--ink-muted);">
+            <span style="width: 20px; height: 20px; flex: none; margin-top: 2px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/minus.svg) center/contain no-repeat;"></span>{{ b }}</div>
+        </sc-for>
+      </div>
+      <div style="background: var(--brand); color: var(--on-brand); padding: var(--space-8) var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+        <h3 style="margin: 0; font: 600 24px/30px var(--font-display);">Com o Ausculta</h3>
+        <sc-for list="{{ after }}" as="a" hint-placeholder-count="5">
+          <div style="display: flex; gap: var(--space-3);">
+            <span style="width: 20px; height: 20px; flex: none; margin-top: 2px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/check.svg) center/contain no-repeat;"></span>{{ a }}</div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="videos" data-screen-label="Vídeos" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-4) var(--space-16); display: flex; flex-direction: column; gap: var(--space-8);">
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: space-between; align-items: flex-end;">
+      <div style="display: flex; flex-direction: column; gap: var(--space-2); max-width: 640px;">
+        <span style="font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase; color: var(--accent-warm-text);">Vídeos</span>
+        <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display);">Veterinários contam como é a consulta com o Ausculta</h2>
+      </div>
+      <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted);">Gravados em atendimento real, com autorização do responsável.</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: var(--space-6);">
+      <sc-for list="{{ videos }}" as="v" hint-placeholder-count="3">
+        <article style="background: var(--surface-000); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; display: flex; flex-direction: column;">
+          <div style="position: relative; aspect-ratio: 16 / 10; background: var(--brand-subtle);">
+            <image-slot id="{{ v.slot }}" shape="rect" placeholder="Arraste a capa do vídeo"></image-slot>
+            <button type="button" aria-label="Assistir ao vídeo de {{ v.title }}" style="position: absolute; left: var(--space-4); bottom: var(--space-4); height: 48px; padding: 0 var(--space-4) 0 var(--space-3); border: none; border-radius: var(--radius-full); background: var(--brand); color: var(--on-brand); display: inline-flex; align-items: center; gap: var(--space-2); font: 600 14px/20px var(--font-sans); cursor: pointer; box-shadow: var(--shadow-card);" style-hover="background: var(--brand-strong);">
+              <span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/play.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/play.svg) center/contain no-repeat;"></span>
+              <span style="font-family: var(--font-mono); font-weight: 500;">{{ v.dur }}</span>
+            </button>
+          </div>
+          <div style="padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1;">
+            <span style="align-self: flex-start; padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); background: var(--accent-warm-subtle); color: var(--accent-warm-text); font: 600 12px/16px var(--font-sans); letter-spacing: .02em;">{{ v.tag }}</span>
+            <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">{{ v.title }}</h3>
+            <p style="margin: 0; color: var(--ink-muted); flex: 1;">{{ v.copy }}</p>
+            <span style="font-size: 13px; line-height: 18px; color: var(--ink-muted); border-top: 1px solid var(--border); padding-top: var(--space-3);">{{ v.who }}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="integracoes" data-screen-label="Integrações" style="background: var(--surface-000); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; flex-direction: column; gap: var(--space-8);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-2); max-width: 680px;">
+        <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display);">Um hub aberto, nos dois sentidos</h2>
+        <p style="margin: 0; color: var(--ink-muted); font-size: 17px; line-height: 26px;">O Ausculta se pluga, não substitui. Você mantém o sistema que já usa e ganha IA na consulta.</p>
+      </div>
+      <div data-hub="" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-4); padding: var(--space-8) var(--space-4); border-radius: var(--radius-lg); background: var(--surface-100);">
+        <div data-hub-src="" style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <span style="padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--surface-000); border: 1px solid var(--border); font-weight: 600; text-align: center;">Seu PIMS</span>
+          <span style="padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--surface-000); border: 1px solid var(--border); font-weight: 600; text-align: center;">Chat de IA preferido</span>
+        </div>
+        <div data-hub-conn="" style="display: flex; flex-direction: column; align-items: center; gap: var(--space-1); color: var(--ink-muted); font: 500 13px/18px var(--font-mono);">
+          <span data-hub-h="" style="width: 32px; height: 32px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left-right.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left-right.svg) center/contain no-repeat;"></span><span data-hub-v="" style="width: 28px; height: 28px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-down-up.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-down-up.svg) center/contain no-repeat;"></span>MCP · API REST</div>
+        <span data-hub-core="" style="padding: var(--space-6) var(--space-8); border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand); font: 600 28px/1 var(--font-display); text-align: center;">Ausculta</span>
+        <div data-hub-conn="" style="display: flex; flex-direction: column; align-items: center; gap: var(--space-1); color: var(--ink-muted); font: 500 13px/18px var(--font-mono);">
+          <span data-hub-h="" style="width: 32px; height: 32px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left-right.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-left-right.svg) center/contain no-repeat;"></span><span data-hub-v="" style="width: 28px; height: 28px; color: var(--accent-warm); background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-down-up.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/arrow-down-up.svg) center/contain no-repeat;"></span>nativo</div>
+        <span data-hub-llp="" style="padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--surface-000); border: 1px solid var(--border); font-weight: 600; text-align: center;">Long Life Pet</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: var(--space-6);">
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">Seu sistema chama o Ausculta</h3>
+          <p style="margin: 0; color: var(--ink-muted);">Seu PIMS ou seu chat de IA preferido acessa o Ausculta pelo servidor <abbr title="Model Context Protocol" style="text-decoration: underline dotted; text-underline-offset: 4px; cursor: help;">MCP</abbr> nativo ou pela API REST.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">O Ausculta chama o seu sistema</h3>
+          <p style="margin: 0; color: var(--ink-muted);">O Ausculta invoca a API REST ou o MCP do fabricante do seu PIMS para buscar o prontuário e devolver a nota aprovada.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <h3 style="margin: 0; font: 700 19px/26px var(--font-sans);">Long Life Pet, de fábrica</h3>
+          <p style="margin: 0; color: var(--ink-muted);">O prontuário do pet chega antes da visita e a nota aprovada volta ao prontuário depois, sem copiar e colar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="seguranca" data-screen-label="Segurança" style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: flex; flex-direction: column; gap: var(--space-8);">
+    <div data-screen-label="A IA ouve" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--space-8) var(--space-12); padding-bottom: var(--space-12); border-bottom: 1px solid var(--border);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <h2 style="margin: 0; font: 600 clamp(36px, 4.6vw, 56px)/1.08 var(--font-display); text-wrap: balance;">A IA ouve. Você decide.</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 27px; color: var(--ink-muted); text-wrap: pretty;">O Ausculta registra a consulta com consentimento, transcreve, organiza e mostra a origem de cada informação no áudio. Depois, entrega o prontuário para quem realmente conhece aquele paciente: o médico-veterinário.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <p style="margin: 0; font-weight: 600;">Porque tecnologia clínica não deve substituir julgamento.</p>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
+          <li style="padding: var(--space-3) 0; border-top: 1px solid var(--border); font: 600 20px/28px var(--font-display);">Deve preservar contexto.</li>
+          <li style="padding: var(--space-3) 0; border-top: 1px solid var(--border); font: 600 20px/28px var(--font-display);">Deve reduzir ruído.</li>
+          <li style="padding: var(--space-3) 0; border-top: 1px solid var(--border); font: 600 20px/28px var(--font-display);">Deve tornar mais fácil revisar.</li>
+          <li style="padding: var(--space-3) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); font: 600 20px/28px var(--font-display);">Deve ajudar a registrar o que importa.</li>
+        </ul>
+        <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+          <strong style="font: 700 17px/24px var(--font-sans);">A IA não diagnostica. Não prescreve. Não assina.</strong>
+          <span style="color: var(--ink-muted);">Ela prepara o terreno para a sua decisão clínica.</span>
+        </div>
+      </div>
+    </div>
+    <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display); max-width: 24ch;">Quem assina o prontuário é você</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--space-6);">
+      <sc-for list="{{ trust }}" as="t" hint-placeholder-count="5">
+        <div style="display: flex; gap: var(--space-4); align-items: flex-start;">
+          <span style="width: 48px; height: 48px; flex: none; border-radius: var(--radius-full); background: var(--brand-subtle); color: var(--brand); display: grid; place-items: center;"><span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: {{ t.mask }}; mask: {{ t.mask }};"></span></span>
+          <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+            <h3 style="margin: 0; font: 700 16px/22px var(--font-sans);">{{ t.title }}</h3>
+            <sc-if value="{{ t.hasCopy }}"><p style="margin: 0; color: var(--ink-muted); font-size: 15px; line-height: 22px;">{{ t.copy }}</p></sc-if>
+            <sc-if value="{{ t.hasBullets }}"><ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: var(--space-1); color: var(--ink-muted); font-size: 15px; line-height: 22px;"><sc-for list="{{ t.bullets }}" as="b"><li style="text-wrap: pretty;">{{ b }}</li></sc-for></ul></sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin: 0; font-size: 15px; line-height: 22px; color: var(--ink-muted);"><a href="Ausculta App.dc.html#trust" style="color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 3px;">Veja na Central de Confiança</a></p>
+  </section>
+
+  <section data-screen-label="Ouvir é cuidar duas vezes" style="background: var(--surface-000); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: var(--space-16);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-4); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--space-8) var(--space-12); align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+        <h2 style="margin: 0; font: 600 clamp(28px, 3.4vw, 40px)/1.15 var(--font-display);">Ouvir é cuidar duas vezes</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 27px; color: var(--ink-muted); text-wrap: pretty;">A ausculta clínica busca sons que ajudam a revelar o estado de um organismo. O Ausculta digital busca preservar aquilo que revela o estado de um caso.</p>
+        <p style="margin: 0; font-size: 17px; line-height: 27px; text-wrap: pretty;">Cada consulta é uma história em movimento. Cada prontuário bem construído permite que ela continue sendo compreendida.</p>
+      </div>
+      <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
+        <li style="display: flex; gap: var(--space-4); align-items: baseline; padding: var(--space-3) 0; border-top: 1px solid var(--border);"><span style="flex: none; min-width: 24px; font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">01</span><span style="font: 600 22px/30px var(--font-display);">A queixa do responsável.</span></li>
+        <li style="display: flex; gap: var(--space-4); align-items: baseline; padding: var(--space-3) 0; border-top: 1px solid var(--border);"><span style="flex: none; min-width: 24px; font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">02</span><span style="font: 600 22px/30px var(--font-display);">O exame objetivo.</span></li>
+        <li style="display: flex; gap: var(--space-4); align-items: baseline; padding: var(--space-3) 0; border-top: 1px solid var(--border);"><span style="flex: none; min-width: 24px; font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">03</span><span style="font: 600 22px/30px var(--font-display);">A avaliação.</span></li>
+        <li style="display: flex; gap: var(--space-4); align-items: baseline; padding: var(--space-3) 0; border-top: 1px solid var(--border);"><span style="flex: none; min-width: 24px; font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">04</span><span style="font: 600 22px/30px var(--font-display);">O plano.</span></li>
+        <li style="display: flex; gap: var(--space-4); align-items: baseline; padding: var(--space-3) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);"><span style="flex: none; min-width: 24px; font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">05</span><span style="font: 600 22px/30px var(--font-display); text-wrap: pretty;">A evolução que começa hoje e precisa fazer sentido amanhã.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section data-screen-label="CTA final" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--space-4) var(--space-16);">
+    <div style="background: var(--brand); color: var(--on-brand); border-radius: var(--radius-lg); padding: var(--space-16) clamp(24px, 5vw, 64px); display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: center; justify-content: space-between;">
+      <div style="display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px;">
+        <h2 style="margin: 0; font: 600 clamp(28px, 3.6vw, 44px)/1.12 var(--font-display); text-wrap: balance;">Comece a escrever menos. Comece a escutar melhor.</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 26px;">Grave a consulta, revise o SOAP e mantenha o prontuário no ritmo do seu atendimento.</p>
+        <p style="margin: 0; font-size: 15px; line-height: 22px;">Crie sua conta em um minuto. Funciona no celular ou no tablet que você já tem.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-3); flex: 1 1 260px; max-width: 360px;">
+        <a href="Ausculta Conta.dc.html#standalone" style="min-height: 56px; display: flex; align-items: center; justify-content: center; padding: 0 var(--space-8); background: var(--surface-000); color: var(--brand-strong); font: 600 16px/20px var(--font-sans); letter-spacing: .01em; text-decoration: none; border-radius: var(--radius-lg);" style-hover="background: var(--brand-subtle); color: var(--brand-strong);">Experimentar o Ausculta</a>
+        <a href="Ausculta App.dc.html#llp" style="min-height: 48px; display: flex; align-items: center; justify-content: center; color: var(--on-brand); font-weight: 600; text-decoration: underline; text-underline-offset: 4px;" style-hover="color: var(--on-brand); opacity: .85;">Já uso o Long Life Pet</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="max-width: 1200px; margin: 0 auto; padding: var(--space-8) var(--space-4) var(--space-12); display: flex; flex-direction: column; gap: var(--space-6); border-top: 1px solid var(--border);">
+    <p style="margin: 0; font: 600 clamp(20px, 2.4vw, 26px)/1.3 var(--font-display); text-wrap: balance;">Ausculta. Ouve a consulta. Organiza o cuidado.</p>
+    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div style="display: flex; align-items: center; gap: var(--space-2); color: var(--ink-muted);">
+        <span style="width: 18px; height: 18px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/book-open.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/book-open.svg) center/contain no-repeat;"></span>
+        <span style="font: 500 12px/16px var(--font-sans); letter-spacing: .02em; text-transform: uppercase;">Siglas usadas nesta página</span>
+      </div>
+      <dl aria-label="Siglas" style="margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: var(--space-3);">
+        <sc-for list="{{ glossary }}" as="g" hint-placeholder-count="6">
+          <div style="display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); background: var(--surface-000); border: 1px solid var(--border);">
+            <dt style="flex: none; min-width: 64px; padding: 2px var(--space-2); border-radius: var(--radius-sm); background: var(--brand-subtle); color: var(--brand-strong); font: 500 13px/18px var(--font-mono); text-align: center;">{{ g.k }}</dt>
+            <dd style="margin: 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); padding-top: 2px;">{{ g.v }}</dd>
+          </div>
+        </sc-for>
+      </dl>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: space-between; align-items: center; font-size: 13px; line-height: 18px; color: var(--ink-muted);">
+      <span>Seus dados clínicos nunca ficam presos a um único sistema.</span>
+      <a href="Ausculta Conta.dc.html#login" style="min-height: 48px; display: inline-flex; align-items: center; color: var(--ink-muted);" style-hover="color: var(--brand);">Já tem conta? Entrar</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;logoMark&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Diafragma&quot;,&quot;A de pulso&quot;,&quot;Eco&quot;],&quot;default&quot;:&quot;Diafragma&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;featuredEntry&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Não uso nenhum PIMS&quot;,&quot;Long Life Pet&quot;,&quot;Outro PIMS&quot;,&quot;Nenhum&quot;],&quot;default&quot;:&quot;Não uso nenhum PIMS&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Landing&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;'light'|'dark'&quot;,&quot;section&quot;:&quot;Tema&quot;}}">
+const IC = n => `url(https://unpkg.com/lucide-static@0.460.0/icons/${n}.svg) center/contain no-repeat`;
+const fmt = s => String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+const TOTAL = 402;
+const DEMO = [
+  { id: 'O', title: 'Objetivo', s: [['Peso 32 kg, temperatura retal 38,6 °C.', 92, 99], ['Dor à manipulação do joelho esquerdo.', 134, 141]] },
+  { id: 'P', title: 'Plano', s: [['Meloxicam 0,4 mg/kg por via oral, uma vez ao dia, por 5 dias.', 301, 309], ['Radiografia e retorno em 7 dias.', 326, 333]] }
+];
+
+const RM_NOW = [["cap","Quem está falando","O relato do responsável e o exame do veterinário vão para seções diferentes do SOAP.","Separa veterinário, responsável e outras pessoas. Com a sua voz cadastrada, a separação fica mais precisa.",0],["cap","Termos e fármacos veterinários","Nome de fármaco errado vira erro de prontuário.","Usa a lista de termos da plataforma e os termos que a sua clínica cadastrar.",0],["cap","Trechos com áudio ruim","Frase mal ouvida não pode virar dado clínico.","Marca o trecho com ruído para você ouvir e corrigir antes de aprovar.",0],["cap","A origem de cada frase","Você confere o que foi dito sem ouvir a consulta inteira.","Cada frase do SOAP leva ao trecho do áudio. O player destaca a frase que está tocando.",1],["org","O SOAP da consulta","Menos tempo reconstruindo a consulta no fim do dia.","Organiza Subjetivo, Objetivo, Avaliação e Plano a partir da conversa.",1],["org","O roteiro da anamnese","Você vê o que já foi perguntado enquanto atende.","Mostra o roteiro OLDCHARTS, adaptado à veterinária, quando você pausa a gravação.",0],["org","O exame por sistemas","Sistemas não examinados ficam visíveis antes de aprovar.","Usa um modelo de exame por espécie, com campos obrigatórios para equinos e animais de produção.",0],["org","Sinais vitais e as 5 avaliações vitais da WSAVA","Temperatura, pulso, respiração, dor e avaliação nutricional (ECC e ECM) viram dados, não só texto.","Extrai T, FC, FR, PA, TPC, mucosas, hidratação, ECC, ECM e escore de dor ditos em voz alta.",1],["org","Sinais de inflamação","Calor, rubor, aumento de volume, dor e perda de função ficam registrados por região.","Agrupa os achados por região do corpo e aponta o que não foi mencionado.",0],["org","O problema discutido","O prontuário passa a ser orientado a problemas (POVMR).","Ao aprovar, cria ou atualiza o problema na lista do paciente.",0],["seg","Dose fora do limite","Erro de dose é risco direto ao paciente.","Compara a dose dita com o limite para a espécie e o peso e pede a sua decisão.",1],["seg","Alergia relatada","Uma alergia citada de passagem não pode se perder.","Bloqueia a aprovação até você decidir sobre a alergia.",1],["seg","Carência em animais de produção","Leite e carne não podem chegar ao consumo dentro da carência.","Indica a data de liberação do leite, da carne e dos ovos a partir da carência registrada na bula do produto prescrito (ruminantes, suínos e aves).",0],["seg","Valores fora da faixa","Um número fora do normal chama a sua atenção na revisão.","Compara cada sinal vital com a faixa de referência da espécie.",0],["acao","Medicamentos citados","A lista de medicamentos em uso fica atualizada sem digitar.","Sugere incluir o que foi prescrito e encerrar o que foi suspenso.",0],["acao","Vacinas aplicadas","O calendário vacinal fica em dia.","Sugere registrar a vacina citada na consulta.",0],["acao","Dados do responsável","Um telefone novo dito na conversa não se perde.","Sugere atualizar o cadastro do responsável.",0],["acao","Retorno combinado","O retorno não depende de lembrar de anotar.","Calcula a data do “retorno em N dias” e coloca o paciente no topo da lista nesse dia.",1],["acao","Exames pedidos","Pedido falado vira pedido registrado.","Sugere registrar hemograma, radiografia e outros exames citados no Plano.",0],["acao","Instruções de alta","O responsável sai com orientações claras.","Redige as instruções a partir do Plano aprovado, prontas para enviar por WhatsApp.",0],["cont","A evolução entre consultas","O que foi ouvido hoje ganha sentido ao lado das consultas anteriores.","Guarda peso, sinais vitais e achados ditos em cada consulta e mostra a evolução no Resumo clínico.",0],["cont","O que ficou sem exame","O que não foi examinado na última consulta aparece na próxima.","Compara com a última consulta aprovada e lembra o que não foi mencionado.",0]];
+const RM_NEXT = [["Tendência do ECC e da região inflamada","Melhora ou piora entre consultas fica visível no retorno.","Compara o ECC e a mesma região do corpo com a consulta anterior."],["Itens da escala de dor","O escore de dor fica completo e reprodutível.","Mostra quais itens da escala validada você descreveu e quais faltaram. O escore continua sendo seu."],["Histórico alimentar","A avaliação nutricional da WSAVA começa pela dieta.","Registra ração, quantidade, petiscos e mudanças contadas pelo responsável."],["Perguntas sem resposta","Nenhuma dúvida do responsável fica para trás.","Lista as perguntas do responsável que ficaram sem resposta na consulta."],["Fala leiga em termo clínico","“Está mancando” vira claudicação, com a fala original ao lado.","Converte o relato do responsável em termo clínico no Subjetivo."],["Incoerências do registro","O que foi dito e não entrou no Plano aparece antes de aprovar.","Aponta retorno falado e ausente do Plano, exame pedido não registrado e medicamento fora da lista em uso."],["Retorno com objetivo","O retorno já começa sabendo o que reavaliar.","Guarda o que deve ser reavaliado e mostra no início da próxima consulta."],["Sinais de alerta na alta","O responsável sabe quando voltar antes do retorno.","Inclui nas instruções de alta os sinais que pedem retorno imediato."],["Vocabulário por espécie","Mastite, laminite e atonia ruminal têm termos próprios.","Amplia o vocabulário para equinos e animais de produção."]];
+const RM_CAT = {"cap":["Captura do áudio","mic"],"org":["Organização clínica","list-checks"],"seg":["Segurança do paciente","shield-check"],"acao":["Ações em um toque","hand"],"cont":["Continuidade do cuidado","history"]};
+class Component extends DCLogic {
+  state = { active: null, dose: 'pending', approved: false, menu: false };
+  renderVals() {
+    const st = this.state, p = this.props;
+    this._menuVals = { menuOpen: !!st.menu, menuClosed: !st.menu, menuFlag: st.menu ? '1' : '0', menuLabel: st.menu ? 'Fechar menu' : 'Abrir menu', toggleMenu: () => this.setState({ menu: !st.menu }), closeMenu: () => this.setState({ menu: false }) };
+    const mark = p.logoMark ?? 'Diafragma';
+    const featured = p.featuredEntry ?? 'Não uso nenhum PIMS';
+    let act = null;
+    const demo = DEMO.map(sec => ({ letter: sec.id, title: sec.title, sentences: sec.s.map(([text, a, b], i) => {
+      const id = sec.id + i, on = st.active === id;
+      if (on) act = { a, b, sec: sec.title };
+      const t = sec.id === 'P' && i === 0 && st.dose === 'adjusted' ? 'Meloxicam 0,1 mg/kg por via oral, uma vez ao dia, por 5 dias.' : text;
+      return { text: t, bg: on ? 'var(--accent-warm-subtle)' : 'transparent', ul: on ? 'var(--accent-warm)' : 'var(--border-strong)', play: () => this.setState({ active: id }) };
+    }) }));
+    const entryDefs = [
+      { key: 'Long Life Pet', icon: 'link', title: 'Já uso o Long Life Pet', copy: 'Conecte com um clique. Seu prontuário chega pronto antes da visita, e a nota volta sozinha depois.', cta: 'Conectar ao Long Life Pet', href: 'Ausculta App.dc.html#llp' },
+      { key: 'Outro PIMS', icon: 'plug-zap', title: 'Uso outro sistema (PIMS)', copy: 'Não troque de sistema. O Ausculta se pluga ao seu PIMS atual via integração segura, sem migração.', cta: 'Conectar meu PIMS', href: 'Ausculta App.dc.html#pims' },
+      { key: 'Não uso nenhum PIMS', icon: 'stethoscope', title: 'Não uso nenhum PIMS hoje', copy: 'Comece só com o Ausculta. Prontuário SOAP, pacientes e responsáveis, medicamentos e exames, sem depender de outro sistema.', cta: 'Começar agora', href: 'Ausculta Conta.dc.html#standalone' }
+    ];
+    const entries = [...entryDefs.filter(e => e.key === featured), ...entryDefs.filter(e => e.key !== featured)].map(e => ({ ...e, mask: IC(e.icon), featured: e.key === featured,
+      bg: e.key === featured ? 'var(--accent-warm-subtle)' : 'var(--surface-000)', border: e.key === featured ? 'var(--accent-warm)' : 'var(--border)', shadow: e.key === featured ? 'none' : 'var(--shadow-card)' }));
+    const doseDone = st.dose !== 'pending';
+    const rmAll = !!st.rmAll, rmSrc = rmAll ? RM_NOW : RM_NOW.filter(r => r[4]);
+    return {
+      ...this._menuVals,
+      rmNow: rmSrc.map((r, i) => ({ w: r[1], p: r[2], c: r[3], hasCat: rmAll && (i === 0 || rmSrc[i - 1][0] !== r[0]), cat: RM_CAT[r[0]][0], catMask: 'url(https://unpkg.com/lucide-static@0.460.0/icons/' + RM_CAT[r[0]][1] + '.svg) center/contain no-repeat' })),
+      rmNext: RM_NEXT.map(r => ({ w: r[0], p: r[1], c: r[2] })), rmNowCount: String(RM_NOW.length), rmNextCount: String(RM_NEXT.length),
+      rmExpanded: rmAll ? 'true' : 'false', rmToggleLabel: rmAll ? 'Mostrar só os destaques' : 'Ver todos os recursos (' + RM_NOW.length + ')', rmToggle: () => this.setState({ rmAll: !rmAll }),
+      theme: p.theme ?? 'light',
+      markA: mark === 'Diafragma', markB: mark === 'A de pulso', markC: mark === 'Eco',
+      langs: ['PT', 'EN', 'ES'].map(code => { const on = (window.AusI18n ? AusI18n.get().toUpperCase() : 'PT') === code; return { code, on: on ? 'true' : 'false', bg: on ? 'var(--brand)' : 'transparent', fg: on ? 'var(--on-brand)' : 'var(--ink-muted)', pick: () => { window.AusI18n && AusI18n.set(code.toLowerCase()); } }; }),
+      waveBars: [18,30,24,44,56,36,62,80,48,34,58,40,26,20,38,46,42,60,76,70,40,52,54,30,24,40,50,36,64,72].map(h => h + 'px'),
+      demo, hasActive: !!act,
+      segLeft: act ? (act.a / TOTAL * 100) + '%' : '0%', segWidth: act ? Math.max(2, (act.b - act.a) / TOTAL * 100) + '%' : '0%',
+      playerNote: act ? `Reproduzindo trecho ${fmt(act.a)}–${fmt(act.b)} · ${act.sec}` : 'Áudio da consulta · 06:42',
+      noteColor: act ? 'var(--accent-warm-text)' : 'var(--ink-muted)',
+      dosePending: !doseDone, doseDone,
+      doseText: st.dose === 'accepted' ? 'Dose de 0,4 mg/kg mantida por decisão do veterinário' : 'Dose ajustada para 0,1 mg/kg no Plano',
+      doseAccept: () => this.setState({ dose: 'accepted' }), doseAdjust: () => this.setState({ dose: 'adjusted' }),
+      notApproved: !st.approved, approved: st.approved, approveLocked: !doseDone, approveOpacity: doseDone ? 1 : 0.45,
+      approve: () => doseDone && this.setState({ approved: true }),
+      resetDemo: () => this.setState({ active: null, dose: 'pending', approved: false }),
+      stats: [
+        { v: '10 min', k: 'perdidos com anotação a cada consulta de 20 minutos' },
+        { v: 'até 20%', k: 'mais atendimentos por dia com a mesma equipe, recuperando esse tempo' },
+        { v: '0', k: 'dependência de internet do início ao fim da consulta' }
+      ],
+      entries,
+      steps: [
+        { n: '1', icon: 'file-check', title: 'Confirme o consentimento', copy: 'O responsável ou a clínica autoriza a gravação. Fica registrado com data, hora e finalidade.' },
+        { n: '2', icon: 'mic', title: 'Atenda com as mãos livres', copy: 'O Ausculta ouve a consulta, filtra latidos e maquinário e transcreve: na nuvem quando há internet, no próprio aparelho quando não há ou quando a clínica prefere.' },
+        { n: '3', icon: 'list-checks', title: 'Revise o rascunho SOAP', copy: 'Cada frase leva ao trecho de áudio de origem. Doses acima do limite para espécie e peso geram alerta.' },
+        { n: '4', icon: 'circle-check', title: 'Aprove e sincronize', copy: 'A nota só entra no prontuário com o seu toque em Aprovar, no Long Life Pet, no seu PIMS ou na sua conta.' }
+      ].map(s => ({ ...s, mask: IC(s.icon) })),
+      personas: [
+        { tag: 'Sem internet', title: 'Atendimento volante', who: 'Equinos, bovinos, domicílio', copy: 'Grave no estábulo ou no pasto, sem sinal. Sem internet, o Ausculta analisa no próprio aparelho e sincroniza quando a rede voltar. Nada de caderno de campo.' },
+        { tag: 'Mãos livres', title: 'Hospital de alta complexidade', who: 'Contenção, exame físico, centro cirúrgico', copy: 'Mãos e olhos no paciente. O Ausculta documenta enquanto você examina, mesmo atrás de paredes sem roteador.' },
+        { tag: 'Sem migração', title: 'Clínica com PIMS', who: 'Equipe com sistema de gestão já contratado', copy: 'Mantenha o sistema atual. O Ausculta se conecta por MCP ou API e devolve a nota aprovada ao prontuário.' }
+      ],
+      videos: [
+        { slot: 'video-volante', dur: '2:40', tag: 'Atendimento volante', title: 'Consulta equina no haras, sem sinal', copy: 'Do exame no piquete ao SOAP aprovado no celular, antes de voltar para a caminhonete.', who: '[Nome do veterinário] · CRMV-[UF] · Medicina equina' },
+        { slot: 'video-hospital', dur: '3:15', tag: 'Hospital', title: 'Mãos no paciente durante a contenção', copy: 'Como a equipe documenta o exame físico sem parar para digitar, e revisa as evidências depois.', who: '[Nome do veterinário] · CRMV-[UF] · Clínica de pequenos animais' },
+        { slot: 'video-clinica', dur: '1:58', tag: 'Clínica com PIMS', title: 'O prontuário volta sozinho para o sistema', copy: 'A clínica manteve o PIMS de sempre e passou a fechar as notas no mesmo dia do atendimento.', who: '[Nome do veterinário] · CRMV-[UF] · Clínica geral' }
+      ],
+      before: ['Anotação em papel durante a consulta', 'Prontuário digitado no fim do dia', 'Dados clínicos esquecidos por falta de tempo', 'Sistema em nuvem que para sem internet', 'Trocar de PIMS para ter IA'],
+      after: ['Contato visual com o responsável, mãos no paciente', 'Rascunho SOAP pronto ao fim da consulta', 'Cada frase ligada ao áudio de origem', 'Funciona do início ao fim em modo avião', 'A IA se pluga ao sistema que você já usa'],
+      trust: [
+        { icon: 'user-check', title: 'A IA não diagnostica nem prescreve', copy: 'Ela redige um rascunho. Diagnóstico, prescrição e aprovação são sempre do veterinário.' },
+        { icon: 'file-check', title: 'Consentimento antes de gravar', copy: 'Registrado com usuário, data, hora e finalidade, em linha com a LGPD.' },
+        { icon: 'lock', title: 'Áudio criptografado', copy: 'Em trânsito e em repouso. No modo offline, o áudio não sai do dispositivo.' },
+        { icon: 'database', title: 'Prontuários guardados com segurança', copy: 'O Ausculta armazena seus prontuários com criptografia e backup. A titularidade é sua, e você exporta tudo quando quiser.' },
+        { icon: 'sliders-horizontal', title: 'Você escolhe onde ficam os dados', copy: '', bullets: ['Transcrição na nuvem, mais precisa, ou no aparelho, sem enviar a voz.', 'Análise na nuvem, no aparelho ou nos dois.', 'Áudio guardado cifrado, apagado após a aprovação ou só no aparelho.'] },
+        { icon: 'history', title: 'Auditoria completa', copy: 'Quem aprovou, quando, e o que mudou entre o rascunho e a versão final.' }
+      ].map(t => ({ bullets: [], ...t, mask: IC(t.icon), hasCopy: !!t.copy, hasBullets: !!(t.bullets && t.bullets.length) })),
+      soapCards: [{"letter":"S","name":"Subjetivo","sub":"O que o responsável relata","need":"Queixa, história da doença atual, preventivos, alimentação e manejo.","does":"Organiza o relato em frases clínicas, cada uma ligada ao trecho de áudio de onde veio.","ex":"Responsável relata claudicação no membro pélvico esquerdo há cinco dias.","note":"","warn":"","soon":"","details":[{"t":"Queixa principal","d":"Motivo da consulta e duração, em uma frase."},{"t":"História da doença atual (OLDCHARTS)","d":"Roteiro de oito perguntas ao responsável: início (agudo, hiperagudo, crônico), localização, duração, caracterização, fatores de piora ou melhora, progressão, frequência e horário, gravidade percebida. Com a gravação pausada, o Ausculta mostra quantas já foram respondidas, por exemplo “História 4/8”, e quais ainda vale perguntar."},{"t":"Histórico e preventivos","d":"Vacinação, vermifugação e controle de ectoparasitas, doenças e cirurgias prévias, reações adversas a medicamentos."},{"t":"Alimentação e manejo","d":"Dieta (tipo, marca, quantidade, petiscos), ambiente, acesso à rua, contato com outros animais, acesso a toxinas ou corpos estranhos."},{"t":"Da fala leiga ao termo clínico","d":"“Está triste” vira prostração ou letargia; “comendo mal”, hiporexia; “vomitando água amarela”, êmese biliosa."}]},{"letter":"O","name":"Objetivo","sub":"O que é medido e observado","need":"Só dados mensuráveis, observáveis e reprodutíveis. Nenhuma interpretação.","does":"Registra cada parâmetro e achado ligado ao trecho de áudio de origem.","ex":"Peso 32 kg, temperatura retal 38,6 °C.","note":"O peso vira dado e alimenta o cálculo de dose.","warn":"","soon":"Exame organizado por sistemas, com os não mencionados marcados como “Não mencionado — a preencher”, e campos por espécie.","details":[{"t":"Parâmetros vitais e biométricos","d":"Peso e variação desde a última consulta, temperatura retal, frequência cardíaca e qualidade do pulso, frequência e padrão respiratório, mucosas, TPC, ECC (escala 1–9 ou 1–5), escore de dor por escala validada, hidratação."},{"t":"Exame físico por sistemas","d":"Aparência geral e estado mental; pele e anexos; olhos, ouvidos, nariz e cavidade oral; cardiovascular; respiratório; gastrointestinal; urogenital; musculoesquelético; neurológico; linfonodos; reprodutivo; endócrino; hematológico e imunológico; outros, como microchip e hérnias."},{"t":"Exames complementares","d":"Hemograma, bioquímica, urinálise, testes rápidos e imagem, com os valores numéricos."}]},{"letter":"A","name":"Avaliação","sub":"O raciocínio clínico","need":"Lista de problemas, diagnósticos diferenciais e diagnóstico de trabalho.","does":"Registra só as hipóteses discutidas em consulta, com a expressão “Hipótese discutida em consulta”.","ex":"Hipótese discutida em consulta: processo inflamatório articular no joelho esquerdo.","note":"","warn":"","soon":"Avaliação e Plano separados por problema, como no POVMR.","details":[{"t":"Lista de problemas","d":"Ativos e inativos, cada um no maior nível de certeza que os dados permitem."},{"t":"Diagnósticos diferenciais","d":"Do mais ao menos provável, com a justificativa a partir de S e O. O DAMNIT-V (degenerativo, anomalia congênita, metabólico, neoplásico ou nutricional, inflamatório ou infeccioso, trauma ou tóxico, vascular) ajuda a não esquecer categorias."},{"t":"Diagnóstico de trabalho","d":"Definitivo ou “pendente de exames complementares”."}]},{"letter":"P","name":"Plano","sub":"O que será feito","need":"Exames, tratamento, comunicação ao responsável e acompanhamento.","does":"Transforma o Plano em ações e confere a dose antes da aprovação.","ex":"Meloxicam 0,4 mg/kg…","note":"","warn":"Acima do limite de 0,2 mg/kg para canino de 32 kg. A aprovação fica bloqueada até você aceitar ou ajustar.","soon":"Verificação dos 6 elementos em cada prescrição e carência pela bula oficial.","details":[{"t":"Diagnóstico (Dx)","d":"Exames solicitados e o objetivo de cada um."},{"t":"Terapêutico (Tx)","d":"Cada medicamento com os 6 elementos da prescrição: fármaco, dose (mg/kg e total), via, frequência, duração e indicação."},{"t":"Comunicação ao responsável (Cx)","d":"Prognóstico, reações adversas, restrições, manejo e sinais de alerta."},{"t":"Acompanhamento (Mx)","d":"Data e objetivo do retorno e o que o responsável deve observar em casa."}]}].map(c => { const open = !!(st.soapOpen || {})[c.letter]; return { ...c, hasNote: !!c.note, hasWarn: !!c.warn, hasSoon: !!c.soon, open, expanded: open ? 'true' : 'false', chev: IC(open ? 'chevron-up' : 'chevron-down'), toggleLabel: (open ? 'Recolher o ' : 'Ver o que entra no ') + c.letter, toggle: () => this.setState(s => ({ soapOpen: { ...(s.soapOpen || {}), [c.letter]: !open } })) }; }),
+      planActs: [{"k":"Dx","title":"Diagnóstico","need":"Exames solicitados e o objetivo de cada um.","icon":"flask-conical","does":"Ação “Pedido de exame”, que fica pendente até o resultado ser anexado."},{"k":"Tx","title":"Terapêutico","need":"Fármaco, dose (mg/kg e total), via, frequência, duração e indicação.","icon":"shield-alert","does":"Alerta de dose acima do limite para espécie e peso e alerta de alergia relatada. Os dois bloqueiam a aprovação até você aceitar ou ajustar, e o medicamento entra na lista do paciente ao aprovar."},{"k":"Cx","title":"Comunicação ao responsável","need":"Prognóstico, reações adversas, restrições, manejo e sinais de alerta.","icon":"message-circle","does":"Instruções de alta geradas do Plano, enviadas por WhatsApp ou e-mail."},{"k":"Mx","title":"Acompanhamento","need":"Data e objetivo do retorno e o que observar em casa.","icon":"calendar-check","does":"Ação “Agendar retorno” e lembretes calculados no prontuário do paciente."}].map(a => ({ ...a, mask: IC(a.icon) })),
+      docItems: ["Consentimento registrado antes de gravar.","Cada frase ligada ao trecho de áudio de origem.","Aprovação com nome, CRMV, data e hora.","Consulta bloqueada após a aprovação. Correção vira nova consulta.","Toda edição fica na trilha de auditoria."],
+      aiLimits: [{"icon":"stethoscope","t":"Não diagnostica nem prescreve","d":"Registra o raciocínio que você expressou na consulta. Não cria diferencial que não foi falado."},{"icon":"file-x","t":"Não inventa dado","d":"Nenhum parâmetro, achado ou exame sem trecho de áudio de origem."},{"icon":"pen-line","t":"Não aprova","d":"Só um veterinário com registro profissional aprova, e a IA não altera nada depois disso."}].map(l => ({ ...l, mask: IC(l.icon) })),
+      ...(() => { const SP = [{"k":"small","label":"Pequenos animais","fields":["Escore de condição corporal (ECC).","Escore de dor por escala validada."]},{"k":"equine","label":"Equinos","fields":["Grau de claudicação pela escala AAEP (0–5).","Testes de flexão.","Pulso digital."]},{"k":"bovine","label":"Bovinos","fields":["Produção de leite e CMT.","Período de carência dos fármacos.","Atendimento de um lote, não só de um animal."]},{"k":"exotic","label":"Exóticos","fields":["Recinto, temperatura, fotoperíodo e dieta, com peso grande no Subjetivo."]}]; const cur = st.spTab || 'small';
+        return { spTabs: SP.map(x => { const on = x.k === cur; return { label: x.label, on: on ? 'true' : 'false', border: on ? 'var(--brand)' : 'var(--border)', bg: on ? 'var(--brand-subtle)' : 'var(--surface-000)', fg: on ? 'var(--brand-strong)' : 'var(--ink)', pick: () => this.setState({ spTab: x.k }) }; }), spFields: (SP.find(x => x.k === cur) || SP[0]).fields }; })(),
+      glossary: [
+        { k: 'SOAP', v: 'Subjetivo, Objetivo, Avaliação e Plano — o formato do prontuário clínico' },
+        { k: 'PIMS', v: 'sistema de gestão da clínica (prontuário, agenda, faturamento)' },
+        { k: 'MCP', v: 'Model Context Protocol, padrão aberto que conecta a IA a outros sistemas' },
+        { k: 'API REST', v: 'interface padrão para sistemas trocarem dados pela web' },
+        { k: 'AI Scribe', v: 'assistente de IA que transcreve e organiza a consulta' },
+        { k: 'LGPD', v: 'Lei Geral de Proteção de Dados' },
+        { k: "POVMR", v: "Problem-Oriented Veterinary Medical Record, o prontuário veterinário orientado a problemas" },
+        { k: "OLDCHARTS", v: "sigla em inglês (Onset, Location, Duration, CHaracter, Aggravating, Relieving, Timing, Severity) do roteiro para colher a história da doença com o responsável" },
+        { k: "DAMNIT-V", v: "esquema de categorias para diagnósticos diferenciais" },
+        { k: "T", v: "temperatura corporal, em geral retal" },
+        { k: "FC", v: "frequência cardíaca, em batimentos por minuto (bpm)" },
+        { k: "FR", v: "frequência respiratória, em movimentos por minuto (mpm)" },
+        { k: "PA", v: "pressão arterial, em mmHg" },
+        { k: "ECC", v: "escore de condição corporal" },
+        { k: "ECM", v: "escore de condição muscular, que avalia a massa muscular" },
+        { k: "WSAVA", v: "World Small Animal Veterinary Association, que recomenda a avaliação nutricional como 5ª avaliação vital, ao lado de temperatura, pulso, respiração e dor" },
+        { k: "TPC", v: "tempo de preenchimento capilar" },
+        { k: "CMT", v: "California Mastitis Test: teste rápido que estima as células somáticas do leite, usado para detectar mastite subclínica" },
+        { k: "AAEP", v: "American Association of Equine Practitioners, autora da escala de claudicação 0–5" },
+        { k: "CRMV", v: "Conselho Regional de Medicina Veterinária, onde o veterinário tem registro" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

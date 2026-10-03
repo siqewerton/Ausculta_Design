@@ -1,6 +1,6 @@
 # Handoff: Ausculta: AI Scribe para veterinários (app + landing + conta)
 
-> **Versão de 02/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
+> **Versão de 03/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
 
 ## Visão geral
 O Ausculta grava a consulta veterinária (com consentimento), transcreve (na nuvem com internet, ou no próprio aparelho sem internet ou quando a clínica escolhe) e gera um rascunho de prontuário **SOAP**, que o médico veterinário revisa, ajusta e aprova. Ele pode funcionar sozinho ou integrado ao PIMS da clínica (ex.: Long Life Pet). O pacote cobre três peças:
@@ -561,3 +561,61 @@ Esta seção substitui o que divergir nas seções anteriores. O padrão complet
 ### Antes de produção
 - Validar com veterinários da SIQ as faixas de referência e as formas de falar ECC, ECM e escore de dor.
 - `Ausculta App.html` (bundle offline) não foi regerado: use os `.dc.html` servidos por HTTP.
+
+
+---
+
+## Atualizações de 03/10/2026 (leia antes das seções acima)
+
+Esta seção substitui o que divergir nas seções anteriores. PRDs aplicados (em `prd/`): `prd-design-ausculta-correcoes-clinicas.md` (com `revisao-clinica-prototipo-ausculta.md`) e `prd-design-ausculta-landing-habilidades-ferramentas.md`.
+
+### App: correções clínicas
+- **Faixas de referência (`VRANGE`):** Canino FC 60–160, FR 10–30 · Felino FC 140–220, FR 20–40 · Equino FC 28–44, FR 8–16 · Bovino FC 40–80. Linha de 12px abaixo do título do cartão: "Faixas de referência provisórias, em validação pela equipe clínica."
+- **Novos sinais vitais:** "Motilidade intestinal" (equinos: presente, diminuída, ausente) e "Movimentos ruminais" (bovinos: número em 2 minutos ou presentes, diminuídos, ausentes). Mesmos 4 estados de chip; entram no contador; não obrigatórios.
+- **Caso Buster:** card "Alergia ou reação adversa relatada", item "Dipirona · reação adversa (vômito)", carimbo "Registrar reação adversa"; continua bloqueando a aprovação. No prontuário, o tipo fica ao lado do fármaco.
+- **Alerta de dose:** "Meloxicam · sugerido 0,4 mg/kg · limite 0,2 mg/kg (dose inicial) · 0,1 mg/kg (manutenção)" e botão "Ajustar para 0,1 mg/kg (manutenção)".
+- **Caso Equino:** "teste de pinça de casco positivo" e "casco do membro torácico direito". Fenilbutazona continua sem duração, para demonstrar o alerta dos 6 elementos.
+- **Rubor não mencionado:** continua cinza no cartão de inflamação, mas não entra no selo "Precisa da sua atenção".
+
+### App: Exame por sistemas com o modelo da espécie
+- O bloco cinza separado saiu. Os itens do modelo (ex.: recinto e temperatura, fotoperíodo, dieta em exóticos) entram **na mesma lista** dos 10 sistemas, primeiro, com ícone `paw-print` de 14px após o nome (rótulo acessível "item do modelo da espécie").
+- Acima da lista, **selo laranja** (raio 6px, `--accent-warm-subtle`, borda 1px, texto 600 12px, `paw-print`): "Modelo [família]: inclui …".
+- O contador soma sistemas e itens da espécie ("N de 13 registrados"). "Examinei: marcar os demais como normais" inclui os itens não obrigatórios. Obrigatórios mantêm o cadeado vermelho.
+
+### Landing (`index.html`): taxonomia e reestruturação
+- **Três categorias**, cada uma com uma linha de quem age: **Habilidades** ("O Ausculta faz", `#habilidades`), **Ferramentas** ("Você faz", `#ferramentas`) e **Fundamentos** ("Vale para tudo", `#fundamentos`). EN: Abilities, Tools, Foundations · ES: Habilidades, Herramientas, Fundamentos.
+- **Item de lista** (mesmo componente nas três): círculo de 48px com ícone de 24px (`--brand-subtle`), título 700 16px, frase 15px; grade `repeat(auto-fit, minmax(min(100%, 320px), 1fr))`. "Em breve": círculo branco com borda tracejada e ícone cinza.
+- **Habilidades:** 23 "No Ausculta" em 5 grupos (Ouvir, Organizar, Proteger, Agir, Acompanhar) + 10 "Em breve". **Ferramentas:** 18 em 4 áreas (Consulta, Pacientes e prontuário, Conta e equipe, Integração) + 7 "Em breve".
+  - Fechado: só os **6 de maior impacto** (sem "Em breve"). "Ver todas as habilidades (33)" / "Ver todas as ferramentas (25)" abre tudo por grupo e o bloco "Em breve" **sempre por último**.
+- **Fundamentos:** abre com "A IA ouve. Você decide."; frase de apoio sobre o prontuário como documento legal; 15 itens (inclui "Prontuário imutável depois de aprovado"); 6 visíveis e "Ver todos os fundamentos (15)".
+- **Ordem (AIDA):** Hero → Hoje x Ausculta → ensaio "O que a consulta revela" → "O que merece ficar registrado" → Como funciona → Habilidades → Ferramentas → SOAP → Para quem → Vídeos → Fundamentos → Integrações → "Ouvir é cuidar duas vezes" → **Comece agora** (cartão azul do CTA + "Por onde você começa?" + linha verde "Comece no plano Essencial, sem custo: até 20 consultas por mês.") → **Perguntas frequentes** (`#perguntas`, 10 perguntas em acordeão de 56px) → rodapé.
+- **Cabeçalho:** no desktop só logo, idioma, "Entrar" e "Começar agora" (Lei de Hick). Links de seção no **rodapé**; no celular continuam no menu. **Barra fixa "Começar agora"** no celular (≤960px) quando o hero e o bloco de ação estão fora da tela (`IntersectionObserver`).
+- **Recolhidos por padrão:** detalhe do SOAP ("Ver o método completo"), detalhe das integrações ("Ver como a integração funciona") e siglas do rodapé ("Siglas usadas nesta página (20)").
+- **Hoje x Ausculta:** duas caixas (branca com ✕ cinza; azul com ✓ azul em círculo branco) ligadas por um círculo laranja de 56px com seta; empilham abaixo de 760px com a seta para baixo.
+- **SOAP (cartões S/O/A/P, Plano que vira ação, campos por espécie):** atualizados com o que o app já faz (sinais vitais, exame por sistemas, inflamação, problema na lista, 6 elementos, carência, alergia ou reação adversa, adendo após aprovação). "Campos por espécie" deixa de ser "Em breve" e ganha Suínos, Aves e Ruminantes.
+- **Botões:** "Começar agora" sem seta em toda a landing; no hero, os dois botões com a mesma largura (até 280px).
+- **Citação do ensaio** "Auscultar é prestar atenção…" em Fraunces 32–40px com mais respiro.
+
+### Landing: capítulos (03/10/2026, segunda rodada)
+- As seções depois do hero ficam em **4 capítulos**, cada um num bloco de fundo de borda a borda (`data-chapter`):
+  - 01 · O problema (`--surface-000`): Hoje x Ausculta, ensaio, "O que merece ficar registrado".
+  - 02 · Como o Ausculta resolve (`--surface-100`): Como funciona, Habilidades, Ferramentas, SOAP, Para quem.
+  - 03 · Por que confiar (`--brand-subtle`): Vídeos, Fundamentos, Integrações.
+  - 04 · Comece (`--surface-000`): Ouvir é cuidar duas vezes, Comece agora, Perguntas frequentes.
+- **Marcador de capítulo:** número em Fraunces 600 28px `--accent-warm-text`, fio de 48×1px `--accent-warm` e nome em 12px 600 maiúsculo, tracking 0,1em, `--ink-muted`.
+- **Ritmo:** capítulo com padding 64px em cima e 32px embaixo; seções internas com 32px. As bordas de 1px entre seções e os fundos próprios das seções saíram.
+- Ícones dos Fundamentos em círculo branco (para contrastar com o fundo azul claro). Anel do círculo de transição "Hoje → Com o Ausculta" em `--surface-000`.
+- Correção de 320px: caixa duplicada no bloco de números ("40%") removida; sem rolagem horizontal.
+
+### i18n
+- Auditoria das strings da landing e do app contra `i18n.js`: completadas as que faltavam (textos novos do SOAP, FAQ, taxonomia, rótulos acessíveis, sinais vitais novos, casos de exemplo). Dados de exemplo (nomes de pessoas, clínicas e regiões) continuam em PT.
+
+### Antes de publicar
+- Validar as faixas de referência com o veterinário responsável (Bovino FC 84 bpm hoje aparece fora da faixa 40–80).
+- Fundamentos ainda a construir: áudio cifrado, dados isolados por conta, regras clínicas validadas.
+- Região dos dados: "[Estados Unidos — confirmar]".
+- Vídeos: entram os depoimentos dos pilotos.
+- `Ausculta App.html` (bundle offline) não foi regerado: use os `.dc.html` servidos por HTTP.
+
+### Arquivos alterados
+- `Ausculta App.dc.html`, `index.html`, `i18n.js`, `prd/` (3 PRDs novos).
