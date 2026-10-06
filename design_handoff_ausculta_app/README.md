@@ -1,6 +1,6 @@
 # Handoff: Ausculta: AI Scribe para veterinários (app + landing + conta)
 
-> **Versão de 03/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
+> **Versão de 06/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
 
 ## Visão geral
 O Ausculta grava a consulta veterinária (com consentimento), transcreve (na nuvem com internet, ou no próprio aparelho sem internet ou quando a clínica escolhe) e gera um rascunho de prontuário **SOAP**, que o médico veterinário revisa, ajusta e aprova. Ele pode funcionar sozinho ou integrado ao PIMS da clínica (ex.: Long Life Pet). O pacote cobre três peças:
@@ -178,6 +178,7 @@ A fonte completa dos tokens está em `tokens/*.css`.
 - `padrao-de-design.md`: padrão de design obrigatório (cópia do `CLAUDE.md` do projeto).
 - `Padrão de abas.dc.html` e `Padrão de listas longas.dc.html`: estudos que definiram o seletor de área (regra 10) e as listas longas (regra 12).
 - `prd/`: PRDs de design aplicados nesta versão.
+- `backlog-discovery-soap.md` e `backlog-pesquisa-pims.md`: itens propostos e ainda não implementados.
 
 
 ---
@@ -619,3 +620,60 @@ Esta seção substitui o que divergir nas seções anteriores. PRDs aplicados (e
 
 ### Arquivos alterados
 - `Ausculta App.dc.html`, `index.html`, `i18n.js`, `prd/` (3 PRDs novos).
+
+
+---
+
+## Atualizações de 06/10/2026 (leia antes das seções acima)
+
+Esta seção substitui o que divergir nas seções anteriores. PRD aplicado (em `prd/`): `prd-design-ausculta-qualidade-da-transcricao.md`.
+
+### App: qualidade da transcrição (Revisão SOAP → área Transcrição)
+- **Cartão "Qualidade da transcrição"** acima das falas, com:
+  - nível: "Boa" (verde), "Confira alguns trechos" (laranja) ou "Áudio difícil" (laranja);
+  - o motivo do nível;
+  - a origem da transcrição: nuvem (Deepgram) ou aparelho.
+- **Cinco indicadores** em linhas tocáveis: Trechos para conferir, Quem falou, Números reconhecidos, Termos clínicos, Lacunas de áudio. Cada um mostra uma contagem em Plex Mono. As contagens no singular estão corretas nos três idiomas.
+- **Modo "Trechos para conferir":**
+  - isola as passagens incertas, sublinhadas com tracejado laranja;
+  - barra de navegação com Anterior / Ouvir / Próximo;
+  - quando o trecho alimentou uma frase do SOAP, um link leva até ela.
+- **A transcrição mostra só o que foi falado.** Linhas geradas pela IA que não vieram do áudio foram retiradas.
+- **Termos clínicos** reconhecidos para todas as espécies dos casos de exemplo.
+- **Tweak do protótipo:** `qualidadeAudio` (boa, conferir, dificil) alterna o nível.
+
+### App: consulta aprovada no prontuário
+- Cartão de qualidade **somente leitura**, fechado por padrão. A mensagem leva em conta que a consulta já foi aprovada.
+- Metadados da aprovação: quem aprovou e quando.
+- Selo cinza quando o áudio foi apagado ou ficou só no aparelho que gravou.
+- **Adendos:** pílulas de escolha (regra 5) alternam entre "Consulta de dd/mm" e "Adendo de dd/mm". A consulta original nunca é alterada.
+
+### App: área "Fotos e vídeos" no prontuário (nova)
+Motivo: os PIMS de mercado (ezyVet, ThoroVet, SimplesVet) tratam a mídia clínica como item próprio do prontuário, ligado à consulta de origem. Foto de lesão é registro do exame físico, não exame complementar.
+- **Seletor de área do prontuário** (regra 10), nesta ordem: Consultas, Medicação, Exames (`file-text`), **Fotos e vídeos** (`images`), Notas, Dados do paciente, Dados do responsável. Cada área mostra a sua contagem.
+- **Exames:** só itens com `kind: 'Exame'` (PDF ou imagem de laudo). O envio passou a ser só "Exame (PDF ou imagem)". Filtros da lista completa: Todos, PDFs, Imagens.
+- **Fotos e vídeos:**
+  - Envio "Foto ou vídeo do paciente" (rótulo tracejado azul de 56px, ícone `camera`, `accept="image/*,video/*"`, múltiplos).
+  - Grade `repeat(auto-fill, minmax(150px, 1fr))`, gap de 12px. Cada cartão tem miniatura 4:3 (ou ícone `image`/`video` sem prévia), selo de sincronização, nome 600 13px, "Tipo · data" em 12px (data em Plex Mono).
+  - **Consulta de origem:** uma linha a mais no cartão, 12px `--brand-strong`, com ícone `stethoscope` de 12px e o motivo da consulta, com reticências se não couber.
+  - Prévia de 6 itens e o link "Ver todas as fotos e vídeos (N)" (regra 12). A lista completa tem busca ("Buscar foto, vídeo ou consulta", que também busca pelo motivo da consulta), filtros Todos / Fotos / Vídeos, grupos por mês e "Mostrar mais 20".
+  - Sem itens: "Nenhuma foto ou vídeo ainda. O que for registrado na consulta aparece aqui, ligado a ela." (15px/22px `--ink-muted`).
+- **Dados:** continua um único array `files` por paciente. Exames = `kind === 'Exame'`, Fotos e vídeos = o resto. No produto, salve o `consultId` de origem em cada mídia. **O protótipo liga pela data** (`dd/mm` da mídia = data da consulta), então uma mídia enviada num dia com duas consultas é ligada à primeira, e numa data sem consulta fica sem origem.
+
+### Landing (`index.html`): títulos dos capítulos
+- O número, o fio e o nome cinza saíram. Agora o próprio nome do capítulo vai em Fraunces 600 28px `--accent-warm-text`, em maiúsculas, com 1px de espaçamento entre letras.
+- Os títulos são O PROBLEMA, COMO RESOLVE, POR QUE CONFIAR e COMECE.
+
+### Backlog novo: `backlog-pesquisa-pims.md`
+Vem da comparação com ezyVet, Provet Cloud, Digitail, Covetrus Pulse, ThoroVet e SimplesVet e da leitura da Res. CFMV 1.321/2020 (redação da 1.653/2025). **Ainda não implementado.** São 14 itens:
+- **P0, conformidade:** guarda de 5 anos após o último atendimento (hoje o cancelamento promete 12 meses), assinatura ICP-Brasil com carimbo do tempo, cópia para o responsável, diagnóstico presuntivo e conclusivo separados na Avaliação, local do atendimento.
+- **P1:** tempo economizado visível, teste grátis por consultas, caminhos com e sem PIMS, documentos obrigatórios no modo standalone (receita, termo, atestados, óbito, carteira de vacinação), mapa corporal em Fotos e vídeos.
+- **P2:** captura de mídia dentro do app, permissões por papel, exportação do prontuário em PDF, encaminhamento.
+- **Antes dos P0:** confirmar com o jurídico se a ICP-Brasil é exigida e qual é o prazo de guarda, porque as fontes divergem.
+
+### i18n
+- As strings novas estão em `i18n.js` (PT, EN e ES), inclusive o padrão regex "Ver todas as fotos e vídeos (N)".
+
+### Arquivos alterados
+- `Ausculta App.dc.html`, `index.html`, `i18n.js`, `padrao-de-design.md`, `support.js`, `backlog-pesquisa-pims.md` (novo), `prd/prd-design-ausculta-qualidade-da-transcricao.md` (novo).
+- `Ausculta App.html` (bundle offline) **não foi regerado**: use os `.dc.html` servidos por HTTP.
