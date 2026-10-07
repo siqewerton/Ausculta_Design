@@ -1,6 +1,6 @@
 # Handoff: Ausculta: AI Scribe para veterinários (app + landing + conta)
 
-> **Versão de 06/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
+> **Versão de 07/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
 
 ## Visão geral
 O Ausculta grava a consulta veterinária (com consentimento), transcreve (na nuvem com internet, ou no próprio aparelho sem internet ou quando a clínica escolhe) e gera um rascunho de prontuário **SOAP**, que o médico veterinário revisa, ajusta e aprova. Ele pode funcionar sozinho ou integrado ao PIMS da clínica (ex.: Long Life Pet). O pacote cobre três peças:
@@ -676,4 +676,173 @@ Vem da comparação com ezyVet, Provet Cloud, Digitail, Covetrus Pulse, ThoroVet
 
 ### Arquivos alterados
 - `Ausculta App.dc.html`, `index.html`, `i18n.js`, `padrao-de-design.md`, `support.js`, `backlog-pesquisa-pims.md` (novo), `prd/prd-design-ausculta-qualidade-da-transcricao.md` (novo).
+- `Ausculta App.html` (bundle offline) **não foi regerado**: use os `.dc.html` servidos por HTTP.
+
+
+---
+
+## Atualizações de 07/10/2026 (leia antes das seções acima)
+
+Esta seção substitui o que divergir nas seções anteriores. PRD aplicado (em `prd/`): `prd-design-ausculta-conformidade-e-pims.md`. Ele implementa os 14 itens de `backlog-pesquisa-pims.md`, numerados aqui como no PRD (7.1 a 7.14).
+
+### Folha inferior genérica (componente novo)
+Todas as ações novas abrem a mesma folha inferior:
+- **Overlay:** `rgba(27,36,32,.45)`; tocar fora fecha.
+- **Folha:** fundo `--surface-100`, raio `--radius-lg` só no topo, `max-width` de 560px, `max-height` de 88vh com rolagem, padding de 24px/16px e gap de 16px. Título 700 19px/26px e subtítulo 14px/20px `--ink-muted`.
+- **Blocos do conteúdo**, todos em `confSheet()`:
+  - texto de apoio 13px cinza;
+  - selo (raio 6px, borda 1px, 12px 600);
+  - pílulas de escolha (regra 5: 44px, borda 2px, selecionada `--brand-subtle` + borda `--brand` + `check`);
+  - lista de caixas de seleção (linhas de 48px, ícone `square`/`square-check`, meta em Plex Mono);
+  - prévia de documento (cartão branco: sobretítulo 12px maiúsculo `--brand-strong`, título 700 16px, meta em mono 13px, linhas 15px/22px);
+  - campo de texto, linhas de dados, link com carimbo "Copiar", carimbos de ação;
+  - área de assinatura (canvas de 160px, borda tracejada de 2px, desenho com o dedo via pointer events);
+  - comparação de 2 fotos (grade 2 × 4:3, data em mono);
+  - câmera (`<video>` 4:3 com `getUserMedia` e câmera traseira; se não houver acesso, um campo de arquivo com `capture="environment"`).
+- **Rodapé:** primário de 56px (opacidade .45 quando desabilitado), secundário de 48px e destrutivo opcional de 48px (contorno de 2px `--danger`).
+
+### 7.1 Guarda do prontuário por 5 anos
+- **Cancelamento, etapa 3:**
+  - Título "Seus prontuários continuam guardados", com o texto do PRD.
+  - Duas pílulas de 56px, das quais uma é obrigatória para continuar: "Exportar tudo agora (PDF por paciente + trilha de auditoria)" e "Manter a guarda em modo somente leitura".
+  - Linha de 13px: "Áudios e anexos que não fazem parte do prontuário seguem a regra de 12 meses."
+  - O antigo botão "Exportar tudo agora" saiu.
+- **Textos de "12 meses":** os que se referiam a prontuários foram trocados em Assinatura, no aviso de assinatura cancelada, na confirmação e na tabela de retenção da Central de Confiança.
+- **Meu perfil > Seus dados:** bloco "Guarda dos prontuários" com o total em mono. A prévia mostra 5 pacientes e cada linha diz "Guardado até DD/MM/AAAA", que é a data da última consulta + 5 anos. "Ver todos os pacientes (N)" abre a lista completa com busca.
+- **Conta cancelada** (tweak `contaCancelada`):
+  - Faixa cinza no topo do `<main>`, com ícone `archive`: "Assinatura cancelada · prontuários em modo somente leitura até [data]".
+  - Gravar fica bloqueado.
+
+### 7.2 Assinatura digital ICP-Brasil (opcional)
+- **Perfil:** grupo novo "Documentos e assinatura", com linhas de lista de 64px:
+  - "Assinatura digital ICP-Brasil": "Não configurada · opcional" (cinza), "Ativa · Vidaas · válido até 12/2027" (verde) ou "Autorização vencida · toque para renovar" (laranja).
+  - "Local padrão do atendimento".
+- **Folha de configuração:**
+  - pílulas de certificado: Vidaas · nuvem, BirdID · nuvem, Certificado A1 instalado;
+  - pílulas de período da autorização: 7, 30 ou 90 dias;
+  - texto provisório sobre onde a ICP-Brasil é exigida;
+  - primário "Autorizar e testar assinatura", que vira "Renovar autorização" quando vencida;
+  - destrutivo "Desativar assinatura digital".
+- **A aprovação não muda.** O selo fica na tela "Registrado", na consulta aprovada e em cada documento:
+  - verde "Assinado · ICP-Brasil · [data e hora]";
+  - laranja "Assinatura digital pendente";
+  - cinza "Assinatura eletrônica".
+- **Autorização vencida:** o item "3 documentos aguardando assinatura digital" entra no selo de atenção do Painel, com o carimbo "Renovar autorização". Nunca bloqueia nada.
+- **Tweak:** `assinaturaDigital` (nao, ativa, vencida).
+
+### 7.3 Cópia ao responsável
+- **Tela "Registrado":** seção "Próximos passos" com o selo de assinatura e carimbos de 44px:
+  - "Enviar ao responsável";
+  - "Gerar receita" e "Atualizar carteira de vacinação", só sem PIMS (a carteira só quando a vacina foi aceita no Plano);
+  - "Encaminhar".
+- **Sem telefone nem e-mail:** o carimbo fica com opacidade .45 e aparece o link "Cadastre um contato do responsável", que leva a Dados do responsável.
+- **Folha "Enviar ao responsável":**
+  - prévia com a clínica, "Consulta de [paciente]", data e veterinário, e as orientações do Plano;
+  - "Não inclui notas internas nem a transcrição.";
+  - pílulas de canal (WhatsApp ou e-mail do cadastro; o canal sem contato fica desabilitado);
+  - "Enviar".
+- **Dados do responsável:** carimbo "Enviar cópia do prontuário". A folha tem as pílulas de período (Última consulta, Últimos 12 meses, Todo o histórico), a prévia e o canal.
+- **Trilha de auditoria:** todo envio registra o quê, para quem, quando e por qual canal.
+
+### 7.4 Diagnóstico presuntivo e conclusivo
+- **Na Avaliação** (`data-blk="dx"`), um bloco "Diagnóstico" com duas linhas. Cada linha tem o rótulo com `min-width` de 88px e um chip de 44px:
+  - **Presuntivo:** azul (`audio-lines`) quando veio da fala ("Hipótese discutida em consulta: …"), verde quando o veterinário registrou, ou vermelho tracejado com `lock` "Obrigatório pendente".
+  - **Conclusivo:** cinza tracejado "Opcional · pode entrar por adendo" ou verde quando registrado.
+- **Tocar no chip** abre uma folha com campo de texto e "Registrar".
+- **Bloqueio:** o presuntivo vazio entra no balão "Falta para aprovar" e bloqueia a aprovação.
+- **Consulta aprovada:** mostra "Presuntivo: … · Conclusivo: …" e o carimbo "Conclusivo por adendo".
+
+### 7.5 Local do atendimento
+- **Revisão:** linha cinza de 13px no topo, com `map-pin` azul, o local e um chevron, em alvo de 44px. Tocar abre as pílulas Estabelecimento, A domicílio e Propriedade rural.
+- **Endereço:** A domicílio e Propriedade rural usam o endereço do responsável. Sem ele, usam o do perfil com "(endereço do perfil)".
+- **Na aprovação**, o local é gravado na consulta e aparece na consulta aprovada.
+
+### 7.6 Tempo economizado
+- **Painel:** o cartão "Tempo economizado" mostra "Esta semana: N consultas · cerca de Xh economizadas" e ganha um botão `info` de 44px. A folha explica o cálculo: escrita manual estimada em 12 min, revisão medida em 2 min.
+- **Assinatura e faturas:** cartão "Desde que você começou · 4.312 min economizados", com o número em Plex Mono.
+
+### 7.7 Teste grátis de 20 consultas
+- O plano Essencial saiu do app, da criação de conta e da landing. O primeiro plano agora é "Teste grátis": 20 consultas, uma única vez, sem cartão e sem prazo, com todos os recursos.
+- **Painel** (tweak `testeGratis`: uso, acabando, esgotado, assinante):
+  - **uso:** linha cinza "Teste grátis · 14 de 20 consultas".
+  - **acabando:** item "Faltam 5 consultas grátis" no selo de atenção, com o carimbo "Ver planos".
+  - **esgotado:** o cartão "Pronto para a próxima consulta?" some e entra o cartão "Seu teste grátis terminou", com o resumo em mono, o texto do PRD, o primário "Escolher um plano" e o secundário "Exportar meus dados e encerrar a conta" (que abre o cancelamento na etapa 3).
+
+### 7.8 Dois caminhos
+- **Landing, antes de "Por onde você começa?":** dois cartões lado a lado (empilham no celular), com ícone de 48px e título em Fraunces 22px: "Já tem sistema? O Ausculta escreve por você." e "Ainda no papel? O Ausculta é o seu prontuário."
+- **Landing, linha final e FAQ:** atualizadas para o teste grátis e a guarda de 5 anos.
+- **Criação de conta, etapa do plano:** pergunta "Você usa um sistema de gestão?", com as pílulas "Sim, quero conectar", "Não, o Ausculta será meu prontuário" e "Responder depois" (padrão). A resposta vai para `ausculta-onboard.pims`.
+
+### 7.9 Documentos (só sem PIMS)
+- **Prontuário:** área nova "Documentos" (ícone `files`) no seletor de área, entre Notas e Dados do paciente. Some quando há PIMS conectado (`st.mode` llp ou pims).
+- **Conteúdo da área:**
+  - carimbos "Gerar documento": Receita, Termo de consentimento, Atestado de saúde, Carteira de vacinação e Atestado de óbito;
+  - lista de documentos com ícone de 40px, título, "data · veterinário · 2 vias" em mono, selo de assinatura e carimbo "Enviar".
+- **Folha "Gerar documento":** pílulas do tipo de documento, e então:
+  - **Receita:** pílula "Controlado · Em breve" desabilitada; prévia com os medicamentos em uso, um por fármaco; aviso sobre ICP-Brasil; texto provisório.
+  - **Termo:** pílulas Anestesia, Cirurgia e Eutanásia, mais a assinatura do responsável com o dedo, ambas obrigatórias.
+  - **Atestado de saúde:** prévia.
+  - **Óbito:** campo obrigatório "Causa e circunstâncias". Ao gerar, o paciente fica `deceased` e o cabeçalho mostra o selo cinza "Óbito · DD/MM · somente leitura".
+  - **Carteira:** lista das vacinas aprovadas.
+- **Primário:** "Gerar em 2 vias".
+
+### 7.10 Mapa corporal em Fotos e vídeos
+- Ao enviar fotos, abre a folha "Região do corpo" com pílulas por região. A lista muda por espécie: bovino ganha Úbere e equino ganha Casco. "Salvar região" e "Pular".
+- **Cartão da mídia:** linha cinza de 12px com o ícone `scan` e a região.
+- **Filtro:** pílulas "Região do corpo" acima da grade. Com uma região escolhida e pelo menos 2 fotos, aparece o carimbo "Comparar", que mostra lado a lado as duas fotos mais recentes, da mais antiga para a mais nova.
+- **Pendência:** a silhueta da espécie pedida no PRD ainda precisa de ilustração. Hoje a escolha é por pílulas.
+
+### 7.11 Foto durante a gravação
+- **Gravação:** linha com o botão `camera` de 44px (contorno de 2px `--border-strong`), o botão do microfone de 104px e o contador "N fotos" em mono 12px, com gap de 24px. Continua cabendo em 320 × 540.
+- **Folha:** selo laranja "Gravando · o áudio continua", a câmera e o primário "Tirar foto". A foto vai para a consulta em andamento (`kind: 'Foto'`, sem galeria), com o toast "Foto adicionada à consulta". O secundário é "Voltar à gravação".
+- **Áudio:** não é interrompido; o vídeo pede `audio: false`.
+
+### 7.12 Permissões por papel
+- **Tabela "O que cada função pode fazer":** uma linha por ação: Gravar consultas, Aprovar e assinar o SOAP, Cadastrar pacientes, Anexar exames/fotos/vídeos, Ver prontuários de toda a clínica, Gerir equipe e funções, Integrações e Assinatura/pagamento/faturas.
+- **Auxiliar** (tweak `funcao` = aux): o cartão de nova consulta não aparece e o Painel abre em Pacientes.
+- **Central de Confiança > Atividade recente:** pílulas de filtro com contagem: Todas, Leituras de prontuário, Envios e links, Assinaturas. Há leituras de exemplo de quem não participou da consulta.
+
+### 7.13 Exportar prontuário
+- **Prontuário:** ícone `download` de 20px, cinza, em alvo de 44px, à direita do nome do paciente (rótulo "Exportar prontuário").
+- **Folha:**
+  - pílulas de período;
+  - caixas de seleção das seções (Consultas, Exames, Fotos e vídeos, Medicação, Documentos) e de "Incluir trilha de auditoria";
+  - prévia do cabeçalho do PDF: veterinário, CRMV, estabelecimento, cidade, telefone e e-mail;
+  - "Gerar PDF".
+
+### 7.14 Encaminhamento
+- **Onde fica:** carimbo "Encaminhar" na consulta aprovada e em "Registrado".
+- **Etapa 1:**
+  - caixas de seleção: a consulta, as consultas anteriores, os exames e as fotos, com as contagens;
+  - "Nota ao especialista";
+  - validade de 7 ou 30 dias;
+  - "Criar link".
+- **Etapa 2:**
+  - o link em mono com o carimbo "Copiar";
+  - carimbos "Enviar por WhatsApp" e "Enviar por e-mail";
+  - destrutivo "Revogar link", que pede confirmação.
+- Tudo entra na trilha de auditoria.
+
+### Estado novo (protótipo)
+- **Folha:** `sh` / `shD`.
+- **Assinatura:** `icp`, `icpProv`.
+- **Diagnóstico e local:** `dx { p, c }`, `loc`, `locDef`.
+- **Após a aprovação e mídia:** `doneVac`, `camN`, `regF`.
+- **Guarda, trilha e cancelamento:** `guardAll`, `guardQ`, `auditF`, `confLog`, `cGuard`.
+- **Por paciente:** `docs[]` e `deceased { date, cause }`.
+- **Por consulta:** `dxP`, `dxC`, `loc`.
+- **Por mídia:** `region`.
+- A lógica fica nos métodos `confVals()` e `confSheet()` da classe. `confVals()` é aplicado por cima dos valores de `_rv()` em `renderVals()`.
+
+### i18n
+- Todas as strings novas estão em `i18n.js` (PT, EN e ES), com padrões regex para os textos que levam dados.
+
+### Antes de produção
+- Validação jurídica das regras de receita (Res. 1.138/2016 e Portaria MAPA 837/2025) e dos documentos. Os textos dependentes estão marcados como provisórios.
+- Parceiro de assinatura em nuvem e verificação da assinatura no PDF.
+- Ligar a mídia à consulta pelo `consultId` (hoje é pela data).
+- Ilustração das silhuetas do mapa corporal.
+
+### Arquivos alterados
+- `Ausculta App.dc.html`, `Ausculta Conta.dc.html`, `index.html`, `i18n.js`, `padrao-de-design.md`, `prd/prd-design-ausculta-conformidade-e-pims.md` (novo).
 - `Ausculta App.html` (bundle offline) **não foi regerado**: use os `.dc.html` servidos por HTTP.
