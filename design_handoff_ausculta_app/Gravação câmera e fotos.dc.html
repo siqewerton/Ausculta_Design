@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="styles.css">
+  <style>body { margin: 0; background: #e9e6df; } a { color: var(--brand); text-decoration: none; } a:hover { color: var(--brand-strong); }</style>
+</helmet>
+<section style="padding: 48px; display: flex; flex-direction: column; gap: 32px; font-family: var(--font-sans); color: var(--ink);">
+  <div style="display: flex; flex-direction: column; gap: 8px; max-width: 760px;">
+    <h1 style="margin: 0; font: 600 28px/34px var(--font-display);">Gravação · câmera e fotos</h1>
+    <p style="margin: 0; font-size: 15px; line-height: 22px; color: var(--ink-muted); text-wrap: pretty;">Três posições para a câmera, sem o contador “3 fotos”. O botão de gravar fica sozinho no centro. Em todas, as fotos vão para um carrossel abaixo de “Encerrar consulta”, fora da primeira tela de 320 × 540 (abaixo da linha tracejada, visto só ao rolar).</p>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start;">
+
+    <div id="1a" style="display: flex; flex-direction: column; gap: 12px; width: 320px;">
+      <div style="display: flex; align-items: center; gap: 8px;"><span style="font: 600 12px/16px var(--font-mono); padding: 2px 8px; border-radius: 6px; background: var(--ink); color: var(--surface-000);">1a</span><strong style="font: 600 15px/20px var(--font-sans);">Câmera no topo, junto ao tempo</strong></div>
+      <div style="width: 320px; border-radius: 24px; background: var(--surface-050, #f6f4ef); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 32px rgba(27,36,32,.12); overflow: hidden;">
+        <div style="height: 540px; box-sizing: border-box; padding: 16px; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border-radius: 6px; background: var(--success-subtle); border: 1px solid var(--success); color: var(--success); font: 600 12px/16px var(--font-sans);"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi.svg) center/contain no-repeat;"></span>Com internet</span>
+            <div style="display: flex; align-items: center; gap: 4px;">
+              <span style="font: 500 15px/20px var(--font-mono);">06:42</span>
+              <button type="button" aria-label="Tirar foto sem parar a gravação" style="position: relative; width: 44px; height: 44px; border: none; border-radius: 50%; background: transparent; color: var(--ink-muted); display: grid; place-items: center; cursor: pointer;" style-hover="background: var(--surface-100); color: var(--ink);"><span style="width: 20px; height: 20px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/camera.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/camera.svg) center/contain no-repeat;"></span><span style="position: absolute; top: 9px; right: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 2px var(--surface-050, #f6f4ef);"></span></button>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+            <div aria-hidden="true" style="height: 56px; display: flex; align-items: center; gap: 3px;"><sc-for list="{{ bars }}" as="b" hint-placeholder-count="28"><span style="width: 3px; border-radius: 2px; background: var(--danger); opacity: .7; height: {{ b.h }};"></span></sc-for></div>
+            <span style="font: 400 14px/20px var(--font-sans); color: var(--ink-muted);">Gravando a consulta</span>
+          </div>
+          <div style="display: grid; place-items: center; padding-bottom: 24px;">
+            <span style="width: 120px; height: 120px; border-radius: 50%; background: rgba(180,50,40,.10); display: grid; place-items: center;"><button type="button" aria-label="Pausar gravação" style="width: 88px; height: 88px; border: none; border-radius: 50%; background: var(--danger); color: var(--on-danger, #fff); display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 16px rgba(180,50,40,.28);"><span style="width: 32px; height: 32px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat;"></span></button></span>
+          </div>
+          <button type="button" style="min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand, #fff); font: 600 16px/20px var(--font-sans); cursor: pointer;">Encerrar consulta e gerar SOAP</button>
+        </div>
+        <div style="border-top: 1px dashed var(--border-strong); padding: 24px 0 24px 16px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-right: 16px;"><strong style="font: 600 15px/20px var(--font-sans);">Fotos desta consulta</strong><span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">3</span></div>
+          <div style="display: flex; gap: 8px; overflow-x: auto; padding-right: 16px; scroll-snap-type: x mandatory;">
+            <sc-for list="{{ photos }}" as="p" hint-placeholder-count="3"><div style="flex: none; width: 112px; display: flex; flex-direction: column; gap: 6px; scroll-snap-align: start;"><span style="width: 112px; height: 112px; border-radius: 14px; background: var(--surface-100); display: grid; place-items: center; color: var(--ink-muted);"><span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/image.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/image.svg) center/contain no-repeat;"></span></span><span style="font: 400 12px/16px var(--font-sans); color: {{ p.fg }};">{{ p.reg }}</span><span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ p.t }}</span></div></sc-for>
+          </div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); text-wrap: pretty;">A câmera vira um ícone sem borda ao lado do tempo. Um ponto azul indica que já há fotos. O centro da tela fica só com a onda e o botão.</p>
+    </div>
+
+    <div id="1b" style="display: flex; flex-direction: column; gap: 12px; width: 320px;">
+      <div style="display: flex; align-items: center; gap: 8px;"><span style="font: 600 12px/16px var(--font-mono); padding: 2px 8px; border-radius: 6px; background: var(--ink); color: var(--surface-000);">1b</span><strong style="font: 600 15px/20px var(--font-sans);">“Foto” abaixo do botão</strong></div>
+      <div style="width: 320px; border-radius: 24px; background: var(--surface-050, #f6f4ef); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 32px rgba(27,36,32,.12); overflow: hidden;">
+        <div style="height: 540px; box-sizing: border-box; padding: 16px; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; justify-content: space-between; min-height: 44px;">
+            <span style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border-radius: 6px; background: var(--success-subtle); border: 1px solid var(--success); color: var(--success); font: 600 12px/16px var(--font-sans);"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi.svg) center/contain no-repeat;"></span>Com internet</span>
+            <span style="font: 500 15px/20px var(--font-mono);">06:42</span>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+            <div aria-hidden="true" style="height: 56px; display: flex; align-items: center; gap: 3px;"><sc-for list="{{ bars }}" as="b" hint-placeholder-count="28"><span style="width: 3px; border-radius: 2px; background: var(--danger); opacity: .7; height: {{ b.h }};"></span></sc-for></div>
+            <span style="font: 400 14px/20px var(--font-sans); color: var(--ink-muted);">Gravando a consulta</span>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding-bottom: 12px;">
+            <span style="width: 120px; height: 120px; border-radius: 50%; background: rgba(180,50,40,.10); display: grid; place-items: center;"><button type="button" aria-label="Pausar gravação" style="width: 88px; height: 88px; border: none; border-radius: 50%; background: var(--danger); color: var(--on-danger, #fff); display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 16px rgba(180,50,40,.28);"><span style="width: 32px; height: 32px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat;"></span></button></span>
+            <button type="button" aria-label="Tirar foto sem parar a gravação" style="min-height: 44px; padding: 0 16px; border: none; border-radius: var(--radius-full); background: transparent; color: var(--ink-muted); display: inline-flex; align-items: center; gap: 6px; font: 500 13px/18px var(--font-sans); cursor: pointer;" style-hover="background: var(--surface-100); color: var(--ink);"><span style="width: 16px; height: 16px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/camera.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/camera.svg) center/contain no-repeat;"></span>Foto</button>
+          </div>
+          <button type="button" style="min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand, #fff); font: 600 16px/20px var(--font-sans); cursor: pointer;">Encerrar consulta e gerar SOAP</button>
+        </div>
+        <div style="border-top: 1px dashed var(--border-strong); padding: 24px 0 24px 16px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-right: 16px;"><strong style="font: 600 15px/20px var(--font-sans);">Fotos desta consulta</strong><span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">3</span></div>
+          <div style="display: flex; gap: 8px; overflow-x: auto; padding-right: 16px; scroll-snap-type: x mandatory;">
+            <sc-for list="{{ photos }}" as="p" hint-placeholder-count="3"><div style="flex: none; width: 112px; display: flex; flex-direction: column; gap: 6px; scroll-snap-align: start;"><span style="width: 112px; height: 112px; border-radius: 14px; background: var(--surface-100); display: grid; place-items: center; color: var(--ink-muted);"><span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/image.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/image.svg) center/contain no-repeat;"></span></span><span style="font: 400 12px/16px var(--font-sans); color: {{ p.fg }};">{{ p.reg }}</span><span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ p.t }}</span></div></sc-for>
+          </div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); text-wrap: pretty;">Um rótulo leve “Foto” com ícone, centrado sob o botão de gravar. Fica no alcance do polegar, mas sem círculo nem borda que dispute com o botão principal.</p>
+    </div>
+
+    <div id="1c" style="display: flex; flex-direction: column; gap: 12px; width: 320px;">
+      <div style="display: flex; align-items: center; gap: 8px;"><span style="font: 600 12px/16px var(--font-mono); padding: 2px 8px; border-radius: 6px; background: var(--ink); color: var(--surface-000);">1c</span><strong style="font: 600 15px/20px var(--font-sans);">Miniatura da última foto</strong></div>
+      <div style="width: 320px; border-radius: 24px; background: var(--surface-050, #f6f4ef); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 32px rgba(27,36,32,.12); overflow: hidden;">
+        <div style="height: 540px; box-sizing: border-box; padding: 16px; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; justify-content: space-between; min-height: 44px;">
+            <span style="display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border-radius: 6px; background: var(--success-subtle); border: 1px solid var(--success); color: var(--success); font: 600 12px/16px var(--font-sans);"><span style="width: 14px; height: 14px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/wifi.svg) center/contain no-repeat;"></span>Com internet</span>
+            <span style="font: 500 15px/20px var(--font-mono);">06:42</span>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+            <div aria-hidden="true" style="height: 56px; display: flex; align-items: center; gap: 3px;"><sc-for list="{{ bars }}" as="b" hint-placeholder-count="28"><span style="width: 3px; border-radius: 2px; background: var(--danger); opacity: .7; height: {{ b.h }};"></span></sc-for></div>
+            <span style="font: 400 14px/20px var(--font-sans); color: var(--ink-muted);">Gravando a consulta</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding-bottom: 24px;">
+            <button type="button" aria-label="Tirar foto sem parar a gravação. 3 fotos nesta consulta" style="justify-self: center; width: 48px; height: 48px; padding: 0; border: 2px solid var(--surface-000); border-radius: 12px; background: var(--surface-100); color: var(--ink-muted); display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(27,36,32,.16);" style-hover="transform: scale(1.04);"><span style="width: 18px; height: 18px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/camera.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/camera.svg) center/contain no-repeat;"></span></button>
+            <span style="width: 120px; height: 120px; border-radius: 50%; background: rgba(180,50,40,.10); display: grid; place-items: center;"><button type="button" aria-label="Pausar gravação" style="width: 88px; height: 88px; border: none; border-radius: 50%; background: var(--danger); color: var(--on-danger, #fff); display: grid; place-items: center; cursor: pointer; box-shadow: 0 6px 16px rgba(180,50,40,.28);"><span style="width: 32px; height: 32px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/pause.svg) center/contain no-repeat;"></span></button></span>
+            <span></span>
+          </div>
+          <button type="button" style="min-height: 56px; border: none; border-radius: var(--radius-lg); background: var(--brand); color: var(--on-brand, #fff); font: 600 16px/20px var(--font-sans); cursor: pointer;">Encerrar consulta e gerar SOAP</button>
+        </div>
+        <div style="border-top: 1px dashed var(--border-strong); padding: 24px 0 24px 16px; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-right: 16px;"><strong style="font: 600 15px/20px var(--font-sans);">Fotos desta consulta</strong><span style="font: 500 13px/18px var(--font-mono); color: var(--ink-muted);">3</span></div>
+          <div style="display: flex; gap: 8px; overflow-x: auto; padding-right: 16px; scroll-snap-type: x mandatory;">
+            <sc-for list="{{ photos }}" as="p" hint-placeholder-count="3"><div style="flex: none; width: 112px; display: flex; flex-direction: column; gap: 6px; scroll-snap-align: start;"><span style="width: 112px; height: 112px; border-radius: 14px; background: var(--surface-100); display: grid; place-items: center; color: var(--ink-muted);"><span style="width: 22px; height: 22px; background: currentColor; -webkit-mask: url(https://unpkg.com/lucide-static@0.460.0/icons/image.svg) center/contain no-repeat; mask: url(https://unpkg.com/lucide-static@0.460.0/icons/image.svg) center/contain no-repeat;"></span></span><span style="font: 400 12px/16px var(--font-sans); color: {{ p.fg }};">{{ p.reg }}</span><span style="font: 500 12px/16px var(--font-mono); color: var(--ink-muted);">{{ p.t }}</span></div></sc-for>
+          </div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; line-height: 18px; color: var(--ink-muted); text-wrap: pretty;">Como na câmera do iPhone: sem fotos, um quadrado com o ícone; depois da primeira, a própria miniatura da última foto. Tocar abre a câmera, e a miniatura já mostra que há fotos, sem texto.</p>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const H = [18, 30, 44, 26, 52, 36, 22, 40, 56, 34, 20, 46, 30, 54, 38, 24, 48, 28, 42, 18, 36, 50, 26, 40, 22, 32, 44, 20];
+    return {
+      bars: H.map(h => ({ h: h + 'px' })),
+      photos: [
+        { reg: 'Membro pélvico esquerdo', t: '02:14', fg: 'var(--ink)' },
+        { reg: 'Membro pélvico esquerdo', t: '04:51', fg: 'var(--ink)' },
+        { reg: 'Sem região', t: '06:08', fg: 'var(--ink-muted)' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

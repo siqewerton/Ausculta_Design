@@ -1,6 +1,6 @@
 # Handoff: Ausculta: AI Scribe para veterinários (app + landing + conta)
 
-> **Versão de 07/10/2026.** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
+> **Versão de 07/10/2026 (segunda rodada).** As seções "Atualização…" no fim do documento descrevem as mudanças mais recentes e valem sobre o texto anterior quando houver divergência. Ordem de leitura: `padrao-de-design.md` → este README (visão geral e telas) → seções de atualização, da mais antiga para a mais recente.
 
 ## Visão geral
 O Ausculta grava a consulta veterinária (com consentimento), transcreve (na nuvem com internet, ou no próprio aparelho sem internet ou quando a clínica escolhe) e gera um rascunho de prontuário **SOAP**, que o médico veterinário revisa, ajusta e aprova. Ele pode funcionar sozinho ou integrado ao PIMS da clínica (ex.: Long Life Pet). O pacote cobre três peças:
@@ -846,3 +846,92 @@ Todas as ações novas abrem a mesma folha inferior:
 ### Arquivos alterados
 - `Ausculta App.dc.html`, `Ausculta Conta.dc.html`, `index.html`, `i18n.js`, `padrao-de-design.md`, `prd/prd-design-ausculta-conformidade-e-pims.md` (novo).
 - `Ausculta App.html` (bundle offline) **não foi regerado**: use os `.dc.html` servidos por HTTP.
+
+
+## Atualizações de 07/10/2026, segunda rodada (leia antes das seções acima)
+
+Valem sobre o texto anterior quando houver divergência.
+
+### Revisão SOAP
+- **Local do atendimento** passou para logo acima do player de áudio, abaixo do aviso "Rascunho gerado por IA". Ele continua sendo uma linha cinza de 13px com ícone `map-pin` azul de 14px, e um toque abre a troca.
+- **Sinais de inflamação (Objetivo):** o chip pendente (borda cinza tracejada, `circle-dashed`) agora é um botão. Um toque alterna para **confirmado pelo veterinário** (borda verde sólida, fundo `--success-subtle`, ícone `check`), e outro toque desfaz. Cada mudança entra na trilha da consulta ("Sinal de inflamação confirmado: Rubor · Joelho esquerdo"). O sinal confirmado sai da lista "não mencionados" do selo de atenção. Texto de ajuda: "Toque num sinal vindo do áudio para ouvir o trecho; toque num não mencionado para confirmar que você o observou."
+- **Fotos e vídeos da consulta:** no fim da seção O há uma linha recolhível (48px; ícone `images` azul de 18px; título 14px 600; total em Plex Mono 12px; chevron), que começa aberta. O título é "Fotos desta consulta", "Vídeos desta consulta" ou "Fotos e vídeos desta consulta", conforme o conteúdo. Ao abrir, mostra o mesmo carrossel da gravação (ver Gravação).
+- **Ligação frase → foto:** quando o texto de uma frase do Objetivo contém o nome da região de uma foto, aparece no fim da frase um ícone `camera` azul de 14px (alvo de 22px) que abre a foto ampliada.
+- **Selo de atenção:** foto sem região gera o item laranja "N foto(s) sem região", com o carimbo "Marcar" que abre a folha de região. Não bloqueia a aprovação.
+
+### Gravação (tela 5)
+- **Câmera:** saíram o botão circular com borda ao lado do botão de gravar e o texto "N fotos". A câmera agora é um ícone sem borda (`camera`, 20px, `--ink-muted`, alvo de 44px) à direita do cronômetro, no topo. Um ponto azul de 7px (`--brand`, anel de 2px na cor do fundo) aparece quando a consulta já tem fotos. O botão de gravar fica sozinho no centro.
+- **Carrossel "Fotos desta consulta"** fica **fora** do contêiner da gravação, que mede a altura exata da janela (`fitScribe`). Assim ele aparece só ao rolar e não altera o layout da primeira tela (320 × 540 continua sem rolagem). O título tem 15px 600 e o total fica à direita em Plex Mono 13px. Detalhes:
+  - **Cartões:** 132 × 168px, raio de 16px, sombra `0 1px 2px rgba(27,36,32,.10), 0 6px 16px rgba(27,36,32,.10)`, 12px entre eles, `scroll-snap` por cartão e sem barra de rolagem.
+  - **Rodapé do cartão:** faixa em degradê (`transparent → rgba(20,24,22,.62)`) com a região (12px 600, branco, ícone `map-pin` de 12px; ou "Marcar região" com `map-pin-plus`) e a hora (Plex Mono 11px). Tocar na faixa abre a folha de região.
+  - **Apagar:** × de 14px em círculo de 26px (`rgba(20,24,22,.42)`, `backdrop-filter: blur(8px)`), com alvo de 44px no canto superior direito. Pede confirmação vermelha ("Apagar esta foto?") e registra na trilha. Apaga **pelo id da foto** (`fid`), nunca pelo nome.
+  - **Tocar no restante do cartão:** amplia a foto (folha "pv").
+  - **Vídeo:** mostra o primeiro quadro, o play em círculo de 40px com desfoque e a duração ao lado da hora.
+- **Folha da câmera:** pílulas de escolha **Foto / Vídeo**.
+  - **Vídeo:** sem som (o microfone já está na gravação da consulta), com até 60 segundos e cronômetro sobre a imagem (ponto vermelho e Plex Mono 13px). O botão alterna entre "Gravar vídeo" e "Parar vídeo". Fechar a folha durante a gravação do vídeo descarta o vídeo.
+  - **Sem acesso à câmera:** cai para o seletor de arquivo (`accept` de imagem ou vídeo, `capture="environment"`).
+  - **Por que a câmera fica dentro do app:** abrir o app nativo de câmera deixaria o Ausculta em segundo plano, e no iOS isso pode interromper o microfone.
+- **Cada foto ou vídeo** recebe um `fid` único, e os ids da consulta ficam em `camNames`. Ao iniciar uma nova consulta, `camN`, `camNames` e `camSeq` são zerados. As fotos entram também em **Fotos e vídeos** do prontuário.
+
+### Região do corpo
+- **Folha "Região do corpo":** escolher a pílula **já salva e fecha** (sem "Salvar região"). O botão secundário diz "Agora não" logo após capturar a foto (ela fica salva sem região) e "Cancelar" quando se edita a região de uma foto já existente.
+- **Depois de cada foto da gravação**, a folha abre automaticamente.
+- **No prontuário (Fotos e vídeos):** toda foto sem região ganha o carimbo "Marcar região" (`map-pin-plus`), que não aparece em prontuário encerrado.
+- **Lista:** a base é fixa, com 16 regiões, mais Úbere (bovino) e Casco (equino). A conta pode acrescentar regiões próprias (ver Conta), que valem para todas as espécies e aparecem no fim da lista.
+
+### Prontuário do paciente
+- **Situação do paciente** fica no cabeçalho, abaixo da identificação.
+  - **Paciente ativo:** linha "Situação: Ativo" em 12px 400 `--ink-muted`, com ícone `heart-pulse` de 12px e chevron, alvo de 44px. Abre a folha "Situação de {paciente}".
+  - **Paciente inativo:** selo cinza de 22px (raio de 6px, borda `--border`, fundo `--surface-100`, 12px 400, ícone de 12px), por exemplo "Desaparecido ou fugiu · 06/10". Nos casos que encerram o prontuário, o selo acrescenta "· somente leitura".
+  - **Reativar:** nos casos reversíveis, o carimbo azul "Reativar" fica ao lado do selo.
+- **Motivos, com base na Res. CFMV 1.321/2020, na Res. CFMV 1.000/2012 e em nota do CRMV-PR:**
+  - **Encerram o prontuário (somente leitura):**
+    - **Óbito:** pede a causa provável (obrigatória) e a destinação do corpo (Cremação, Sepultamento, Recolhimento por empresa licenciada, Levado pelo responsável).
+    - **Eutanásia:** pede também o método e a técnica (obrigatórios) e lembra de anexar o termo de consentimento.
+    - **Abate ou descarte:** só para espécies de produção.
+    - **Atestado:** em óbito e eutanásia, sem PIMS, a opção "Gerar atestado de óbito em 2 vias" vem marcada.
+  - **O paciente pode voltar:** Desaparecido ou fugiu; Transferido a outro responsável; Acompanhado em outro serviço; Sem contato com o responsável. Todos têm observação opcional.
+  - **Transferido a outro responsável:** pergunta "Continua sendo atendido aqui?".
+    - **Sim:** troca o responsável (`relink`). Usa o responsável já cadastrado com aquele nome ou telefone, ou cria um novo. O paciente continua ativo, e a troca vai para a auditoria.
+    - **Não:** o paciente fica inativo.
+- **Efeitos de um paciente inativo:**
+  - sai dos lembretes de vacina e retorno no Resumo clínico;
+  - sai da lista padrão de Pacientes, que ganhou as pílulas "Ativos (N)" (padrão) e "Inativos (N)", e o cartão do inativo mostra a situação;
+  - nova consulta fica bloqueada em prontuário encerrado; nos reversíveis, o app pergunta "Reativar {paciente}?" antes de iniciar.
+  - Tudo fica na trilha de auditoria, e o histórico de situações fica em `statusHist`.
+- **Consulta aprovada no histórico:** abaixo do painel "Assinado e bloqueado" há uma única linha recolhida, "Detalhes e ações da consulta" (48px, `clipboard-list`, mesmo formato do antigo "Rastro"). Ao abrir, mostra:
+  - o selo de assinatura, o local e o diagnóstico;
+  - as ações em carimbos: Enviar ao responsável (desabilitada sem telefone ou e-mail), Gerar receita (sem PIMS), Atualizar carteira de vacinação (sem PIMS e só se houve vacina aceita, campo `vac` na consulta), Encaminhar e Conclusivo por adendo;
+  - no fim, o **Rastro da consulta**, também recolhido.
+
+### Conta
+- **Configurações da conta:** todas as áreas viraram cartões que abrem e fecham. Todos usam o mesmo estilo: fundo `--surface-000`, borda de 1px `--border`, raio `--radius-md` e 12px entre cartões. O cabeçalho do cartão tem 56px: ícone azul de 20px, título 15px 600, resumo à direita em 12px `--ink-muted` (Plex Mono quando é número) e chevron. Os cartões são:
+  1. Organização (`building-2`), com o país como resumo.
+  2. Análise das consultas por IA (`sparkles`), com "Nuvem e aparelho", "Só na nuvem" ou "Só no aparelho". **Começa aberto.**
+  3. Guarda do áudio (`hard-drive`), com "Cifrado na nuvem", "Apagar após aprovar" ou "Só no aparelho".
+  4. Vocabulário da clínica (`book-open`), com o número de termos.
+  5. Regiões do corpo (`map-pin`), com o número de regiões. É novo: lista as regiões da clínica com remoção pelo × e um campo "Adicionar região" que aceita Enter e recusa duplicatas.
+  6. Espécies e modelos de exame (`paw-print`), com o número de espécies.
+  - Vários cartões podem ficar abertos ao mesmo tempo (estado `cadSet`).
+- **IA no aparelho → Remover:** o diálogo agora começa com "Apaga só o arquivo deste aparelho; a regra da conta não muda." Quando a conta analisa só no aparelho, o texto avisa que as consultas gravadas ali ficam sem análise até baixar a IA de novo.
+- **Privacidade, para referência:** as escolhas de IA, transcrição e guarda do áudio são **da conta** (só o dono altera). No perfil do usuário ficam Minha voz (consentimento biométrico separado), IA no aparelho (instalar/remover, só Wi-Fi), sincronização, duas etapas, dispositivos e Seus dados.
+
+### Estado novo (protótipo)
+- `inflOk`: sinais de inflamação confirmados.
+- `confOpen`: detalhes da consulta abertos no histórico.
+- `p.status` e `p.statusHist`: situação do paciente.
+- `stF`: filtro ativos/inativos.
+- `camNames`, `camSeq` e `fid`/`dur` nos arquivos: fotos e vídeos da consulta.
+- `rvPhOpen`: fotos abertas na revisão.
+- `regExtra`: regiões próprias da conta.
+- `cadSet`: cartões abertos na conta.
+
+### Antes de produção
+- Em produção, os blobs de foto e vídeo precisam ser cifrados e enviados com a consulta. No protótipo eles ficam como `blob:` em memória.
+- `MediaRecorder` gera `video/webm` no Chrome e `video/mp4` no Safari. Normalize no servidor.
+
+### i18n
+Todas as strings novas estão em `i18n.js` (PT, EN e ES).
+
+### Arquivos alterados
+`Ausculta App.dc.html`, `Ausculta App.html` (regenerado), `i18n.js`. Novo para referência: `Gravação câmera e fotos.dc.html` (opções 1a, 1b e 1c da câmera; a escolhida foi a **1a**).
