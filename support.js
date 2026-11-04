@@ -155,7 +155,10 @@
     runtime.markFetched(rootName);
     runtime.setRootName(rootName);
     runtime.adoptParsed(rootName, parsed);
-    if (!window.__resources) {
+    if (typeof window.__dcRaw === "string") {
+      const raw = parseDcText(window.__dcRaw);
+      if (raw?.template) runtime.updateHtml(rootName, raw.template);
+    } else if (!window.__resources) {
       fetch(location.href).then((res) => res.ok ? res.text() : "").then((t) => {
         const raw = t ? parseDcText(t) : null;
         if (raw?.template) runtime.updateHtml(rootName, raw.template);

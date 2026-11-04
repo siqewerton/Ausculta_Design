@@ -1,0 +1,7 @@
+/* Base mínima: fundo, tinta, links, foco. Sem componentes — serão extraídos do primeiro protótipo. */
+html, body { background: var(--surface-page); color: var(--text-body); }
+body { margin: 0; font-family: var(--font-sans); font-size: var(--type-body-size); line-height: var(--type-body-line); -webkit-font-smoothing: antialiased; }
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+::selection { background: var(--brand-subtle); color: var(--ink); }
