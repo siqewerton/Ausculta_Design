@@ -1747,11 +1747,15 @@
     ["Ignorar todas as pendentes", "Ignore all pending", "Ignorar todas las pendientes"],
     ["Ações sugeridas: aceite ou ignore", "Suggested actions: accept or ignore", "Acciones sugeridas: acepte o ignore"],
     ["Itens concluídos da revisão", "Review items done", "Ítems completados de la revisión"],
-    ["Ajustar para 0,1 mg/kg", "Adjust to 0.1 mg/kg", "Ajustar a 0,1 mg/kg"]
+    ["Ajustar para 0,1 mg/kg", "Adjust to 0.1 mg/kg", "Ajustar a 0,1 mg/kg"],
+    ["Pronto para aprovar", "Ready to approve", "Listo para aprobar"],
+    ["Status da Revisão: itens para aprovar", "Review status: items to approve", "Estado de la revisión: ítems para aprobar"]
   ];
   const plans = { 'Acadêmico': ['Academic', 'Académico'], Essencial: ['Essential', 'Esencial'], Profissional: ['Professional', 'Profesional'], 'Clínica': ['Clinic', 'Clínica'], Hospital: ['Hospital', 'Hospital'] };
   const pl = (n, i) => (plans[n] || [n, n])[i];
   const P = [
+    [/^(\d+)\/(\d+) conferidos$/, ['$1/$2 checked', '$1/$2 verificados']],
+    [/^(\d+) de (\d+) itens para aprovar concluídos$/, ['$1 of $2 approval items done', '$1 de $2 ítems para aprobar completados']],
     [/^(\d+) de (\d+) itens concluídos$/, ['$1 of $2 items done', '$1 de $2 ítems completados']],
     [/^(\d+) de (\d+) concluídos$/, ['$1 of $2 done', '$1 de $2 completados']],
     [/^Conferir (\d+) restantes?$/, (r, i) => i ? 'Verificar ' + r[1] + (r[1] === '1' ? ' restante' : ' restantes') : 'Check ' + r[1] + ' remaining'],
